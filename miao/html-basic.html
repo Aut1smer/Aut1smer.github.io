@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>html-basic</title>
     <style>
-        .clearStryleUl {
+        .clearStryleUl,
+        .iframe-content ul {
             list-style-type: none;
         }
-        
-        table thead tr td:nth-child(2),
+        /* table thead tr td:nth-child(2),
         table tbody tr td:nth-child(2) {
             background-color: red;
         }
@@ -23,13 +23,13 @@
         
         table tbody tr td:nth-child(1) {
             font-weight: 700;
-        }
+        } */
     </style>
     <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
 </head>
 
 <body>
-    <h1>lorem</h1>
+    <h1 id="top">lorem</h1>
     <h2>Lorem, ipsum.</h2>
     <h3>Lorem, ipsum dolor.</h3>
     <p>
@@ -135,6 +135,7 @@
                       <option value="40">31到40岁</option>
                       <option value="50">41岁到50岁</option>
                     </optgroup>
+                    <option value="" selected hidden>请选择</option>
                   </select>
                     </dd>
                 </dl>
@@ -159,7 +160,7 @@
                 <dl>
                     <dt>照片</dt>
                     <dd>
-                        <label for=""><input type="file" multiple accept="images/*" hidden>点我上传照片，我比文件上传好看</label>
+                        <label for="" style="cursor: pointer;"><input type="file" multiple accept="images/*" hidden>点我上传照片，我比文件上传好看</label>
                     </dd>
                 </dl>
             </li>
@@ -191,7 +192,7 @@
         <button type="submit">提交</button> <button type="reset">重置</button>
     </form>
     <hr />
-    <table border="1px" cellspacing="2px" cellpadding="5px" text-align="center" summary="a table">
+    <!-- <table border="1px" cellspacing="2px" cellpadding="5px" text-align="center" summary="a table">
         <caption>this is a table</caption>
         <thead>
             <tr>
@@ -227,14 +228,87 @@
                 <td>aaa</td>
             </tr>
         </tbody>
-    </table>
-    <hr />
+    </table> -->
 
-    <pre id="bottom">
-  aaa       <strong>bbbbb</strong>
-  aaa             bbbb
-  &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; &lt;span&gt;&lt;/span&gt;
-</pre>
+    <table border="1" cellspacing="2" cellpadding="3" summary="just a table">
+        <colgroup>
+            <col>
+            <col bgcolor="red">
+            <col>
+            <col>
+        </colgroup>
+        <caption>just a table</caption>
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>品名</th>
+                <th>进价</th>
+                <th>出价</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>aaa</th>
+                <td>aaa</td>
+                <td rowspan="2">5</td>
+                <td>aaa</td>
+            </tr>
+            <tr>
+                <th>aaa</th>
+                <td>aaa</td>
+
+                <td>8</td>
+            </tr>
+            <tr>
+                <th>aaa</th>
+                <td>aaa</td>
+                <td>aaa</td>
+                <td>aaa</td>
+            </tr>
+            <tr>
+                <th>aaa</th>
+                <td>aaa</td>
+                <td>aaa</td>
+                <td>aaa</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <hr />
+    <div class="owl">
+        <img src="https://drscdn.500px.org/photo/174778125/m%3D1170_k%3D1/2841ccf2a3720e8e794a6a6930f6ff2c" alt="图裂了" title="owl" usemap="#backMap" width="300" height="450">
+        <map name="backMap">
+        <area shape="rect" coords="60 100,220 270" href="#top" alt="" title="rect area">
+    </map>
+    </div>
+    <hr />
+    <div class="iframe-content">
+        <ul>
+            <li><a href="https://www.mi.com" target="iframe1">小米</a></li>
+            <li>
+                <iframe name="iframe1" src="https://nodejs.org" frameborder="">
+            <p>您的浏览器不支持iframe，请更新至最新版本！</p>
+        </iframe>
+            </li>
+        </ul>
+
+
+
+
+    </div>
+
+
+    <p>aaa bbbbb</p>
+    <pre>
+        aaa                  bbbb
+    </pre>
+    <ioqjdqowid>
+        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        <<<<<<<<<<<<<<<<<<<< &lt;span>
+            &lt;/span>
+    </ioqjdqowid>
+    <div id="bottom"></div>
 </body>
 
 
