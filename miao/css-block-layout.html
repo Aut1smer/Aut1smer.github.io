@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正常流布局模型作业-Aut1smer</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background-color: #000;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        
+        header div {
+            width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        section.main {
+            width: 600px;
+            margin: 0 auto;
+            /* margin-top: 20px; */
+            /* background: linear-gradient(to right, rgba(0, 0, 0, .8), rgba(0, 0, 0, .3)); */
+        }
+        /* 9个浮动块 */
+        
+        .productions {
+            width: 600px;
+            height: 220px;
+            /* margin: 15px 0; */
+            margin-top: 1px;
+            padding: 0;
+        }
+        
+        .product {
+            float: left;
+            /* display: inline-block; */
+            box-sizing: border-box;
+            width: 180px;
+            height: 40px;
+            background: linear-gradient(to right bottom, rgb(115, 13, 231), rgb(32, 240, 118));
+            border: 3px groove #000;
+            text-align: center;
+            line-height: 2;
+            margin-top: 15px;
+            margin-right: 30px;
+        }
+        
+        .product:nth-child(3n) {
+            margin-right: 0;
+        }
+        
+        .product:hover {
+            background: linear-gradient(to left top, rgb(115, 13, 231), rgb(32, 240, 118));
+        }
+        /* link区域 */
+        
+        .links {
+            width: 100%;
+            /* margin: 22px 0; */
+            margin-top: 21px;
+            line-height: 1.4;
+            vertical-align: baseline;
+            text-indent: 1px;
+        }
+        
+        .links ul li:not(:last-child) {
+            width: auto;
+            border-bottom: 1px dotted #000;
+        }
+        /* footer区域 */
+        
+        footer {
+            background-color: rgb(238, 138, 238);
+        }
+        
+        footer .copyright {
+            width: 200px;
+            margin: 0 auto;
+            margin-top: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>hellow world 请调整浏览器窗口大小查看效果</div>
+    </header>
+    <section class="main">
+        <p>页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px</p>
+        <div class="productions">
+            <div class="product">宽180高40(包含边框)</div>
+            <div class="product">产品</div>
+            <div class="product">产品</div>
+            <div class="product">水平间隙30px</div>
+            <div class="product">产品</div>
+            <div class="product">产品</div>
+            <div class="product">垂直间隙15px</div>
+            <div class="product">产品</div>
+            <div class="product">产品</div>
+            <div class="product">边框宽度3px</div>
+            <div class="product">产品</div>
+            <div class="product">产品</div>
+        </div>
+        <div class="links">
+            <ul>
+                <li>link</li>
+                <li>link</li>
+                <li>link</li>
+                <li>link</li>
+                <li>link</li>
+            </ul>
+        </div>
+
+    </section>
+    <footer>
+        <div class="copyright">
+            <ul>
+                <li>&#169;谢然学生</li>
+                <li>本页所有布局均使用块元素</li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+
+</html>
