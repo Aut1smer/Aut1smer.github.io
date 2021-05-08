@@ -40,6 +40,7 @@
         /* 9个浮动块 */
         
         .productions {
+            display: flow-root;
             width: 600px;
             height: 220px;
             /* margin: 15px 0; */
@@ -48,7 +49,7 @@
         }
         
         .product {
-            float: left;
+            /* float: left; */
             /* display: inline-block; */
             box-sizing: border-box;
             width: 180px;
@@ -60,10 +61,22 @@
             margin-top: 15px;
             margin-right: 30px;
         }
-        
-        .product:nth-child(3n) {
+        /* .product:nth-child(3n) {
             margin-right: 0;
+        } */
+        
+        .product:nth-child(n+5) {
+            margin-left: 210px;
         }
+        
+        .product:nth-child(n+9) {
+            margin-left: 420px;
+        }
+        
+        .product:nth-child(4n+5) {
+            margin-top: -205px;
+        }
+        /* 此时productions的非BFC块盒子包住的是border-box，内部第一个product的margintop合并撑起了包含块的margintop */
         
         .product:hover {
             background: linear-gradient(to left top, rgb(115, 13, 231), rgb(32, 240, 118));
@@ -78,10 +91,20 @@
             vertical-align: baseline;
             text-indent: 1px;
         }
-        
-        .links ul li:not(:last-child) {
+        /* .links ul li:not(:last-child) {
             width: auto;
             border-bottom: 1px dotted #000;
+        } */
+        
+        .links ul {
+            /* display: flow-root; */
+            overflow: hidden;
+        }
+        
+        .links ul li {
+            border-bottom: 1px dotted #000;
+            margin-bottom: -1px;
+            padding-top: 1px;
         }
         /* footer区域 */
         
@@ -96,6 +119,7 @@
             text-align: center;
         }
     </style>
+
 </head>
 
 <body>
