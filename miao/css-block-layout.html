@@ -45,6 +45,7 @@
             height: 220px;
             /* margin: 15px 0; */
             margin-top: 1px;
+            margin-bottom: 20px;
             padding: 0;
         }
         
@@ -118,6 +119,29 @@
             margin-top: 18px;
             text-align: center;
         }
+        /* 行内制作卡片阵列 */
+        
+        .pros {
+            width: 600px;
+            height: 300px;
+            word-spacing: -5px;
+        }
+        
+        .ptd {
+            display: inline-block;
+            box-sizing: border-box;
+            width: 180px;
+            height: 40px;
+            background-color: pink;
+            border: 3px solid aqua;
+            margin-right: 30px;
+            margin-bottom: 15px;
+            vertical-align: top;
+        }
+        
+        .ptd:nth-child(3n) {
+            margin-right: 0;
+        }
     </style>
 
 </head>
@@ -141,6 +165,20 @@
             <div class="product">边框宽度3px</div>
             <div class="product">产品</div>
             <div class="product">产品</div>
+        </div>
+
+        <div class="pros">
+            <span class="ptd">宽1</span><span class="ptd">产品</span>
+            <span class="ptd">产品</span>
+            <span class="ptd">水平</span>
+            <span class="ptd">产品</span>
+            <span class="ptd">产品</span>
+            <span class="ptd">垂直</span>
+            <span class="ptd">产品</span>
+            <span class="ptd">产品</span>
+            <span class="ptd">边框</span>
+            <span class="ptd">产品</span>
+            <span class="ptd">产品</span>
         </div>
         <div class="links">
             <ul>
