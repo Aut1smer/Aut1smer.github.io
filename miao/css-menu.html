@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menu</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+            /* box-shadow: 0 0 1px red; */
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+        }
+        /* 三角 */
+        
+        .triangle {
+            width: 0;
+            height: 0;
+            border: 5px solid tomato;
+            border-color: transparent transparent tomato transparent;
+        }
+        /* 菜单栏 */
+        
+        .menu {
+            position: relative;
+            width: 480px;
+            height: 30px;
+            background-color: rgba(167, 39, 39, 0.288);
+            margin: 100px auto;
+            transition-delay: .3s;
+            transition: .3s;
+        }
+        
+        .menu:hover {
+            box-shadow: 0 0 10px rgb(1, 1, 1), 0 0 30px rgb(1, 1, 1), 0 0 50px rgb(1, 1, 1);
+        }
+        
+        .menu ul li {
+            width: 80px;
+            height: 30px;
+            cursor: pointer;
+            font: 20px '';
+            text-align: center;
+            border: 2px solid red;
+        }
+        
+        .menu ul li:hover {
+            box-shadow: 0 0 10px rgb(1, 1, 1), 0 0 30px rgb(1, 1, 1), 0 0 50px rgb(1, 1, 1);
+        }
+        /* 嵌套第一层 */
+        
+        .menu>ul>li {
+            position: absolute;
+        }
+        
+        .menu>ul>li:nth-child(2) {
+            left: 80px;
+        }
+        
+        .menu>ul>li:nth-child(3) {
+            left: 160px;
+        }
+        
+        .menu>ul>li:nth-child(4) {
+            left: 240px;
+        }
+        
+        .menu>ul>li:nth-child(5) {
+            left: 320px;
+        }
+        
+        .menu>ul>li:nth-child(6) {
+            left: 400px;
+        }
+        /* a菜单项 */
+        
+        .triangle {
+            position: absolute;
+            top: 9px;
+            right: 4px;
+            transition: 1s;
+        }
+        
+        .a:hover>ul {
+            display: block;
+        }
+        
+        .a:hover>.triangle {
+            top: 13px;
+            border-color: tomato transparent transparent transparent;
+        }
+        
+        .a ul {
+            display: none;
+            position: absolute;
+            top: 30px;
+        }
+        
+        .a>ul:hover {
+            display: block;
+        }
+        /* ac菜单项 */
+        
+        .ac:hover>ul {
+            display: block;
+        }
+        
+        .ac>ul {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 78px;
+        }
+        
+        .ac>ul:hover {
+            display: block;
+        }
+        
+        .ac {
+            position: relative;
+        }
+        
+        .ac>.triangle {
+            top: 9px;
+            right: 2px;
+            border-color: transparent transparent transparent tomato;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu">
+        <ul>
+            <li class="a">a
+                <div class="triangle"></div>
+                <ul>
+                    <li>aa</li>
+                    <li>ab</li>
+                    <li class="ac"> ac
+                        <div class="triangle"></div>
+                        <ul>
+                            <li>aca</li>
+                            <li>acb</li>
+                            <li>acc</li>
+                            <li>acd</li>
+                            <li>ace</li>
+                        </ul>
+                    </li>
+                    <li>ad</li>
+                    <li>ae</li>
+                </ul>
+            </li>
+            <li>b</li>
+            <li>c</li>
+            <li>d</li>
+            <li>e</li>
+            <li>f</li>
+        </ul>
+    </div>
+
+
+</body>
+
+</html>

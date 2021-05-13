@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>heart</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            /* box-shadow: 0 0 1px red; */
+            /* background-color: rgba(0, 0, 0, .08); */
+        }
+        
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        body {
+            margin: 0;
+        }
+        
+        .container {
+            min-width: 600px;
+            width: 600px;
+            margin: 100px auto;
+            border: 1px solid #3333;
+        }
+        
+        .message-0 {
+            position: relative;
+            width: 100%;
+            padding: 10px;
+            padding-left: 60px;
+            background-color: #fff;
+        }
+        
+        .message-0:hover {
+            background-color: rgb(247, 247, 247);
+        }
+        /* aside */
+        
+        .message-0 aside {
+            position: absolute;
+            width: 50px;
+            top: 20px;
+            left: 10px;
+        }
+        
+        .message-0 aside .avatar {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .avatar img {
+            max-width: 100%;
+            min-width: 100%;
+            border-radius: 50%;
+        }
+        /* content */
+        
+        .content {
+            width: calc(100% - 50px);
+            padding: 10px;
+            padding-left: 15px;
+        }
+        
+        .content h2 {
+            font: 700 15px '';
+            margin-bottom: 20px;
+        }
+        
+        .content h2 span {
+            color: #5b7083;
+            font: inherit;
+        }
+        
+        .content p {
+            font: 15px "Segoe UI", "Meiryo", "system-ui", "serif";
+            color: #0f1419;
+            margin-bottom: 10px;
+        }
+        
+        .content .pic {
+            width: 500px;
+            height: 300px;
+            margin-bottom: 50px;
+        }
+        
+        .content .pic img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 20px;
+        }
+        /* 素质四连 */
+        
+        .feedback {
+            width: calc(100% - 70px);
+            height: 35px;
+            position: absolute;
+            bottom: 0;
+            left: 60px;
+            /* border: 2px solid red; */
+            margin-bottom: 20px;
+        }
+        
+        .feedback ul li {
+            position: absolute;
+            width: 80px;
+            height: 35px;
+            bottom: 0;
+            font: 13px "Segoe UI", "Meiryo", "system-ui", "serif";
+            color: #5b7083;
+        }
+        
+        .feedback ul li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            line-height: 35px;
+        }
+        
+        .feedback ul li a span {
+            vertical-align: top;
+        }
+        
+        .feedback ul li:hover a {
+            color: rgb(79, 181, 243);
+        }
+        
+        .feedback ul li:first-child:hover .icon-reply {
+            background-color: rgba(155, 204, 240, 0.548);
+        }
+        
+        .feedback ul li:nth-child(2) {
+            left: 120px;
+        }
+        
+        .feedback ul li:nth-child(2):hover a {
+            color: rgb(23, 191, 99);
+        }
+        
+        .feedback ul li:nth-child(2):hover .icon-retweet {
+            background-color: rgba(127, 238, 177, 0.548);
+        }
+        
+        .feedback ul li:nth-child(3) {
+            left: 240px;
+        }
+        
+        .feedback ul li:nth-child(3):hover a {
+            color: rgb(229, 84, 128);
+        }
+        
+        .feedback ul li:nth-child(3):hover .icon-like {
+            background-color: rgba(241, 99, 134, 0.548);
+        }
+        
+        .feedback ul li:nth-child(4) {
+            left: 360px;
+        }
+        
+        .feedback ul li:last-child:hover .icon-share {
+            background-color: rgba(155, 204, 240, 0.548);
+        }
+        
+        .icon-reply {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: url(../images/reply.png) no-repeat;
+            background-position: center;
+        }
+        
+        .icon-retweet {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: url(../images/retweet.png) no-repeat;
+            background-position: center;
+        }
+        
+        .icon-like {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: url(../images/heart.png) no-repeat;
+            background-position: center;
+        }
+        
+        .icon-share {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: url(../images/share.png) no-repeat;
+            background-position: center;
+        }
+        /* twitter-heart */
+        
+        div.icon-heart {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: url(../images/web_heart_animation.png) no-repeat;
+            background-position: 0px 0px;
+            /* transition: 1s steps(28); */
+            margin: 100px auto;
+            cursor: pointer;
+        }
+        
+        div.icon-heart:hover {
+            transition: 1s steps(28);
+            background-position: -2800px 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="message-0">
+            <aside>
+                <div class="avatar">
+                    <img src="../images/oogi2.png" alt="">
+                </div>
+            </aside>
+            <div class="content">
+                <h2><a href="javascript:;">Aut1smer&nbsp;&nbsp;</a><span>@YinCheng · </span><span class="pubTime">May 11</span></span>
+                </h2>
+                <p>小米的200万图标经大喵老师宣传，潜在价值又增加了10万/像素。</p>
+                <div class="pic">
+                    <!-- 500*300 -->
+                    <img src="../images/xiaomi.jpg" alt="">
+                </div>
+
+            </div>
+            <div class="feedback">
+                <ul>
+                    <li class="reply" title="Reply"><a href="javascript:;"><i class="icon-reply"></i><span> 451</span></a></li>
+                    <li class="retweet" title="Retweet"> <a href="javascript:;"><i class="icon-retweet"></i><span> 317</span></a></li>
+                    <li class="like" title="Like"><a href="javascript:;"><i class="icon-like"></i><span> 6.2k</span></a></li>
+                    <li class="share" title="Share"><a href="javascript:;"><i class="icon-share"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="icon-heart" title="点个赞呗"></div>
+    <script>
+        let btn = document.querySelector('.icon-heart');
+        let flag = 0;
+        btn.addEventListener('click', function() {
+
+            if (flag == 0) {
+                alert('^ↀωↀ^喵呜~');
+                btn.style.backgroundPosition = '-2800px 0px';
+                flag++;
+            } else {
+                alert('Sorry，车门焊死了');
+            }
+
+        });
+    </script>
+</body>
+
+
+</html>
