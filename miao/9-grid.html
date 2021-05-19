@@ -63,6 +63,8 @@
             line-height: 50px;
             text-align: center;
             cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
         }
         
         .abs:nth-child(2) {
@@ -109,7 +111,7 @@
             z-index: 999;
             border-color: red;
         }
-        /* 浮动 */
+        /* 浮动+z-index */
         
         .float {
             width: 170px;
@@ -134,6 +136,8 @@
             border: 5px solid blue;
             position: relative;
             cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
         }
         
         .float ul li:hover {
@@ -161,7 +165,7 @@
             text-align: center;
             line-height: 50px;
         }
-        /* 表格 */
+        /* css表格 */
         
         .table {
             display: table;
@@ -183,6 +187,8 @@
             border: 5px solid blue;
             position: relative;
             cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
         }
         
         .table .cell .box {
@@ -254,7 +260,7 @@
         </ul>
     </div>
 
-    <p>表格+ab定位+hover提升z-index</p>
+    <p>表格cell+套ab定位box+hover提升z-index</p>
     <div class="table">
         <div class="row1">
             <div class="cell">
@@ -297,9 +303,8 @@
             height: 170px;
             /* background-color: aqua; */
             margin: 0 auto;
-            margin-bottom: 100px;
             font: 0;
-            letter-spacing: 0;
+            /* letter-spacing: 0; */
             word-spacing: -5px;
         }
         
@@ -315,6 +320,8 @@
             text-align: center;
             position: relative;
             cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
         }
         
         .inline>div .ibs:nth-child(3) {
@@ -354,7 +361,7 @@
         }
     </style>
 
-    <p>inline-block+伪元素补边框</p>
+    <p>inline-block+伪元素补右下边框z-index</p>
     <div class="inline">
         <div class="line1">
             <div class="ibs">1</div>
@@ -372,6 +379,103 @@
             <div class="ibs">9</div>
         </div>
     </div>
+
+    <style>
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        
+        table td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
+        }
+        
+        table tr {
+            border: 5px solid blue;
+        }
+        
+        table td:hover {
+            border: 5px solid red;
+        }
+        
+        table col {
+            width: 50px;
+            border: 5px solid blue;
+        }
+    </style>
+    <p>表格边框优先级,hover时让无border的td显示border.red</p>
+    <table>
+        <colgroup>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <style>
+        .a {
+            width: 170px;
+            height: 170px;
+            background-color: blue;
+            margin: 0 auto;
+        }
+        
+        .c {
+            float: left;
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            margin-left: 5px;
+            margin-top: 5px;
+            line-height: 50px;
+            text-align: center;
+            /* box-sizing: border-box; */
+            cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
+        }
+        
+        .c:hover {
+            box-shadow: 0 0 0px 5px red;
+        }
+    </style>
+    <p>边框覆盖背景蓝色+浮动摆放+hover时boxshadow.red</p>
+    <div class="a">
+        <div class="c">1</div>
+        <div class="c">2</div>
+        <div class="c">3</div>
+        <div class="c">4</div>
+        <div class="c">5</div>
+        <div class="c">6</div>
+        <div class="c">7</div>
+        <div class="c">8</div>
+        <div class="c">9</div>
+    </div>
+
+
 </body>
 
 </html>
