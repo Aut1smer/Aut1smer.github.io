@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>radio-slider</title>
+
+    <style>
+        *,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        
+        input {
+            display: none;
+        }
+        
+        p {
+            margin-top: 100px;
+            text-align: center;
+        }
+        
+        .box,
+        .box1 {
+            width: 400px;
+            height: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .imgs {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .imgs img {
+            width: 400px;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            transition: left 1s ease-in-out;
+        }
+        
+        .box input:nth-child(1):checked~div img:nth-child(1) {
+            left: 0;
+            z-index: 8;
+        }
+        
+        .box input:nth-child(2):checked~div img:nth-child(2) {
+            left: 0;
+            z-index: 8;
+        }
+        
+        .box input:nth-child(3):checked~div img:nth-child(3) {
+            left: 0;
+            z-index: 8;
+        }
+        
+        .box input:nth-child(4):checked~div img:nth-child(4) {
+            left: 0;
+            z-index: 8;
+        }
+        /* label */
+        
+        .box label,
+        .box1 label {
+            /* display: block; */
+            position: absolute;
+            bottom: 10px;
+            left: 40px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: pink;
+            padding: 5px;
+            background-clip: content-box;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            z-index: 999;
+        }
+        
+        .box label:nth-of-type(2) {
+            left: 135px;
+        }
+        
+        .box label:nth-of-type(3) {
+            left: auto;
+            right: 135px;
+        }
+        
+        .box label:nth-of-type(4) {
+            right: 40px;
+            left: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <p>radio:checked + ~ +绝对定位边偏移</p>
+    <div class="box">
+        <input type="radio" name="pic" id="pic1">
+        <input type="radio" name="pic" id="pic2">
+        <input type="radio" name="pic" id="pic3">
+        <input type="radio" name="pic" id="pic4">
+        <div class="imgs">
+            <img src="../images/1024a.jpg" alt=""><img src="../images/1024b.jpg" alt=""><img src="../images/1024c.jpg" alt=""><img src="../images/1024d.jpg" alt="">
+            <label for="pic1"></label>
+            <label for="pic2"></label>
+            <label for="pic3"></label>
+            <label for="pic4"></label>
+        </div>
+
+    </div>
+
+
+    <style>
+        .box1 {
+            overflow: hidden;
+        }
+        
+        .list {
+            width: 3000px;
+            height: 100%;
+            position: absolute;
+            left: 20px;
+            transition: .5s ease;
+        }
+        
+        .list img {
+            width: 400px;
+            height: 300px;
+            margin-right: 20px;
+        }
+        
+        .list img:last-child {
+            margin-right: 0;
+        }
+        /* label */
+        
+        .box1 label {
+            bottom: 30px;
+            left: 60px;
+        }
+        
+        .box1 label:nth-of-type(2) {
+            left: 150px;
+        }
+        
+        .box1 label:nth-of-type(3) {
+            right: 150px;
+            left: auto;
+        }
+        
+        .box1 label:nth-of-type(4) {
+            right: 60px;
+            left: auto;
+        }
+        /* radio:checked list 小圆点 */
+        
+        .box1>input:nth-child(1):checked~.list {
+            left: 20px;
+            transition: 0.2s;
+        }
+        
+        .box1>input:nth-child(2):checked~.list {
+            left: -400px;
+        }
+        
+        .box1>input:nth-child(3):checked~.list {
+            left: -820px;
+        }
+        
+        .box1>input:nth-child(4):checked~.list {
+            left: -1240px;
+        }
+        /* 两边的radio */
+        
+        input.control {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 130px;
+            width: 20px;
+            height: 80px;
+            text-align: center;
+            line-height: 80px;
+            cursor: pointer;
+            background-image: radial-gradient(closest-corner ellipse at 50% 50%, white 20%, rgb(248, 166, 12));
+            border-radius: 25%;
+            pointer-events: auto;
+            z-index: 1000;
+        }
+        
+        input.control:nth-child(3),
+        input.control:nth-child(4) {
+            left: auto;
+            right: 0;
+        }
+        
+        input.control:nth-child(1):checked {
+            display: none;
+            pointer-events: none;
+        }
+        
+        input.control:checked~.list {
+            left: calc(var(--i) * (420px));
+        }
+        /* input.control:nth-child(1):checked~.list {
+            left: -1240px
+        } */
+        
+        input.control:nth-child(2):checked {
+            display: none;
+            pointer-events: none;
+        }
+        /* input.control:nth-child(2):checked~.list {
+            left: -400px;
+        }
+         */
+        
+        input.control:nth-child(3):checked {
+            display: none;
+            pointer-events: none;
+        }
+        /* input.control:nth-child(3):checked~.list {
+            left: 20px;
+        } */
+        
+        input.control:nth-child(4):checked {
+            display: none;
+            pointer-events: none;
+        }
+        /* input.control:nth-child(4):checked~.list {
+            left: -820px;
+        } */
+    </style>
+
+    <p>radio:checked ~ list+绝对定位边偏移</p>
+    <pre> 两边的radio因结构顺序无法使每次点击都能促使当前block状态的两个radio交换位置并备用（displaynone+pointer-events:none+边偏移margin-left），故无法使用每边层叠的两个radio以表示四种list的偏移状态</pre>
+    <div class="box1">
+
+        <input type="radio" name="pict" id="pict1" class="control" style="--i:4 --j:-1">
+        <input type="radio" name="pict" id="pict2" class="control" style="--i:3">
+        <input type="radio" name="pict" id="pict3" class="control" style="--i:2">
+        <input type="radio" name="pict" id="pict4" class="control" style="--i:1">
+
+        <input type="radio" name="pict" id="pict1">
+        <input type="radio" name="pict" id="pict2">
+        <input type="radio" name="pict" id="pict3">
+        <input type="radio" name="pict" id="pict4">
+        <div class="list">
+            <img src="../images/1024a.jpg" alt=""><img src="../images/1024b.jpg" alt=""><img src="../images/1024c.jpg" alt=""><img src="../images/1024d.jpg" alt=""><img src="../images/1024a.jpg" alt="">
+        </div>
+        <label for="pict1" style="--i:1"></label>
+        <label for="pict2" style="--i:2"></label>
+        <label for="pict3" style="--i:3"></label>
+        <label for="pict4" style="--i:4"></label>
+
+    </div>
+
+
+    <p></p>
+</body>
+
+</html>
