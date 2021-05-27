@@ -78,7 +78,7 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background-color: pink;
+            background-color: white;
             padding: 5px;
             background-clip: content-box;
             border: 1px solid #ccc;
@@ -240,10 +240,21 @@
         /* input.control:nth-child(4):checked~.list {
             left: -820px;
         } */
+        
+        pre {
+            padding-left: 100px;
+            margin: auto;
+        }
     </style>
 
-    <p>radio:checked ~ list+绝对定位边偏移</p>
-    <pre> 两边的radio因结构顺序无法使每次点击都能促使当前block状态的两个radio交换位置并备用（displaynone+pointer-events:none+边偏移margin-left），故无法使用每边层叠的两个radio以表示四种list的偏移状态</pre>
+    <p>radio:checked ~ list+绝对定位边偏移
+    </p>
+    <pre> 两边的radio因结构顺序无法使每次点击都能促使当前block状态的两个
+        radio交换位置并备用（displaynone+pointer-events:none+边偏移margin-left），
+        故无法使用每边层叠的两个radio以表示四种list的偏移状态
+    </pre>
+
+
     <div class="box1">
 
         <input type="radio" name="pict" id="pict1" class="control" style="--i:4 --j:-1">
