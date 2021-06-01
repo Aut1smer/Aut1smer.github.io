@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            transform-style: preserve-3d;
+        }
+        
+        section {
+            border: 1px solid tomato;
+            width: 400px;
+            height: 400px;
+            margin: 100px auto;
+            margin-bottom: 0;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: 5s;
+        }
+        
+        .top {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background-color: pink;
+            border: 1px solid aquamarine;
+            box-sizing: border-box;
+            width: 100px;
+            height: 100px;
+            transform: translate3d(0, -50%, -50px) rotateX(-90deg);
+            transition: 3s;
+            text-align: center;
+            line-height: 100px;
+        }
+        
+        section:active {
+            transform: rotate3d(1, 1, 1, 180deg);
+        }
+        
+        .a {
+            width: 100px;
+            height: 100px;
+            background-color: violet;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="top">top</div>
+    </section>
+
+    <div class="a"></div>
+</body>
+
+</html> position: relative; width: 500px; height: 500px; /* border: 1px solid violet; */ margin: 100px auto; margin-bottom: 0; transform-style: preserve-3d; transform: translateZ(-50px); transform-origin: 50% 50% -50px; animation-direction: ; } #display1-status1:checked~section
+{ animation: autoRotate 4s linear infinite; } #display1-status2:checked~section { animation: sectionRotate 4s linear infinite; } #display1-status4:checked~section { animation: autoRotatereverse 4s linear infinite; } section>div { position: absolute; top:
+0px; bottom: 0px; left: 0px; right: 0px; margin: auto; width: 100px; height: 100px; box-sizing: border-box; border: 1px solid red; background-color: rgba(0, 0, 0, .1); text-align: center; line-height: 100px; backface-visibility: hidden; } .behind { transform:
+translateZ(-100px) rotateY(180deg); } .top { transform: translate3d(0, -50%, -50px) rotateX(90deg); } .bottom { transform: translate3d(0, 50%, -50px) rotateX(-90deg); } .left { transform: translate3d(-50%, 0, -50px) rotateY(-90deg); } .right { transform:
+translate3d(50%, 0, -50px) rotateY(90deg); }
+</style>
+</head>
+
+<body>
+    <input type="radio" name="autoRotate" id="display1-status1">正旋转
+    <input type="radio" name="autoRotate" id="display1-status4">逆旋转
+    <input type="radio" name="autoRotate" id="display1-status2">front的邻面
+    <input type="radio" name="autoRotate" id="display1-status3">归位
+    <section>
+        <div class="front">front</div>
+        <div class="behind">behind</div>
+        <div class="top">top</div>
+        <div class="bottom">bottom</div>
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </section>
+</body>
+
+</html>

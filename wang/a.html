@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            transform-style: preserve-3d;
+        }
+        
+        section {
+            border: 1px solid tomato;
+            width: 400px;
+            height: 400px;
+            margin: 100px auto;
+            margin-bottom: 0;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: 5s;
+        }
+        
+        .top {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background-color: pink;
+            border: 1px solid aquamarine;
+            box-sizing: border-box;
+            width: 100px;
+            height: 100px;
+            transform: translate3d(0, -50%, -50px) rotateX(-90deg);
+            transition: 3s;
+            text-align: center;
+            line-height: 100px;
+        }
+        
+        section:active {
+            transform: rotate3d(1, 1, 1, 180deg);
+        }
+        
+        .a {
+            width: 100px;
+            height: 100px;
+            background-color: violet;
+            margin: 100px auto;
+            transform: rotate(100deg);
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="top">top</div>
+    </section>
+
+    <div class="a"></div>
+</body>
+
+</html>
