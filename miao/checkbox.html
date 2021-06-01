@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkbox</title>
+    <link rel="stylesheet/less" type="text/css" href="checkbox.less">
+    <!-- <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .box {
+            margin: 100px auto;
+            width: 400px;
+            height: 300px;
+        }
+        /* 选中label就等于选中复选框，选中时Label上覆盖的白色底盒子缩小为宽高为0的点，然后显示label的背景色 */
+        
+        label {
+            display: block;
+            width: 264px;
+            height: 146px;
+            border: 2px solid silver;
+            border-radius: 100px;
+            /* background-color: rgb(50, 247, 59, 0.1); */
+            background-color: rgb(50, 247, 59);
+            position: relative;
+            transition: .5s;
+        }
+        /* 覆盖用的背景盒子 */
+        
+        .bg {
+            width: 264px;
+            height: 146px;
+            border: 2px solid silver;
+            border-radius: 100px;
+            background-color: white;
+            position: absolute;
+            left: -2px;
+            top: -2px;
+            transition: .5s;
+        }
+        
+        .button {
+            border: 3px solid silver;
+            border-radius: 100px;
+            border: 0;
+            background-color: white;
+            width: 130px;
+            height: 130px;
+            box-shadow: 1px 5px 16px 1px silver;
+            position: absolute;
+            left: 10px;
+            top: 7px;
+            transition: .5s;
+        }
+        
+        input:checked+label {
+            transition: .5s;
+            border-color: rgb(50, 247, 59);
+            /* background-color: rgb(50, 247, 59); */
+        }
+        /* 选中label 白色底背景色消失 */
+        
+        input:checked+label>.bg {
+            transition: .5s;
+            width: 0;
+            height: 0;
+            left: 130px;
+            top: 73px;
+        }
+        
+        input {
+            display: none;
+        }
+        /* 运动到中间使用padding-left增大按钮，因为按钮是从左往右增大的。然后往右变小，保证增大的padding值和最后的宽度width与初始宽度一致 */
+        
+        input:checked+label>.button {
+            position: absolute;
+            left: 125px;
+            width: 100px;
+            padding-left: 30px;
+            transition: left .5s ease, padding 0.25s, width 0.25s 0.25s;
+        }
+    </style> -->
+
+
+</head>
+
+<body>
+
+    <div class="box">
+        <input type="checkbox" id="c">
+        <label for="c">
+    <div class="bg"></div>
+    <div class="button"></div></div>
+  </label>
+
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+</body>
+
+</html>

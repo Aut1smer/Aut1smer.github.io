@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section {
+            width: 582px;
+            height: 300px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+        }
+        
+        section div {
+            box-sizing: border-box;
+            border: 1px solid violet;
+            width: 180px;
+            height: 60px;
+        }
+        
+        section div:nth-child(n+6) {
+            margin-left: 201px;
+        }
+        
+        section div:nth-child(n+11) {
+            margin-left: 402px;
+        }
+        
+        section div:nth-child(5n+6) {
+            margin-top: -300px;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </section>
+</body>
+
+</html>

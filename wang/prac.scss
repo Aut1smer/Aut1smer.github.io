@@ -1,0 +1,32 @@
+@mixin circle($size) {
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    background-color: pink;
+    margin: 50px auto;
+}
+
+div.a {
+    @include circle(300px);
+}
+
+@mixin square($w, $h) {
+    width: $w;
+    height: $h;
+    background-color: violet;
+    margin: 50px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+div.b {
+    @include square(400px, 300px);
+}
+
+$s:1;
+$e:10;
+@for $i from $s through $e {
+    section:nth-of-type(#{$i}) {
+        @include circle(200px);
+    }
+}
