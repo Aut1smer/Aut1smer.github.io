@@ -1623,7 +1623,7 @@ main>.container>.banner {
 }
 
 .main-content ul {
-    width: 100%;
+    /* width: 100%; */
     height: 614px;
     display: flex;
     flex-flow: column wrap;
@@ -1821,16 +1821,32 @@ main>.container>.banner {
     width: 32px;
     height: 26px;
     color: #424242;
-    text-align: center;
+    border-bottom: 2px solid #F5F5F5;
     font-size: 16px;
     line-height: 30px;
+    text-align: center;
     box-sizing: border-box;
-    border-bottom: 2px solid #F5F5F5;
     transition: 0s 9999999999s;
     cursor: pointer;
-    /* margin-top: -40px; */
     z-index: 4;
 }
+
+#act-right1 {
+    color: #424242;
+    border-bottom: 2px solid #F5F5F5;
+}
+
+
+/* #act-right3>span,
+#act-right2>span,
+#act-right1>span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: #424242;
+
+    text-align: center;
+} */
 
 #act-right2 {
     right: 62px;
@@ -1845,9 +1861,10 @@ main>.container>.banner {
     min-width: 1226px;
     visibility: hidden;
     pointer-events: none;
+    margin: 0;
     transition: 0s 99999999s;
     padding-left: 0;
-    margin-top: 0!important;
+    line-height: 30px;
 }
 
 #act-right2>ul {

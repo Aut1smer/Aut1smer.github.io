@@ -10,6 +10,10 @@
     <style>
         body {
             margin: 0;
+            width: 100vw;
+            height: 2000px;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         
         * {
@@ -25,7 +29,8 @@
             width: 500px;
             height: 500px;
             /* border: 1px solid tomato; */
-            margin: 100px auto;
+            margin: 50px auto;
+            margin-bottom: 100px;
         }
         
         .plate {
@@ -104,13 +109,43 @@
         .time-12 {
             transform: translateY(-220px);
         }
+        /* 刻度 */
+        
+        .mark {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 50px;
+            height: 500px;
+            transform: rotate(6deg);
+        }
+        
+        .mark::before {
+            display: block;
+            margin: auto;
+            content: '';
+            width: 1px;
+            height: 4px;
+            background: linear-gradient(to top, rgba(0, 0, 0, .2), rgba(0, 0, 0, .4), rgba(0, 0, 0, .1));
+            border-bottom-left-radius: 100%;
+            border-bottom-right-radius: 100%;
+        }
+        
+        .marked::before {
+            width: 2px;
+            height: 7px;
+        }
         /* 中心轮区 */
         
         .center {
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background-color: violet;
+            background: radial-gradient(circle at 50% 50%, rgba(124, 85, 85, 0.4), rgba(240, 240, 240, .8));
+            z-index: -1;
             position: absolute;
             top: 0;
             left: 0;
@@ -120,7 +155,35 @@
         }
         /* 外层控制旋转，里层控制回震 */
         
-        @keyframes identifier {}
+        @keyframes oneturn {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes shake {
+            0% {
+                transform: rotate(0deg);
+            }
+            5% {
+                transform: rotate(2deg);
+            }
+            10% {
+                transform: rotate(0deg);
+            }
+            15% {
+                transform: rotate(-1deg);
+            }
+            20% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
         
         .h,
         .m,
@@ -141,6 +204,8 @@
             width: 10px;
             height: 80px;
             background: linear-gradient(to top, transparent, #333);
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
         }
         
         .m-clock {
@@ -169,6 +234,20 @@
             background: linear-gradient(to top, transparent, rgb(235, 15, 15));
             border-top-left-radius: 50%;
             border-top-right-radius: 50%;
+            transform-origin: 50% 210px;
+            animation: shake 1s ease-out infinite;
+        }
+        
+        .s {
+            animation: oneturn 60s steps(60, end) infinite backwards;
+        }
+        
+        .m {
+            animation: oneturn 3600s linear infinite backwards;
+        }
+        
+        .h {
+            animation: oneturn 43200s linear infinite backwards;
         }
     </style>
 </head>
@@ -200,7 +279,316 @@
                 <div class="s-clock"></div>
             </div>
             <div class="center"></div>
+            <!-- 刻度 -->
+            <div class="mark">
+                <div class="mark">
+                    <div class="mark">
+                        <div class="mark">
+                            <div class="mark  marked">
+                                <div class="mark">
+                                    <div class="mark">
+                                        <div class="mark">
+                                            <div class="mark">
+                                                <div class="mark marked">
+                                                    <div class="mark">
+                                                        <div class="mark">
+                                                            <div class="mark">
+                                                                <div class="mark">
+                                                                    <div class="mark marked">
+                                                                        <div class="mark">
+                                                                            <div class="mark">
+                                                                                <div class="mark">
+                                                                                    <div class="mark">
+                                                                                        <div class="mark marked">
+                                                                                            <div class="mark">
+                                                                                                <div class="mark">
+                                                                                                    <div class="mark">
+                                                                                                        <div class="mark">
+                                                                                                            <div class="mark marked">
+                                                                                                                <div class="mark">
+                                                                                                                    <div class="mark">
+                                                                                                                        <div class="mark">
+                                                                                                                            <div class="mark">
+                                                                                                                                <div class="mark marked">
+                                                                                                                                    <div class="mark">
+                                                                                                                                        <div class="mark">
+                                                                                                                                            <div class="mark">
+                                                                                                                                                <div class="mark">
+                                                                                                                                                    <div class="mark marked">
+                                                                                                                                                        <div class="mark">
+                                                                                                                                                            <div class="mark">
+                                                                                                                                                                <div class="mark">
+                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                        <div class="mark marked">
+                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                            <div class="mark  marked">
+                                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                                                <div class="mark marked">
+                                                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                                                                    <div class="mark marked">
+                                                                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                                                                                        <div class="mark  marked"></div>
+                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+
+
+
+
+    <style>
+        i {
+            font-style: normal;
+        }
+        
+        .box {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+            border-width: 20px;
+            border-style: solid;
+            border-image-source: url(../images/yosora1.jpg);
+            border-image-slice: 20 15 20 15;
+            border-image-width: 20px;
+            border-image-repeat: round;
+            position: relative;
+            text-align: center;
+            padding-top: 5px;
+            background: url(../images/yosora1.jpg) no-repeat;
+            background-origin: border-box;
+            -webkit-background-clip: text;
+            /* transform-style: preserve-3d; */
+        }
+        
+        .cube {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            transform-style: preserve-3d;
+            animation: rotate1 8s linear infinite;
+        }
+        
+        .box>.cube>div {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            box-sizing: border-box;
+            border: 1px solid chocolate;
+            backface-visibility: hidden;
+            line-height: 300px;
+            text-align: center;
+            transition: 5s;
+        }
+        
+        .box>.nowMark {
+            width: max-content;
+            height: max-content;
+            font-size: 30px;
+            font-weight: bold;
+            color: transparent;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            color: #000;
+        }
+        
+        .nowMark i {
+            transition: 1s calc(var(--i)*.15s);
+        }
+        
+        .box:hover .nowMark>i {
+            color: rgb(240, 240, 240);
+            text-shadow: 3px 3px 2px rgba(0, 0, 0, .2);
+        }
+        /* 立方体区域 */
+        
+        .front {
+            transform: translateZ(150px);
+            background-color: aqua;
+        }
+        
+        .behind {
+            transform: translateZ(-150px) rotateY(180deg);
+            background-color: violet;
+        }
+        
+        .top {
+            transform: translateY(-150px) rotateX(90deg);
+            background-color: lime;
+        }
+        
+        .bottom {
+            transform: translateY(150px) rotateX(-90deg);
+            background-color: skyblue;
+        }
+        
+        .left {
+            transform: translateX(-150px) rotateY(-90deg);
+            background-color: olive;
+        }
+        
+        .right {
+            transform: translateX(150px) rotateY(90deg);
+            background-color: grey;
+        }
+        
+        @keyframes rotate1 {
+            0% {
+                transform: rotate3d(1, 1, 1, 0deg);
+            }
+            50% {
+                transform: rotate3d(.3, .6, .9, 180deg);
+            }
+            75% {
+                transform: rotate3d(.6, .9, .3, 450deg);
+            }
+            100% {
+                transform: rotate3d(-1, -1, -1, 720deg);
+            }
+        }
+        
+        .labelbox>label {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* filter: brightness(300%); */
+            filter: contrast(90%) hue-rotate(45deg);
+            background-image: conic-gradient(rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255));
+            /* background-color: #fff; */
+            position: absolute;
+            top: -80px;
+        }
+        
+        .labelbox>label:nth-child(1) {
+            left: 0;
+        }
+        
+        .labelbox>label:nth-child(2) {
+            left: 80px;
+        }
+        
+        .labelbox>label:nth-child(3) {
+            left: 160px;
+        }
+        
+        input:nth-of-type(1):checked~.cube {
+            animation-play-state: paused;
+        }
+        
+        input:nth-of-type(2):checked~.cube {
+            animation-play-state: running;
+        }
+        
+        input:nth-of-type(3):checked~.cube {
+            animation-play-state: running;
+        }
+        
+        input:nth-of-type(3):checked~.cube>div {
+            transition: 5s;
+            box-shadow: 0 0 100px 100px rgba(0, 0, 0, .9);
+        }
+    </style>
+
+
+    <div class="box">
+        <span class="nowMark"> <i style="--i:1">-现-</i><i style="--i:2">-在-</i><i style="--i:3">-时-</i><i style="--i:4">-间-</i></span>
+        <input type="radio" name="cube-ctl" id="ctl-1" checked>
+        <input type="radio" name="cube-ctl" id="ctl-2">
+        <input type="radio" name="cube-ctl" id="ctl-3">
+
+        <div class="labelbox">
+            <label for="ctl-1"></label>
+            <label for="ctl-2"></label>
+            <label for="ctl-3"></label>
+        </div>
+        <div class="cube">
+            <div class="front">front</div>
+            <div class="behind">behind</div>
+            <div class="top">top</div>
+            <div class="bottom">bottom</div>
+            <div class="left">left</div>
+            <div class="right">right</div>
+        </div>
+        <div class="light"></div>
     </div>
 </body>
 
