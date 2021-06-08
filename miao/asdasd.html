@@ -9,35 +9,32 @@
 </head>
 
 <body>
-    <script id="ch0105/03">
-        // 样本均值
-        function sampleAvg(n) {
-            let arr = []
-            let count = 0,
-                sum = 0
-            if (n < 100 && n >= 0) {
+    <script id="ch0105/04">
+        function fn1() {
+            let n = +prompt('请输入整数个数n，注意应符合条件1 <= n <= 10000')
+            if (n >= 1 && n <= 10000) {
+                let arr = []
+                let count = 0,
+                    sum = 0
                 while (count < n) {
-                    arr[count] = +prompt('共' + n + '个样本，请输入第' + (count + 1) + '个样本。')
-                    if (Math.abs(arr[count]) < 1000) {
+                    arr[count] = +prompt('共' + n + '个整数，请输入第' + (count + 1) + '个整数\n应注意条件-10000<=x<=10000')
+                    if (Math.abs(arr[count]) <= 10000) {
                         count++
                     } else {
-                        console.log('第' + (count + 1) + '个样本非法，请重新输入')
+                        console.log('本次输入的整数范围非法')
                         continue
                     }
                 }
                 for (let i = 0; i < n; i++) {
                     sum += arr[i]
                 }
-                return (sum / n).toFixed(4)
+                return sum.toFixed(0) + ' ' + (sum / n).toFixed(5)
             } else {
-                return '样本容量非法，请重新执行本页面'
+                return '整数个数非法，请重新执行本页面'
             }
 
         }
-
-
-        var n = +prompt('请输入样本容量')
-        console.log(sampleAvg(n));
+        console.log(fn1());
     </script>
 </body>
 
