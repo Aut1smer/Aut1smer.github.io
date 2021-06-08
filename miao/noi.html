@@ -273,11 +273,11 @@
 <script id="ch0104/12">
     var length = +prompt('请输入该次办事要走的路程')
         // 骑车 3m/s  步行 1.2m/s
-    var bike = ((length / 3) + 27 + 23).toFixed(2)
-    var walk = (length / 1.2).toFixed(2)
+    var bike = ((length / 3) + 27 + 23)
+    var walk = (length / 1.2)
     if (bike < walk) {
         console.log('Bike');
-    } else if (bike === walk) {
+    } else if (bike == walk) {
         console.log('All');
     } else {
         console.log('Walk');
@@ -288,7 +288,7 @@
     var x = +prompt('请输入x的值，并使x∈[0,20)')
 
     if (x >= 0 && x < 5) {
-        console.log((x + 2.5).toFixed(3));
+        console.log((-x + 2.5).toFixed(3));
     } else if (x >= 5 && x < 10) {
         console.log((2 - 1.5 * (x - 3) * (x - 3)).toFixed(3));
     } else if (x >= 10 && x < 20) {
@@ -511,8 +511,7 @@
 <script id="ch0105/05">
     function fn1() {
         let n = +prompt()
-        const packageName = require('packageName');
-        req
+    }
 </script>
 <script id="ch0105/04"></script>
 <script id="ch0105/04"></script>
