@@ -426,7 +426,7 @@
             background: url(../images/yosora1.jpg) no-repeat;
             background-origin: border-box;
             -webkit-background-clip: text;
-            /* transform-style: preserve-3d; */
+            transform-style: preserve-3d;
         }
         
         .cube {
@@ -536,6 +536,8 @@
             /* background-color: #fff; */
             position: absolute;
             top: -80px;
+            text-align: center;
+            line-height: 50px;
         }
         
         .labelbox>label:nth-child(1) {
@@ -548,6 +550,10 @@
         
         .labelbox>label:nth-child(3) {
             left: 160px;
+        }
+        
+        .labelbox>label:nth-child(4) {
+            left: 240px;
         }
         
         input:nth-of-type(1):checked~.cube {
@@ -566,6 +572,321 @@
             transition: 5s;
             box-shadow: 0 0 100px 100px rgba(0, 0, 0, .9);
         }
+        
+        input:nth-of-type(4):checked~.cube>div {
+            background-color: rgba(0, 0, 0, .2);
+        }
+        /* 时间 */
+        
+        .time {
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 250px;
+            height: 80px;
+            background-image: linear-gradient(to bottom, lightcoral, rgb(247, 171, 30));
+            box-shadow: 0 -5px 10px lightcoral, 0 5px 10px rgb(247, 171, 30);
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        
+        .time>span {
+            font-size: 40px;
+            font-weight: 700;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            /* background-color: #000; */
+            /* background-image: linear-gradient(to bottom, lightcoral, rgb(247, 171, 30)); */
+            text-align: center;
+            line-height: 50px;
+            color: #fff;
+        }
+        
+        .time>span::after {
+            content: '00';
+        }
+        
+        .time>span:nth-child(3)::after {
+            animation: seconds 60s linear infinite reverse;
+        }
+        
+        .time>span:nth-child(2)::after {
+            animation: seconds 3600s linear infinite reverse;
+        }
+        
+        .time>span:nth-child(1)::after {
+            animation: hours 86400s linear infinite;
+        }
+        
+        @keyframes hours {
+            0% {
+                content: '00';
+            }
+            4.17% {
+                content: '01';
+            }
+            8.34% {
+                content: '02';
+            }
+            12.51% {
+                content: '03';
+            }
+            16.68% {
+                content: '04';
+            }
+            20.85% {
+                content: '05';
+            }
+            25.02% {
+                content: '06';
+            }
+            29.19% {
+                content: '07';
+            }
+            33.36% {
+                content: '08';
+            }
+            37.53% {
+                content: '09';
+            }
+            41.7% {
+                content: '10';
+            }
+            45.87% {
+                content: '11';
+            }
+            50.04% {
+                content: '12';
+            }
+            54.21% {
+                content: '13';
+            }
+            58.38% {
+                content: '14';
+            }
+            62.55% {
+                content: '15';
+            }
+            66.72% {
+                content: '16';
+            }
+            70.89% {
+                content: '17';
+            }
+            75.06% {
+                content: '18';
+            }
+            79.23% {
+                content: '19';
+            }
+            83.4% {
+                content: '20';
+            }
+            87.57% {
+                content: '21';
+            }
+            91.74% {
+                content: '22';
+            }
+            95.91% {
+                content: '23';
+            }
+            100% {
+                content: '00';
+            }
+        }
+        
+        @keyframes seconds {
+            0% {
+                content: '00';
+            }
+            1.67% {
+                content: '59';
+            }
+            3.34% {
+                content: '58';
+            }
+            5.01% {
+                content: '57';
+            }
+            6.68% {
+                content: '56';
+            }
+            8.35% {
+                content: '55';
+            }
+            10.02% {
+                content: '54';
+            }
+            11.69% {
+                content: '53';
+            }
+            13.36% {
+                content: '52';
+            }
+            15.03% {
+                content: '51';
+            }
+            16.7% {
+                content: '50';
+            }
+            18.37% {
+                content: '49';
+            }
+            20.04% {
+                content: '48';
+            }
+            21.71% {
+                content: '47';
+            }
+            23.38% {
+                content: '46';
+            }
+            25.05% {
+                content: '45';
+            }
+            26.72% {
+                content: '44';
+            }
+            28.39% {
+                content: '43';
+            }
+            30.06% {
+                content: '42';
+            }
+            31.73% {
+                content: '41';
+            }
+            33.4% {
+                content: '40';
+            }
+            35.07% {
+                content: '39';
+            }
+            36.74% {
+                content: '38';
+            }
+            38.41% {
+                content: '37';
+            }
+            40.08% {
+                content: '36';
+            }
+            41.75% {
+                content: '35';
+            }
+            43.42% {
+                content: '34';
+            }
+            45.09% {
+                content: '33';
+            }
+            46.76% {
+                content: '32';
+            }
+            48.43% {
+                content: '31';
+            }
+            50.1% {
+                content: '30';
+            }
+            51.77% {
+                content: '29';
+            }
+            53.44% {
+                content: '28';
+            }
+            55.11% {
+                content: '27';
+            }
+            56.78% {
+                content: '26';
+            }
+            58.45% {
+                content: '25';
+            }
+            60.12% {
+                content: '24';
+            }
+            61.79% {
+                content: '23';
+            }
+            63.46% {
+                content: '22';
+            }
+            65.13% {
+                content: '21';
+            }
+            66.8% {
+                content: '20';
+            }
+            68.47% {
+                content: '19';
+            }
+            70.14% {
+                content: '18';
+            }
+            71.81% {
+                content: '17';
+            }
+            73.48% {
+                content: '16';
+            }
+            75.15% {
+                content: '15';
+            }
+            76.82% {
+                content: '14';
+            }
+            78.49% {
+                content: '13';
+            }
+            80.16% {
+                content: '12';
+            }
+            81.83% {
+                content: '11';
+            }
+            83.5% {
+                content: '10';
+            }
+            85.17% {
+                content: '09';
+            }
+            86.84% {
+                content: '08';
+            }
+            88.51% {
+                content: '07';
+            }
+            90.18% {
+                content: '06';
+            }
+            91.85% {
+                content: '05';
+            }
+            93.52% {
+                content: '04';
+            }
+            95.19% {
+                content: '03';
+            }
+            96.86% {
+                content: '02';
+            }
+            98.53% {
+                content: '01';
+            }
+            100% {
+                content: '00';
+            }
+        }
     </style>
 
 
@@ -574,11 +895,13 @@
         <input type="radio" name="cube-ctl" id="ctl-1" checked>
         <input type="radio" name="cube-ctl" id="ctl-2">
         <input type="radio" name="cube-ctl" id="ctl-3">
+        <input type="radio" name="cube-ctl" id="ctl-4">
 
         <div class="labelbox">
-            <label for="ctl-1"></label>
-            <label for="ctl-2"></label>
-            <label for="ctl-3"></label>
+            <label for="ctl-1">stop</label>
+            <label for="ctl-2">rotate</label>
+            <label for="ctl-3">shadow</label>
+            <label for="ctl-4">time</label>
         </div>
         <div class="cube">
             <div class="front">front</div>
@@ -589,6 +912,9 @@
             <div class="right">right</div>
         </div>
         <div class="light"></div>
+        <div class="time">
+            <span></span><span></span><span></span>
+        </div>
     </div>
 </body>
 

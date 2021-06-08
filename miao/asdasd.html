@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script id="ch0105/03">
+        // 样本均值
+        function sampleAvg(n) {
+            let arr = []
+            let count = 0,
+                sum = 0
+            if (n < 100 && n >= 0) {
+                while (count < n) {
+                    arr[count] = +prompt('共' + n + '个样本，请输入第' + (count + 1) + '个样本。')
+                    if (Math.abs(arr[count]) < 1000) {
+                        count++
+                    } else {
+                        console.log('第' + (count + 1) + '个样本非法，请重新输入')
+                        continue
+                    }
+                }
+                for (let i = 0; i < n; i++) {
+                    sum += arr[i]
+                }
+                return (sum / n).toFixed(4)
+            } else {
+                return '样本容量非法，请重新执行本页面'
+            }
+
+        }
+
+
+        var n = +prompt('请输入样本容量')
+        console.log(sampleAvg(n));
+    </script>
+</body>
+
+</html>

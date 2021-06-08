@@ -1,0 +1,11 @@
+@mixin anim($content) {
+    content: "'"+$content+"'";
+}
+
+@for $i from 1 through 60 {
+    @keyframes identifier {
+        1.67% {
+            @include anim(61-$i);
+        }
+    }
+}
