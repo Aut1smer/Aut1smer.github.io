@@ -9,32 +9,25 @@
 </head>
 
 <body>
-    <script id="ch0105/04">
+    <script id="ch0105/25">
         function fn1() {
-            let n = +prompt('请输入整数个数n，注意应符合条件1 <= n <= 10000')
-            if (n >= 1 && n <= 10000) {
-                let arr = []
-                let count = 0,
-                    sum = 0
-                while (count < n) {
-                    arr[count] = +prompt('共' + n + '个整数，请输入第' + (count + 1) + '个整数\n应注意条件-10000<=x<=10000')
-                    if (Math.abs(arr[count]) <= 10000) {
-                        count++
-                    } else {
-                        console.log('本次输入的整数范围非法')
-                        continue
+            for (let i = 0; i < 3000; i++) {
+
+                let x7 = i.toString(7)
+                let x9 = i.toString(9)
+                if (x7.length === 3 && x9.length === 3) {
+                    x7 = +x7
+                    x9 = +x9
+                    if (x9 == x7 % 10 * 100 + (x7 - x7 % 10) % 100 + Math.floor(x7 / 100)) {
+                        console.log(i);
+                        console.log(x7);
+                        console.log(x9);
+
                     }
                 }
-                for (let i = 0; i < n; i++) {
-                    sum += arr[i]
-                }
-                return sum.toFixed(0) + ' ' + (sum / n).toFixed(5)
-            } else {
-                return '整数个数非法，请重新执行本页面'
             }
-
         }
-        console.log(fn1());
+        fn1()
     </script>
 </body>
 
