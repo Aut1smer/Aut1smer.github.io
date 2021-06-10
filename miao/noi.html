@@ -975,6 +975,7 @@
             return true
         } else if (N === 1) {
             console.log('End');
+            return true
         } else {
             alert('输入的正整数N非法，请刷新页面重试')
             return false
@@ -1089,21 +1090,22 @@
 
             let x7 = i.toString(7)
             let x9 = i.toString(9)
-            if (x7.length === 3 && x9.length === 3) {
-                x7 = +x7
-                x9 = +x9
-                if (x9 == x7 % 10 * 100 + (x7 - x7 % 10) % 100 + Math.floor(x7 / 100)) {
-                    console.log(i);
-                    console.log(x7);
-                    console.log(x9);
-                    break
-                }
+
+            x7 = +x7
+            x9 = +x9
+            if (x9 === x7 % 10 * 100 + (x7 - x7 % 10) % 100 + Math.floor(x7 / 100)) {
+                console.log(i);
+                console.log(x7);
+                console.log(x9);
+
             }
         }
+
     }
     fn1()
 </script>
-<script id="ch0105/26"></script>
+<script id="ch0105/26">
+</script>
 <script id="ch0105/27"></script>
 <script id="ch0105/28"></script>
 <script id="ch0105/29"></script>
