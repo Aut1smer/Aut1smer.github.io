@@ -9,23 +9,34 @@
 </head>
 
 <body>
-    <script id="ch0105/25">
+    <script id="ch0105/39">
         function fn1() {
-            for (let i = 0; i < 1000; i++) {
-
-                let x7 = i.toString(7)
-                let x9 = i.toString(9)
-                    // if (x7.length === 3 && x9.length === 3) {
-                x7 = +x7
-                x9 = +x9
-                if (x9 === x7 % 10 * 100 + (x7 - x7 % 10) % 100 + Math.floor(x7 / 100)) {
-                    console.log(i);
-                    console.log(x7);
-                    console.log(x9);
-
+            let n = +prompt('请输入一个正整数n，n<100')
+            if (n >= 1 && n < 100) {
+                let sum = 0,
+                    isSeven = false
+                for (let i = 1; i <= n; i++) {
+                    // 判断i是否为与7相关数
+                    let test = i.toString()
+                    for (let j = 0; j < test.length; j++) {
+                        if (Number(test) % 7 == 0 || test.charAt[j] == 7) {
+                            isSeven = true
+                            break
+                        }
+                    }
+                    if (!isSeven) {
+                        sum += Math.pow(Number(test), 2)
+                    }
+                    isSeven = false
                 }
+                console.log(sum);
+                return true
+
+
+            } else {
+                alert('输入的n非法，刷新重试')
+                return false
             }
-            // }
         }
         fn1()
     </script>

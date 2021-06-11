@@ -1105,20 +1105,353 @@
     fn1()
 </script>
 <script id="ch0105/26">
+    function fn1() {
+        let n = +prompt('请输入本次输入四位数的个数')
+        let count = 0,
+            num = 0
+        if (n < 0) {
+            alert('输入的个数不合法，请刷新重试');
+            return false
+        }
+        while (count < n) {
+            let four = prompt('请输入第' + (count + 1) + '个四位数')
+            if (four.length === 4) {
+                four = +four
+                if (four > 999) {
+                    four = four.toString()
+                    let thousand = +four.charAt(0)
+                    let hundred = +four.charAt(1)
+                    let decade = +four.charAt(2)
+                    let unit = +four.charAt(3)
+                    if (unit - thousand - hundred - decade > 0) {
+                        num++
+                    }
+                    count++
+                } else {
+                    alert('本次键入的四位数不合理，请重新键入第' + (count + 1) + '个四位数');
+                    continue
+                }
+            } else {
+                alert('键入长度非法，请重新输入第' + (count + 1) + '个四位数');
+                continue
+            }
+        }
+        console.log(num);
+        return true
+    }
+    fn1()
 </script>
-<script id="ch0105/27"></script>
-<script id="ch0105/28"></script>
-<script id="ch0105/29"></script>
-<script id="ch0105/30"></script>
-<script id="ch0105/31"></script>
-<script id="ch0105/32"></script>
-<script id="ch0105/33"></script>
-<script id="ch0105/34"></script>
-<script id="ch0105/35"></script>
-<script id="ch0105/36"></script>
-<script id="ch0105/37"></script>
-<script id="ch0105/38"></script>
-<script id="ch0105/39"></script>
+<script id="ch0105/27">
+    function fn1() {
+        let k = +prompt('请输入一个整数K')
+        if (k >= 1 && k <= 15) {
+            let Sn = 0,
+                n = 0
+            do {
+                n++
+                Sn += 1 / n
+            } while (Sn <= k)
+            console.log(n);
+            return true
+        } else {
+            alert('k的键入非法，请刷洗重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/28">
+    function fn1() {
+        let k = prompt('请输入一个整数k')
+        if (+k <= 100000000 && +k >= 1) {
+            for (let i = k.length - 1; i >= 0; i--) {
+                console.log(k.charAt(i));
+            }
+            return true
+        } else {
+            alert('输入的k非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/29">
+    function fn1() {
+        let oldNum = prompt('请输入一个整数N')
+        if (+oldNum >= -1000000000 && +oldNum <= 1000000000) {
+            let newNum = ''
+            if (+oldNum >= 0) {
+                for (let i = 0; i < oldNum.length; i++) {
+                    newNum += oldNum.charAt(oldNum.length - i - 1)
+                }
+                newNum = +newNum
+                console.log(newNum);
+            } else {
+                newNum = '-'
+                for (let i = 1; i < oldNum.length; i++) {
+                    newNum += oldNum.charAt(oldNum.length - i)
+                }
+                newNum = +newNum
+                console.log(newNum);
+            }
+            return true
+        } else {
+            alert('输入的N非法，请重新输入')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/30">
+    function fn1() {
+        let m = +prompt('请输入一个正整数m，注意m是1<m<100000')
+        let k = +prompt('请输入k，k是1<k<5')
+        if (m > 1 && m < 100000 && k > 1 && k < 5) {
+            if (m % 19 === 0) {
+                let count = 0
+                m = m.toString()
+                for (let i = 0; i < m.length; i++) {
+                    if (+m.charAt(i) === 3) {
+                        count++
+                    }
+                }
+                if (count === k) {
+                    console.log('YES');
+                }
+            } else {
+                console.log('NO');
+            }
+            return true
+        } else {
+            alert('输入的m或k非法，请重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script>
+    function fn1() {
+        let N = +prompt('请输入灯的数量，1<=N<=5000')
+        let M = +prompt('请输入人的数量，1<=M<=' + N)
+        let light = []
+            //1表示on，0表示off
+        for (let i = 0; i < N; i++) {
+            light[i] = 1
+        }
+        for (let i = 1; i <= M; i++) {
+            if (i === 1) {
+                for (let j = 0; j < light.length; j++) {
+                    light[j] = 0
+                }
+            } else {
+                for (let j = 0; j < light.length; j++) {
+                    if ((j + 1) % i === 0) {
+                        light[j] = light[j] === 1 ? 0 : 1
+                    }
+                }
+            }
+        }
+        // 此时第M个人已经操作完了
+        for (let i = 0; i < light.length; i++) {
+            if (light[i] === 0) {
+                console.log(i + 1);
+            }
+        }
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/32">
+    function fn1() {
+        let n = +prompt('请输入前几项和，n是[1,30]')
+        let q = [2]
+        let p = [1]
+        let s = [2]
+        let sum = 0
+        for (let i = 1; i < n; i++) {
+            q[i] = q[i - 1] + p[i - 1]
+            p[i] = q[i - 1]
+            s[i] = q[i] / p[i]
+        }
+        for (let i = 0; i < s.length; i++) {
+            sum += s[i]
+        }
+        console.log(sum.toFixed(4));
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/33">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，1<=n<=1000')
+        let sum = 0
+        if (n >= 1 && n <= 1000) {
+            for (let i = 1; i <= n; i++) {
+                sum += Math.pow(-1, i - 1) * (1 / i)
+            }
+            console.log(sum.toFixed(4));
+            return true
+        } else {
+            alert('n输入的值非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/34">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，1<n<12')
+        let sum = 0,
+            factorial = 1
+        if (n > 1 && n < 12) {
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= i; j++) {
+                    factorial *= j
+                }
+                sum += factorial
+                factorial = 1
+            }
+            console.log(sum);
+            return true
+        } else {
+            alert('输入的n非法，请刷新重试')
+            return fasle
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/35">
+    function fn1() {
+        let n = +prompt('请输入整数n，2<=n<=15')
+        let single = 1
+        let factorial = 1
+        let e = 0
+        if (n >= 2 && n <= 15) {
+            for (let i = 0; i <= n; i++) {
+                if (i == 0) {
+                    single = 1
+                } else {
+                    for (let j = 1; j <= i; j++) {
+                        factorial *= j
+                        single = 1 / factorial
+                    }
+                }
+                e += single
+                factorial = 1
+            }
+            console.log(e.toFixed(10));
+            return true
+        } else {
+            console.log('n的键入非法，请刷新重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/36">
+    function fn1() {
+        let x = +prompt('请输入底数x')
+        let n = +prompt('请输入正整数n作指数，1<=n<=1000000')
+        let sum = 0,
+            single = 1
+
+        if (n >= 1 && n <= 1000000) {
+            for (let i = 0; i <= n; i++) {
+
+                single = Math.pow(x, i)
+                sum += single
+            }
+            console.log(sum.toFixed(2));
+            return true
+        } else {
+            alert('n的取值非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/37">
+    function fn1() {
+        let tmax = +prompt('请输入最大体力值M')
+        let t = 0
+        let force = +prompt('请输入当前战斗力N')
+        let power = +prompt('请输入当前拥有的能量元素x')
+        let day = tmax //最大体力值供应战斗期的天数
+            // let remnant = 0 //当期经验值
+
+        while (power >= 0) {
+            if (t == tmax) {
+                //开始战斗期
+                force += Math.floor(t / force)
+                t = 0 //体力值归零
+            } else {
+                //能量元素补充体力值 1点元素能量补充force点体力
+                power -= Math.ceil(tmax / force)
+                t = tmax
+            }
+        }
+        console.log(force);
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/38">
+    function fn1() {
+        let n = +prompt('请输入f(x)的最高次幂')
+        let arr = []
+        for (let i = 0; i <= n; i++) {
+            // f(x) = C0 + C1x + C2 x^2 +...+Ci x^i
+            let C = +prompt('请输入f(x)第' + (i + 1) + '项的系数C' + (n - i) + '  0<=C' + (n - i) + '<=1000')
+            arr.push(C)
+                // arr [Ci,Ci-1,...,C2,C1,C0] √
+                // arr [C0,C1,C2,...,Ci-1,Ci]
+        }
+        if (n <= 1) {
+            console.log(0);
+        } else {
+            for (let i = 0; i < arr.length - 1; i++) {
+
+                console.log(arr[i] * (n - i));
+
+            }
+        }
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/39">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，n<100')
+        if (n >= 1 && n < 100) {
+            let sum = 0,
+                isSeven = false
+            for (let i = 1; i <= n; i++) {
+                // 判断i是否为与7相关数
+                let test = i.toString()
+                for (let j = 0; j < test.length; j++) {
+                    if (text.charAt[j] == 7 && Number(text) % 7 == 0) {
+                        isSeven = true
+                        break
+                    }
+                }
+                if (isSeven) {
+                    isSeven = false
+                    continue
+                } else {
+                    sum += Math.pow(Number(test), 2)
+                }
+            }
+            console.log(sum);
+            return true
+
+
+        } else {
+            alert('输入的n非法，刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
 <script id="ch0105/40"></script>
 <script id="ch0105/41"></script>
 <script id="ch0105/42"></script>
