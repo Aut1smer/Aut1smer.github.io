@@ -964,10 +964,10 @@
 
             while (N > 1) {
                 if (N & 1 === 1) {
-                    console.log('%s*3+1=%s', N, N * 3 + 1);
+                    console.log('%d*3+1=%d', N, N * 3 + 1);
                     N = N * 3 + 1
                 } else {
-                    console.log('%s/2=%s', N, N / 2);
+                    console.log('%d/2=%d', N, N / 2);
                     N = N / 2
                 }
             }
@@ -1103,8 +1103,8 @@
 
     }
     // fn1()
-    console.log('(无)');
-    console.log('不提供');
+    console.log('（无）');
+    console.log('（不提供）');
 </script>
 <script id="ch0105/26">
     function fn1() {
@@ -1231,7 +1231,7 @@
     }
     fn1()
 </script>
-<script id="ch0105/32">
+<script id="ch0105/31">
     function fn1() {
         let N = +prompt('请输入灯的数量，1<=N<=5000')
         let M = +prompt('请输入人的数量，1<=M<=' + N)

@@ -9,26 +9,27 @@
 </head>
 
 <body>
-    <script id="ch0105/40">
+    <script id="ch0105/38">
         function fn1() {
-            let n = +prompt('请输入一个正整数n，n是[1,10000]')
-            if (n >= 1 && n <= 10000) {
-                let count = 0
-                for (let i = 1; i <= n; i++) {
-                    let test = i.toString()
-                    for (let j = 0; j < test.length; j++) {
-                        if (test.charAt(j) == '1') {
-                            count++
-                        }
-                    }
-                }
-                console.log(count);
-                return true
-
-            } else {
-                console.log('n取值非法');
-                return false
+            let n = +prompt('请输入f(x)的最高次幂')
+            let arr = []
+            for (let i = 0; i <= n; i++) {
+                // f(x) = C0 + C1x + C2 x^2 +...+Ci x^i
+                let C = +prompt('请输入f(x)第' + (i + 1) + '项的系数C' + (n - i) + '  0<=C' + (n - i) + '<=1000')
+                arr.push(C)
+                    // arr [Ci,Ci-1,...,C2,C1,C0] √
+                    // arr [C0,C1,C2,...,Ci-1,Ci]
             }
+            if (n <= 1) {
+                console.log(0);
+            } else {
+                for (let i = 0; i < arr.length - 1; i++) {
+
+                    console.log(arr[i] * (n - i));
+
+                }
+            }
+            return true
         }
         fn1()
     </script>
