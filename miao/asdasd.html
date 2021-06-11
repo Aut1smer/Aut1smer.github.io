@@ -9,30 +9,114 @@
 </head>
 
 <body>
-    <script id="ch0105/38">
-        function fn1() {
-            let n = +prompt('请输入f(x)的最高次幂')
-            let arr = []
-            for (let i = 0; i <= n; i++) {
-                // f(x) = C0 + C1x + C2 x^2 +...+Ci x^i
-                let C = +prompt('请输入f(x)第' + (i + 1) + '项的系数C' + (n - i) + '  0<=C' + (n - i) + '<=1000')
-                arr.push(C)
-                    // arr [Ci,Ci-1,...,C2,C1,C0] √
-                    // arr [C0,C1,C2,...,Ci-1,Ci]
-            }
-            if (n <= 1) {
-                console.log(0);
-            } else {
-                for (let i = 0; i < arr.length - 1; i++) {
-
-                    console.log(arr[i] * (n - i));
-
+    <!-- <script id="ch0105/44">
+        // 如果num是素数，那么能被num整除的就只有1和num两个因子
+        function isPrime(num) {
+            let count = 0 //记录能被num整除的因子数
+            for (let i = 1; i <= num; i++) {
+                if (num % i === 0) {
+                    count++
                 }
             }
-            return true
+            if (count === 2) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        function fn1() {
+            let n = +prompt('请输入一个正整数n')
+            if (n >= 1 && n <= 10000) {
+                // num 表示素数，count表示第几个，prime表示素数
+                let num = 1,
+                    count = 0,
+                    prime = 0
+                while (count < n) {
+                    // 
+                    while (num) {
+                        num++
+                        if (isPrime(num)) {
+                            break
+                        }
+                    }
+
+                    count++
+                }
+                console.log(num);
+                return true
+            } else {
+                alert('n非法，刷新重试')
+                return false
+            }
         }
         fn1()
+    </script> -->
+    <!-- <script id="ch0105/21">
+        function fn1() {
+            let N = +prompt('请输入一个正整数N，注意N应满足[1,2000000]')
+            if (N > 1 && N <= 2000000) {
+
+                while (N > 1) {
+                    if (N & 1 === 1) {
+                        console.log('%d*3+1=%d', N, N * 3 + 1);
+                        N = N * 3 + 1
+                    } else {
+                        console.log('%d/2=%d', N, N / 2);
+                        N = N / 2
+                    }
+                }
+                console.log('End');
+                return true
+            } else if (N === 1) {
+                console.log('End');
+                return true
+            } else {
+                alert('输入的正整数N非法，请刷新页面重试')
+                return false
+            }
+        }
+        fn1()
+    </script> -->
+
+    <script id="ch0105/45">
+        function fn2() {
+            let remnant = +prompt('请输入给定的总天数n') //给定总天数，剩余总天数
+            let sum = 0 //goldSum
+            if (remnant < 1) {
+                alert('总天数n非法,请刷新重试')
+                return false
+            } else {
+                // 整个循环在剩余天数不足时结束
+                // while(remnant>0){
+                // 每经历一个周期T，T.length++
+                for (let T = 1;; T++) {
+                    // 剩余天数支持发满一个周期，在该周期内每天收T个金币
+                    if (remnant >= T) {
+                        for (let i = 1; i <= T; i++) {
+                            sum += T
+                        }
+                        remnant -= T
+                    } else {
+                        // 剩余天数不支持发满一个周期，在该周期内的剩余天数时长里，每天收T个金币
+                        for (let i = 1; i <= remnant; i++) {
+                            sum += T
+                        }
+                        remnant = 0
+                    }
+                    // }
+                    if (remnant == 0) {
+                        break
+                    }
+
+                }
+                console.log(sum);
+                return true
+            }
+        }
+        fn2()
     </script>
+
 </body>
 
 </html>

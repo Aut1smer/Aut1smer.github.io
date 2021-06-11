@@ -802,6 +802,7 @@
     function fn1() {
         let N = +prompt('请输入程序员不吃不喝不交税的年薪N（万），注意N取值[10,50]')
         let K = +prompt('请输入房价每年增长百分比K，注意K取值[1,20]')
+            // 这里设定一开始的手中资金是N万
         let money = N
         let price = 200
         let year = 1
@@ -964,10 +965,10 @@
 
             while (N > 1) {
                 if (N & 1 === 1) {
-                    console.log('%d*3+1=%d', N, N * 3 + 1);
+                    console.log(N + '*3+1=' + N * 3 + 1);
                     N = N * 3 + 1
                 } else {
-                    console.log('%d/2=%d', N, N / 2);
+                    console.log(N + '/2=' + N / 2);
                     N = N / 2
                 }
             }
@@ -1103,7 +1104,7 @@
 
     }
     // fn1()
-    console.log('（无）');
+    let x = prompt()
     console.log('（不提供）');
 </script>
 <script id="ch0105/26">
@@ -1254,11 +1255,13 @@
             }
         }
         // 此时第M个人已经操作完了
+        let result = []
         for (let i = 0; i < light.length; i++) {
             if (light[i] === 0) {
-                console.log(i + 1);
+                result.push(i + 1)
             }
         }
+        console.log(result.toString());
         return true
     }
     fn1()
@@ -1475,8 +1478,179 @@
     }
     fn1()
 </script>
-<script id="ch0105/41"></script>
-<script id="ch0105/42"></script>
-<script id="ch0105/43"></script>
-<script id="ch0105/44"></script>
-<script id="ch0105/45"></script>
+<script id="ch0105/41">
+    function fn1() {
+        let L = +prompt('请输入整数L,L<=R')
+        let R = +prompt('请输入整数R,R>=L')
+        if (L <= R) {
+            let count = 0
+            for (let i = L; i <= R; i++) {
+                let test = i.toString()
+                for (let j = 0; j <= test.length; j++) {
+                    if (test.charAt(j) == '2') {
+                        count++
+                    }
+                }
+            }
+            console.log(count);
+            return true
+        } else {
+            alert('输入的L或R非法，刷新重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/42">
+    function fn1() {
+        let h = +prompt('请输入矩形的高h，3<=h<=10')
+        let w = +prompt('请输入矩形的宽，5<=w<=10')
+        let signal = prompt('请输入画图符号')
+        let isEmpty = (+prompt('请输入是否实心，1代表实心，0代表空心', 0)) === 0 ? true : false
+        for (let i = 1; i <= h; i++) {
+            let rowChar = ''
+            for (let j = 1; j <= w; j++) {
+                if (i == 1 || i == h) {
+                    rowChar += signal
+                } else {
+                    if (!isEmpty) {
+                        rowChar += signal
+                    } else {
+                        if (j == 1 || j == w) {
+                            rowChar += signal
+                        } else {
+                            rowChar += ' '
+                        }
+                    }
+                }
+            }
+            console.log(rowChar);
+        }
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/43">
+    // 如果num是素数，那么能被num整除的就只有1和num两个因子
+    function isPrime(num) {
+        let count = 0 //记录能被num整除的因子数
+        for (let i = 1; i <= num; i++) {
+            if (num % i === 0) {
+                count++
+            }
+        }
+        if (count === 2) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function fn1() {
+        // n [6,1000]
+        let n = +prompt('请输入一个正整数n，n满足是两个不同质数的乘积')
+        if (n >= 6) {
+            let arr = [],
+                maxIndex = 0
+                // 质数范围是[2,n^1/2],把能够被n整除的数的前半部分push到arr中（除了1和n）
+            for (let i = 2; i < Math.sqrt(n); i++) {
+                if (n % i === 0) {
+                    arr.push(i)
+                }
+            }
+            // arr中存储了一半能被n整除的小的数，遍历arr以寻找一个最大的质数
+            for (let j = 0; j < arr.length; j++) {
+                if (isPrime(arr[j]) && isPrime(n / arr[j])) {
+                    maxIndex = n / arr[j] > n / arr[maxIndex] ? j : maxIndex
+                }
+            }
+            console.log(n / arr[maxIndex]);
+            return true
+
+        } else {
+            alert('输入的n非法，刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/44">
+    // 如果num是素数，那么能被num整除的就只有1和num两个因子
+    function isPrime(num) {
+        let count = 0 //记录能被num整除的因子数
+        for (let i = 1; i <= num; i++) {
+            if (num % i === 0) {
+                count++
+            }
+        }
+        if (count === 2) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function fn1() {
+        let n = +prompt('请输入一个正整数n')
+        if (n >= 1 && n <= 10000) {
+            // num 表示素数，count表示第几个，prime表示素数
+            let num = 1,
+                count = 0,
+                prime = 0
+            while (count < n) {
+                // 
+                while (num) {
+                    num++
+                    if (isPrime(num)) {
+                        break
+                    }
+                }
+
+                count++
+            }
+            console.log(num);
+            return true
+        } else {
+            alert('n非法，刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/45">
+    function fn2() {
+        let remnant = +prompt('请输入给定的总天数n') //给定总天数，剩余总天数
+        let sum = 0 //goldSum
+        if (remnant < 1) {
+            alert('总天数n非法,请刷新重试')
+            return false
+        } else {
+            // 整个循环在剩余天数不足时结束
+            // while(remnant>0){
+            // 每经历一个周期T，T.length++
+            for (let T = 1;; T++) {
+                // 剩余天数支持发满一个周期，在该周期内每天收T个金币
+                if (remnant >= T) {
+                    for (let i = 1; i <= T; i++) {
+                        sum += T
+                    }
+                    remnant -= T
+                } else {
+                    // 剩余天数不支持发满一个周期，在该周期内的剩余天数时长里，每天收T个金币
+                    for (let i = 1; i <= remnant; i++) {
+                        sum += T
+                    }
+                    remnant = 0
+                }
+                // }
+                if (remnant == 0) {
+                    break
+                }
+
+            }
+            console.log(sum);
+            return true
+        }
+    }
+    fn2()
+</script>
