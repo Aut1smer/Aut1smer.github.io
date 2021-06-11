@@ -1231,7 +1231,7 @@
     }
     fn1()
 </script>
-<script>
+<script id="ch0105/32">
     function fn1() {
         let N = +prompt('请输入灯的数量，1<=N<=5000')
         let M = +prompt('请输入人的数量，1<=M<=' + N)
@@ -1431,17 +1431,15 @@
                 // 判断i是否为与7相关数
                 let test = i.toString()
                 for (let j = 0; j < test.length; j++) {
-                    if (text.charAt[j] == 7 || Number(text) % 7 == 0) {
+                    if (Number(test) % 7 == 0 || test.charAt(j) == 7) {
                         isSeven = true
                         break
                     }
                 }
-                if (isSeven) {
-                    isSeven = false
-                    continue
-                } else {
+                if (!isSeven) {
                     sum += Math.pow(Number(test), 2)
                 }
+                isSeven = false
             }
             console.log(sum);
             return true
@@ -1454,7 +1452,29 @@
     }
     fn1()
 </script>
-<script id="ch0105/40"></script>
+<script id="ch0105/40">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，n是[1,10000]')
+        if (n >= 1 && n <= 10000) {
+            let count = 0
+            for (let i = 1; i <= n; i++) {
+                let test = i.toString()
+                for (let j = 0; j < test.length; j++) {
+                    if (test.charAt(j) == '1') {
+                        count++
+                    }
+                }
+            }
+            console.log(count);
+            return true
+
+        } else {
+            console.log('n取值非法');
+            return false
+        }
+    }
+    fn1()
+</script>
 <script id="ch0105/41"></script>
 <script id="ch0105/42"></script>
 <script id="ch0105/43"></script>
