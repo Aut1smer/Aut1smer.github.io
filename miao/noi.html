@@ -1102,7 +1102,9 @@
         }
 
     }
-    fn1()
+    // fn1()
+    console.log('(无)');
+    console.log('不提供');
 </script>
 <script id="ch0105/26">
     function fn1() {
@@ -1429,7 +1431,7 @@
                 // 判断i是否为与7相关数
                 let test = i.toString()
                 for (let j = 0; j < test.length; j++) {
-                    if (text.charAt[j] == 7 && Number(text) % 7 == 0) {
+                    if (text.charAt[j] == 7 || Number(text) % 7 == 0) {
                         isSeven = true
                         break
                     }
