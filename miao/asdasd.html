@@ -6,117 +6,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+
+    </style>
 </head>
 
 <body>
-    <!-- <script id="ch0105/44">
-        // 如果num是素数，那么能被num整除的就只有1和num两个因子
-        function isPrime(num) {
-            let count = 0 //记录能被num整除的因子数
-            for (let i = 1; i <= num; i++) {
-                if (num % i === 0) {
-                    count++
-                }
+    <script>
+        //    数一下数值n的十进制中的数位中有多少个3
+        function count3(n) {
+            n = n.toString()
+            let count = 0
+            for (let i = 0; i < n.length; i++) {
+                count += n.charAt(i) == '3' ? 1 : 0
             }
-            if (count === 2) {
-                return true
-            } else {
-                return false
-            }
+            return count
         }
 
-        function fn1() {
-            let n = +prompt('请输入一个正整数n')
-            if (n >= 1 && n <= 10000) {
-                // num 表示素数，count表示第几个，prime表示素数
-                let num = 1,
-                    count = 0,
-                    prime = 0
-                while (count < n) {
-                    // 
-                    while (num) {
-                        num++
-                        if (isPrime(num)) {
-                            break
-                        }
-                    }
-
-                    count++
-                }
-                console.log(num);
-                return true
-            } else {
-                alert('n非法，刷新重试')
-                return false
-            }
+        function count3_2(n) {
+            let count = 0
+            do {
+                let digit = n % 10
+                count += digit === 3 ? 1 : 0
+                n = (n - digit) / 10
+            } while (n)
+            return count
         }
-        fn1()
-    </script> -->
-    <!-- <script id="ch0105/21">
-        function fn1() {
-            let N = +prompt('请输入一个正整数N，注意N应满足[1,2000000]')
-            if (N > 1 && N <= 2000000) {
+        let num1 = 314342
+        let num2 = 113833
+        let num3 = 11112
+        console.log(count3(num1));
+        console.log(count3(num2));
+        console.log(count3(num3));
 
-                while (N > 1) {
-                    if (N & 1 === 1) {
-                        console.log('%d*3+1=%d', N, N * 3 + 1);
-                        N = N * 3 + 1
-                    } else {
-                        console.log('%d/2=%d', N, N / 2);
-                        N = N / 2
-                    }
+        // 判断一个数是否是素数
+        function isPrime(n) {
+            let count = 0
+            let len = Math.sqrt(n)
+            for (let i = 2; i <= len; i++) {
+                count += n % i === 0 ? 1 : 0
+                if (!count) {
+                    return true
                 }
-                console.log('End');
-                return true
-            } else if (N === 1) {
-                console.log('End');
-                return true
-            } else {
-                alert('输入的正整数N非法，请刷新页面重试')
-                return false
             }
+            return false
         }
-        fn1()
-    </script> -->
-
-    <script id="ch0105/45">
-        function fn2() {
-            let remnant = +prompt('请输入给定的总天数n') //给定总天数，剩余总天数
-            let sum = 0 //goldSum
-            if (remnant < 1) {
-                alert('总天数n非法,请刷新重试')
-                return false
-            } else {
-                // 整个循环在剩余天数不足时结束
-                // while(remnant>0){
-                // 每经历一个周期T，T.length++
-                for (let T = 1;; T++) {
-                    // 剩余天数支持发满一个周期，在该周期内每天收T个金币
-                    if (remnant >= T) {
-                        for (let i = 1; i <= T; i++) {
-                            sum += T
-                        }
-                        remnant -= T
-                    } else {
-                        // 剩余天数不支持发满一个周期，在该周期内的剩余天数时长里，每天收T个金币
-                        for (let i = 1; i <= remnant; i++) {
-                            sum += T
-                        }
-                        remnant = 0
-                    }
-                    // }
-                    if (remnant == 0) {
-                        break
-                    }
-
-                }
-                console.log(sum);
-                return true
+        // 求出斐波那契数列的第n项
+        function fibbonacci(n) {
+            if (n === 1 || n === 2) {
+                return 1
             }
+            return fibbonacci(n - 1) + fibbonacci(n - 2)
         }
-        fn2()
+
+        function fibbonacci_2(n) {
+            if (n === 1 || n === 2) {
+                return 1
+            }
+            let c = 0,
+                a = 1,
+                b = 1
+            for (let i = 3; i <= n; i++) {
+                c = a + b
+                a = b
+                b = c
+            }
+            return c
+        }
+        console.log(fibbonacci(5));
+        console.log(fibbonacci_2(5));
     </script>
-
 </body>
 
 </html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script id="weekday">
+        function weekday(year, month) {
+            let nowYear = 2021
+            let nowMonth = 6
+            let thisWeek = 2
+            let diffDay = 0
+
+            // 先考虑不同年的不同月份
+            if (year !== nowYear) {
+                for (let i = Math.min(year, nowYear); i < Math.max(nowYear, year); i++) {
+                    if (isLeapYear(i)) {
+                        diffDay += 366
+                    } else {
+                        diffDay += 365
+                    }
+                }
+                if (year < nowYear) {
+                    // 在本年之前
+                    diffDay = diffDay + diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, year)
+                    return (diffDay % 7 - thisWeek + 7) % 7
+                } else {
+                    // 在本年之后
+                    diffDay = diffDay + diffMonth(month - 1, year) - diffMonth(nowMonth - 1, nowYear)
+                    return (diffDay % 7 + thisWeek) % 7
+                }
+            } else {
+                // 同年不同月
+                diffDay = Math.abs(diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, nowYear))
+                if (month <= nowMonth) {
+                    return (diffDay % 7 - thisWeek + 7) % 7
+                } else {
+                    return (diffDay % 7 + thisWeek) % 7
+                }
+            }
+            // 得到天数差异
+
+        }
+        // 辅助函数输出到几月的共天数
+        function diffMonth(reqMon, year) {
+            let diffDay = 0
+            switch (reqMon) {
+                case 0:
+                    diffDay = 0
+                    break
+                case 1:
+                    diffDay = 31
+                    break
+                case 2:
+                    diffDay = isLeapYear(year) ? 60 : 59
+                    break
+                case 3:
+                    diffDay = isLeapYear(year) ? 91 : 90
+                    break
+                case 4:
+                    diffDay = isLeapYear(year) ? 121 : 120
+                    break
+                case 5:
+                    diffDay = isLeapYear(year) ? 152 : 151
+                    break
+                case 6:
+                    diffDay = isLeapYear(year) ? 182 : 181
+                    break
+                case 7:
+                    diffDay = isLeapYear(year) ? 213 : 212
+                    break
+                case 8:
+                    diffDay = isLeapYear(year) ? 244 : 243
+                    break
+                case 9:
+                    diffDay = isLeapYear(year) ? 274 : 273
+                    break
+                case 10:
+                    diffDay = isLeapYear(year) ? 304 : 303
+                    break
+                case 11:
+                    diffDay = isLeapYear(year) ? 335 : 334
+                    break
+            }
+            return diffDay
+        }
+        // 辅助函数是否闰年，影响二月天数
+        function isLeapYear(year) {
+            if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+                return true
+            }
+            return false
+        }
+        let y = +prompt('请输入年份')
+        let m = +prompt('请输入月份')
+        console.log(weekday(y, m));
+    </script>
+</body>
+
+</html>

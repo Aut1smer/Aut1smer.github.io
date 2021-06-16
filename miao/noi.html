@@ -1180,6 +1180,7 @@
 </script>
 <script id="ch0105/29">
     function fn1() {
+        // 如果使用纯数字解决反转问题，可以只处理正值的情况并把符号位存在一个变量中。处理正值时就只需要将余数拼接时新数乘10加起来即可
         let oldNum = prompt('请输入一个整数N')
         if (+oldNum >= -1000000000 && +oldNum <= 1000000000) {
             let newNum = ''
@@ -1324,6 +1325,17 @@
         }
     }
     fn1()
+
+    function fn2() {
+        let n = +prompt('请输入一个正整数n，1<n<12')
+        let sum = 0,
+            factorial = 1
+        for (let i = 1; i <= n; i++) {
+            factorial *= i
+            sum += factorial
+        }
+        console.log(sum);
+    }
 </script>
 <script id="ch0105/35">
     function fn1() {
@@ -1539,18 +1551,41 @@
         }
         return true
     }
-    fn1()
+    // fn1()
+    function fn2() {
+        let h = +prompt('请输入矩形的高h，3<=h<=10')
+        let w = +prompt('请输入矩形的宽，5<=w<=10')
+        let signal = prompt('请输入画图符号')
+        let fill = (+prompt('请输入是否实心，1代表实心，0代表空心', 0)) === 0 ? true : false
+        let char = ''
+        for (let y = 1; y <= h; y++) {
+            for (let x = 1; x <= w; x++) {
+                if (fill) {
+                    char += signal
+                } else {
+                    if (x === 1 || x === w || y === 1 || y === h) {
+                        char += signal
+                    } else {
+                        char += ' '
+                    }
+                }
+            }
+            char += '\n'
+        }
+        console.log(char);
+    }
 </script>
 <script id="ch0105/43">
     // 如果num是素数，那么能被num整除的就只有1和num两个因子
     function isPrime(num) {
         let count = 0 //记录能被num整除的因子数
-        for (let i = 1; i <= num; i++) {
+        let len = Math.sqrt(num)
+        for (let i = 2; i <= len; i++) {
             if (num % i === 0) {
                 count++
             }
         }
-        if (count === 2) {
+        if (count === 0) {
             return true
         } else {
             return false
@@ -1664,4 +1699,342 @@
         }
     }
     fn2()
+</script>
+
+<script id="narcissistic">
+    function narcissistic(k) {
+        let arr = []
+        let origin = k,
+            sum = 0
+        while (k) {
+            arr.unshift(k % 10)
+            k = (k - k % 10) / 10
+
+        }
+        let len = arr.length
+        for (let i = 0; i < len; i++) {
+            sum += Math.pow(arr[i], len)
+        }
+        if (sum === origin) {
+            return true
+        }
+        return false
+    }
+    let k = +prompt('请输入一个数测试是否是水仙花数')
+    console.log(narcissistic(k));
+</script>
+
+<script id="narcissistics">
+    //测试一个数是否为水仙花数
+    function narcissistic(k) {
+        let power = k.toString().length
+        let sum = 0,
+            origin = k
+        while (k) {
+            let digit = k % 10
+            sum += Math.pow(digit, power)
+            k = (k - k % 10) / 10
+        }
+        if (sum === origin) {
+            return true
+        }
+        return false
+    }
+    // 输出n以内的水仙花数
+    function narcissistics(n) {
+        let count = 0
+        for (let i = 100; i <= n; i++) {
+            if (narcissistic(i)) {
+                console.log(i);
+            }
+        }
+        return true
+    }
+    let range = +prompt('请输入范围n')
+    narcissistics(range)
+</script>
+<script id="palindrom">
+    // 判断一个数是否为回文数字
+    function palindrom(k) {
+        let left = 0
+        let right = k.toString().length - 1
+        k = k.toString()
+        while (left <= right) {
+            if (k.charAt(left) !== k.charAt(right)) {
+                return false
+            }
+            left++
+            right--
+        }
+        return true
+    }
+    let n = +prompt('请输入一个数字验证是否为回文数字')
+    console.log(palindrom(n));
+</script>
+<script id="complete-number">
+    // 判断一个数是否是完全数
+    function complete_number(k) {
+        let sum = 0
+        for (let i = 1; i < k; i++) {
+            if (k % i === 0) {
+                sum += i
+            }
+        }
+        if (sum === k) {
+            return true
+        }
+        return false
+    }
+    let n = +prompt('请输入一个数以测试是否是完全数')
+    console.log(complete_number(n));
+</script>
+<script id="complete-numbers">
+    // 输出1000以内的完全数  6 28 496 8128..
+    function complete_number(k) {
+        let sum = 0
+        for (let i = 1; i < k; i++) {
+            if (k % i === 0) {
+                sum += i
+            }
+        }
+        if (sum === k) {
+            return true
+        }
+        return false
+    }
+
+    function complete_numbers(n) {
+        for (let i = 1; i <= n; i++) {
+            if (complete_number(i)) {
+                console.log(i);
+            }
+        }
+        return true
+    }
+    let n = +prompt('请输入范围')
+    complete_numbers(n)
+</script>
+<script id="prime">
+    // 判断一个数是否是素数
+    function isPrime(k) {
+        let len = Math.sqrt(k)
+        for (let i = 2; i <= len; i++) {
+            if (k % i === 0) {
+                return false
+            }
+        }
+        return true
+    }
+    let k = +prompt('请输入一个数测试是否为素数')
+    console.log(isPrime(k));
+</script>
+<script id="primes">
+    // 输出1000以内的素数
+    function isPrime(k) {
+        let len = Math.sqrt(k)
+        for (let i = 2; i <= len; i++) {
+            if (k % i === 0) {
+                return false
+            }
+        }
+        return true
+    }
+
+    function primes(n) {
+        for (let i = 1; i <= n; i++) {
+            if (isPrime(i)) {
+                console.log(i);
+            }
+        }
+        return true
+    }
+    let n = +prompt('请输入一个范围n')
+    primes(n)
+</script>
+<script id="lcf&lcm">
+    // lcf最大公约数 lcm最小公倍数
+    function lcf_lcm(k1, k2) {
+        let lcf = 0,
+            lcm = Math.max(k1, k2)
+        for (let i = k1; i > 0; i--) {
+            if (k1 % i === 0 && k2 % i === 0) {
+                lcf = i
+                break
+            }
+        }
+        while (lcm) {
+            if (lcm % k1 === 0 && lcm % k2 === 0) {
+                break
+            }
+            lcm++
+        }
+        console.log(lcf);
+        console.log(lcm);
+        return lcf + ' ' + lcm
+    }
+    lcf_lcm(18, 24)
+</script>
+<script id="sqrt">
+    function sqrt(k) {
+        // 小数点后count位
+        let count = 16
+            // k>1时
+        if (k >= 1) {
+            // 根据 sqrt(x)和x/2可知，x=4时是两函数交点，为减少运行时间选择增大空间复杂度
+            if (k <= 4) {
+                for (let i = 1; i < k; i++) {
+                    if (i ** 2 === k) {
+                        return i
+                    } else if (i ** 2 < k && (i + 1) ** 2 > k) {
+                        let float = 1 / 2
+                        while (count) {
+                            if ((Math.floor(i) + float) ** 2 == k) {
+                                return Math.floor(i) + float
+                            } else if ((Math.floor(i) + float) ** 2 > k) {
+                                float /= 2
+                                count--
+                            } else {
+                                float += float / 2
+                                count--
+                            }
+                        }
+                        return i + float
+                    }
+                }
+            } else if (k > 4) {
+                let len = k / 2
+                    // 同上代码再来一次
+                for (let i = 1; i < len; i++) {
+                    if (i ** 2 === k) {
+                        return i
+                    } else if (i ** 2 < k && (i + 1) ** 2 > k) {
+                        let float = 1 / 2
+                        while (count) {
+                            if ((Math.floor(i) + float) ** 2 == k) {
+                                return Math.floor(i) + float
+                            } else if ((Math.floor(i) + float) ** 2 > k) {
+                                float /= 2
+                                count--
+                            } else {
+                                float += float / 2
+                                count--
+                            }
+                        }
+                        return i + float
+                    }
+                }
+            }
+        } else {
+            // 0<k<1时
+            let float = 1 / 2
+            while (count) {
+                if (float ** 2 === k) {
+                    return float
+                } else if (float ** 2 < k) {
+                    float += float / 2
+                    count--
+                } else {
+                    float /= 2
+                    count--
+                }
+            }
+            return float
+        }
+
+
+    }
+    let k = +prompt('请输入一个数，以求出其平方根')
+    console.log(sqrt(k));
+</script>
+
+<script id="weekday">
+    function weekday(year, month) {
+        let nowYear = 2021
+        let nowMonth = 6
+        let thisWeek = 2
+        let diffDay = 0
+
+        // 先考虑不同年的不同月份
+        if (year !== nowYear) {
+            for (let i = Math.min(year, nowYear); i < Math.max(nowYear, year); i++) {
+                if (isLeapYear(i)) {
+                    diffDay += 366
+                } else {
+                    diffDay += 365
+                }
+            }
+            if (year < nowYear) {
+                // 在本年之前
+                diffDay = diffDay + diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, year)
+                return (diffDay % 7 - thisWeek + 7) % 7
+            } else {
+                // 在本年之后
+                diffDay = diffDay + diffMonth(month - 1, year) - diffMonth(nowMonth - 1, nowYear)
+                return (diffDay % 7 + thisWeek) % 7
+            }
+        } else {
+            // 同年不同月
+            diffDay = Math.abs(diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, nowYear))
+            if (month <= nowMonth) {
+                return (diffDay % 7 - thisWeek + 7) % 7
+            } else {
+                return (diffDay % 7 + thisWeek) % 7
+            }
+        }
+        // 得到天数差异
+
+    }
+    // 辅助函数输出到几月的共天数
+    function diffMonth(reqMon, year) {
+        let diffDay = 0
+        switch (reqMon) {
+            case 0:
+                diffDay = 0
+                break
+            case 1:
+                diffDay = 31
+                break
+            case 2:
+                diffDay = isLeapYear(year) ? 60 : 59
+                break
+            case 3:
+                diffDay = isLeapYear(year) ? 91 : 90
+                break
+            case 4:
+                diffDay = isLeapYear(year) ? 121 : 120
+                break
+            case 5:
+                diffDay = isLeapYear(year) ? 152 : 151
+                break
+            case 6:
+                diffDay = isLeapYear(year) ? 182 : 181
+                break
+            case 7:
+                diffDay = isLeapYear(year) ? 213 : 212
+                break
+            case 8:
+                diffDay = isLeapYear(year) ? 244 : 243
+                break
+            case 9:
+                diffDay = isLeapYear(year) ? 274 : 273
+                break
+            case 10:
+                diffDay = isLeapYear(year) ? 304 : 303
+                break
+            case 11:
+                diffDay = isLeapYear(year) ? 335 : 334
+                break
+        }
+        return diffDay
+    }
+    // 辅助函数是否闰年，影响二月天数
+    function isLeapYear(year) {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+            return true
+        }
+        return false
+    }
+    let y = +prompt('请输入年份')
+    let m = +prompt('请输入月份')
+    console.log(weekday(y, m));
 </script>
