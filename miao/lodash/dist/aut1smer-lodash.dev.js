@@ -1,5 +1,7 @@
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var aut1smer = function () {
   //将ary拆分成size长度的区块，返回拆分后的二维数组
   function chunk(ary) {
@@ -233,14 +235,206 @@ var aut1smer = function () {
     return res;
   }
 
-  function unzip() {}
+  function unzip(ary) {
+    var res = [];
+    var len = ary[0].length;
+
+    for (var i = 0; i < len; i++) {
+      var temp = [];
+
+      for (var j = 0; j < ary.length; j++) {
+        temp.push(ary[j][i]);
+      }
+
+      res.push(temp);
+    }
+
+    return res;
+  }
+
+  function every(ary, test) {
+    var len = ary.length;
+
+    for (var i = 0; i < len; i++) {
+      if (!test(ary[i], i)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function every2(ary, test) {
+    return ary.reduce(function (res, item, idx) {
+      return res && test(item, idx);
+    }, true);
+  }
+
+  function every3(ary, test) {
+    return !some(ary, function (item, idx) {
+      return !test(item, idx);
+    });
+  }
+
+  function some(ary, test) {
+    var len = ary.length;
+
+    for (var i = 0; i < len; i++) {
+      if (test(ary[i], i)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function some2(ary, test) {
+    return ary.reduce(function (res, item, idx) {
+      return res || test(item, idx);
+    }, false);
+  }
+
+  function fill(ary, value) {
+    var start = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var end = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ary.length;
+
+    for (var i = start; i < end; i++) {
+      ary[i] = value;
+    }
+
+    return ary;
+  }
+
+  function reverse(ary) {
+    var left = 0,
+        right = ary.length - 1;
+
+    while (left < right) {
+      var temp = ary[left];
+      ary[left] = ary[right];
+      ary[right] = temp;
+      left++;
+      right--;
+    }
+
+    return ary;
+  }
+
+  function isEqual(a, b) {
+    if (a === b) {
+      return true;
+    }
+
+    var typea = _typeof(a);
+
+    var typeb = _typeof(b);
+
+    if (typea !== typeb) {
+      //类型不同
+      return false;
+    } else {
+      //类型相同,同为obj
+      if (typea === 'object') {
+        //数组、对象
+        if (Array.isArray(a) + Array.isArray(b) == 1) {
+          //一个数组一个不是数组
+          return false;
+        }
+
+        if (Array.isArray(a)) {
+          //两个数组
+          if (a.length !== b.length) {
+            return false;
+          }
+        } else {
+          //两个对象
+          if (Object.keys(a).length !== Object.keys(b).length) {
+            return false;
+          }
+        }
+
+        for (var key in a) {
+          if (!(key in b)) {
+            return false;
+          }
+
+          if (!isEqual(a[key], b[key])) {
+            return false;
+          }
+        }
+
+        return true;
+      } else {
+        return a === b;
+      }
+    }
+  }
+
+  function toArray(value) {
+    var res = [],
+        type = _typeof(value);
+
+    if (type === 'object') {
+      for (var k in value) {
+        res.push(value[k]);
+      }
+    } else if (type === 'string') {
+      for (var i = 0; i < value.length; i++) {
+        res.push(value[i]);
+      }
+    }
+
+    return res;
+  }
+
+  function sum(ary) {
+    var res = 0;
+
+    for (var i = 0; i < ary.length; i++) {
+      res += ary[i];
+    }
+
+    return res;
+  }
+
+  function sum2(ary) {
+    return ary.reduce(function (res, item) {
+      return res + item;
+    });
+  }
+
+  function sumBy(ary, predicate) {
+    if (typeof predicate === 'function') {
+      return ary.reduce(function (res, item, idx) {
+        return res + predicate(item, idx);
+      }, 0); //必须从0开始
+    } else {
+      return ary.reduce(function (res, item) {
+        return res + item[predicate];
+      }, 0);
+    }
+  }
+
+  function sumBy2(ary, predicate) {
+    var res = 0;
+
+    for (var i = 0; i < ary.length; i++) {
+      if (typeof predicate === 'function') {
+        res += predicate(ary[i], i);
+      } else {
+        res += ary[i][predicate];
+      }
+    }
+
+    return res;
+  }
 
   return {
     chunk: chunk,
     compact: compact,
     concat: concat,
-    // unique: unique,
-    // uniqueBy: uniqueBy,
+    unique: unique,
+    uniqueBy: uniqueBy,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     groupBy: groupBy,
@@ -250,24 +444,24 @@ var aut1smer = function () {
     filter: filter,
     reduce: reduce,
     zip: zip,
-    unzip: unzip // keys: keys,
-    // values: values,
-    // every: every,
-    // some: some,
-    // fill: fill,
-    // sortBy: sortBy,
-    // isEqual: isEqual,
-    // reverse: reverse,
-    // countBy: countBy,
-    // reduceRight: reduceRight,
-    // shuffle: shuffle,
-    // isNaN: isNaN,
-    // isNull: isNull,
-    // isNil: isNil,
-    // isUndefined: isUndefined,
-    // toArray: toArray,
-    // sum: sum,
-    // sumBy: sumBy,
-
+    unzip: unzip,
+    keys: keys,
+    values: values,
+    every: every,
+    some: some,
+    fill: fill,
+    sortBy: sortBy,
+    isEqual: isEqual,
+    reverse: reverse,
+    countBy: countBy,
+    reduceRight: reduceRight,
+    shuffle: shuffle,
+    isNaN: isNaN,
+    isNull: isNull,
+    isNil: isNil,
+    isUndefined: isUndefined,
+    toArray: toArray,
+    sum: sum,
+    sumBy: sumBy
   };
 }();
