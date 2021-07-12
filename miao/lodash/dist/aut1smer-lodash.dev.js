@@ -646,12 +646,64 @@ var aut1smer = function () {
     return res;
   }
 
+  function unique(ary) {
+    var set = new Set();
+
+    for (var i = 0; i < ary.length; i++) {
+      if (set.has(ary[i])) {
+        continue;
+      } else {
+        set.add(ary[i]);
+      }
+    }
+
+    var res = [];
+    set.forEach(function (item) {
+      res.push(item);
+    });
+    return res;
+  }
+
+  function uniqueBy(ary, predicate) {
+    var hashmap = new Map();
+
+    if (typeof predicate === 'function') {
+      for (var i = 0; i < ary.length; i++) {
+        var key = predicate(ary[i], i);
+
+        if (hashmap.has(key)) {
+          continue;
+        } else {
+          hashmap.set(key, ary[i]);
+        }
+      }
+    } else {
+      //谓词视作对象的属性
+      for (var _i4 = 0; _i4 < ary.length; _i4++) {
+        var _key3 = ary[_i4][predicate];
+
+        if (hashmap.has(_key3)) {
+          continue;
+        } else {
+          hashmap.set(_key3, ary[_i4]);
+        }
+      }
+    } //填入完毕，进行输出
+
+
+    var res = [];
+    hashmap.forEach(function (value, key) {
+      res.push(value);
+    });
+    return res;
+  }
+
   return {
     chunk: chunk,
     compact: compact,
     concat: concat,
-    // unique: unique,
-    // uniqueBy: uniqueBy,
+    unique: unique,
+    uniqueBy: uniqueBy,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     groupBy: groupBy,

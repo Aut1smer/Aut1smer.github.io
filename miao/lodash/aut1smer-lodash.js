@@ -547,14 +547,63 @@ var aut1smer = function() {
     }
 
 
+    function unique(ary) {
+        let set = new Set()
+        for (let i = 0; i < ary.length; i++) {
+            if (set.has(ary[i])) {
+                continue
+            } else {
+                set.add(ary[i])
+            }
+        }
+
+        let res = []
+        set.forEach(item => {
+            res.push(item)
+        })
+        return res
+    }
+
+    function uniqueBy(ary, predicate) {
+        let hashmap = new Map()
+
+        if (typeof predicate === 'function') {
+            for (let i = 0; i < ary.length; i++) {
+                let key = predicate(ary[i], i)
+                if (hashmap.has(key)) {
+                    continue
+                } else {
+                    hashmap.set(key, ary[i])
+                }
+            }
+
+        } else { //谓词视作对象的属性
+            for (let i = 0; i < ary.length; i++) {
+                let key = ary[i][predicate]
+                if (hashmap.has(key)) {
+                    continue
+                } else {
+                    hashmap.set(key, ary[i])
+                }
+            }
+        }
+        //填入完毕，进行输出
+        let res = []
+        hashmap.forEach((value, key) => {
+            res.push(value)
+        })
+        return res
+
+    }
+
 
 
     return {
         chunk: chunk,
         compact: compact,
         concat: concat,
-        // unique: unique,
-        // uniqueBy: uniqueBy,
+        unique: unique,
+        uniqueBy: uniqueBy,
         flattenDeep: flattenDeep,
         flattenDepth: flattenDepth,
         groupBy: groupBy,
