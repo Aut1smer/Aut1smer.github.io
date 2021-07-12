@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //val值
+        //test测试函数，当循环时测试函数执行结果为false停止
+        //main执行主体
+        //update更新函数
+        function loop(val, test, update, main) {
+            for (let i = val;;) {
+                if (!test(i)) {
+                    break
+                }
+                main(i)
+                i = update(i)
+            }
+        }
+        loop(3, n => n > 0, n => n - 1, console.log)
+    </script>
+</body>
+
+</html>

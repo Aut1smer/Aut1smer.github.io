@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //把数组扁平化
+        let ary2d = [
+            [1, 2, 3],
+            [4, 5],
+            [6]
+        ]
+        let ary5d = [
+                [1],
+                [
+                    [2]
+                ],
+                [
+                    [
+                        [3]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            [4]
+                        ]
+                    ]
+                ],
+                [
+                    [
+                        [
+                            [
+                                [5]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+            //2d展开 深层展开。数组最终展开成[1,2,3,4,5,6]
+
+
+
+        // --------------2d展开-------------------------
+
+
+        //纯函数  
+        function flattenPure1(ary) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                if (Array.isArray(ary[i])) {
+                    let subAry = ary[i]
+                    for (let j = 0; j < subAry.length; j++) {
+                        res.push(subAry[j])
+                    }
+                } else {
+                    res.push(res[i])
+                }
+            }
+            return res
+        }
+
+
+        //纯函数+concat   concat(1,2,3,[4,5,[6]]) = [1,2,3,4,5,[6]]
+        function flattenPure2(ary) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                res = res.concat(ary[i]) //concat返回新数组
+            }
+            return res
+        }
+
+        // 高阶函数 展开一层
+        function flattenHigh(ary) {
+            return ary.reduce((accum, item) => accum.concat(item), [])
+        }
+
+        // 剩余参数展开
+        function flattenRestParam(ary) {
+            return [].concat(...ary)
+        }
+        // apply接数组展开
+        function flattenApply(ary) {
+            return [].concat.apply([], ary) //注意这里的作用域应当指向[]对象
+        }
+
+
+
+        // --------------2d展开结束-------------------------
+
+
+
+
+
+
+
+
+        // --------------深度展平为一维数组-------------------------
+
+
+
+        //push
+        function flattenDeep1(ary) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                let item = ary[i]
+                if (Array.isArray(item)) {
+                    item = flattenDeep1(item) //此时item就是被展平的一维数组
+                    for (let j = 0; j < item.length; j++) {
+                        res.push(item[j])
+                    }
+                } else {
+                    res.push(ary[i])
+                }
+            }
+            return res
+        }
+
+        //concat
+        function flattenDeep2(ary) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                res = res.concat(Array.isArray(ary[i]) ? flattenDeep2(ary[i]) : ary[i])
+            }
+            return res
+        }
+
+
+        //高阶函数
+        function flattenDeepHigh(ary) {
+            return ary.reduce((accum, item) => {
+                return accum.concat(Array.isArray(item) ? flattenDeepHigh(item) : item)
+            }, [])
+        }
+
+        // --------------深度展平为一维数组结束-------------------------
+
+
+
+
+
+
+
+        //flattenDepth 根据depth的大小，决定展平多少层并返回
+        function flattenDepth(ary, depth = Infinity) {
+            if (depth == 0) {
+                return ary.slice() //为什么这里不是[]而是ary
+            }
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                let item = ary[i]
+                if (Array.isArray(item)) {
+                    item = flattenDepth(item, depth - 1) //此时item就是被展平的一维数组
+                    for (let j = 0; j < item.length; j++) {
+                        res.push(item[j])
+                    }
+                } else {
+                    res.push(ary[i])
+                }
+            }
+            return res
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function range(start, end, step = end >= start ? 1 : -1) {
+            if (arguments.length === 1) { //只有一个参数
+                end = start
+                start = 0
+            }
+
+            if (step === undefined) { //没有传step参数
+                if (start <= end) {
+                    step = 1
+                } else {
+                    step = -1
+                }
+            }
+            let res = [] //接收start到end（包括）的所有数字
+            if (start <= end && step >= 0) {
+                for (let i = start; i < end; i += step) {
+                    res.push(i)
+                }
+            } else
+            if (start > end && step < 0) {
+                for (let i = start; i > end; i += step) {
+                    res.push(i)
+                }
+            }
+            return res
+        }
+        //谢然版本
+        function rangeXieran(start, end, step) {
+            if (arguments.length === 1) { // 只传了一个参数
+                end = start
+                start = 0
+            }
+            if (step === undefined) { // 没有传第三个参数
+                if (end > start) {
+                    step = 1
+                } else {
+                    step = -1
+                }
+            }
+            var result = []
+
+            if (end > start) {
+                if (step < 0) {
+                    return result
+                }
+                for (var i = start; i < end; i += step) {
+                    result.push(i)
+                }
+            } else {
+                if (step > 0) {
+                    return result
+                }
+                for (var i = start; i > end; i += step) {
+                    result.push(i)
+                }
+            }
+            return result
+        }
+
+        function sum(ary) {
+            let len = ary.length
+            let res = 0
+            for (let i = 0; i < len; i++) {
+                res += ary[i]
+            }
+            return res
+        }
+    </script>
+</body>
+
+</html>

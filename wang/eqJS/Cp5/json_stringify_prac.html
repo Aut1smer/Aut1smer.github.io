@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+    <code>
+
+  
+    <!-- <script> -->
+        //实现 JSON.stringify(value)函数，把JSON数据类型转换成一个字符串
+        //转换结果：属性名要加双引号、字符串要加双引号、NaN转换成null、undefined消失、null消失、没有表达式（全是直接量）、双引号内没有明文的tab符
+        function stringify(value) {
+            if (Array.isArray(value)) {
+                let str = '['
+                for (let i = 0; i < value.length; i++) {
+                    str += stringify(value[i]) + ','
+                }
+                str = str.slice(0, -1)
+                str += ']'
+                return str
+            }
+            if (value === 'null') { // null转为null，null是object类型
+                return 'null'
+            }
+            if (typeof value === 'object') {
+                let str = '{'
+                for (let k in value) {
+                    if (value[k] === undefined) {
+                        continue
+                    }
+                    str += '"' + k + '":' + stringify(value[k]) + ','
+                }
+                str += '}'
+                return str
+            }
+
+            if (typeof value === 'string') {
+                return '"' + value + '"'
+            }
+
+            if (typeof value === 'number') { //包括了NaN、+-Infinity
+                if (value !== value || Math.abs(value) == Infinity) {
+                    return 'null'
+                }
+                return String(value)
+            }
+
+            if (typeof value === 'boolean') {
+                return value ? 'true' : 'false'
+            }
+
+        }
+  </code>
+  </pre>
+</body>
+
+</html>

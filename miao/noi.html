@@ -1898,24 +1898,26 @@
 
     // 辗转相除法计算lcm_lcf  Euclidean Algorithm 
     function gcd(k1, k2) {
-        k1 = Math.max(k1, k2)
-        k2 = Math.min(k1, k2)
-        let initialK1 = k1
-        let initialK2 = k2
-        let remnant = k1 % k2
+        let a = Math.max(k1, k2)
+        let b = Math.min(k1, k2)
+        let initialK1 = a
+        let initialK2 = b
+        let remnant = a % b
         while (remnant) {
-            k1 = k2
-            k2 = remnant
-            remnant = k1 % k2
+            a = b
+            b = remnant
+            remnant = a % b
         }
         // 此时k2就是最大公约数 lcf
-        console.log(k2);
-        // k1 *k2 = lcf * lcm， lcm=k1*k2/lcf
-        console.log(initialK1 * initialK2 / k2);
+        console.log(b);
+        // k1 *k2 = lcf * lcm， lcm=k1*k2/lcf. 两数之积 = 最大公约数 * 最小公倍数
+        console.log(initialK1 * initialK2 / b);
     }
-    gcd(18, 24)
+    let k1 = +prompt('请输入一个数k1')
+    let k2 = +prompt('请输入一个数k2')
+    gcd(k1, k2)
 </script>
-<script id="sqrt">
+<script id="sqrt_bisection_fault">
     function sqrt(k) {
         // 小数点后count位
         let count = 16
@@ -1987,6 +1989,38 @@
     let k = +prompt('请输入一个数，以求出其平方根')
     console.log(sqrt(k));
 </script>
+
+<script id="sqrt">
+    // 使用二分法进行整除。问题：当输入进去的x非常大，浮点数的53位用来表示大多数的整数部分时，在进行二分法后，小数部分永远也达不到while的界限
+    function sqrt(x) {
+        let low = 0,
+            high = x
+            // 停止条件是范围被缩小dao到非常小的值
+        while (high - low < 0.00000000001) {
+            let mid = (low + high) / 2
+            if (mid ** 2 > x) {
+                high = mid
+            } else {
+                low = mid
+            }
+        }
+        // 可以返回计算出来的根号值，也可以返回二分后精确范围很窄后，这次的二分结果
+        return (high + low) / 2
+    }
+    console.log(sqrt(2));
+
+    // 使用牛顿法，减少了循环次数，用很少的循环就能找到很逼近根号n的值。
+    // 牛顿法就是想象成一个 f(x)=x^2-n 的函数，去找y=0时的x0的值。
+    function sqrt_niudunfa(n) {
+        let x = n //这里可以随意指定一个初始值
+
+        while (Math.abs(x * x - n) > 0.00000001) {
+            x = x / 2 + n / (2 * x)
+        }
+        return x
+    }
+</script>
+
 
 <script id="weekday_wrong">
     function weekday(year, month) {
@@ -2152,6 +2186,7 @@
 
 <!-- ############################################################################################# -->
 
+<!-- 1.6 一维数组 共15题 -->
 <script id="ch0106/01">
     function fn1() {
         let N = +prompt('请输入整数序列的长度 N<=100')
@@ -2252,7 +2287,20 @@
     }
     fn1()
 </script>
+
 <script id="ch0106/06">
+    function fn1() {
+        let L = +prompt('请输入马路长度') + 1
+        let M = +prompt('请输入区域数目')
+        let arr = Array(L).fill(1)
+        for (let i = 1; i <= M; i++) {
+            let start = +prompt('请输入第' + i + '个区域的起始端点')
+            let end = +prompt('请输入第' + i + '个区域的结束端点')
+            arr.fill(0, start, end + 1)
+        }
+        return arr.reduce((prev, cur) => prev + cur)
+    }
+    console.log(fn1());
 </script>
 <script id="ch0106/01"></script>
 <script id="ch0106/01"></script>

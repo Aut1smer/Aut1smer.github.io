@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //创建一个节点
+        function createListNode(val) {
+            return {
+                val: val,
+                next: null
+            }
+        }
+
+
+        //数组转链表
+        function arrayToList(ary) {
+            if (ary.length == 0) {
+                return null
+            }
+            let dummy = createListNode(0)
+            let cur = dummy
+            for (let i = 0; i < ary.length; i++) {
+                let node = createListNode(ary[i])
+                cur.next = node
+                cur = cur.next
+            }
+            return dummy.next
+        }
+        //递归
+        function arrayToListRec(ary) {
+          if(ary.length == 0){
+            return null
+          }
+
+          let node = createListNode(ary[0])
+          node.next = arrayToListRec(ary.slice(1))
+          return node
+        }
+        //append
+        function arrayToList2(ary){
+          let list = null
+          for(let i = 0; i < ary.length; i++){
+            list.append(ary[i])
+          }
+          return list
+        }
+
+
+        //链表转数组
+        function listToArray(list){
+          let cur = list //拿到头部
+          let res = []
+          while(cur){
+            res.push(cur.val)
+            cur = cur.next
+          }
+          return res
+        }
+        //递归 
+        function listToArrayRec(list){
+          if(!list){
+            return []
+          }
+          let ary = [list.val]
+          ary = ary.concat(listToArrayRec(list.next))
+          return ary
+        }
+        //递归过程精简一下
+        function listToArrayRec1(head){
+          if(!head){
+            return []
+          }
+          return [head.val].concat(listToArrayRec1(head.next))
+        }
+        //递归能够少创建数组
+        function listToArrayRec2( head, ary=[], pos = 0){
+          if(!head){
+            return ary
+          }
+          ary[pos] = head.val
+          listToArrayRec2(head.next,ary,pos++)
+          return ary
+        }
+
+      
+        //把新节点插到链表头部
+        function prepend(val, head){
+          let node = createListNode(val)
+          node.next = head
+          return node
+        }
+
+
+        //把新节点插到链表末尾
+        function append(val, head){
+          if(!head){
+            return createListNode(val)
+          }
+          let node = createListNode(val)
+          let cur = head
+          while(cur.next){
+            cur = cur.next
+          }
+          cur.next = node
+          return head
+        }
+
+        //递归 什么叫返回新的？？？ 17：20
+        function appendRec(val, head){
+
+          if(!head){
+            return createListNode(val)
+          }
+
+            head.next = appendRec(val,head.next)
+            return head
+        }
+
+        //返回链表第n个结点的值
+        function nth(head,n){
+          let cur = head
+          if(n < 0){
+            return undefined
+          }
+          while(cur && n--){
+            cur = cur.next
+          }
+          return cur ? cur.val:undefined
+        }
+        //递归
+        function nthRec(head, n){
+          if(n<0 || !head){
+            return undefined
+          }
+          if(n == 0){
+            return head.val
+          }
+
+          return nthRec(head.next,n-1)
+        }
+
+    </script>
+</body>
+
+</html>

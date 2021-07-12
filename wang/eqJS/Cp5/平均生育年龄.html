@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="ancestry.js">
+    </script>
+
+    <script>
+        //Mother-child age difference 求平均生育年龄 孩子的出生年龄 - 母亲的出生年龄
+        var ancestry = JSON.parse(ANCESTRY_FILE)
+
+        //分离出妈妈在数据集里的人，数据集里找到这些人的出生年龄，利用名字-人映射找到这些人的妈妈的出生年龄
+
+        //建立 人名：人 映射
+        var nameMap = {}
+        ancestry.forEach(person => {
+            nameMap[person.name] = person
+        })
+
+        //过滤出妈妈在数据集的人 [{},{},...]
+        var hasMother = ancestry.filter(person => {
+            return nameMap[person.mother]
+        })
+        console.log(hasMother);
+        // console.log(nameMap);
+
+        //将每个人映射为他出生时母亲的年龄
+        var avgBreed = hasMother.map(person => {
+                return person.born - nameMap[person.mother].born //通过母亲的名字找到母亲的对象
+            }).reduce((accum, age) => accum + age) / hasMother.length //累计
+
+        console.log(avgBreed);
+    </script>
+</body>
+
+</html>

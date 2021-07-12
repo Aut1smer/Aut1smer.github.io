@@ -1,0 +1,97 @@
+<script>
+    function indexOf(array, target, startIndex = 0) {
+        let len = array.length
+        for (let i = startIndex; i < len; i++) {
+            if (array[i] === target) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    function lastIndexOf(array, target, startIndex = len - 1) {
+        let len = array.length
+        for (let i = startIndex; i >= 0; i--) {
+            if (array[i] === target) {
+                return i
+            }
+        }
+        return -1
+    }
+    let a = [1, 2, NaN]
+    console.log(a.indexOf(NaN)); //-1
+
+    function slice(ary, start = 0, end = ary.length) {
+        if (end > ary.length) {
+            end = ary.length
+        }
+        if (start < 0) {
+            start = 0
+        }
+        let arr = []
+        for (let i = start; i < end; i++) {
+            arr.push(arr[i]) //这里是传的数组第i项的指针
+        }
+        return arr
+    }
+    let aa = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    let b = aa.slice(aa, 2, 5)
+    console.log(aa);
+    console.log(b);
+
+
+    //只支持两个数组的拼接
+    function concat(base, ary) {
+        let res = []
+        for (let i = 0; i < base.length; i++) {
+            base.push(base[i])
+        }
+        for (let i = 0; i < ary.length; i++) {
+            base.push(ary[i])
+        }
+        return res
+    }
+    //支持多个数组的拼接
+    function concatAll(base, ary) {
+
+    }
+
+    function fill(ary, value, start = 0, end = ary.length) {
+        if (start < 0) {
+            start = 0
+        }
+        if (end > ary.length) {
+            end = ary.length
+        }
+
+        let res = []
+        for (let i = start; i < end; i++) {
+            ary[i] = value
+        }
+        return ary
+    }
+
+    //includes有没有某个元素 优化了判断NaN
+    function includes(ary, target) {
+        if (target !== target) {
+            //说明是NaN 也可以用Number.isNaN(target)
+            for (let i = 0; i < ary.length; i++) {
+                if (target !== target) return true
+            }
+        } else {
+            //不找NaN
+            for (let i = 0; i < ary.length; i++) {
+                if (ary[i] === target) return true
+            }
+        }
+        return false
+    }
+
+    function sum (){
+      let res = 0
+      for(let i =0;i<arguments.length;i++){
+        res += arguments[i]
+      }
+      return res
+    }
+</script>

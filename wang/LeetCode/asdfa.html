@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //给一颗二叉树，和一个目标值，节点上的值有正有负，返回树中和等于目标值的路径条数，编写一个pathSum函数
+        // root = [10,5,-3,3,2,null,11,3,-2,null,1] ,
+        // sum = 8
+        function pathSum(root, sum) {
+            if (root == null) {
+                return 0
+            }
+
+            var myselfPath = count(root, sum)
+            var leftPath = pathSum(root.left, sum)
+            var rightPath = pathSum(root.right, sum)
+            return myselfPath + leftPath + rightPath
+        }
+
+        function count(node, sum) {
+            if (node == null) {
+                return 0
+            }
+            var iCanEnough = node.value == sum ? 1 : 0
+            var leftCount = count(node.left, sum - node.value)
+            var rightCount = count(node.right, sum - node.value)
+            return iCanEnough + leftCount + rightCount
+        }
+    </script>
+
+
+    <script>
+        var uniquePathsWithObstacles = function(obstacleGrid) {
+            //表格m*n，障碍物在obstacleGrid的值为1
+            let m = obstacleGrid.length
+            let n = obstacleGrid[0].length
+            let res = Array(m).fill(Array(n).fill(1))
+            let blank = false
+                //处理上边界
+            for (let i = 0; i < m; i++) {
+                if (obstacleGrid[0][i] == 1) {
+                    blank = true
+                }
+                if (blank) {
+                    res[0][i] = 0
+                }
+            }
+            blank = false
+                //处理左边界
+            for (let i = 0; i < n; i++) {
+                if (obstacleGrid[0][i] == 1) {
+                    blank = true
+                }
+                if (blank) {
+                    res[i][0] = 0
+                }
+            }
+            //在下面的格子里进行取值
+            for (let i = 1; i < m; i++) {
+                for (let j = 1; j < n; j++) {
+                    if (obstacleGrid[i][j] == 1) {
+                        res[i][j] = 0
+                    } else {
+                        res[i][j] = res[i - 1][j] + res[i][j - 1]
+                    }
+                }
+            }
+            return res[m - 1][n - 1]
+        };
+    </script>
+
+
+
+    <script>
+        var groupAnagrams = function(strs) {
+            //搞个对象映射数组存strs的每一项
+            let len = strs.length
+            let objs = Array(len)
+            for (let i = 0; i < len; i++) {
+                let char = strs[i]
+                let charLen = char.length
+                let o = {}
+                for (let k = 0; k < charLen; k++) {
+                    if (o[char[k]]) {
+                        o[char[k]] += 1
+                    } else {
+                        o[char[k]] = 1
+                    }
+                }
+                objs[i] = o
+            }
+            //objs存储完毕，开始比对两两是否一致，需要利用一个划项数组
+            let opration = Array(len).fill(true)
+            let res = []
+            let count = 0
+            for (let i = 0; i < len; i++) {
+                if (opration[i]) {
+                    res[count] = [strs[i]]
+                    for(let j =i+1;j<len;j++){
+                      if(objEqual(objs[i],objs[j])){
+                        res[count].push(strs[j])
+                        opration[j] = false
+                      }
+                    }
+                    count++
+                }
+            }
+            return res
+
+        };
+
+
+
+        //对象相等的方法
+        function objEqual(o1, o2) {
+            let len1 = Object.keys(o1).length
+            let len2 = Object.keys(o2).length
+            if (len1 !== len2) {
+                return false
+            }
+            for (let k in o2) {
+                if (o2[k] !== o1[k]) {
+                    return false
+                }
+            }
+            return true
+        }
+    </script>
+
+    <script>
+        function isLeapYear(y){
+            if(y%4==0 && y%100 !=0 && y%400 ==0 && y%3200!=0){
+                return true
+            }
+            return false
+        }
+    </script>
+
+
+</body>
+
+</html>

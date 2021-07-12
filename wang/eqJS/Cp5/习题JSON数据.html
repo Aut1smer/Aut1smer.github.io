@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>习题</title>
+</head>
+
+<body>
+    <script src="ancestry.js"></script>
+    <script>
+        //2021-07-08 11-28-50 习题讲解
+
+        let ancestry = JSON.parse(ANCESTRY_FILE)
+        console.log(ancestry);
+
+        //Mother-child age difference 求平均生育年龄 孩子的出生年龄 - 母亲的出生年龄
+        function average(ary) {
+            return ary.reduce((accum, value) => accum + value) / ary.length
+        }
+
+
+        // 1.不是所有人的母亲都在数据中，先过滤有母亲的对象们；
+        // 2.person.born - person.mother
+
+        //建立 人名:人 的映射
+        var nameMap = {}
+
+        ancestry.forEach(person => {
+            nameMap[person.name] = person
+        })
+
+        //这个函数也能按人名找到人
+        function findPersonByName(name) {
+
+            for (let i = 0; i < ancestry.length; i++) {
+                if (ancestry[i].name == name) {
+                    return ancestry[i]
+                }
+            }
+            // 不写下面的forEach是因为return false停不住forEach的遍历
+            // var res = null
+            // ancestry.forEach(person=>{
+            //     if(person.name == name){
+            //         res = person
+            //         return false
+            //     }
+            // })
+            // return res
+        }
+
+        //过滤出nameMap数据集里有母亲的人
+        let hasMother = ancestry.filter(person => {
+            return nameMap[person.mother] //找到返回对象为true，找不到返回undefined为false
+        })
+
+        // hasMother[i].born - nameMap[motherName]
+        let avgBreed = hasMother.map(person => {
+            let mother = nameMap[person.mother] //这个有母亲人的母亲
+            return person.born - mother.born
+        }).reduce((accum, breedage) => accum + breedage) / hasMother.length
+
+        console.log(avgBreed);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // 按死亡世纪分组
+        //f 函数用来计算数组里的元素应该在哪个组里面，返回组名
+        // f接收数组中的项，返回该项应该在的组名
+        //整个函数返回一个对象，对象的key为组名，value为这个组里的元素们
+
+        //根据谓词分组，如果谓词一致要放到数组中（索性全放在数组中了）
+        function groupBy(array, predicate) {
+            let map = {}
+            for (let i = 0; i < array.length; i++) {
+                let it = array[i]
+                let key = predicate(it, i, array)
+
+                if (!(key in map)) {
+                    map[key] = []
+                }
+                map[key].push(it)
+            }
+            return map
+        }
+        // reduce 实现 groupBy
+        function groupBy(array, predicate) {
+            return array.reduce((map, it, i) => {
+                let key = predicate(it, i) //拿到分组依据
+                if (!(key in map)) {
+                    map[key] = []
+                }
+                map[key].push(it)
+                return map //一定要记得返回累计器
+            }, {})
+        }
+
+
+
+        // keyBy
+        function keyBy(array, predicate) {
+            var obj = {}
+            for (let i = 0; i < array.length; i++) {
+                var item = array[i]
+                var key = predicate(item, i)
+                obj[key] = item
+            }
+            return obj
+        }
+
+
+        function keyBy(array, predicate) {
+            return array.reduce((map, item, idx) => {
+                let key = predicate(item, idx)
+                map[key] = item
+                return map //记得返回对象
+            }, {})
+
+        }
+        // 有重复不管，有重复就后盖前
+        var 人名到人的映射 = keyBy(ancestry, it => it.name)
+        var 身份证到人的映射 = keyBy(ancestry, it => it.id)
+
+
+
+
+        //对于生活在每个世纪的人，计算每个人的平均年龄 所在世纪：死亡年龄/100 在取整
+
+        //建立世纪到该世纪人的映射. 这个映射可以抽象！
+        var centuryMap = {}
+        ancestry.forEach(person => {
+            let c = Math.ceil(person.died / 100)
+
+            if (!(c in centuryMap)) {
+                centuryMap[c] = [person]
+            }
+            centuryMap[c].push(person)
+
+        })
+
+
+
+        console.log(centuryMap);
+        //世纪到该世纪人平均年龄的映射 求出每个世纪里人的平均寿命
+        var avgAgeOfCentury = {}
+        for (let c in centuryMap) {
+            avgAgeOfCentury[c] = +(centuryMap[c].reduce((accum, person) => {
+                return accum + person.died - person.born
+            }, 0) / centuryMap[c].length).toFixed(2)
+        }
+        console.log(avgAgeOfCentury);
+    </script>
+</body>
+
+</html>

@@ -9,97 +9,832 @@
 </head>
 
 <body>
-    <script id="weekday">
-        function weekday(year, month) {
-            let nowYear = 2021
-            let nowMonth = 6
-            let thisWeek = 2
-            let diffDay = 0
-
-            // 先考虑不同年的不同月份
-            if (year !== nowYear) {
-                for (let i = Math.min(year, nowYear); i < Math.max(nowYear, year); i++) {
-                    if (isLeapYear(i)) {
-                        diffDay += 366
-                    } else {
-                        diffDay += 365
-                    }
-                }
-                if (year < nowYear) {
-                    // 在本年之前
-                    diffDay = diffDay + diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, year)
-                    return (diffDay % 7 - thisWeek + 7) % 7
-                } else {
-                    // 在本年之后
-                    diffDay = diffDay + diffMonth(month - 1, year) - diffMonth(nowMonth - 1, nowYear)
-                    return (diffDay % 7 + thisWeek) % 7
-                }
-            } else {
-                // 同年不同月
-                diffDay = Math.abs(diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, nowYear))
-                if (month <= nowMonth) {
-                    return (diffDay % 7 - thisWeek + 7) % 7
-                } else {
-                    return (diffDay % 7 + thisWeek) % 7
+    <!-- <script id="ch0106/06">
+        var twoSum = function(nums, target) {
+            let len = nums.length
+            for(let i=0;i<len;i++){
+                let rest = nums.slice(i+1),
+                pos = rest.indexOf(target - nums[i])
+                if(pos!=-1){
+                    return [i,i+pos+1]
                 }
             }
-            // 得到天数差异
-
-        }
-        // 辅助函数输出到几月的共天数
-        function diffMonth(reqMon, year) {
-            let diffDay = 0
-            switch (reqMon) {
-                case 0:
-                    diffDay = 0
-                    break
-                case 1:
-                    diffDay = 31
-                    break
-                case 2:
-                    diffDay = isLeapYear(year) ? 60 : 59
-                    break
-                case 3:
-                    diffDay = isLeapYear(year) ? 91 : 90
-                    break
-                case 4:
-                    diffDay = isLeapYear(year) ? 121 : 120
-                    break
-                case 5:
-                    diffDay = isLeapYear(year) ? 152 : 151
-                    break
-                case 6:
-                    diffDay = isLeapYear(year) ? 182 : 181
-                    break
-                case 7:
-                    diffDay = isLeapYear(year) ? 213 : 212
-                    break
-                case 8:
-                    diffDay = isLeapYear(year) ? 244 : 243
-                    break
-                case 9:
-                    diffDay = isLeapYear(year) ? 274 : 273
-                    break
-                case 10:
-                    diffDay = isLeapYear(year) ? 304 : 303
-                    break
-                case 11:
-                    diffDay = isLeapYear(year) ? 335 : 334
-                    break
-            }
-            return diffDay
-        }
-        // 辅助函数是否闰年，影响二月天数
-        function isLeapYear(year) {
-            if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-                return true
+        };
+        console.log(twoSum([2, 7, 11, 15], 9));
+    </script> -->
+    <!-- <script>
+        var twoSum = function(nums, target) {
+            let len = nums.length;
+            for (let i = 0; i < len; i++) {
+                let remnant = nums.slice(i + 1)
+                let pos = remnant.indexOf(target - nums[i])
+                if (pos !== -1) {
+                    return [i, pos + 1 + i]
+                }
             }
             return false
         }
-        let y = +prompt('请输入年份')
-        let m = +prompt('请输入月份')
-        console.log(weekday(y, m));
+        console.log(twoSum([2, 7, 11, 15], 9));
+    </script> -->
+    <!-- <script>
+        //这种方法最快！
+        var twoSum = function(nums, target) {
+            let len = nums.length
+            const map = new Map()
+            for (let i = 0; i < len; i++) {
+                if (map.has(target - nums[i])) {
+                    return [map.get(target - nums[i]), i]
+                }
+                map.set(nums[i], i)
+            }
+            return []
+        }
+        console.log(twoSum([2, 7, 11, 15], 9));
+    </script> -->
+    <!-- <script>
+        var trailingZeroes = function(n) {
+            let count = 0
+            if (n < 5) {
+                return 0
+            }
+            for (let i = 0; i <= n; i += 5) {
+                count++
+            }
+            return count
+        };
+    </script> -->
+    <!-- <script>
+        var convertToBase7 = function(num) {
+            let sum = 0
+            while (num) {
+                let digit = num % 7
+                sum = sum * 10 + digit
+                num = (num - num % 7) / 7
+            }
+            return sum.toStirng()
+        };
+        console.log(convertToBase7());
+    </script> -->
+
+    <!-- <script id="sqrt">
+        // 使用二分法进行整除
+        function sqrt(k) {
+            if (k <= 0) {
+                return false
+            }
+            let low = 0,
+                high = k
+
+            while (high - low > 0.000000001) {
+                let mid = (high + low) / 2
+                if (mid ** 2 < k) {
+                    low = mid
+                } else {
+                    high = mid
+                }
+            }
+            return (high + low) / 2
+        }
+        // debugger
+        console.log(sqrt(2));
+    </script> -->
+
+    <!-- <script>
+        function sqrt_niudunfa(n) {
+            let x = n //这里可以随意指定一个初始值
+            debugger
+            while (Math.abs(x * x - n) > 0.00000001) {
+                x = x / 2 + n / (2 * x)
+            }
+            return x
+        }
+        console.log(sqrt_niudunfa(2));
+    </script> -->
+    <!-- <script id='lcf&lcm'>
+        var n1 = +prompt()
+        var n2 = +prompt()
+        console.log(GreatestCommonDivisor(n1, n2)) //输出最小公因数
+        console.log(LeastCommonMultiple(n1, n2)) //输出最大公倍数
+
+        function GreatestCommonDivisor(n1, n2) {
+
+            var left
+            do {
+                left = n1 % n2
+                n1 = n2
+                n2 = left
+            } while (left != 0)
+            return n1
+        }
+
+        function LeastCommonMultiple(n1, n2) {
+            debugger;
+            var mult = n1 * n2
+            return mult / GreatestCommonDivisor(n1, n2)
+        }
+    </script> -->
+
+    <script>
+        function outer(a) {
+            //用来测试toString()和toLocaleString()
+            inner()
+        }
+
+        function innter() {
+            console.log(arguments.callee.caller);
+        }
+        // console.log(outer.toString());
+        // console.log(outer.toLocaleString());
+        // console.log(outer.valueOf());
+        let str = 'hello world'
+        console.log(str.slice(4, -7));
+        // console.log(str.localeCompare('嘻嘻嘻', 'xxxxxxxxx'));
+        console.log(str.split()); //['hello world']
+        console.log(str.split(' ')); //['hello','world']
     </script>
+    <script>
+        function sumOfn(n) {
+            if (n == 1) {
+                return 1
+            }
+            return n + sumOfn(n - 1)
+        }
+        sumOfn(15)
+
+        function fibonacci(n) {
+            if (n < 3) {
+                return 1
+            }
+            return fibonacci(n - 1) + fibonacci(n - 2)
+        }
+        fibonacci(15)
+    </script>
+
+    <script>
+        // 终点坐标(7,8)
+        let targetX = 7,
+            targetY = 8
+
+        function fn1(a, b) {
+            if (a == targetX && b == targetY) {
+                return true
+            }
+            if (a > targetX || b > targetY) {
+                return false
+            }
+            return arguments.callee(a + 1, b) || arguments.callee(a, b + 1)
+        }
+        fn1(0, 0)
+
+        function fn2(x, y, history) {
+            if (x == targetX && y == targetY) {
+                console.log(history);
+                return
+            }
+            if (x > targetX || y > targetY) {
+                return
+            }
+
+            fn2(x + 1, y, history + ' >')
+            fn2(x, y + 1, history + ' ^')
+                //  arguments.callee(x + 1, y, ' >')
+                // arguments.callee(x, y + 1, ' ^')
+        }
+        fn2(0, 0, 'go ')
+    </script>
+
+    <script>
+        var mySqrt = function(x) {
+            //二分法
+            if (x < 2) {
+                return x
+            }
+            let low = 0
+            let high = x
+            while (high - low > 1) {
+                let mid = (high + low) >> 1
+                if (mid * mid > x) {
+                    high = mid
+                } else {
+                    low = mid
+                }
+                if (mid * mid == x) {
+                    return mid
+                }
+            }
+            return low
+
+        };
+    </script>
+
+    <script>
+        var sortedSquares = function(nums) {
+            let len = nums.length
+            let ai = 0
+            let res = []
+            if (nums[len - 1] <= 0) {
+                for (let i = 0; i < len; i++) {
+                    res[i] = nums[len - 1 - i] ** 2
+                }
+            } else if (nums[0] >= 0) {
+                res = nums.map(cur => cur * cur)
+            } else {
+
+                var minIndex = 0
+                for (let i = 0; i < len; i++) {
+                    minIndex = Math.abs(nums[i]) < Math.abs(nums[minIndex]) ? i : minIndex
+                }
+
+
+                var left = minIndex
+                var right = minIndex + 1
+                while (res.length < len) {
+                    if (left < 0 && right <= len - 1) {
+                        res.push(nums[right] ** 2)
+                        right++
+                    } else if (right == len && left >= 0) {
+                        res.push(nums[left] ** 2)
+                        left--
+                    } else {
+                        if (Math.abs(nums[left]) <= Math.abs(nums[right])) {
+                            res.push(nums[left] ** 2)
+                            left--
+                        } else {
+                            res.push(nums[right] ** 2)
+                            right++
+                        }
+                    }
+                }
+            }
+
+            return res
+        };
+    </script>
+
+    <script>
+        let arr = [
+            [
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                1,
+                2,
+                1
+            ],
+            [
+                1,
+                3,
+                3,
+                1
+            ],
+            [
+                1,
+                4,
+                6,
+                4,
+                1
+            ],
+            [
+                1,
+                5,
+                10,
+                10,
+                5,
+                1
+            ],
+            [
+                1,
+                6,
+                15,
+                20,
+                15,
+                6,
+                1
+            ],
+            [
+                1,
+                7,
+                21,
+                35,
+                35,
+                21,
+                7,
+                1
+            ],
+            [
+                1,
+                8,
+                28,
+                56,
+                70,
+                56,
+                28,
+                8,
+                1
+            ],
+            [
+                1,
+                9,
+                36,
+                84,
+                126,
+                126,
+                84,
+                36,
+                9,
+                1
+            ],
+            [
+                1,
+                10,
+                45,
+                120,
+                210,
+                252,
+                210,
+                120,
+                45,
+                10,
+                1
+            ],
+            [
+                1,
+                11,
+                55,
+                165,
+                330,
+                462,
+                462,
+                330,
+                165,
+                55,
+                11,
+                1
+            ],
+            [
+                1,
+                12,
+                66,
+                220,
+                495,
+                792,
+                924,
+                792,
+                495,
+                220,
+                66,
+                12,
+                1
+            ],
+            [
+                1,
+                13,
+                78,
+                286,
+                715,
+                1287,
+                1716,
+                1716,
+                1287,
+                715,
+                286,
+                78,
+                13,
+                1
+            ],
+            [
+                1,
+                14,
+                91,
+                364,
+                1001,
+                2002,
+                3003,
+                3432,
+                3003,
+                2002,
+                1001,
+                364,
+                91,
+                14,
+                1
+            ],
+            [
+                1,
+                15,
+                105,
+                455,
+                1365,
+                3003,
+                5005,
+                6435,
+                6435,
+                5005,
+                3003,
+                1365,
+                455,
+                105,
+                15,
+                1
+            ],
+            [
+                1,
+                16,
+                120,
+                560,
+                1820,
+                4368,
+                8008,
+                11440,
+                12870,
+                11440,
+                8008,
+                4368,
+                1820,
+                560,
+                120,
+                16,
+                1
+            ],
+            [
+                1,
+                17,
+                136,
+                680,
+                2380,
+                6188,
+                12376,
+                19448,
+                24310,
+                24310,
+                19448,
+                12376,
+                6188,
+                2380,
+                680,
+                136,
+                17,
+                1
+            ],
+            [
+                1,
+                18,
+                153,
+                816,
+                3060,
+                8568,
+                18564,
+                31824,
+                43758,
+                48620,
+                43758,
+                31824,
+                18564,
+                8568,
+                3060,
+                816,
+                153,
+                18,
+                1
+            ],
+            [
+                1,
+                19,
+                171,
+                969,
+                3876,
+                11628,
+                27132,
+                50388,
+                75582,
+                92378,
+                92378,
+                75582,
+                50388,
+                27132,
+                11628,
+                3876,
+                969,
+                171,
+                19,
+                1
+            ],
+            [
+                1,
+                20,
+                190,
+                1140,
+                4845,
+                15504,
+                38760,
+                77520,
+                125970,
+                167960,
+                184756,
+                167960,
+                125970,
+                77520,
+                38760,
+                15504,
+                4845,
+                1140,
+                190,
+                20,
+                1
+            ],
+            [
+                1,
+                21,
+                210,
+                1330,
+                5985,
+                20349,
+                54264,
+                116280,
+                203490,
+                293930,
+                352716,
+                352716,
+                293930,
+                203490,
+                116280,
+                54264,
+                20349,
+                5985,
+                1330,
+                210,
+                21,
+                1
+            ],
+            [
+                1,
+                22,
+                231,
+                1540,
+                7315,
+                26334,
+                74613,
+                170544,
+                319770,
+                497420,
+                646646,
+                705432,
+                646646,
+                497420,
+                319770,
+                170544,
+                74613,
+                26334,
+                7315,
+                1540,
+                231,
+                22,
+                1
+            ],
+            [
+                1,
+                23,
+                253,
+                1771,
+                8855,
+                33649,
+                100947,
+                245157,
+                490314,
+                817190,
+                1144066,
+                1352078,
+                1352078,
+                1144066,
+                817190,
+                490314,
+                245157,
+                100947,
+                33649,
+                8855,
+                1771,
+                253,
+                23,
+                1
+            ],
+            [
+                1,
+                24,
+                276,
+                2024,
+                10626,
+                42504,
+                134596,
+                346104,
+                735471,
+                1307504,
+                1961256,
+                2496144,
+                2704156,
+                2496144,
+                1961256,
+                1307504,
+                735471,
+                346104,
+                134596,
+                42504,
+                10626,
+                2024,
+                276,
+                24,
+                1
+            ],
+            [
+                1,
+                25,
+                300,
+                2300,
+                12650,
+                53130,
+                177100,
+                480700,
+                1081575,
+                2042975,
+                3268760,
+                4457400,
+                5200300,
+                5200300,
+                4457400,
+                3268760,
+                2042975,
+                1081575,
+                480700,
+                177100,
+                53130,
+                12650,
+                2300,
+                300,
+                25,
+                1
+            ],
+            [
+                1,
+                26,
+                325,
+                2600,
+                14950,
+                65780,
+                230230,
+                657800,
+                1562275,
+                3124550,
+                5311735,
+                7726160,
+                9657700,
+                10400600,
+                9657700,
+                7726160,
+                5311735,
+                3124550,
+                1562275,
+                657800,
+                230230,
+                65780,
+                14950,
+                2600,
+                325,
+                26,
+                1
+            ],
+            [
+                1,
+                27,
+                351,
+                2925,
+                17550,
+                80730,
+                296010,
+                888030,
+                2220075,
+                4686825,
+                8436285,
+                13037895,
+                17383860,
+                20058300,
+                20058300,
+                17383860,
+                13037895,
+                8436285,
+                4686825,
+                2220075,
+                888030,
+                296010,
+                80730,
+                17550,
+                2925,
+                351,
+                27,
+                1
+            ],
+            [
+                1,
+                28,
+                378,
+                3276,
+                20475,
+                98280,
+                376740,
+                1184040,
+                3108105,
+                6906900,
+                13123110,
+                21474180,
+                30421755,
+                37442160,
+                40116600,
+                37442160,
+                30421755,
+                21474180,
+                13123110,
+                6906900,
+                3108105,
+                1184040,
+                376740,
+                98280,
+                20475,
+                3276,
+                378,
+                28,
+                1
+            ],
+            [
+                1,
+                29,
+                406,
+                3654,
+                23751,
+                118755,
+                475020,
+                1560780,
+                4292145,
+                10015005,
+                20030010,
+                34597290,
+                51895935,
+                67863915,
+                77558760,
+                77558760,
+                67863915,
+                51895935,
+                34597290,
+                20030010,
+                10015005,
+                4292145,
+                1560780,
+                475020,
+                118755,
+                23751,
+                3654,
+                406,
+                29,
+                1
+            ]
+        ];
+
+
+
+        var sortedSquares = function(nums) {
+            let len = nums.length
+            let res = []
+            var minIndex = 0
+            for (let i = 0; i < len; i++) {
+                minIndex = Math.abs(nums[i]) < Math.abs(nums[minIndex]) ? i : minIndex
+            }
+            var left = minIndex
+            var right = minIndex + 1
+            while (res.length < len) {
+                if (left < 0 && right <= len - 1) {
+                    res.push(nums[right] ** 2)
+                    right++
+                } else if (right == len && left >= 0) {
+                    res.push(nums[left] ** 2)
+                    left--
+                } else {
+                    if (Math.abs(nums[left]) <= Math.abs(nums[right])) {
+                        res.push(nums[left] ** 2)
+                        left--
+                    } else {
+                        res.push(nums[right] ** 2)
+                        right++
+                    }
+                }
+            }
+
+            return res
+        };
+    </script>
+
+
+
 </body>
 
 </html>

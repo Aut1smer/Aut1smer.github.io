@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //返回逆转ary顺序的新数组.没有side effects，纯函数
+        //这个函数使用场景更多。新老数组都有自己的作用
+        function reverseArray(ary) {
+            let res = []
+            let len = ary.length
+            for (let i = len - 1; i >= 0; i--) {
+                res.push(ary[i])
+            }
+            return res
+        }
+
+        //原地逆转ary并修改ary
+        function reverseArrayInPlace(ary) {
+            let left = 0,
+                right = ary.length - 1
+
+            while (left < right) {
+                let t = ary[left]
+                ary[left] = ary[right]
+                ary[right] = t
+                left++
+                right--
+            }
+            return ary
+        }
+        console.log(reverseArray(['A', 'B', 'C']))
+        let arrayValue = [1, 2, 3, 4, 5]
+        reverseArrayInPlace(arrayValue)
+        console.log(arrayValue);
+    </script>
+</body>
+
+</html>

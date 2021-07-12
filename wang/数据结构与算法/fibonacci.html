@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+var fibs = []
+function fib(n) {
+    if (n <= 1) {
+        return 1
+    }
+    if (n < fibs.length) { //等同于 n in fibs
+        return fibs[n]
+    }
+    var answers = fib(n - 1) + fib(n - 2)
+    fibs[n] = answers
+    return answers
+}
+console.log(fib(100));
+    </script>
+
+</body>
+
+</html>

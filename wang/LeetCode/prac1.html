@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var groupAnagrams = function(strs) {
+            let len = strs.length
+            let ary = Array(len).fill(true)
+            let res = []
+            let count = 0
+                //遍历ary相当于遍历strs
+            for (let i = 0; i < len; i++) {
+                if (ary[i]) { //ary里的
+                    let obj = {}
+                    let char = strs[i]
+                    res[count] = Array(1).fill(char) //把没被删的元素新建一个数组
+                    for (let j = 0; j < char.length; j++) {
+                        obj[char[j]] = char[j]
+                    }
+                    //创建好了obj={e:e a:a t:t}，对比后面为true的项
+                    for (let j = i + 1; j < len; j++) {
+                        //对于strs[i]后的每一个没被删的项，判断其每个字符都在obj中
+                        if (ary[j]) {
+                            let same = true
+                            for (let k = 0; k < strs[i].length; k++) { //这里假定每项字符串长度不一致
+                                if (!obj[strs[j][k]]) { //如果strs第j项的字符串有字符不在obj里面,说明这俩字符不同
+                                    same = false
+                                    break
+                                }
+                            }
+                            if (same) {
+                                res[count].push(strs[j])
+                                ary[j] = false
+                            }
+                        }
+                    }
+                    count++
+
+                }
+            }
+            return res.reverse()
+        };
+
+
+
+
+        var groupAnagrams = function(strs) {
+            let len = strs.length
+            let ary = Array(len).fill(true)
+            let res = []
+            let count = 0
+                //遍历ary相当于遍历strs
+            for (let i = 0; i < len; i++) {
+                if (ary[i]) { //ary里的
+                    let obj = {}
+                    let char = strs[i]
+                    res[count] = Array(1).fill(char) //把没被删的元素新建一个数组
+                    for (let j = 0; j < char.length; j++) {
+                        obj[char[j] + '#'] = char[j] + '#'
+                    }
+                    //创建好了obj={e:e a:a t:t}，对比后面为true的项
+                    for (let j = i + 1; j < len; j++) {
+                        //对于strs[i]后的每一个没被删的项，判断其每个字符都在obj中
+                        if (ary[j]) {
+                            let same = true
+                            for (let k = 0; k < strs[i].length; k++) { //这里假定每项字符串长度不一致
+                                if (!obj[strs[j][k] + '#']) { //如果strs第j项的字符串有字符不在obj里面,说明这俩字符不同
+                                    same = false
+                                    break
+                                }
+                            }
+                            if (same) {
+                                res[count].push(strs[j])
+                                ary[j] = false
+                            }
+                        }
+                    }
+                    count++
+
+                }
+            }
+            return res.reverse()
+        };
+    </script>
+
+
+    <script>
+        var groupAnagrams = function(strs) {
+          
+        }
+    </script>
+</body>
+
+</html>

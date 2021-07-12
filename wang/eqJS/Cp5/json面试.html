@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //将对象转换成json数据. 按想要的格式拼接字符串
+        function stringify(value) {
+
+            if (Array.isArray(value)) {
+                //[1,2,3] return '[1,2,3]'
+                let str = '['
+                for (let i = 0; i < value.length; i++) {
+                    str += stringify(value[i]) + ','
+                }
+                str = str.slice(0, -1) //-1倒数第一项,为了去除逗号
+                str += ']'
+                return str
+            }
+
+            if (typeof value == 'object') {
+                //{a:1,b:2,c:{x:1,y:2}} return '{"a":1,"b":2,"c":{x:1,y:2}}'
+                let str = '{'
+                for (let k in value) {
+                    str += '"' + k + '":' + stringify(value[k]) + ','
+                }
+                str = str.slice(0, -1) //-1倒数第一项,为了去除逗号
+                str += '}'
+                return str
+            }
+
+            if (typeof value == 'number') {
+                return String(value)
+            }
+
+            if (typeof value == 'string') {
+                return '"' + value + '"'
+            }
+
+            if (typeof value == 'boolean') {
+                return value ? 'true' : 'false'
+            }
+
+        }
+    </script>
+</body>
+
+</html>

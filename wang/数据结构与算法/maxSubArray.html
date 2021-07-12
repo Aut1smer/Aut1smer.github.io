@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function maxSubArray(array) {
+          //递归触底
+          if(array.length==0){
+            return 0
+          }
+          if(array.length==1){
+            //如果是大于0的话，返回这个数；如果是小于0的话，对于此题来说应该返回0
+            if(array[0]>0){
+              return array[0]
+            }else{
+              return 0
+            }
+          }
+
+            //跨越中间的子数组的最大和 
+            var mid = array.length >> 1
+            //从mid往左边数最大值和从mid+1往右边数的最大值
+            var midLeftMax = 0
+            var midLeftSum = 0
+            for (let i = mid; i >= 0; i--) {
+                midLeftSum += array[i]
+                if (midLeftSum > midLeftMax) {
+                    midLeftMax = midLeftSum
+                }
+            }
+            var midRightMax = 0
+            var midRightSum = 0
+            for (let i = mid + 1; i < array.length; i++) {
+                midRightSum += array[i]
+                if (midRightSum > midRightMax) {
+                    midRightMax = midRightSum
+                }
+            }
+            var midMax = midLeftMax + midRightMax
+            //算出跨越中间的子数组的最大和结束
+
+            //左右半边
+            var left = array.slice(0, mid)
+            var right = array.slice(mid)
+            var leftMax = maxSubArray(left)
+            var rightMax = maxSubArray(right)
+                //比较三者的最大值
+            return Math.max(midMax, leftMax, rightMax)
+        }
+    </script>
+
+</body>
+
+</html>

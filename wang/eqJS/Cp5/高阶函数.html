@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        //forEach 对每一项进行一个操作直至遇到false
+        function forEach(ary, action) {
+            for (var i = 0; i < ary.length; i++) {
+                if (action(ary[i], i) === false) {
+                    break //返回false就break。lodash是这么写的，可以这么用；但其他的库函数基本都不能这么用（不是这样写的）
+                }
+            }
+        }
+
+
+        //filter 根据每一项的求值结果判断该项保留与否
+        function filter(ary, test) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                if (test(ary[i], i) === true) {
+                    res.push(array[i])
+                }
+            }
+            return ary
+        }
+
+        //map 操作数组的每一项并返回操作后的数组，不改变原数组
+        function map(ary, mapper) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                res.push(mapper(ary[i], i))
+            }
+            return res
+        }
+
+        //reduce 累计器（归约 聚积）
+
+        //求和
+        function sum(ary) {
+            let res = 0
+            for (let i = 0; i < ary.length; i++) {
+                res += ary[i]
+            }
+            return res
+        }
+        //求乘积
+        function multiple(ary) {
+            let res = 1
+            for (let i = 0; i < ary.length; i++) {
+                res *= ary[i]
+            }
+            return res
+        }
+        //求最大值
+        function max(ary) {
+            let res = -Infinity
+            for (let i = 0; i < ary.length; i++) {
+                res = ary[i] > res ? ary[i] : res
+            }
+            return res
+        }
+
+        function reduce(ary, reducer, initial) {
+            let res = initial
+            for (let i = 0; i < ary.length; i++) {
+                res = reducer(res, initial)
+            }
+            return res
+        }
+
+        //考虑了initial的reduce
+        function reduce(ary, reducer, initial) {
+            let startIdx = 0
+            if (arguments.length == 2) {
+                startIdx = 1
+                initial = ary[0]
+            }
+            for (let i = startIdx; i < ary.length; i++) {
+                initial = reducer(initial, item, index, ary)
+            }
+            return initial
+        }
+
+
+
+        //bind 参数绑定 ☆面试
+        function bind(f, ...fixedArgs) {
+            return function(...args) {
+                return f(...fixedArgs, ...args)
+            }
+        }
+
+        function bind(f) {
+            var fixedArgs = Array.from(arguments).slice(1)
+            return function() {
+                var args = Array.from(arguments)
+                return f.apply(null, fixedArgs.concat(args))
+            }
+        }
+
+
+        // --------------every实现--------------
+
+        //every 全true则true，一false则false
+        function every(ary, test) {
+            for (let i = 0; i < ary.length; i++) {
+                if (!test(ary[i])) {
+                    return false //可以提前返回
+                }
+            }
+            return true
+        }
+
+        //用reduce实现every, 没有办法提前返回
+        function every(ary, test) {
+            return ary.reduce((res, item) => {
+                return res && test(item) //逻辑短路 当res为false时，test(item)就不进去了。空转到结束
+            }, true)
+        };
+
+        //用some实现every  f1 && f2 && f3 = !(!f1 || !f2 || !f3)
+        function every(ary, test) {
+            return !some(ary, (item, i) => !test(item, i))
+        }
+
+
+        //用反转函数辅助some实现every
+        function every(ary, test) {
+            return !some(ary, reverse(test))
+        }
+        //反转布尔函数的返回值
+        function reverse(f) {
+            return function(...args) {
+                return !f(...args)
+            }
+        }
+
+
+        //------------some实现--------------
+
+
+        //some 有一项为true则为true；否则为false
+        function some(ary, test) {
+            for (let i = 0; i < ary.length; i++) {
+                if (test(ary[i])) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        //用reduce实现some
+        function some(ary, test) {
+            return ary.reduce((res, item) => {
+                return res || test(item)
+            }, false)
+        }
+
+        //用every实现some  false || f1 || f2 || f3 = !(!f1 && !f2 && !f3) 摩根定律
+        function some(ary, test) {
+            //对于每一项为true，结果为true；
+            return !every(ary, (item, idx) => {
+                return !test(item, idx)
+            })
+        }
+
+        //用反转布尔结果的数组实现some
+        function some(ary, test) {
+            return !every(ary, reverse(test))
+        }
+
+        function reverse(f) {
+            return function(...args) {
+                return !f(...args)
+            }
+        }
+
+
+
+        //练习every与some
+        function every(array, test) {
+            for (let i = 0; i < array.length; i++) {
+                if (!test(array[i], i)) {
+                    return false
+                }
+            }
+            return true
+        }
+
+        function every(array, test) {
+            return array.reduce((res, item, idx) => { //reduce不提前返回
+                return res && test(item, idx)
+            }, true)
+        }
+
+
+        function some(array, test) {
+            for (let i = 0; i < array.length; i++) {
+                if (test(array[i], i)) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        function some(array, test) {
+            return array.reduce((res, item, idx) => {
+                return res || test(item, idx)
+            }, false)
+        }
+    </script>
+
+</body>
+
+</html>
