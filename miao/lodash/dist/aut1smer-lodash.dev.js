@@ -162,20 +162,56 @@ var aut1smer = function () {
   }
 
   function forEach(ary, action) {
-    var len = ary.length;
+    var dealed = Object(ary);
 
-    for (var i = 0; i < len; i++) {
-      if (action(ary[i], i) === false) {
-        break;
+    if (Array.isArray(ary)) {
+      var len = ary.length;
+
+      for (var i = 0; i < len; i++) {
+        if (action(ary[i], i) === false) {
+          break;
+        }
+      }
+    } else {
+      //处理对象
+      for (var k in ary) {
+        if (action(ary[k], k) === false) {
+          break;
+        }
       }
     }
   }
 
   function map(ary, mapper) {
+    var dealed = new Object(ary);
     var res = [];
 
-    for (var i = 0; i < ary.length; i++) {
-      res.push(mapper(ary[i], i));
+    if (Array.isArray(dealed)) {
+      //此时mapper必是function类型
+      if (typeof mapper === 'function') {
+        for (var i = 0; i < dealed.length; i++) {
+          res.push(mapper(dealed[i], i));
+        }
+      } else {
+        //作属性
+        for (var _i = 0; _i < dealed.length; _i++) {
+          res.push(dealed[_i][mapper]);
+        }
+      }
+    } else {
+      //处理对象
+      if (typeof mapper === 'function') {
+        for (var k in dealed) {
+          res.push(mapper(dealed[k], k));
+        }
+      } else {
+        //谓词当做属性
+        for (var _k in dealed) {
+          if (_k == mapper) {
+            res.push(dealed[mapper]);
+          }
+        }
+      }
     }
 
     return res;
@@ -201,8 +237,38 @@ var aut1smer = function () {
       startIdx = 1;
     }
 
-    for (var i = startIdx; i < ary.length; i++) {
-      initial = reducer(initial, ary[i], i);
+    if (Array.isArray(ary)) {
+      for (var i = startIdx; i < ary.length; i++) {
+        initial = reducer(initial, ary[i], i);
+      }
+    } else {
+      //处理对象
+      for (var k in ary) {
+        initial = reducer(initial, ary[k], k);
+      }
+    }
+
+    return initial;
+  }
+
+  function reduceRight(ary, reducer, initial) {
+    //从后向前，没考虑对象
+    var startIdx = ary.length - 1;
+
+    if (arguments.length == 2) {
+      initial = ary[ary.length - 1];
+      startIdx = ary.length - 2;
+    }
+
+    if (Array.isArray(ary)) {
+      for (var i = startIdx; i >= 0; i--) {
+        initial = reducer(initial, ary[i], i);
+      }
+    } else {
+      //对象虽然不能从后向前遍历，但...好歹...能遍历把
+      for (var k in ary) {
+        initial = reducer(initial, ary[k], k);
+      }
     }
 
     return initial;
@@ -220,12 +286,12 @@ var aut1smer = function () {
       maxLength = args[i].length > maxLength ? args[i].length : maxLength;
     }
 
-    for (var _i = 0; _i < maxLength; _i++) {
+    for (var _i2 = 0; _i2 < maxLength; _i2++) {
       var temp = [];
 
       for (var j = 0; j < args.length; j++) {
-        if (typeof args[j][_i] !== 'undefined') {
-          temp.push(args[j][_i]);
+        if (typeof args[j][_i2] !== 'undefined') {
+          temp.push(args[j][_i2]);
         }
       }
 
@@ -320,6 +386,30 @@ var aut1smer = function () {
     return ary;
   }
 
+  function keys(obj) {
+    var dealed = new Object(obj);
+    var res = [];
+
+    for (var k in dealed) {
+      if (obj.hasOwnProperty(k)) res.push(k);
+    }
+
+    return res;
+  }
+
+  function values(obj) {
+    var dealed = new Object(obj);
+    var res = [];
+
+    for (var k in dealed) {
+      if (dealed.hasOwnProperty(k)) {
+        res.push(dealed[k]);
+      }
+    }
+
+    return res;
+  }
+
   function isEqual(a, b) {
     if (a === b) {
       return true;
@@ -401,7 +491,8 @@ var aut1smer = function () {
     return ary.reduce(function (res, item) {
       return res + item;
     });
-  }
+  } //根据谓词求和，谓词用来计算每项的值，或是在对象里作为属性传属性值
+
 
   function sumBy(ary, predicate) {
     if (typeof predicate === 'function') {
@@ -423,6 +514,132 @@ var aut1smer = function () {
         res += predicate(ary[i], i);
       } else {
         res += ary[i][predicate];
+      }
+    }
+
+    return res;
+  } //存疑  全局isNaN(undefined)=true，Number.isNaN(undefined)=false,
+  // 全局 isNaN(new Number(NaN))=true  Number.isNaN(new Number(NaN)) = false 
+
+
+  function isNaN(val) {
+    if (val !== val) {
+      return true;
+    }
+
+    if (Number.isNaN(val)) {
+      return true;
+    }
+
+    if (_typeof(val) === 'object') {
+      return true;
+    }
+
+    return false;
+  }
+
+  function isNull(val) {
+    if (val === null) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function isNil(val) {
+    if (val === null || val === undefined) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function isUndefined(val) {
+    if (val === undefined) return true;
+    return false;
+  } //随机打乱顺序
+
+
+  function shuffle(collection) {
+    var res;
+
+    if (Array.isArray(collection)) {
+      res = [];
+      var count = collection.length;
+
+      for (var i = 0; i <= count; i++) {
+        res = res.concat(collection.splice(Math.floor(Math.random() * collection.length), 1));
+      }
+    } else {//对象乱序，对象好像没法乱序
+    }
+
+    return res;
+  } // 根据谓词计数，谓词可以是函数也可以是属性
+
+
+  function countBy(collection, predicate) {
+    if (typeof predicate === 'function') {
+      return collection.reduce(function (res, item, idx) {
+        var key = predicate(item, idx);
+
+        if (!(key in res)) {
+          res[key] = 1;
+        } else {
+          res[key] += 1;
+        }
+
+        return res;
+      }, {});
+    } else {
+      //把predicate当做一个属性看待
+      return collection.reduce(function (res, item, idx) {
+        var key = item[predicate];
+
+        if (!(key in res)) {
+          res[key] = 1;
+        } else {
+          res[key] += 1;
+        }
+
+        return res;
+      }, {});
+    }
+  } //创建一个数组，以谓词处理的结果升序排列。需要稳定排序。collection可以是Array|Object一个可迭代的集合。predicate谓词是函数。
+
+
+  function sortBy(collection, predicate) {
+    var res = [];
+
+    if (!collection) {
+      return [];
+    } //插入排序是稳定的
+
+
+    if (Array.isArray(collection)) {
+      for (var i = 1; i < collection.length; i++) {
+        var t = collection[i];
+        var temp = predicate(collection[i], i);
+
+        for (var j = i - 1; j >= 0; j--) {
+          if (predicate(collection[j]) > temp) {
+            collection[j + 1] = collection[j];
+          } else {
+            break;
+          }
+        }
+
+        collection[j + 1] = t;
+      } //排好序了，按照特定格式输出
+
+
+      for (var _i3 = 0; _i3 < collection.length; _i3++) {
+        var _temp = [];
+
+        for (var k in collection[_i3]) {
+          _temp.push(collection[_i3][k]);
+        }
+
+        res.push(_temp);
       }
     }
 

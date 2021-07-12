@@ -19,6 +19,7 @@
                     break //返回false就break。lodash是这么写的，可以这么用；但其他的库函数基本都不能这么用（不是这样写的）
                 }
             }
+            return ary
         }
 
 
@@ -27,18 +28,19 @@
             let res = []
             for (let i = 0; i < ary.length; i++) {
                 if (test(ary[i], i) === true) {
-                    res.push(array[i])
+                    res.push(ary[i])
                 }
             }
-            return ary
+            return res
         }
 
         //map 操作数组的每一项并返回操作后的数组，不改变原数组
         function map(ary, mapper) {
             let res = []
-            for (let i = 0; i < ary.length; i++) {
-                res.push(mapper(ary[i], i))
+            for (let k in ary) {
+                res.push(mapper(ary[k], k))
             }
+
             return res
         }
 
