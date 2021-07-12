@@ -1,6 +1,6 @@
 "use strict";
 
-var aut1sm = function () {
+var aut1smer = function () {
   //将ary拆分成size长度的区块，返回拆分后的二维数组
   function chunk(ary) {
     var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -159,6 +159,53 @@ var aut1sm = function () {
     return res;
   }
 
+  function forEach(ary, action) {
+    var len = ary.length;
+
+    for (var i = 0; i < len; i++) {
+      if (action(ary[i], i) === false) {
+        break;
+      }
+    }
+  }
+
+  function map(ary, mapper) {
+    var res = [];
+
+    for (var i = 0; i < ary.length; i++) {
+      res.push(mapper(ary[i], i));
+    }
+
+    return res;
+  }
+
+  function filter(ary, test) {
+    var res = [];
+
+    for (var i = 0; i < ary.length; i++) {
+      if (test(ary[i], i)) {
+        res.push(ary[i]);
+      }
+    }
+
+    return res;
+  }
+
+  function reduce(ary, reducer, initial) {
+    var startIdx = 0;
+
+    if (arguments.length == 2) {
+      initial = ary[0];
+      startIdx = 1;
+    }
+
+    for (var i = startIdx; i < ary.length; i++) {
+      initial = reducer(initial, ary[i], i);
+    }
+
+    return initial;
+  }
+
   return {
     chunk: chunk,
     compact: compact,
@@ -168,6 +215,30 @@ var aut1sm = function () {
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     groupBy: groupBy,
-    keyBy: keyBy
+    keyBy: keyBy,
+    forEach: forEach,
+    map: map,
+    filter: filter,
+    reduce: reduce,
+    zip: zip,
+    unzip: unzip,
+    keys: keys,
+    values: values,
+    every: every,
+    some: some,
+    fill: fill,
+    sortBy: sortBy,
+    isEqual: isEqual,
+    reverse: reverse,
+    countBy: countBy,
+    reduceRight: reduceRight,
+    shuffle: shuffle,
+    isNaN: isNaN,
+    isNull: isNull,
+    isNil: isNil,
+    isUndefined: isUndefined,
+    toArray: toArray,
+    sum: sum,
+    sumBy: sumBy
   };
 }();
