@@ -127,8 +127,8 @@ var aut1smer = function () {
 
       if (typeof predicate == 'function') {
         key = predicate(ary[i]);
-      } else if (predicate == 'length') {
-        key = ary[i].length;
+      } else {
+        key = ary[i][predicate]; // 以属性为基准
       }
 
       if (!(key in res)) {
@@ -206,12 +206,41 @@ var aut1smer = function () {
     return initial;
   }
 
+  function zip() {
+    var res = [];
+    var maxLength = 0;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    for (var i = 0; i < args.length; i++) {
+      maxLength = args[i].length > maxLength ? args[i].length : maxLength;
+    }
+
+    for (var _i = 0; _i < maxLength; _i++) {
+      var temp = [];
+
+      for (var j = 0; j < args.length; j++) {
+        if (typeof args[j][_i] !== 'undefined') {
+          temp.push(args[j][_i]);
+        }
+      }
+
+      res.push(temp);
+    }
+
+    return res;
+  }
+
+  function unzip() {}
+
   return {
     chunk: chunk,
     compact: compact,
     concat: concat,
-    unique: unique,
-    uniqueBy: uniqueBy,
+    // unique: unique,
+    // uniqueBy: uniqueBy,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     groupBy: groupBy,
@@ -221,24 +250,24 @@ var aut1smer = function () {
     filter: filter,
     reduce: reduce,
     zip: zip,
-    unzip: unzip,
-    keys: keys,
-    values: values,
-    every: every,
-    some: some,
-    fill: fill,
-    sortBy: sortBy,
-    isEqual: isEqual,
-    reverse: reverse,
-    countBy: countBy,
-    reduceRight: reduceRight,
-    shuffle: shuffle,
-    isNaN: isNaN,
-    isNull: isNull,
-    isNil: isNil,
-    isUndefined: isUndefined,
-    toArray: toArray,
-    sum: sum,
-    sumBy: sumBy
+    unzip: unzip // keys: keys,
+    // values: values,
+    // every: every,
+    // some: some,
+    // fill: fill,
+    // sortBy: sortBy,
+    // isEqual: isEqual,
+    // reverse: reverse,
+    // countBy: countBy,
+    // reduceRight: reduceRight,
+    // shuffle: shuffle,
+    // isNaN: isNaN,
+    // isNull: isNull,
+    // isNil: isNil,
+    // isUndefined: isUndefined,
+    // toArray: toArray,
+    // sum: sum,
+    // sumBy: sumBy,
+
   };
 }();
