@@ -8,30 +8,16 @@
     <title>regex101</title>
     <link rel="shortcut icon" href="../images/oogi2.ico" type="image/x-icon">
     <style>
-        * {
+        body {
             /* padding: 0; */
-            /* margin: 0; */
+            margin: 0;
         }
-        
-        em {
-            font-style: normal;
-            background-color: #9fcfff;
-        }
-        
-        em:nth-of-type(even) {
-            background-color: #D5EBFF;
-        }
-        /* 利用:empty伪元素设置零宽断言的em，因为字号继承原因em是有高度的 */
-        
-        em:empty {
-            border-right: 1px dotted red;
-            background-color: transparent;
-            margin-left: -1px;
-        }
+        /* regex101 */
         
         .regex101 {
-            margin-left: 50px;
-            margin-top: 50px;
+            margin-left: 20px;
+            margin-top: 20px;
+            color: #344f71;
         }
         
         input[type='text'],
@@ -39,6 +25,12 @@
             width: 300px;
             outline: none;
             /* font-family: consolas; */
+            resize: none;
+        }
+        
+        input[type='text']::placeholder,
+        textarea::placeholder {
+            color: #999;
         }
         
         pre {
@@ -59,18 +51,19 @@
         label input {
             cursor: pointer;
         }
+        /* content内容区 */
         /* textarea与pre的重叠 */
         
-        section {
-            width: 300px;
+        .content {
+            width: 600px;
             position: relative;
             font-family: consolas;
             margin-top: .8em;
             overflow: hidden;
         }
         
-        section textarea,
-        section pre {
+        .content textarea,
+        .content pre {
             /* textarea是行内块元素，默认底部|最后一行对齐匿名文本基线 */
             display: block;
             padding: 5px;
@@ -88,11 +81,11 @@
             overflow-y: scroll;
         }
         
-        section textarea {
+        .content textarea {
             background: transparent;
         }
         
-        section pre {
+        .content pre {
             position: absolute;
             z-index: -1;
             top: 0px;
@@ -102,47 +95,157 @@
             overflow-x: hidden;
             border-color: transparent;
         }
+        /* pre#result里的em标识匹配 */
+        
+        em {
+            font-style: normal;
+            background-color: #9fcfff;
+        }
+        
+        em:nth-of-type(even) {
+            background-color: #D5EBFF;
+        }
+        /* 利用:empty伪元素设置零宽断言的em，因为字号继承原因em是有高度的 */
+        
+        em:empty {
+            border-right: 1px dotted red;
+            background-color: transparent;
+            margin-left: -1px;
+        }
         /* 报错 */
         
-        #regError {
+        #regError,
+        #replaceError {
             color: red;
             margin: 0;
             height: 1em;
+        }
+        /* 替换区 */
+        
+        .substitution {
+            width: 600px;
+            /* height: 500px; */
+            margin-top: 0.8em;
+            /* border: 1px solid lightcoral; */
+        }
+        
+        .substitution pre {
+            /* display: block; */
+            padding: 5px;
+            border: 1px solid rgb(118, 118, 118);
+            box-sizing: border-box;
+            width: 100%;
+            height: 200px;
+            font-size: 16px;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-family: consolas;
+            cursor: text;
+            color: #000;
+        }
+        /* matching */
+        
+        .matching {
+            display: inline-block;
+            margin-left: 20px;
+            /* width: 60px; */
+            height: 20px;
+            padding-left: 5px;
+            padding-right: 5px;
+            color: #fff;
+            background-color: #6D6D6D;
+            font-size: 12px;
+            text-align: center;
+            border-radius: 5px;
+            vertical-align: bottom;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
     <div class="regex101">
-        请输入正则表达式：
+        键入正则：
         <label><input type="checkbox" name="" id="global" checked onclick="run()"> g </label>
         <label><input type="checkbox" name="" id="ignoreCase" onclick="run()"> i</label>
         <label><input type="checkbox" name="" id="multiLine" onclick="run()"> m</label>
+        <label><input type="checkbox" name="" id="singleLine" onclick="run()"> s</label>
+        <label><input type="checkbox" name="" id="unicode" onclick="run()"> u</label>
+        <label><input type="checkbox" name="" id="sticky" onclick="run()"> y</label>
         <br>
-        <!-- onkeydown（11年来）都是读的旧的内容，然后新内容被键入-->
+        <!-- onkeydown（11年来）都是读的旧的内容，然后新内容被键入。即onkeydown事件快于字符输入-->
         <!-- 而oninput就是总是等新内容键入后再执行该事件 -->
-        <input type="text" name="" id="reg" oninput="run()" value=""> <br> 请输入内容：
+        <input type="text" id="reg" value="" placeholder="insert your regular expression here" oninput="run()">
+        <span id="regMatching" class="matching">no match</span>
+        <br> 请输入内容：
         <br>
         <p id="regError"></p>
-        <section>
-            <textarea spellcheck="false" onscroll="setScroll()" id="strInput" cols="30" rows="10" oninput="run()">foobarbaz
+        <section class="content">
+            <textarea spellcheck="false" onscroll="setScroll()" id="strInput" cols="30" rows="10" oninput="run()" placeholder="insert your test string here">foobarbaz
         dqdiojqoxq
       jqoifja
     wqjdoiqjefoo fobfoa foc2wfoz19e9180
   wfooo dqw0921jdojfooqw9barar</textarea>
             <pre id="result"></pre>
         </section>
+        <section class="substitution">
+            键入替换内容： <input type="text" id="replacer" value="" placeholder="insert your replacement value here" oninput="run()">
+            <span id="replacerMatching" class="matching">no result</span>
+            <br/>
+            <p id="replaceError"></p>
+            <pre id="replacement">foobarbaz
+        dqdiojqoxq
+      jqoifja
+    wqjdoiqjefoo fobfoa foc2wfoz19e9180
+  wfooo dqw0921jdojfooqw9barar</pre>
+        </section>
     </div>
 
 
     <script>
+        /*  不完善的地方
+         *   1.替换内容不支持 \u6211 写法（）
+         *   2.右上角no match状态的processing过渡效果
+         *   3.标题栏
+         *   4.捕获部分
+         *   5.正则标志的卡片
+         */
+
+
+
+
+
+
+
         function run() {
             console.time('run')
+            var startTime = Date.now()
             var regSource = reg.value
             var flags = getFlags()
-            if (regSource === '') { //正则为空，即/(?:)/，pre置''，p#regError用作提示
+
+            var replaceSource = '' + replacer.value;
+            //替换内容的 \ 语法错误
+            /*try {
+                var replaceSource = '' + replacer.value
+                console.log(replaceSource)
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    replaceError.innerHTML = 'Your replacement has syntax Error'
+                    console.log('substitution has syntax error, the message of this Error is about: ' + e.message)
+                    console.dir(e)
+                    return -1
+                }
+            }*/
+            //正则为空，pre置''，p#regError用作提示
+            if (regSource === '') {
                 result.innerHTML = ''
                 regError.innerHTML = 'Please enter any key for  regular expression.'
+                replacement.innerHTML = strInput.value //保持与<textarea>同步
+                regMatching.innerHTML = 'no match' //保持与#reg同步
+                regMatching.style.backgroundColor = '#6D6D6D'
+                replacerMatching.innerHTML = 'no result' //保持与#reg同步
+                replacerMatching.style.backgroundColor = '#6D6D6D'
                 return
             }
             try {
@@ -159,33 +262,60 @@
                 return -1 //出错return -1
             }
             // console.log(re)
+
+
+
             var str = strInput.value
             var match
             var resultHTML = ''
+            var regMatchCount = 0
             if (re.global) {
                 //将匹配到的单词，用<em></em>包起来。对于匹配到的前面的单词，需要直接拼起来
                 var lastIndex = re.lastIndex //记录lastIndex，从0开始。因为resultHTML都要从上一次匹配完成的位置+1开始截取str
                 while (match = re.exec(str)) {
                     //每次截取，能够得到被截取的字符串match[0]和其在原父串里的位置为[match.index,re.lastIndex)；对于匹配的前面的字符串，范围自然是上一次的re.lastIndex到这次的match.index
                     resultHTML += str.slice(lastIndex, match.index) + '<em>' + match[0] + '</em>';
-                    //对于**所有且仅是**的零宽断言来说，都会匹配空串，且剩余部分仍有可能匹配该零宽断言，re.lastIndex应当+1以试图继续匹配。先加还是后加：选特殊值^匹配的是str[0]左侧的空隙，但re.lastIndex仍是0，当++以试图寻找新的空隙匹配，lastIndex只影响每轮截取的匹配字段前面的字段长度，匹配到空隙时，lastIndex仍应从上次匹配空隙后面的元素开始算起，所以直接赋值re.lastIndex
+                    //对于**所有且仅是**的零宽断言来说，都会匹配空串，且剩余部分仍有可能匹配该零宽断言，re.lastIndex应当+1以试图继续匹配。先加还是后加：后加，因为先加会导致lastIndex应原封不动的前串的开始位置不准
                     lastIndex = re.lastIndex //当下一轮match===null时，lastIndex仍记得上一次的re.lastIndex
                     if (match[0] === '') {
                         re.lastIndex++
                     }
+                    regMatchCount++
                 }
                 resultHTML += str.slice(lastIndex)
             } else { //no global
                 match = re.exec(str)
                 if (match) {
                     resultHTML = str.slice(0, match.index) + '<em>' + match[0] + '</em>' + str.slice(match.index + match[0].length) //由于re没有g标志，所以re.lastIndex总为0
+                    regMatchCount++
                 }
             }
-            result.innerHTML = resultHTML //赋给#result的<pre>
+            result.innerHTML = resultHTML + '\n' //解决最后一行回车被吞的问题
+
+            replacement.innerHTML = str.replace(re, replaceSource) //替换区域在正则有效的情况下的内容
+
+            //正则区域右上角匹配状态
+            if (regMatchCount) {
+                regMatching.innerHTML = regMatchCount + ' matches (' +
+                    (Date.now() - startTime) + 'ms)'
+                regMatching.style.backgroundColor = '#4E8475'
+            } else {
+                regMatching.innerHTML = 'no match'
+                regMatching.style.backgroundColor = '#6D6D6D'
+            }
+            //替换区域右上角匹配状态
+            if (new RegExp(re, 'g').test(str)) {
+                replacerMatching.innerHTML = 'success (' + (Date.now() - startTime) + 'ms)'
+                replacerMatching.style.backgroundColor = '#4E8475'
+            } else {
+                replacerMatching.innerHTML = 'no result' //保持与#reg同步
+                replacerMatching.style.backgroundColor = '#6D6D6D'
+            }
+
             console.timeEnd('run')
         }
 
-        //即使我们不与#reg交互，也想要run()运行一次。刷新页面如有缓存也有效
+        //即使我们不与# reg交互， 也想要run() 运行一次。 刷新页面如有缓存也有效
         run();
         //拿到被选中的checkBox，返回flags作为re.flags
         function getFlags() {
@@ -199,8 +329,18 @@
             if (multiLine.checked) {
                 flags += 'm'
             }
+            if (singleLine.chekced) {
+                flags += 's'
+            }
+            if (unicode.checked) {
+                flags += 'u'
+            }
+            if (sticky.checked) {
+                flags += 'y'
+            }
             return flags
         }
+
 
         //当textarea进行onScroll事件时，pre标签同时也需要滚动
         function setScroll() {
@@ -208,6 +348,9 @@
                 // result.style.top = -scrollTop + 'px'
         }
     </script>
+
+
+
 </body>
 
 </html>

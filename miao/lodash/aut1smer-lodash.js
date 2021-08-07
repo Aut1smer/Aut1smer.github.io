@@ -158,28 +158,29 @@ var aut1smer = function() {
 
     //可跳跃绑定的bind  
     bind.placeholder = window
+
     function bind(f, thisArg, ...fixedArgs) { //bind(f, {}, 1, 2, _, 3, _, 4)
         return function(...args) { // 5,8, 9,10
-            var ary = fixedArgs.slice()
+            var parameters = fixedArgs.slice()
             var j = 0
-            for (var i = 0; i < ary.length; i++) {
-                if (Object.is(ary[i], bind.placeholder)) {
+            for (var i = 0; i < parameters.length; i++) {
+                if (Object.is(parameters[i], bind.placeholder)) {
                     if (j < args.length) {
-                        ary[i] = args[j++]
+                        parameters[i] = args[j++]
                     } else {
-                        ary[i] = undefined
+                        parameters[i] = undefined
                     }
                 }
             }
             while (j < args.length) {
-                ary.push(args[j++])
+                parameters.push(args[j++])
             }
-            return f.apply(thisArg, ary)
+            return f.apply(thisArg, parameters)
         }
     }
 
-    
-    
+
+
     //比较对象source是否是对象object的子集
     //isMatch({a:1,b:2,d:{x:1,y:2}}, {b:2,d:{x:1}})   // true
     function isMatch(object, source) { //只有
@@ -219,6 +220,7 @@ var aut1smer = function() {
             return true
         }
     }
+
     function matches(src) { //当完成了isMatch函数后，可利用该函数写matches函数
         // return function (obj) {
         //     return isMatch(obj, src)
@@ -240,7 +242,7 @@ var aut1smer = function() {
     //传参方式一：get(object, 'a[0].b.c',defalut)
     //传参方式二：get(object, ['a','0','b','c'])
     function get(object, path, defaultVal) {
-        if(typeof path === 'string'){
+        if (typeof path === 'string') {
             path = toPath(path)
         }
         for (let i = 0; i < path.length; i++) {
@@ -264,15 +266,36 @@ var aut1smer = function() {
         }
     }
     //将String的路径转为数组 
-    //假设路径合法， 'a[0].b.c[0][3][4].foo.bar'  ---> ['a','0','b','c','0','3','4','foo','bar']  右括号必须遇到左括号或者.，单独的左括号和单独的.
+    //假设路径合法， 'a[0].b.c[0][3][4].foo.bar[2]'  ---> ['a','0','b','c','0','3','4','foo','bar']  右括号必须遇到左括号或者.，单独的左括号和单独的.
     function toPath(val) {
         if (Array.isArray(val)) {
             return val
         } else {
-            return val.split('][')
-                .reduce((ary, it) => ary.concat(it.split('].')), [])
-                .reduce((ary, it) => ary.concat(it.split('[')), [])
-                .reduce((ary, it) => ary.concat(it.split('.')), [])
+            var result = val.split('][')
+                .reduce((res, it) => res.concat(it.split('].')), [])
+                .reduce((res, it) => res.concat(it.split('[')), [])
+                .reduce((res, it) => res.concat(it.split('.')), [])
+            var item = result[result.length - 1]
+            if (item[item.length - 1] === ']') { //val最后属性为[2]时，该项为2]，需要把]去掉
+                result[result.length - 1] = item.slice(0, item.length - 1)
+            }
+            return result
+        }
+    }
+
+
+    function toPath(val) {
+        if (Array.isArray(val)) {
+            return val
+        } else {
+            var res = val.split(/\]\[|\]\.|\.|\[|\]/)
+            if (res[0] === '') {
+                res.shift()
+            }
+            if (res[res.length - 1] === '') {
+                res.pop()
+            }
+            return res
         }
     }
 
@@ -779,6 +802,111 @@ var aut1smer = function() {
 
     }
 
+    //递归下降parseJSON   str = '{"aa":"123","b":{"x":1,"y":[35,36,37],"z":null},"ccc":false}'
+    function parseJSON(str) {
+        var i = 0
+        return parseValue()
+            //将str的不同类型分发到各个函数
+        function parseValue() {
+            if (str[i] === '[') {
+                return parseArray()
+            }
+            if (str[i] === '{') {
+                return parseObject()
+            }
+            if (str[i] === '"') {
+                return parseString()
+            }
+            if (str[i] === 't') {
+                return parseTrue()
+            }
+            if (str[i] === 'f') {
+                return parseFalse()
+            }
+            if (str[i] === 'n') {
+                return parseNull()
+            }
+            return parseNumber()
+        }
+
+        function parseArray() {
+            var thisAry = []
+            i++
+            while (str[i] !== ']') {
+                var val = parseValue()
+                thisAry.push(val)
+                if (str[i] == ',') {
+                    i++
+                }
+            }
+            i++
+            return thisAry
+        }
+
+        function parseObject() {
+            var thisObj = {}
+            i++
+            while (str[i] !== '}') {
+                var key = parseString()
+                i++
+                var val = parseValue()
+                thisObj[key] = val
+                if (str[i] === ',') {
+                    i++
+                }
+            }
+            i++
+            return thisObj
+        }
+
+        function parseString() {
+            var thisStr = ''
+            i++
+            while (str[i] !== '"') {
+                thisStr += str[i++]
+            }
+            i++
+            return thisStr
+        }
+
+        function parseNumber() {
+            var thisNum = ''
+            while (str[i] >= '0' && str[i] <= '9') {
+                thisNum = str[i++]
+            }
+            return Number(thisNum)
+        }
+
+        function parseTrue() {
+            var s = str.substr(i, 4)
+            if (s === 'true') {
+                i += 4
+                return true
+            } else {
+                throw new SyntaxError('unexpected token ' + s + ' in pos of ' + i)
+            }
+        }
+
+        function parseFalse() {
+            var s = str.substr(i, 5)
+            if (s === 'false') {
+                i += 5
+                return false
+            } else {
+                throw new SyntaxError('unexpected token ' + s + ' in pos of ' + i)
+            }
+        }
+
+        function parseNull() {
+            var s = str.substr(i, 4)
+            if (s === 'null') {
+                i += 4
+                return null
+            } else {
+                throw new SyntaxError('unexpected token ' + s + ' in pos of ' + i)
+            }
+        }
+    }
 
 
     return {
@@ -815,5 +943,6 @@ var aut1smer = function() {
         toArray: toArray,
         sum: sum,
         sumBy: sumBy,
+        parseJSON: parseJSON,
     }
 }()
