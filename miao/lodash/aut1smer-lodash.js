@@ -1,23 +1,29 @@
 var aut1smer = function() {
 
+
+    /*-----------------------------------
+     *              Array
+     *------------------------------------
+     */
+
     //将ary拆分成size长度的区块，返回拆分后的二维数组
     function chunk(ary, size = 1) {
-        let res = []
         if (size >= ary.length) {
-            res = ary
-            return res
+            return [ary.slice()]
         }
-        for (let i = 0; i < ary.length; i += size) {
+        let res = []
+        let len = ary.length
+        for (let i = 0; i < len; i += size) {
             let temp = []
-            let end = ary[i + size - 1] ? i + size : ary.length
+            let end = (i + size) <= len ? i + size : len //end取不到
             for (let j = i; j < end; j++) {
                 temp.push(ary[j])
-
             }
             res.push(temp)
         }
         return res
     }
+
 
     //返回无假值数组  假值：false、null、0、''、undefined、NaN
     function compact(ary) {
@@ -30,26 +36,30 @@ var aut1smer = function() {
         return res
     }
 
-    //concat 有展平一层的功能
+
+    //有展平一层的功能
     function concat(ary, ...args) {
         let res = ary.slice()
         for (let i = 0; i < args.length; i++) {
-            if (Array.isArray(args[i])) {
-                for (let j = 0; j < args[i].length; j++) {
-                    res.push(args[i][j])
+            let item = args[i]
+            if (Array.isArray(item)) {
+                for (let j = 0; j < item.length; j++) {
+                    res.push(item[j])
                 }
             } else {
-                res.push(args[i])
+                res.push(item)
             }
         }
         return res
     }
 
-    //深度展平
+
+
+    //深度展平为一维数组
     function flattenDeep(ary) {
         let res = []
         for (let i = 0; i < ary.length; i++) {
-            if (Array.isArray(ary[i])) {
+            if (Array.isArray(ary[i])) { //如果是数组就展平成一维数组
                 let item = flattenDeep(ary[i])
                 for (let j = 0; j < item.length; j++) {
                     res.push(item[j])
@@ -70,14 +80,12 @@ var aut1smer = function() {
     }
 
     function flattenDeep3(ary) {
-        return ary.reduce((res, item) => {
-            return res.concat(Array.isArray(item) ? flattenDeep3(item) : item)
-        }, [])
+        return ary.reduce((res, item) => res.concat(Array.isArray(item) ? flattenDeep3(item) : item), [])
     }
 
 
     //根据depth递归减少ary的层级
-    function flattenDepth(ary, depth = Infinity) {
+    function flattenDepth(ary, depth = 1) {
         if (depth == 0) {
             return ary.slice()
         }
@@ -96,75 +104,357 @@ var aut1smer = function() {
         return res
     }
 
-    function groupBy(ary, predicate) {
-        let res = {}
-        for (let i = 0; i < ary.length; i++) {
-            let key
-            if (typeof predicate == 'function') {
-                key = predicate(ary[i])
+
+    function difference(ary, ...values) {
+        var result = []
+        for (var value of values) {
+            if (Array.isArray(value)) {
+                for (var item of ary) {
+                    if (!value.includes(item)) {
+                        result.push(item)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    // _.differenceBy(array, [values], [iteratee=_.identity])
+    function differenceBy(ary, ...values) {
+        var differ = values[values.length - 1]
+        if (!Array.isArray(differ)) {
+            differ = iteratee(differ) //_.property
+            values = values.slice(0, -1)
+        } else {
+            differ = identity // it=>it
+        }
+        var result = []
+        for (var value of values) {
+            for (let i = 0; i < value.length; i++) {
+                value[i] = differ(value[i])
+            }
+            for (var item of ary) {
+                if (!value.includes(differ(item))) {
+                    result.push(item)
+                }
+            }
+
+        }
+        return result
+    }
+
+    function intersection(...arys) {
+        var ary = arys[0]
+        var values = arys.slice(1)
+        var result = []
+        for (var value of values) { //values二维数组
+            for (var item of ary) {
+                if (value.includes(item)) {
+                    result.push(item)
+                }
+            }
+        }
+        return result
+    }
+
+    //_.intersectionBy([arrays], [iteratee=_.identity])
+    function intersectionBy(...arys) {
+        var filter = arys[arys.length - 1]
+        if (Array.isArray(filter)) { //没传iteratee
+            filter = identity
+        } else {
+            filter = iteratee(filter)
+        }
+        var ary = arys[0]
+        var values = arys.slice(1, -1)
+        var result = []
+        for (var value of values) {
+            if (Array.isArray(value)) {
+                for (var i = 0; i < value.length; i++) {
+                    value[i] = filter(value[i])
+                }
+                for (var item of ary) {
+                    if (value.includes(filter(item))) {
+                        result.push(item)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    // _.sortedIndex(30, 40);返回NaN  _.sortedIndex('512', 40);返回3  _.sortedIndex(30, 40);返回1
+    function sortedIndex(ary, value) { //ary为sorted
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return NaN
+        }
+        let start = 0,
+            end = ary.length; //不包括end
+        //最后要取什么？取start：因为end取不到且end代表前面是>=value的位置。到最后只可能从[30,40,40]的前一个40的mid值返回，或者其他例子：[30,40,40,60]  [40,40,40] 皆从 return mid处返回。 [50,50],80，从return start处返回
+        while (start < end) {
+            let mid = (start + end) >> 1
+            if (value < ary[mid]) {
+                end = mid
+            } else if (value > ary[mid]) {
+                start = mid + 1
+            } else { //相等
+                if (ary[mid - 1] != value) {
+                    return mid
+                } else {
+                    end = mid
+                }
+            }
+        }
+        return start //start = end... [50,50],80。 这个位置即大于等于又小于value
+    }
+
+
+    function sortedIndexBy(ary, value, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return NaN
+        }
+        predicate = iteratee(predicate)
+
+        let v = predicate(value)
+        let left = 0,
+            right = ary.length //有可能插到ary.length
+        while (left < right) {
+            let mid = (left + right) >> 1 //奇数项正中间，偶数项右半部分第一个
+            let midVal = predicate(ary[mid])
+            if (midVal < v) {
+                left = mid + 1
+            } else if (midVal > v) {
+                right = mid
             } else {
-                key = ary[i][predicate] // 以属性为基准
+                if ((mid - 1) < 0 || predicate(ary[mid - 1]) != v) { //(mid -1)<0说明left = mid = 0，找到最前面了且ary[mid - 1]无效索引值
+                    return mid
+                } else { //前面还有相等的
+                    right = mid
+                }
             }
-            if (!(key in res)) {
-                res[key] = []
+        }
+        return left //找到最右边了，即ary[ary.length - 1] < value
+            //找到最左边了，即ary[right]>value
+    }
+
+
+    //除了Set哈希表以外，去重都是n^2，最低不过nlogn(排序后遍历一遍)
+    function uniq(ary) {
+        // return Array.from(new Set(ary))
+        let set = new Set()
+        for (let i = 0; i < ary.length; i++) {
+            set.has(ary[i]) || set.add(ary[i])
+        }
+        var result = []
+        for (var item of set) {
+            result.push(item)
+        }
+        return result
+    }
+    // O(n^2)写法
+    function uniq2(ary) {
+        let result = []
+        for (let i = 0; i < ary.length; i++) {
+            if (!result.includes(ary[i])) {
+                result.push(ary[i])
             }
-            res[key].push(ary[i])
+        }
+        return result
+    }
+
+    //根据断言判断计算出的key是否相同，相同则去重
+    function uniqBy(ary, predicate = identity) {
+        predicate = iteratee(predicate)
+        let hashMap = new Map()
+        for (let i = 0; i < ary.length; i++) {
+            let key = predicate(ary[i], i, ary)
+            hashMap.has(key) || hashMap.set(key, ary[i])
+        }
+        let result = []
+        for (let item of hashMap) {
+            result.push(item[1])
+        }
+        return result
+    }
+
+    //xieran
+    function uniqBy2(ary, predicate = identity) {
+        predicate = iteratee(predicate)
+        var result = []
+        var seen = new Set()
+        for (var i = 0; i < ary.length; i++) {
+            var computed = predicate(ary[i], i, ary)
+            if (!seen.has(computed)) {
+                result.push(ary[i])
+                seen.add(computed)
+            }
+        }
+        return result
+    }
+    // _.uniqWith([{a:1,b:2},{a:2,b:5},{a:1,b:2},{a:2,b:5}],_.isEqual);返回[{a:1,b:2},{a:2,b:5}]
+    //时间退化到O(n^2)
+    function uniqWith(ary, comparator = isEqual) {
+        if (ary.length < 1) {
+            return []
+        }
+        let result = [ary[0]]
+        for (let i = 1; i < ary.length; i++) {
+            let flag = true
+            let item = ary[i]
+            for (let j = 0; j < result.length; j++) {
+                if (comparator(ary[j], item)) {
+                    flag = false //有重复
+                    break
+                }
+            }
+            if (flag) {
+                result.push(ary[i])
+            }
+        }
+        return result
+    }
+    //xieran
+    function uniqWith2(ary, comparator = isEqual) {
+        var result = []
+        for (let i = 0; i < ary.length; i++) {
+            if (!result.some(it => comparator(it, ary[i]))) { //遍历result，有一项和ary[i]深度相等就不放入result里
+                result.push(ary[i])
+            }
+        }
+        return result
+    }
+    /* --------------------------Array-------------------------- */
+
+
+
+    /*-----------------------------------
+     *              Collection
+     *------------------------------------
+     */
+
+    function groupBy(collection, predicate) {
+        if (typeof predicate == 'string') {
+            predicate = iteratee(predicate) // property(propPath)
+        }
+        let res = {}
+        for (var cKey in collection) {
+            var key = predicate(collection[cKey], cKey, collection)
+            if (Array.isArray(res[key])) {
+                res[key].push(collection[cKey])
+            } else {
+                res[key] = [collection[cKey]]
+            }
         }
         return res
     }
 
-    function keyBy(ary, predicate) {
+
+    //会出现覆盖的情况，即res.length <= collection.length
+    function keyBy(collection, predicate) {
+        if (typeof predicate == 'string') {
+            predicate = iteratee(predicate)
+        }
         let res = {}
-        for (let i = 0; i < ary.length; i++) {
-            let key
-            if (typeof predicate == 'function') {
-                key = predicate(ary[i], i)
-            } else {
-                key = ary[i][predicate]
-            }
-            res[key] = ary[i]
+        for (var cKey in collection) {
+            var key = predicate(collection[cKey], cKey, collection)
+            res[key] = collection[cKey]
         }
         return res
     }
 
-    function forEach(ary, action) {
-        let dealed = Object(ary)
-        if (Array.isArray(ary)) {
-            let len = ary.length
-            for (let i = 0; i < len; i++) {
-                if (action(ary[i], i) === false) {
-                    break
-                }
-            }
-        } else { //处理对象
-            for (let k in ary) {
-                if (action(ary[k], k) === false) {
-                    break
-                }
-            }
-        }
+    //遍历对象自有可枚举属性
+    function forEach(collection, action) {
+        forOwn(collection, action)
     }
 
-    //传入什么属性名，它返回的函数就用来获取对象的什么属性名
-    //传参类型一： a.b ----> obj[a][b]
-    //
-    function property(prop) { //a.b
-        return get.bind(null, window, prop)
-            // return function(obj){
-            //     // return obj[prop] //只支持单个属性名
-            //     return get(obj, prop) //得到深层次属性，转成bind返回的函数
-            // }
+
+    function map(collection, mapper) {
+        if (typeof mapper === 'string') {
+            mapper = property(mapper) //_.property('a.b')
+        }
+        var result = []
+        for (var key in collection) {
+            result.push(mapper(collection[key], key, collection))
+        }
+        return result
     }
+
+
+    function filter(collection, predicate) {
+        predicate = iteratee(predicate)
+        var result = []
+        for (var key in collection) {
+            if (predicate(collection[key], key, collection) === true) {
+                result.push(collection[key])
+            }
+        }
+        return result
+    }
+
+
+
+    function reduce(collection, reducer, initial) {
+        let keyAry = []
+        for (let key in collection) { //对象也可能从1开始数
+            if (collection.hasOwnProperty(key)) {
+                keyAry.push(key)
+            }
+        }
+
+        let startIdx = 0
+        if (arguments.length == 2) {
+            startIdx = 1
+            initial = collection[keyAry[0]]
+        }
+        for (let i = startIdx; i < keyAry.length; i++) {
+            initial = reducer(initial, collection[keyAry[i]], keyAry[i], collection)
+        }
+        return initial
+    }
+
+
+
+    function reduceRight(collection, reducer, initial) {
+        let keyAry = []
+        for (let key in collection) {
+            if (collection.hasOwnProperty(key)) {
+                keyAry.push(key)
+            }
+        }
+        let len = keyAry.length
+        let startIdx = len - 1
+        if (arguments.length == 2) {
+            startIdx = len - 2
+            initial = collection[keyAry[len - 1]]
+        }
+        for (let i = startIdx; i >= 0; i--) {
+            initial = reducer(initial, collection[keyAry[i]], keyAry[i], collection)
+        }
+        return initial
+    }
+
+
+    /*-----------------------------------
+     *              Date
+     *------------------------------------
+     */
+
+
+
+    /*-----------------------------------
+     *              Function
+     *------------------------------------
+     */
 
     //可跳跃绑定的bind  
-    bind.placeholder = window
+    bind.placeholder = window;
 
     function bind(f, thisArg, ...fixedArgs) { //bind(f, {}, 1, 2, _, 3, _, 4)
         return function(...args) { // 5,8, 9,10
             var parameters = fixedArgs.slice()
             var j = 0
             for (var i = 0; i < parameters.length; i++) {
-                if (Object.is(parameters[i], bind.placeholder)) {
+                if (Object.is(parameters[i], bind.placeholder)) { //Object.is()能够做到NaN===NaN
                     if (j < args.length) {
                         parameters[i] = args[j++]
                     } else {
@@ -181,93 +471,225 @@ var aut1smer = function() {
 
 
 
-    //比较对象source是否是对象object的子集
-    //isMatch({a:1,b:2,d:{x:1,y:2}}, {b:2,d:{x:1}})   // true
-    function isMatch(object, source) { //只有
-        if (object === source) {
+    /*-----------------------------------
+     *              Lang
+     *------------------------------------
+     */
+
+
+    //判断obj是否全包含src，src的每个属性及值都在obj上找到并相等.支持深层
+    //测试用例 isMatch({a:1,b:2,c:3,d:{x:1,y:2}}, {b:2,d:{x:1}})
+    function isMatch(obj, src) {
+        if (obj === src) {
             return true
         }
-        if (typeof object !== 'object' || typeof source !== 'object') {
-            return false
+        if ((typeof obj == 'object') + (typeof src == 'object') !== 2) { //不是都为对象
+            return true
+                //这条if忽略了_.isMatch(5,{a:2})返回false的情况，但_isMatch(5,{})返回true
         }
-        for (var key in source) {
-            if (object.hasOwnProperty(key)) {
-                if (source[key] && typeof source[key] === 'object') {
-                    if (!isMatch(object[key], source[key])) {
-                        return false
-                    }
-                } else { //原始类型
-                    if (object[key] !== source[key]) {
-                        return false
-                    }
+        for (var key in src) {
+            if (src[key] && typeof src[key] !== 'object') {
+                if (!obj.hasOwnProperty(key) || obj[key] !== src[key]) { //原始类型也能调用hasOwnProperty方法.这里没有考虑到null和undefined的情况，这两个特殊值进入这个if会报错
+                    return false
                 }
-            } else { //object中没有src的key属性
-                return false
+            } else { //src[key]是Object，深层判断
+                if (!isMatch(obj[key], src[key])) {
+                    return false
+                }
             }
         }
         return true
     }
-    //matches接收的对象是item的子集，返回断言函数，断言函数依据src作为判断基准
-    function matches(src) {
-        // return bind(isMathch, null, window, )
-        return function(obj) {
-            //src是obj的子集，src里的属性及值在obj里都有
-            for (let key in src) {
-                if (!obj.hasOwnProperty(key) || src[key] !== obj[key]) {
-                    return false
-                }
-            }
-            return true
+
+
+
+    /*-----------------------------------
+     *              Math
+     *------------------------------------
+     */
+
+    function sum(ary) {
+        let res = 0
+        for (let i = 0; i < ary.length; i++) {
+            res += ary[i]
         }
+        return res
     }
 
-    function matches(src) { //当完成了isMatch函数后，可利用该函数写matches函数
-        // return function (obj) {
-        //     return isMatch(obj, src)
-        // }
-        return bind(isMatch, null, window, src)
+    function sum2(ary) {
+        return ary.reduce((res, item) => {
+            return res + item
+        })
     }
 
-
-
-    //给定对象的属性是否与source深度相等
-    //matchesProperty接收['key',val]（同{key:val}），断言依据这个数组判断接收的对象有无该键值对
-    function matchesProperty(path, val) {
-        return function(obj) {
-            return isEqual(get(obj, path), val)
+    function sum3(ary) {
+        return sumBy(ary)
+    }
+    //根据谓词求和，谓词用来计算每项的值，或是在对象里作为属性传属性值
+    function sumBy(ary, predicate = identity) { //即predicate= it=>it
+        predicate = iteratee(predicate)
+        var result = 0
+        for (let i = 0; i < ary.length; i++) {
+            result += predicate(ary[i], i, ary)
         }
+        return result
     }
+
+
+
+
+
+    /*-----------------------------------
+     *              Number
+     *------------------------------------
+     */
+
+
+    /*-----------------------------------
+     *              Object
+     *------------------------------------
+     */
 
     //获取object的'a.b.c'属性
     //传参方式一：get(object, 'a[0].b.c',defalut)
     //传参方式二：get(object, ['a','0','b','c'])
     function get(object, path, defaultVal) {
         if (typeof path === 'string') {
-            path = toPath(path)
+            path = toPath(path) //将字符串path转为数组，如传参方式二
         }
         for (let i = 0; i < path.length; i++) {
-            if (object == undefined) { //reduce没有办法提前返回；null也读不到属性
+            if (object == undefined) { //null == undefined//true，或是循环中读到空。 不用reduce：reduce没有办法提前返回；null也读不到属性
                 return defaultVal
             }
             object = object[path[i]]
-
         }
         return object
     }
 
     //递归写法，获取object的path路径上的属性
-    function get(object, path, defaultVal = undefined) {
+    function get2(object, path, defaultVal = undefined) {
         if (object == undefined) { //object传进来时可能为null，递归过程中可能为undefined
             return defaultVal
         } else if (path.length == 0) {
             return object
         } else {
-            return get(object[path[0]], path.slice(1), defaultVal)
+            return get2(object[path[0]], path.slice(1), defaultVal)
         }
     }
+
+
+    function forIn(obj, predicate) {
+        for (var key in obj) {
+            if (predicate(obj[key], key, obj) === false) {
+                break
+            }
+        }
+    }
+
+    function forInRight(obj, predicate) {
+        var keyAry = []
+        for (var key in obj) {
+            keyAry.push(key)
+        }
+        for (let i = keyAry.length - 1; i >= 0; i--) {
+            predicate(obj[keyAry[i]], keyAry[i], obj)
+            if (predicate(obj[keyAry[i]], keyAry[i], obj) === false) {
+                break
+            }
+        }
+    }
+
+    function forOwn(obj, predicate) {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (predicate(obj[key], key, obj) === false) {
+                    break
+                }
+            }
+        }
+    }
+
+    function forOwnRight(obj, predicate) {
+        var keyAry = []
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                keyAry.push(key)
+            }
+        }
+        for (let i = keyAry.length - 1; i >= 0; i--) {
+            if (predicate(obj[keyAry[i]], keyAry[i], obj) === false) {
+                break
+            }
+        }
+    }
+
+    /*-----------------------------------
+     *              Seq
+     *------------------------------------
+     */
+
+
+
+
+
+    /*-----------------------------------
+     *              String
+     *------------------------------------
+     */
+
+
+
+
+    /*-----------------------------------
+     *              Util
+     *------------------------------------
+     */
+
+    //根据不同类型生成不同的断言函数
+    function iteratee(maybePredicate) {
+        if (typeof maybePredicate === 'function') {
+            return maybePredicate
+        } else if (typeof maybePredicate === 'string') {
+            return property(maybePredicate) //输入属性，返回属性值
+        } else if (Array.isArray(maybePredicate)) {
+            return matchesProperty(...maybePredicate) // 输入...[key,val]，返回断言是否其超集
+        } else if (maybePredicate instanceof RegExp) {
+            return isMatchByRegexp(maybePredicate) //输入正则，返回断言是否匹配string
+        } else if (typeof maybePredicate === 'object') {
+            return matches(maybePredicate) //输入对象，返回断言是否其超集
+        }
+    }
+
+
+    //传入什么属性名，它返回的函数就用来获取对象的属性值
+    function property(prop) {
+        // return bind(get,null, _, prop) //当一个函数调用另一个函数，传入的参数不变的情况下，永远可以被优化为bind写法
+        return function(obj) {
+            // return obj[prop]
+            return get(obj, prop) //get(obj, path)得到深层路径下的属性值
+        }
+    }
+
+
+
     //将String的路径转为数组 
     //假设路径合法， 'a[0].b.c[0][3][4].foo.bar[2]'  ---> ['a','0','b','c','0','3','4','foo','bar']  右括号必须遇到左括号或者.，单独的左括号和单独的.
     function toPath(val) {
+        if (Array.isArray(val)) {
+            return val
+        } else {
+            var res = val.split(/\]\[|\]\.|\.|\[|\]/)
+            if (res[0] === '') {
+                res.shift()
+            }
+            if (res[res.length - 1] === '') {
+                res.pop()
+            }
+            return res
+        }
+    }
+
+    function toPath2(val) {
         if (Array.isArray(val)) {
             return val
         } else {
@@ -284,138 +706,80 @@ var aut1smer = function() {
     }
 
 
-    function toPath(val) {
-        if (Array.isArray(val)) {
-            return val
-        } else {
-            var res = val.split(/\]\[|\]\.|\.|\[|\]/)
-            if (res[0] === '') {
-                res.shift()
+    //src为filter接收的对象，判断src是否是obj的子集.没有考虑深层次嵌套
+    //函数构造器matches，返回的函数传入的参数应是传入matches里的超集。不支持深层
+    function matches2(src) {
+        return function(obj) {
+            if (obj === src) {
+                return true
             }
-            if (res[res.length - 1] === '') {
-                res.pop()
+            for (var key in src) {
+                if (!obj.hasOwnProperty(key) || obj[key] !== src[key]) {
+                    return false
+                }
             }
-            return res
+            return true
         }
     }
-
-    function map(collection, mapper) {
-        if (typeof mapper === 'string') {
-            mapper = property(mapper) //_.property('a.b')
-        } else if (Array.isArray(mapper)) {
-            mapper = matchesProperty(...mapper) //  _.matchesProperty('a', 4)
-        } else if (typeof mapper === 'object') {
-            mapper = matches(mapper) // _.matches({ 'a': 4, 'c': 6 })
+    //对matches的优化改进，支持了深层比较
+    function matches(src) {
+        // return bind(isMatch, null, window, src)
+        return function(obj) {
+            return isMatch(obj, src)
         }
-
-        var result = []
-            //考虑到collection是对象的时候
-        for (var key in collection) {
-            result.push(mapper(collection[key], key, collection))
-        }
-        return result
     }
 
 
 
-    // function map(ary, mapper) {
-    //     let dealed = new Object(ary)
-    //     let res = []
-    //     if (Array.isArray(dealed)) {
-    //         //此时mapper必是function类型
-    //         if (typeof mapper === 'function') {
-    //             for (let i = 0; i < dealed.length; i++) {
-    //                 res.push(mapper(dealed[i], i))
-    //             }
-    //         } else { //作属性
-    //             for (let i = 0; i < dealed.length; i++) {
-    //                 res.push(dealed[i][mapper])
-    //             }
-    //         }
-
-    //     } else { //处理对象
-    //         if (typeof mapper === 'function') {
-    //             for (let k in dealed) {
-    //                 res.push(mapper(dealed[k], k))
-    //             }
-    //         } else { //谓词当做属性
-    //             for (let k in dealed) {
-    //                 if (k == mapper) {
-    //                     res.push(dealed[mapper])
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return res
-    // }
-
-    //根据不同类型生成不同的断言函数
-    function iteratee(maybePredicate) {
-        if (typeof maybePredicate === 'function') {
-            return maybePredicate
-        }
-        if (typeof maybePredicate === 'stirng') { //给我一个字符串，断言生成器property生成一个判断这个属性在不在item、item[属性]=这个属性值的断言函数
-            return property(maybePredicate)
-        }
-        if (Array.isArray(maybePredicate)) {
-            return matchesProperty(...maybePredicate)
-        }
-        if (typeof maybePredicate === 'object') {
-            return matches(maybePredicate)
+    //判断obj在path路径下的属性值与val是否深度相等
+    function matchesProperty(path, val) {
+        return function(obj) {
+            return isEqual(get(obj, path), val)
         }
     }
 
-    function filter(collection, predicate) {
-        predicate = iteratee(predicate)
-        var result = []
-        for (var key in collection) {
-            if (predicate(collection[key], key, collection) === true) {
-                result.push(collection[key])
-            }
-        }
-        return result
+
+    //返回它自己
+    function identity(val) {
+        return val
     }
 
+    /*-----------------------------------
+     *              Properties
+     *------------------------------------
+     */
 
 
 
 
-    function reduce(ary, reducer, initial) {
-        let startIdx = 0
-        if (arguments.length == 2) {
-            initial = ary[0]
-            startIdx = 1
-        }
-        if (Array.isArray(ary)) {
-            for (let i = startIdx; i < ary.length; i++) {
-                initial = reducer(initial, ary[i], i)
-            }
-        } else { //处理对象
-            for (let k in ary) {
-                initial = reducer(initial, ary[k], k)
-            }
-        }
 
-        return initial
-    }
 
-    function reduceRight(ary, reducer, initial) { //从后向前，没考虑对象
-        let startIdx = ary.length - 1
-        if (arguments.length == 2) {
-            initial = ary[ary.length - 1]
-            startIdx = ary.length - 2
-        }
-        if (Array.isArray(ary)) {
-            for (let i = startIdx; i >= 0; i--) {
-                initial = reducer(initial, ary[i], i)
-            }
-        } else { //对象虽然不能从后向前遍历，但...好歹...能遍历把
-            for (let k in ary) {
-                initial = reducer(initial, ary[k], k)
-            }
-        }
-        return initial
-    }
+    /*-----------------------------------
+     *              Methods
+     *------------------------------------
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     function zip(...args) {
@@ -584,60 +948,6 @@ var aut1smer = function() {
     }
 
 
-    function sum(ary) {
-        let res = 0
-        for (let i = 0; i < ary.length; i++) {
-            res += ary[i]
-        }
-        return res
-    }
-
-    function sum2(ary) {
-        return ary.reduce((res, item) => {
-            return res + item
-        })
-    }
-
-    //根据谓词求和，谓词用来计算每项的值，或是在对象里作为属性传属性值
-    function sumBy(ary, predicate) {
-        if (typeof predicate === 'function') {
-            return ary.reduce((res, item, idx) => {
-                    return res + predicate(item, idx)
-                }, 0) //必须从0开始
-        } else {
-            return ary.reduce((res, item) => {
-                return res + item[predicate]
-            }, 0)
-        }
-
-    }
-    //返回它自己
-    function identity(val) {
-        return val
-    }
-
-    function sumByXieran(ary, predicate = identity) {
-        if (typeof predicate !== 'function') {
-            predicate = property(predicate)
-        }
-        return ary.reduce((res, item, idx) => {
-            return res + predicate(item, idx)
-        }, 0)
-    }
-
-    function sumBy2(ary, predicate) {
-        let res = 0
-        for (let i = 0; i < ary.length; i++) {
-            if (typeof predicate === 'function') {
-                res += predicate(ary[i], i)
-            } else {
-                res += ary[i][predicate]
-            }
-        }
-        return res
-    }
-
-
     //存疑  全局isNaN(undefined)=true，Number.isNaN(undefined)=false,
     // 全局 isNaN(new Number(NaN))=true  Number.isNaN(new Number(NaN)) = false 
     function isNaN(val) {
@@ -751,56 +1061,7 @@ var aut1smer = function() {
         return res
     }
 
-    //除了Set哈希表以外，去重都是n^2，最低不过nlogn(排序后遍历一遍)
-    function unique(ary) {
-        let set = new Set()
-        for (let i = 0; i < ary.length; i++) {
-            if (set.has(ary[i])) {
-                continue
-            } else {
-                set.add(ary[i])
-            }
-        }
 
-        let res = []
-        set.forEach(item => {
-            res.push(item)
-        })
-        return res
-            // return Array.from(new Set(ary))
-    }
-
-    function uniqueBy(ary, predicate) {
-        let hashmap = new Map()
-
-        if (typeof predicate === 'function') {
-            for (let i = 0; i < ary.length; i++) {
-                let key = predicate(ary[i], i)
-                if (hashmap.has(key)) {
-                    continue
-                } else {
-                    hashmap.set(key, ary[i])
-                }
-            }
-
-        } else { //谓词视作对象的属性
-            for (let i = 0; i < ary.length; i++) {
-                let key = ary[i][predicate]
-                if (hashmap.has(key)) {
-                    continue
-                } else {
-                    hashmap.set(key, ary[i])
-                }
-            }
-        }
-        //填入完毕，进行输出   
-        let res = []
-        hashmap.forEach((value, key) => {
-            res.push(value)
-        })
-        return res
-
-    }
 
     //递归下降parseJSON   str = '{"aa":"123","b":{"x":1,"y":[35,36,37],"z":null},"ccc":false}'
     function parseJSON(str) {
@@ -913,8 +1174,9 @@ var aut1smer = function() {
         chunk: chunk,
         compact: compact,
         concat: concat,
-        unique: unique,
-        uniqueBy: uniqueBy,
+        uniq: uniq,
+        uniqBy: uniqBy,
+        uniqWith: uniqWith,
         flattenDeep: flattenDeep,
         flattenDepth: flattenDepth,
         groupBy: groupBy,
@@ -944,5 +1206,15 @@ var aut1smer = function() {
         sum: sum,
         sumBy: sumBy,
         parseJSON: parseJSON,
+        forIn: forIn,
+        forInRight: forInRight,
+        forOwn: forOwn,
+        forOwnRight: forOwnRight,
+        difference: difference,
+        differenceBy: differenceBy,
+        intersection: intersection,
+        intersectionBy: intersectionBy,
+        sortedIndex: sortedIndex,
+        sortedIndexBy: sortedIndexBy,
     }
 }()

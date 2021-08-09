@@ -1,9 +1,9 @@
-//传入什么属性名，它返回的函数就用来获取对象的属性名
+//传入什么属性名，它返回的函数就用来获取对象的属性值
 function property(prop) {
     // return bind(get,null, _, prop) //当一个函数调用另一个函数，传入的参数不变的情况下，永远可以被优化为bind写法
     return function(obj) {
         // return obj[prop]
-        return get(obj, prop)
+        return get(obj, prop) //get(obj, path)得到深层路径下的属性值
     }
 }
 
@@ -24,14 +24,14 @@ function get(obj, path, defaultVal) {
 }
 
 //得到obj在path路径上的属性值，找不到返回defaultVal.仅限path为数组的情况
-function get(obj, path, defaultVal) {
+function get2(obj, path, defaultVal) {
     if (obj == undefined) {
         return defaultVal
     } else
     if (path.length == 0) {
         return obj
     } else {
-        return get(obj[path[0]], path.slice(1), defaultVal)
+        return get2(obj[path[0]], path.slice(1), defaultVal)
     }
 }
 
@@ -69,7 +69,7 @@ function toPath(val) {
 
 
 //src为filter接收的对象，判断src是否是obj的子集.没有考虑深层次嵌套
-//函数构造器matches，返回的函数传入的参数应是传入matches里的超集
+//函数构造器matches，返回的函数传入的参数应是传入matches里的超集。不支持深层
 function matches(src) {
     return function(obj) {
         if (obj === src) {
@@ -83,18 +83,45 @@ function matches(src) {
         return true
     }
 }
+//对matches的优化改进，支持了深层比较
+function matches(src) {
+    // return bind(isMatch, null, window, src)
+    return function(obj) {
+        return isMatch(obj, src)
+    }
+}
 
 
-
-//recept a ary, ary[0]=keyPath, ary[1]=value
-function matchesProperty(ary) {
-    return function(item) {
-        var key = ary[0]
-        var val = ary[1]
-        if (!item.hasOwnProperty(key) || !item[key] !== val) {
-            return false
-        }
+//判断obj是否全包含src，src的每个属性及值都在obj上找到并相等.支持深层
+//测试用例 isMatch({a:1,b:2,c:3,d:{x:1,y:2}}, {b:2,d:{x:1}})
+function isMatch(obj, src) {
+    if (obj === src) {
         return true
+    }
+    if ((typeof obj == 'object') + (typeof src == 'object') !== 2) { //不是都为对象
+        return true
+            //这条if忽略了_.isMatch(5,{a:2})返回false的情况，但_isMatch(5,{})返回true
+    }
+    for (var key in src) {
+        if (src[key] && typeof src[key] !== 'object') {
+            if (!obj.hasOwnProperty(key) || obj[key] !== src[key]) { //基本类型也能调用hasOwnProperty方法.这里没有考虑到null和undefined的情况，这两个特殊值进入这个if会报错
+                return false
+            }
+        } else { //src[key]是Object，深层判断
+            if (!isMatch(obj[key], src[key])) {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+
+
+//判断obj在path路径下的属性值与val是否深度相等
+function matchesProperty(path, val) {
+    return function(obj) {
+        return isEqual(get(obj, path), val)
     }
 }
 
@@ -114,9 +141,6 @@ function map(collection, mapper) {
 
 
 
-function isMathch() {
-
-}
 
 
 function filter(collection, predicate) {
@@ -144,7 +168,7 @@ function iteratee(func) {
     } else if (Array.isArray(func)) {
         return matchesProperty(...func) // 输入...[key,val]，返回断言是否其超集
     } else if (func instanceof RegExp) {
-        return isMatchByRegexp(func)
+        return isMatchByRegexp(func) //输入正则，返回断言是否匹配string
     } else if (typeof func === 'object') {
         return matches(func) //输入对象，返回断言是否其超集
     }
@@ -217,26 +241,27 @@ function mergeArr(ary) {
     return ary
 }
 
-function mergeArr(ary) {
-    var ai = 0
-    var negativeSum = 0
-    for (let i = 0; i < ary.length; i++) {
-        if (ary[i] >= 0) {
-            ary[ai++] = ary[i]
-        } else {
-            let item = ary[i]
-            for (let j = i + 1; j < ary.length; j++) {
-                if (ary[j] < 0) {
-                    item += ary[j]
+
+
+bind.placeholder = window;
+
+function bind(f, thisArg, ...fixedArgs) {
+    return function(...args) {
+        let parameters = fixedArgs.slice()
+        let j = 0
+        for (let i = 0; i < fixedArgs.length; i++) {
+            if (Object.is(parameters[i], bind.placeholder)) {
+                if (j < args.length) {
+                    parameters[i] = args[j++]
                 } else {
-                    i = j - 1
-                    break
+                    parameters[i] = undefined
                 }
             }
-            ary[ai++] = item
         }
-    }
-    ary.length = ai
-    return ary
+        while (j < args.length) {
+            parameters.push(args[j++])
+        }
 
+        return f.apply(thisArg, parameters)
+    }
 }
