@@ -369,9 +369,10 @@ var aut1smer = function() {
 
 
     function map(collection, mapper) {
-        if (typeof mapper === 'string') {
-            mapper = property(mapper) //_.property('a.b')
-        }
+        // if (typeof mapper === 'string') {
+        //     mapper = property(mapper) //_.property('a.b')
+        // }
+        mapper = iteratee(mapper)
         var result = []
         for (var key in collection) {
             result.push(mapper(collection[key], key, collection))
@@ -578,15 +579,17 @@ var aut1smer = function() {
     }
 
 
-    function forIn(obj, predicate) {
+    function forIn(obj, predicate = identity) {
+        // predicate = 
         for (var key in obj) {
             if (predicate(obj[key], key, obj) === false) {
                 break
             }
         }
+        return obj
     }
 
-    function forInRight(obj, predicate) {
+    function forInRight(obj, predicate = identity) {
         var keyAry = []
         for (var key in obj) {
             keyAry.push(key)
@@ -597,9 +600,10 @@ var aut1smer = function() {
                 break
             }
         }
+        return obj
     }
 
-    function forOwn(obj, predicate) {
+    function forOwn(obj, predicate = identity) {
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
                 if (predicate(obj[key], key, obj) === false) {
@@ -607,9 +611,10 @@ var aut1smer = function() {
                 }
             }
         }
+        return obj
     }
 
-    function forOwnRight(obj, predicate) {
+    function forOwnRight(obj, predicate = identity) {
         var keyAry = []
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
@@ -621,6 +626,7 @@ var aut1smer = function() {
                 break
             }
         }
+        return obj
     }
 
     /*-----------------------------------
