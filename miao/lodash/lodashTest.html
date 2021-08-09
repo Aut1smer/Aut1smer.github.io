@@ -1,6 +1,4 @@
-var aut1smer = function() {
-
-
+<script>
     /*-----------------------------------
      *              Array
      *------------------------------------
@@ -116,6 +114,7 @@ var aut1smer = function() {
         return result
     }
 
+
     // _.differenceBy(array, [values], [iteratee=_.identity])
     function differenceBy(ary, ...values) {
         var differ = values[values.length - 1]
@@ -171,7 +170,6 @@ var aut1smer = function() {
         }
         return result
     }
-
     // _.sortedIndex(30, 40);返回NaN  _.sortedIndex('512', 40);返回3  _.sortedIndex(30, 40);返回1
     function sortedIndex(ary, value) { //ary为sorted
         if (!Array.isArray(ary) && typeof ary != 'string') {
@@ -425,38 +423,6 @@ var aut1smer = function() {
     }
 
 
-    function every(collection, test = identity) {
-        test = iteratee(test)
-        for (var key in collection) {
-            if (!test(collection[key])) {
-                return false
-            }
-        }
-        return true
-    }
-
-
-    function every1(ary, test) {
-        let len = ary.length
-        for (let i = 0; i < len; i++) {
-            if (!test(ary[i], i)) {
-                return false
-            }
-        }
-        return true
-    }
-
-    function every2(ary, test) {
-        return ary.reduce((res, item, idx) => {
-            return res && test(item, idx)
-        }, true)
-    }
-
-    function every3(ary, test) {
-        return !some(ary, (item, idx) => {
-            return !test(item, idx)
-        })
-    }
     /*-----------------------------------
      *              Date
      *------------------------------------
@@ -526,6 +492,7 @@ var aut1smer = function() {
         }
         return true
     }
+
 
 
     /*-----------------------------------
@@ -843,14 +810,26 @@ var aut1smer = function() {
         return res
     }
 
-    function some(collection, test = identity) {
-        test = iteratee(test)
-        for (var key in collection) {
-            if (test(collection[key])) {
-                return true
+    function every(ary, test) {
+        let len = ary.length
+        for (let i = 0; i < len; i++) {
+            if (!test(ary[i], i)) {
+                return false
             }
         }
-        return false
+        return true
+    }
+
+    function every2(ary, test) {
+        return ary.reduce((res, item, idx) => {
+            return res && test(item, idx)
+        }, true)
+    }
+
+    function every3(ary, test) {
+        return !some(ary, (item, idx) => {
+            return !test(item, idx)
+        })
     }
 
     function some1(ary, test) {
@@ -1186,53 +1165,4 @@ var aut1smer = function() {
             }
         }
     }
-
-
-    return {
-        chunk: chunk,
-        compact: compact,
-        concat: concat,
-        uniq: uniq,
-        uniqBy: uniqBy,
-        uniqWith: uniqWith,
-        flattenDeep: flattenDeep,
-        flattenDepth: flattenDepth,
-        groupBy: groupBy,
-        keyBy: keyBy,
-        forEach: forEach,
-        map: map,
-        filter: filter,
-        reduce: reduce,
-        zip: zip,
-        unzip: unzip,
-        keys: keys,
-        values: values,
-        every: every,
-        some: some,
-        fill: fill,
-        sortBy: sortBy,
-        isEqual: isEqual,
-        reverse: reverse,
-        countBy: countBy,
-        reduceRight: reduceRight,
-        shuffle: shuffle,
-        isNaN: isNaN,
-        isNull: isNull,
-        isNil: isNil,
-        isUndefined: isUndefined,
-        toArray: toArray,
-        sum: sum,
-        sumBy: sumBy,
-        parseJSON: parseJSON,
-        forIn: forIn,
-        forInRight: forInRight,
-        forOwn: forOwn,
-        forOwnRight: forOwnRight,
-        difference: difference,
-        differenceBy: differenceBy,
-        intersection: intersection,
-        intersectionBy: intersectionBy,
-        sortedIndex: sortedIndex,
-        sortedIndexBy: sortedIndexBy,
-    }
-}()
+</script>
