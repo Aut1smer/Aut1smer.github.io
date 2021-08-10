@@ -321,7 +321,7 @@ var aut1smer = function() {
      *------------------------------------
      */
 
-    function groupBy(collection, predicate) {
+    function groupBy(collection, predicate = identity) {
         if (typeof predicate == 'string') {
             predicate = iteratee(predicate) // property(propPath)
         }
@@ -339,7 +339,7 @@ var aut1smer = function() {
 
 
     //会出现覆盖的情况，即res.length <= collection.length
-    function keyBy(collection, predicate) {
+    function keyBy(collection, predicate = identity) {
         if (typeof predicate == 'string') {
             predicate = iteratee(predicate)
         }
@@ -352,12 +352,18 @@ var aut1smer = function() {
     }
 
     //遍历对象自有可枚举属性
-    function forEach(collection, action) {
-        forOwn(collection, action)
+    function forEach(collection, predicate = identity) {
+        // forOwn(collection, action)
+        predicate = iteratee(predicate)
+        for (var key in collection) {
+            if (predicate(collection[key], key, collection) === false)
+                break
+        }
+        return collection
     }
 
 
-    function map(collection, mapper) {
+    function map(collection, mapper = identity) {
         // if (typeof mapper === 'string') {
         //     mapper = property(mapper) //_.property('a.b')
         // }
@@ -457,6 +463,60 @@ var aut1smer = function() {
             return !test(item, idx)
         })
     }
+
+
+    function some(collection, test = identity) {
+        if (!test) return collection
+        test = iteratee(test)
+        for (var item of collection) {
+            if (test(item)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function some1(ary, test) {
+        let len = ary.length
+        for (let i = 0; i < len; i++) {
+            if (test(ary[i], i)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function some2(ary, test) {
+        return ary.reduce((res, item, idx) => {
+            return res || test(item, idx)
+        }, false)
+    }
+
+
+    //随机打乱顺序 Fisher-Yates Shuffle
+    function shuffle(collection) {
+        let res = []
+        for (var k in collection) {
+            res.push(collection[k])
+        }
+        let len = res.length - 1
+        for (let i = len; i >= 0; i--) {
+            let idx = Math.random() * (i + 1) | 0
+            swap(res, idx, i)
+        }
+        return res
+    }
+
+    function swap(ary, i, j) {
+        let t = ary[i]
+        ary[i] = ary[j]
+        ary[j] = t
+        return ary
+    }
+
+
+
+
     /*-----------------------------------
      *              Date
      *------------------------------------
@@ -527,7 +587,54 @@ var aut1smer = function() {
         return true
     }
 
+    function isEqual(a, b) {
+        if (a === b) {
+            return true
+        }
+        var typea = typeof a
+        var typeb = typeof b
+        if (typea !== typeb) { //类型不同
+            return false
+        } else {
+            //类型相同,同为obj
+            if (typea === 'object') {
+                //数组、对象
+                if (Array.isArray(a) + Array.isArray(b) == 1) { //一个数组一个不是数组
+                    return false
+                }
+                if (Array.isArray(a)) { //两个数组
+                    if (a.length !== b.length) {
+                        return false
+                    }
+                } else { //两个对象
+                    if (Object.keys(a).length !== Object.keys(b).length) {
+                        return false
+                    }
+                }
+                for (let key in a) {
+                    if (!(key in b)) {
+                        return false
+                    }
+                    if (!isEqual(a[key], b[key])) {
+                        return false
+                    }
+                }
+                return true
+            } else {
+                return a == b
+            }
+        }
+    }
 
+    //存疑  全局isNaN(undefined)=true，Number.isNaN(undefined)=false,
+    // 全局 isNaN(new Number(NaN))=true  Number.isNaN(new Number(NaN)) = false 
+    //该函数只检测作为数字的NaN。NaN与new Number(NaN)
+    function isNaN(val) {
+        if (typeof val === 'object') {
+            return val.valueOf() !== val.valueOf()
+        }
+        return val !== val
+    }
     /*-----------------------------------
      *              Math
      *------------------------------------
@@ -843,31 +950,6 @@ var aut1smer = function() {
         return res
     }
 
-    function some(collection, test = identity) {
-        test = iteratee(test)
-        for (var key in collection) {
-            if (test(collection[key])) {
-                return true
-            }
-        }
-        return false
-    }
-
-    function some1(ary, test) {
-        let len = ary.length
-        for (let i = 0; i < len; i++) {
-            if (test(ary[i], i)) {
-                return true
-            }
-        }
-        return false
-    }
-
-    function some2(ary, test) {
-        return ary.reduce((res, item, idx) => {
-            return res || test(item, idx)
-        }, false)
-    }
 
     function fill(ary, value, start = 0, end = ary.length) {
         for (let i = start; i < end; i++) {
@@ -911,44 +993,6 @@ var aut1smer = function() {
         return res
     }
 
-    function isEqual(a, b) {
-        if (a === b) {
-            return true
-        }
-        var typea = typeof a
-        var typeb = typeof b
-        if (typea !== typeb) { //类型不同
-            return false
-        } else {
-            //类型相同,同为obj
-            if (typea === 'object') {
-                //数组、对象
-                if (Array.isArray(a) + Array.isArray(b) == 1) { //一个数组一个不是数组
-                    return false
-                }
-                if (Array.isArray(a)) { //两个数组
-                    if (a.length !== b.length) {
-                        return false
-                    }
-                } else { //两个对象
-                    if (Object.keys(a).length !== Object.keys(b).length) {
-                        return false
-                    }
-                }
-                for (let key in a) {
-                    if (!(key in b)) {
-                        return false
-                    }
-                    if (!isEqual(a[key], b[key])) {
-                        return false
-                    }
-                }
-                return true
-            } else {
-                return a === b
-            }
-        }
-    }
 
     function toArray(value) {
         let res = [],
@@ -966,20 +1010,7 @@ var aut1smer = function() {
     }
 
 
-    //存疑  全局isNaN(undefined)=true，Number.isNaN(undefined)=false,
-    // 全局 isNaN(new Number(NaN))=true  Number.isNaN(new Number(NaN)) = false 
-    function isNaN(val) {
-        if (val !== val) {
-            return true
-        }
-        if (Number.isNaN(val)) {
-            return true
-        }
-        if (typeof val === 'object') {
-            return true
-        }
-        return false
-    }
+
 
     function isNull(val) {
 
@@ -1001,20 +1032,6 @@ var aut1smer = function() {
         return false
     }
 
-    //随机打乱顺序 Fisher-Yates Shuffle
-    function shuffle(collection) {
-        let res
-        if (Array.isArray(collection)) {
-            res = []
-            let count = collection.length
-            for (let i = 0; i <= count; i++) {
-                res = res.concat(collection.splice(Math.floor(Math.random() * (collection.length)), 1))
-            }
-        } else { //对象乱序，对象好像没法乱序
-
-        }
-        return res
-    }
 
     // 根据谓词计数，谓词可以是函数也可以是属性
     function countBy(collection, predicate) {
