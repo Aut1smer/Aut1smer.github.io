@@ -122,14 +122,14 @@ var aut1smer = function() {
         var valuesAry
         if (!Array.isArray(differ)) {
             differ = iteratee(differ) //_.property
-            valuesAry = flattenDeep(values.slice(0, -1))
+            valuesAry = flattenDeep(values.slice(0, -1)).map((it) => differ(it))
         } else {
             differ = identity // it => it
-            valuesAry = flattenDeep(values)
+            valuesAry = flattenDeep(values).map((it) => differ(it))
         }
         var result = []
         for (let i = 0; i < ary.length; i++) {
-            if (!valuesAry.includes(ary[i])) {
+            if (!valuesAry.includes(differ(ary[i], i))) {
                 result.push(ary[i])
             }
         }
@@ -323,7 +323,7 @@ var aut1smer = function() {
 
     function groupBy(collection, predicate = identity) {
         if (typeof predicate == 'string') {
-            predicate = iteratee(predicate) // property(propPath)
+            predicate = property(predicate) // property(propPath)
         }
         let res = {}
         for (var cKey in collection) {
@@ -668,7 +668,11 @@ var aut1smer = function() {
     }
 
 
-
+    function floor(num, precision = 0) {
+        var digit = Math.pow(10, precision)
+        var result = num * digit | 0
+        return result / digit
+    }
 
 
     /*-----------------------------------
@@ -1251,5 +1255,6 @@ var aut1smer = function() {
         intersectionBy: intersectionBy,
         sortedIndex: sortedIndex,
         sortedIndexBy: sortedIndexBy,
+        floor: floor,
     }
 }()
