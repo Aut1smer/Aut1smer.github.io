@@ -28,6 +28,27 @@
             position: relative;
         }
         
+        .frameShadow {
+            z-index: -1;
+            /* border: 2px solid indianred; */
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /* 暂停遮罩 */
+        
+        .shadowed {
+            z-index: 999;
+            background-color: #3339;
+            color: #111;
+            font-size: 42px;
+            line-height: 80vh;
+            text-align: center;
+            font-weight: 900;
+        }
+        
         .one {
             width: 30px;
             height: 30px;
@@ -99,6 +120,7 @@
         <div class="two" style="top: 150px; left: 150px;"></div>
         <div class="score"><span>紫色得分:</span><em class="box2Score"></em>
             <span>逃窜倒计时:</span><em class="timeout"></em></div>
+        <div class="frameShadow"></div>
     </section>
 
     <section class="interface"><button class="retry">Retry</button> <button class="start">开始</button><button class="setting">设置</button> <button class="stop">我玩不起</button></section>
@@ -145,6 +167,7 @@
         var setting = document.querySelector('.setting')
         var box2Score = document.querySelector('.box2Score')
         var timeout = document.querySelector('.timeout')
+        var frameShadow = document.querySelector('.frameShadow')
         var totalTime = 100 //totalTime isnt varied
         var restTime = totalTime //restTime will vary about now
         var passTime = 0
@@ -152,11 +175,6 @@
         var startFlag = false
         var startTime = Date.now() //刷新页面开始的时间
 
-
-
-        //键盘事件只能在body上触发,决定运动方向与速度
-        document.addEventListener('keydown', moveTo);
-        document.addEventListener('keyup', stopBy);
 
 
 
@@ -339,6 +357,12 @@
         function startingGame(e) {
             lastTime = Date.now() - startTime
             startFlag = true
+
+            //键盘事件只能在body上触发,决定运动方向与速度
+            document.addEventListener('keydown', moveTo);
+            document.addEventListener('keyup', stopBy);
+
+
             requestAnimationFrame(move)
         }
 
@@ -352,7 +376,7 @@
         }
 
 
-        //bug： retry不能够清空时间和游戏结束后的事件
+
         function retryGame(e) {
             document.removeEventListener('keydown', moveTo)
                 // lastTime = 0
@@ -364,24 +388,26 @@
             rightPress2 = false
             upPress2 = false
             downPress2 = false
+            vx = 0
+            vy = 0
+            vx2 = 0
+            vy2 = 0
             box.style.left = 50 + 'px'
             box.style.top = 50 + 'px'
             box2.style.left = 150 + 'px'
             box2.style.top = 150 + 'px'
-            startFlag = true
-                //清空时间
-            lastTime = Date.now() - startTime
-            timeout.textContent = totalTime + '  秒'
-            restTime = totalTime
-            score = 0
-            document.addEventListener('keydown', moveTo);
-            requestAnimationFrame(move)
+            startFlag = false
+            document.removeEventListener('keydown', moveTo)
+            document.removeEventListener('keyup', stopBy)
+                //清空状态栏
+            box2Score.textContent = 0 + '  分'
+            timeout.textContent = 100 + '  秒'
         }
 
         function quitGame(e) {
             startFlag = false
             document.removeEventListener('keydown', moveTo)
-            document.removeEventListener('keydown', stopBy)
+            document.removeEventListener('keyup', stopBy)
                 //添加广告
             for (let i = 0; i < 3; i++) {
                 var img = document.createElement('img')
@@ -396,6 +422,26 @@
             document.body.appendChild(summary)
             window.setTimeout(window.close, 5000)
         }
+
+
+
+        // 监听窗口失焦
+        window.addEventListener('blur', (e) => {
+            startFlag = false
+            frameShadow.classList.add('shadowed')
+            frameShadow.textContent = 'Pause'
+                // document.removeEventListener('keydown', moveTo)
+                // document.removeEventListener('keyup', stopBy)
+        })
+        window.addEventListener('focus', (e) => {
+            startFlag = true
+            if (frameShadow.classList.contains('shadowed')) {
+                frameShadow.classList.remove('shadowed')
+                frameShadow.textContent = ''
+            }
+            // document.addEventListener('keydown', moveTo)
+            // document.addEventListener('keyup', stopBy)
+        })
     </script>
 </body>
 
