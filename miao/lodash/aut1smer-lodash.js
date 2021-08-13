@@ -53,7 +53,21 @@ var aut1smer = function() {
         return res
     }
 
-
+    // 二维数组变一维
+    function flatten(ary) {
+        let result = []
+        for (let i = 0; i < ary.length; i++) {
+            let item = ary[i]
+            if (Array.isArray(item)) {
+                for (let it of item) {
+                    result.push(it)
+                }
+            } else {
+                result.push(item)
+            }
+        }
+        return result
+    }
 
     //深度展平为一维数组
     function flattenDeep(ary) {
@@ -136,6 +150,26 @@ var aut1smer = function() {
         return result
     }
 
+
+    function differenceWith(ary, ...values) {
+        var differWith = values[values.length - 1]
+
+        if (Array.isArray(differ)) {
+            differWith = isEqual
+            values = flattenDeep(values)
+        } else { //not ary, but function
+            values = flattenDeep(values.slice(0, -1))
+        }
+        return ary.filter(it => {
+            for (let item of values) {
+                if (differWith(it, item)) {
+                    return false
+                }
+            }
+            return true
+        })
+    }
+
     function intersection(...arys) {
         var ary = arys[0]
         var values = arys.slice(1)
@@ -170,6 +204,26 @@ var aut1smer = function() {
             }
         }
         return result
+    }
+
+
+    function intersectionWith(ary, ...arrays) {
+        let comparator = arrays[arrays.length - 1]
+        if (Array.isArray(comparator)) {
+            comparator = isEqual
+            arrays = flattenDeep(arrays)
+        } else {
+            comparator = iteratee(comparator) //maybe it needs
+            arrays = flattenDeep(arrays.slice(0, -1))
+        }
+        return ary.filter(it => {
+            for (var item of arrays) {
+                if (comparator(it, item)) {
+                    return true
+                }
+            }
+            return false
+        })
     }
 
     // _.sortedIndex(30, 40);返回NaN  _.sortedIndex('512', 40);返回3  _.sortedIndex(30, 40);返回1
@@ -312,6 +366,172 @@ var aut1smer = function() {
         }
         return result
     }
+
+    //扔掉前0项的新数组
+    function drop(ary, n = 1) {
+        return ary.slice(n)
+    }
+
+    //扔掉最后n项的新数组
+    function dropRight(ary, n = 1) {
+        if (n >= ary.length) {
+            return []
+        } else if (n <= 0) {
+            return ary.slice()
+        }
+        return ary.slice(0, ary.length - n)
+
+    }
+
+    //前面通过测验的略过，从第一个没有通过测验的开始拿
+    function dropWhile(ary, predicate = identity) {
+        predicate = iteratee(predicate)
+        for (var i = 0; i < ary.length; i++) {
+            if (!predicate(ary[i], i, ary)) {
+                break
+            }
+        }
+        return ary.slice(i) // i [0,length]
+    }
+    //从后向前测，删除通过的元素直至第一个没通过的元素出现
+    function dropRightWhile(ary, predicate = identity) {
+        predicate = iteratee(predicate)
+        for (var i = ary.length - 1; i >= 0; i--) {
+            if (!predicate(ary[i], i, ary)) {
+                break
+            }
+        }
+        return ary.slice(0, i + 1)
+    }
+
+    function findIndex(ary, predicate = identity, fromIndex = 0) {
+        predicate = iteratee(predicate)
+        for (let i = fromIndex; i < ary.length; i++) {
+            if (predicate(ary[i], i, ary)) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    function findLastIndex(ary, predicate = identity, fromIndex = ary.length - 1) {
+        predicate = iteratee(predicate)
+        for (let i = fromIndex; i >= 0; i--) {
+            if (predicate(ary[i], i, ary)) {
+                return i
+            }
+        }
+        return -1
+    }
+
+
+    function fromPairs(pairs) {
+        var result = {}
+        for (var item of pairs) {
+            result[item[0]] = item[1]
+        }
+        return result
+    }
+
+    function head(ary) {
+        return ary[0]
+    }
+
+    function indexOf(ary, val, fromIndex = 0) {
+        for (let i = fromIndex; i < ary.length; i++) {
+            if (ary[i] === val) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    function lastIndexOf(ary, val, fromIndex = ary.length - 1) {
+        for (let i = fromIndex; i >= 0; i--) {
+            if (val === ary[i]) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    function initial(ary) {
+        let len = ary.length - 1
+        let result = []
+        for (let i = 0; i < len; i++) {
+            result.push(ary[i])
+        }
+        return result
+    }
+
+    function last(ary) {
+        return ary[ary.length - 1]
+    }
+
+
+    function join(ary, separator = ',') {
+        let str = ''
+        for (let i = 0; i < ary.length - 1; i++) {
+            str += ary[i].toString() + separator
+        }
+        str += ary[ary.length - 1]
+        return str
+    }
+
+    function nth(ary, n = 0) {
+        if (n < 0) {
+            n = n + ary.length
+        }
+        return ary[n]
+    }
+
+    //移除和values相等的全部值
+    function pull(ary, ...values) {
+        let set = new Set(values)
+        let temp = []
+        for (let i = 0; i < ary.length; i++) {
+            if (!set.has(ary[i])) {
+                temp.push(ary[i])
+            }
+        }
+        ary = temp
+        return ary
+    }
+
+    function pullAll(ary, values) {
+        let set = new Set(values)
+        let temp = []
+        for (let i = 0; i < ary.length; i++) {
+            if (!set.has(ary[i])) {
+                temp.push(ary[i])
+            }
+        }
+        ary = temp
+        return ary
+    }
+
+    function pullAllBy(ary, values, predicate = identity) {
+        predicate = iteratee(predicate)
+        values = new Set(values.map(it => predicate(it)))
+        ary = ary.filter(it => {
+            var val = predicate(it)
+            return !values.has(val)
+        })
+        return ary
+    }
+
+    function pullAllWith(ary, values, comparator = isEqual) {
+        ary = ary.filter(it => {
+            for (let value of values) {
+                if (comparator(it, value)) {
+                    return false
+                }
+            }
+            return true
+        })
+        return ary
+    }
+
     /* --------------------------Array-------------------------- */
 
 
@@ -764,6 +984,19 @@ var aut1smer = function() {
         return obj
     }
 
+    //将实例对象上的key:val变为[key,val]
+    function toPairs(obj) {
+        var result = []
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                result.push([key, obj[key]])
+            }
+        }
+        return result
+    }
+
+
+
     /*-----------------------------------
      *              Seq
      *------------------------------------
@@ -1102,8 +1335,8 @@ var aut1smer = function() {
 
 
 
-    //递归下降parseJSON   str = '{"aa":"123","b":{"x":1,"y":[35,36,37],"z":null},"ccc":false}'
-    function parseJSON(str) {
+    //递归下降parseJson   str = '{"aa":"123","b":{"x":1,"y":[35,36,37],"z":null},"ccc":false}'
+    function parseJson(str) {
         var i = 0
         return parseValue()
             //将str的不同类型分发到各个函数
@@ -1209,6 +1442,44 @@ var aut1smer = function() {
     }
 
 
+    function stringifyJson(value) {
+        if (value === null) {
+            return null
+        } else if (Array.isArray(value)) {
+            let str = '['
+            for (let i = 0; i < value.length; i++) {
+                str += stringifyJson(value[i]) + ','
+            }
+            str = str.slice(0, -1) + ']'
+            return str
+        } else if (typeof value === 'object') {
+            let str = '{'
+            for (let key in value) {
+                if (value.hasOwnProperty(key)) {
+                    if (value[key] === undefined) {
+                        continue
+                    }
+                    str += '"' + key + '":' + stringifyJson(value[key]) + ','
+                }
+            }
+            str = str.slice(0, -1) + '}'
+            return str
+        } else if (typeof value == 'string') {
+            return '"' + value + '"'
+        } else if (typeof value == 'number') {
+            if (value !== value || Math.abs(value) === Infinity) {
+                return null
+            }
+            return value
+        } else if (typeof value == 'boolean') {
+            return value ? 'true' : 'false'
+        } else if (value === undefined || typeof value == 'function') {
+            return null
+        }
+    }
+
+
+
     return {
         chunk: chunk,
         compact: compact,
@@ -1244,13 +1515,15 @@ var aut1smer = function() {
         toArray: toArray,
         sum: sum,
         sumBy: sumBy,
-        parseJSON: parseJSON,
+        parseJson: parseJson,
+        stringifyJson: stringifyJson,
         forIn: forIn,
         forInRight: forInRight,
         forOwn: forOwn,
         forOwnRight: forOwnRight,
         difference: difference,
         differenceBy: differenceBy,
+        differenceWith: differenceWith,
         intersection: intersection,
         intersectionBy: intersectionBy,
         sortedIndex: sortedIndex,
@@ -1262,5 +1535,26 @@ var aut1smer = function() {
         get: get,
         toPath: toPath,
         matchesProperty: matchesProperty,
+        drop: drop,
+        dropRight: dropRight,
+        dropWhile: dropWhile,
+        dropRightWhile: dropRightWhile,
+        findIndex: findIndex,
+        findLastIndex: findLastIndex,
+        flatten: flatten,
+        fromPairs: fromPairs,
+        toPairs: toPairs,
+        head: head,
+        indexOf: indexOf,
+        lastIndexOf: lastIndexOf,
+        initial: initial,
+        intersectionWith: intersectionWith,
+        join: join,
+        last: last,
+        nth: nth,
+        pull: pull,
+        pullAll: pullAll,
+        pullAllBy: pullAllBy,
+        pullAllWith: pullAllWith,
     }
 }()

@@ -354,6 +354,24 @@
         forOwn(collection, action)
     }
 
+    function differenceWith(ary, ...values) {
+        var differWith = values[values.length - 1]
+
+        if (Array.isArray(differWith)) {
+            differWith = isEqual
+            values = flattenDeep(values)
+        } else { //not ary, but function
+            values = flattenDeep(values.slice(0, -1))
+        }
+        return ary.filter(it => {
+            for (let item of values) {
+                if (differWith(it, item)) {
+                    return false
+                }
+            }
+            return true
+        })
+    }
 
     function map(collection, mapper) {
         // if (typeof mapper === 'string') {
@@ -362,8 +380,7 @@
         mapper = iteratee(mapper)
         var result = []
         for (var key in collection) {
-            if (collection)
-                result.push(mapper(collection[key], key, collection))
+            result.push(mapper(collection[key], key, collection))
         }
         return result
     }
