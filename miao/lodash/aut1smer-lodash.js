@@ -154,7 +154,7 @@ var aut1smer = function() {
     function differenceWith(ary, ...values) {
         var differWith = values[values.length - 1]
 
-        if (Array.isArray(differ)) {
+        if (Array.isArray(differWith)) {
             differWith = isEqual
             values = flattenDeep(values)
         } else { //not ary, but function
