@@ -370,8 +370,8 @@ var aut1smer = function() {
         mapper = iteratee(mapper)
         var result = []
         for (var key in collection) {
-            if (collection)
-                result.push(mapper(collection[key], key, collection))
+            // if (collection)
+            result.push(mapper(collection[key], key, collection))
         }
         return result
     }
@@ -1256,5 +1256,11 @@ var aut1smer = function() {
         sortedIndex: sortedIndex,
         sortedIndexBy: sortedIndexBy,
         floor: floor,
+        isMatch: isMatch,
+        matches: matches,
+        property: property,
+        get: get,
+        toPath: toPath,
+        matchesProperty: matchesProperty,
     }
 }()
