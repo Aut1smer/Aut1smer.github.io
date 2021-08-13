@@ -786,19 +786,18 @@ var aut1smer = function() {
         if (obj === src) {
             return true
         }
-        if ((typeof obj == 'object') + (typeof src == 'object') !== 2) { //不是都为对象
-            return true
-                //这条if忽略了_.isMatch(5,{a:2})返回false的情况，但_isMatch(5,{})返回true
+        if ((typeof obj == 'object') + (typeof src == 'object') == 2) { //不是都为对象
+            return false
+                //lodash规则奇怪，src可以不是对象，也返回true
         }
         for (var key in src) {
             if (typeof src[key] !== 'object') {
-                if (!(obj.hasOwnProperty(key) && obj[key] === src[key])) { //原始类型也能调用hasOwnProperty方法.这里没有考虑到null和undefined的情况，这两个特殊值进入这个if会报错
-                    // if (src[key] !== obj[key]) {
+                if (!(obj.hasOwnProperty(key) && obj[key] === src[key])) {
                     return false
                 }
             } else { //src[key]是Object，深层判断
-                if (src[key] === null && src[key] !== obj[key]) {
-                    return false
+                if (!src[key]) { //简单些就是 return src[key] === obj[key]
+                    return src[key] === obj[key]
                 } else if (!isMatch(obj[key], src[key])) {
                     return false
                 }
@@ -1341,22 +1340,23 @@ var aut1smer = function() {
         return parseValue()
             //将str的不同类型分发到各个函数
         function parseValue() {
-            if (str[i] === '[') {
+            var c = str[i]
+            if (c === '[') {
                 return parseArray()
             }
-            if (str[i] === '{') {
+            if (c === '{') {
                 return parseObject()
             }
-            if (str[i] === '"') {
+            if (c === '"') {
                 return parseString()
             }
-            if (str[i] === 't') {
+            if (c === 't') {
                 return parseTrue()
             }
-            if (str[i] === 'f') {
+            if (c === 'f') {
                 return parseFalse()
             }
-            if (str[i] === 'n') {
+            if (c === 'n') {
                 return parseNull()
             }
             return parseNumber()
@@ -1405,7 +1405,7 @@ var aut1smer = function() {
         function parseNumber() {
             var thisNum = ''
             while (str[i] >= '0' && str[i] <= '9') {
-                thisNum = str[i++]
+                thisNum += str[i++]
             }
             return Number(thisNum)
         }
