@@ -1,6 +1,6 @@
 <script>
     /*-----------------------------------
-     *              Array
+     *              Array 
      *------------------------------------
      */
 
@@ -589,8 +589,9 @@
         mapper = iteratee(mapper)
         var result = []
         for (var key in collection) {
-            // if (collection)
-            result.push(mapper(collection[key], key, collection))
+            if (collection.hasOwnProperty(key)) {
+                result.push(mapper(collection[key], key, collection))
+            }
         }
         return result
     }
@@ -685,7 +686,6 @@
 
 
     function some(collection, test = identity) {
-        if (!test) return collection
         test = iteratee(test)
         for (var item of collection) {
             if (test(item)) {
@@ -1297,7 +1297,7 @@
     }
 
     //创建一个数组，以谓词处理的结果升序排列。需要稳定排序。collection可以是Array|Object一个可迭代的集合。predicate谓词是函数。
-    function sortBy(collection, predicate) {
+    function sortBy(collection, predicate = identity) {
         let res = []
         if (!collection) {
             return []
@@ -1329,6 +1329,50 @@
         }
 
         return res
+    }
+    //lodash可以取出对象里的值进行排序，返回新数组
+    function sortBy(collection, predicate = identity) {
+
+        predicate = iteratee(predicate)
+
+        //需要一个compare(a,b)函数，返回-1表示a<b，返回1表示a>b
+        function compare(a, b) {
+            if (a < b) {
+                return -1
+            } else if (a > b) {
+                return 1
+            } else {
+                return 0
+            }
+        }
+        // need return a new array
+        if (typeof collection == 'object') {
+            if (Array.isArray(collection)) {
+                collection = collection.slice()
+            } else {
+                let temp = []
+                for (let k in collection) {
+                    if (collection.hasOwnProperty(k)) {
+                        temp.push(collection[k])
+                    }
+                }
+                collection = temp
+            }
+        }
+
+        //insertion sort
+        for (let i = 1; i < collection.length; i++) {
+            let temp = collection[i]
+            for (var j = i - 1; j >= 0; j--) {
+                if (compare(predicate(temp), predicate(collection[j])) < 0) {
+                    collection[j + 1] = collection[j]
+                } else {
+                    break
+                }
+            }
+            collection[j + 1] = temp
+        }
+        return collection
     }
 
 

@@ -227,6 +227,7 @@ var aut1smer = function() {
         })
     }
 
+    //找到第一个插入位置
     // _.sortedIndex(30, 40);返回NaN  _.sortedIndex('512', 40);返回3  _.sortedIndex(30, 40);返回1
     function sortedIndex(ary, value) { //ary为sorted
         if (!Array.isArray(ary) && typeof ary != 'string') {
@@ -252,7 +253,7 @@ var aut1smer = function() {
         return start //start = end... [50,50],80。 这个位置即大于等于又小于value
     }
 
-
+    //找到第一个插入位置
     function sortedIndexBy(ary, value, predicate = identity) {
         if (!Array.isArray(ary) && typeof ary != 'string') {
             return NaN
@@ -280,6 +281,30 @@ var aut1smer = function() {
         return left //找到最右边了，即ary[ary.length - 1] < value
             //找到最左边了，即ary[right]>value
     }
+
+    //binary search on a sorted ary. find first index of val which was in ary
+    function sortedIndexOf(ary, val) {
+        if (val == undefined) {
+            return -1
+        }
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (ary[mid] >= val) {
+                end = mid
+            } else {
+                begin = mid + 1
+            }
+        }
+        //begin为第一个大于等于val的位置
+        if (ary[begin] === val) {
+            return begin
+        }
+        return -1
+    }
+
+
 
 
     //除了Set哈希表以外，去重都是n^2，最低不过nlogn(排序后遍历一遍)
@@ -855,6 +880,26 @@ var aut1smer = function() {
         }
         return val !== val
     }
+
+    //Checks if value is classified as a Function object.
+    function isFunction(val) {
+        if (typeof val == 'function') {
+            return true
+        }
+        return false
+    }
+
+
+    //----------------Lang-----------------
+
+
+
+
+
+
+
+
+
     /*-----------------------------------
      *              Math
      *------------------------------------
@@ -995,7 +1040,65 @@ var aut1smer = function() {
         return result
     }
 
+    //返回对象上的所有自有方法名组成的数组
+    function functions(obj) {
+        var result = []
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key) && isFunction(obj[key])) {
+                result.push(key)
+            }
+        }
+        return result
+    }
+    //返回对象上所有 自有方法+原型继承方法的方法名组成的数组
+    function functionsIn(obj) {
+        var result = []
+        for (let key in obj) {
+            if (isFunction(obj[key])) {
+                result.push(key)
+            }
+        }
+        return result
+    }
 
+
+    function keys(obj) {
+        let res = []
+        for (let k in obj) {
+            if (obj.hasOwnProperty(k))
+                res.push(k)
+        }
+        return res
+    }
+
+    function keysIn(obj) {
+        let res = []
+        for (let k in obj) {
+            res.push(k)
+        }
+        return res
+    }
+
+    //对于obj的可枚举属性，依托断言函数修改这些属性名，返回新对象
+    function mapKeys(obj, mapper = identity) {
+        let res = {}
+        for (let k in obj) {
+            if (obj.hasOwnProperty(k)) {
+                res[mapper(obj[k], k, obj)] = obj[k]
+            }
+        }
+        return res
+    }
+    //对于obj的可枚举属性，依托断言函数修改这些属性值，返回和原对象property相同的新对象
+    function mapValues(obj, mapper = identity) {
+        let res = {}
+        for (let k in obj) {
+            if (obj.hasOwnProperty(k)) {
+                res[k] = mapper(obj[k], k, obj)
+            }
+        }
+    }
+    //----------------------Object----------------------------
 
     /*-----------------------------------
      *              Seq
@@ -1117,6 +1220,27 @@ var aut1smer = function() {
     function identity(val) {
         return val
     }
+    //调用iteratee n次，返回调用结果
+    function times(n, iteratee = identity) {
+        let result = []
+        let idx = 0
+        while (n) {
+            result.push(iteratee(idx))
+            idx++
+            n--
+        }
+        return result
+    }
+    //常量函数，创建一个返回val的函数
+    function constant(val) {
+        return function() {
+            return val
+        }
+    }
+
+    //------------------------Util---------------------
+
+
 
     /*-----------------------------------
      *              Properties
@@ -1209,15 +1333,6 @@ var aut1smer = function() {
     }
 
 
-    function keys(obj) {
-        let dealed = new Object(obj)
-        let res = []
-        for (let k in dealed) {
-            if (obj.hasOwnProperty(k))
-                res.push(k)
-        }
-        return res
-    }
 
     function values(obj) {
         let dealed = new Object(obj)
@@ -1299,7 +1414,7 @@ var aut1smer = function() {
     }
 
     //创建一个数组，以谓词处理的结果升序排列。需要稳定排序。collection可以是Array|Object一个可迭代的集合。predicate谓词是函数。
-    function sortBy(collection, predicate) {
+    function sortBy(collection, predicate = identity) {
         let res = []
         if (!collection) {
             return []
@@ -1331,6 +1446,69 @@ var aut1smer = function() {
         }
 
         return res
+    }
+    //lodash可以取出对象里的值进行排序，返回新数组
+    function sortBy(collection, ary) { //ary could be [function(o) { return o.user; }] or ['user', 'age']
+
+        //need a compare func
+        function compare(a, b, ary, idx = 0) {
+            if (typeof ary[idx] == 'function') {
+                if (ary[idx](a) < ary[idx](b)) {
+                    return -1
+                } else if (ary[idx](a) > ary[idx](b)) {
+                    return 1
+                } else {
+                    if (idx < ary.length - 1) {
+                        return compare(a, b, ary, idx + 1)
+                    } else {
+                        return 0
+                    }
+                }
+            }
+            if (typeof ary[idx] == 'string') {
+                if (a[ary[idx]] < b[ary[idx]]) {
+                    return -1
+                } else if (a[ary[idx]] > b[ary[idx]]) {
+                    return 1
+                } else {
+                    if (idx < ary.length - 1) {
+                        return compare(a, b, ary, idx + 1)
+                    } else {
+                        return 0
+                    }
+                }
+            }
+        }
+
+
+        // need return a new array
+        if (typeof collection == 'object') {
+            if (Array.isArray(collection)) {
+                collection = collection.slice()
+            } else {
+                let temp = []
+                for (let k in collection) {
+                    if (collection.hasOwnProperty(k)) {
+                        temp.push(collection[k])
+                    }
+                }
+                collection = temp
+            }
+        }
+
+        //insertion sort
+        for (let i = 1; i < collection.length; i++) {
+            let temp = collection[i]
+            for (var j = i - 1; j >= 0; j--) {
+                if (compare(temp, collection[j], ary) < 0) {
+                    collection[j + 1] = collection[j]
+                } else {
+                    break
+                }
+            }
+            collection[j + 1] = temp
+        }
+        return collection
     }
 
 
@@ -1529,6 +1707,7 @@ var aut1smer = function() {
         intersectionBy: intersectionBy,
         sortedIndex: sortedIndex,
         sortedIndexBy: sortedIndexBy,
+        sortedIndexOf: sortedIndexOf,
         floor: floor,
         isMatch: isMatch,
         matches: matches,
@@ -1557,5 +1736,13 @@ var aut1smer = function() {
         pullAll: pullAll,
         pullAllBy: pullAllBy,
         pullAllWith: pullAllWith,
+        times: times,
+        constant: constant,
+        isFunction: isFunction,
+        functions: functions,
+        keysIn: keysIn,
+        mapKeys: mapKeys,
+        mapValues: mapValues,
+
     }
 }()
