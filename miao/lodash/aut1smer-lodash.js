@@ -687,7 +687,6 @@ var aut1smer = function() {
 
 
     function some(collection, test = identity) {
-        if (!test) return collection
         test = iteratee(test)
         for (var item of collection) {
             if (test(item)) {
