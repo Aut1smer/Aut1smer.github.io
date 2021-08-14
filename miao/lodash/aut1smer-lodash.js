@@ -73,13 +73,14 @@ var aut1smer = function() {
     function flattenDeep(ary) {
         let res = []
         for (let i = 0; i < ary.length; i++) {
+            let item = ary[i]
             if (Array.isArray(ary[i])) { //如果是数组就展平成一维数组
-                let item = flattenDeep(ary[i])
+                item = flattenDeep(ary[i])
                 for (let j = 0; j < item.length; j++) {
                     res.push(item[j])
                 }
             } else {
-                res.push(ary[i])
+                res.push(item)
             }
         }
         return res
