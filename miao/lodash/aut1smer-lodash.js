@@ -787,7 +787,7 @@ var aut1smer = function() {
         if (obj === src) {
             return true
         }
-        if ((typeof obj == 'object') + (typeof src == 'object') == 2) { //不是都为对象
+        if ((typeof obj == 'object') + (typeof src == 'object') == 1) { //不是都为对象
             return false
                 //lodash规则奇怪，src可以不是对象，也返回true
         }
@@ -797,8 +797,8 @@ var aut1smer = function() {
                     return false
                 }
             } else { //src[key]是Object，深层判断
-                if (!src[key]) { //简单些就是 return src[key] === obj[key]
-                    return src[key] === obj[key]
+                if (src[key] === null) {
+                    return obj[key] === null
                 } else if (!isMatch(obj[key], src[key])) {
                     return false
                 }
