@@ -889,6 +889,34 @@ var aut1smer = function() {
         return false
     }
 
+    function isArguments(val) {
+        return toString.call(val) === '[object Arguments]'
+    }
+
+    function isArray(val) {
+        return toString.call(val) === '[object Array]'
+    }
+
+    function isBoolean(val) {
+        return Object.prototype.toString.call(val) === '[object Boolean]'
+    }
+
+    function isDate(val) {
+        return Object.prototype.toString.call(val) === '[object Date]'
+    }
+
+    //https://lodash.com/docs/4.17.15#isEmpty
+    function isEmpty(val) {
+        if (typeof val !== 'object') {
+            return false
+        }
+
+        for (let k in val) {
+            if (val.hasOwnProperty(k)) {
+                return false
+            }
+        }
+    }
 
     //----------------Lang-----------------
 
@@ -1097,6 +1125,7 @@ var aut1smer = function() {
                 res[k] = mapper(obj[k], k, obj)
             }
         }
+        return res
     }
     //----------------------Object----------------------------
 
@@ -1743,6 +1772,10 @@ var aut1smer = function() {
         keysIn: keysIn,
         mapKeys: mapKeys,
         mapValues: mapValues,
-
+        isArguments: isArguments,
+        isArray: isArray,
+        isBoolean: isBoolean,
+        isDate: isDate,
+        isEmpty: isEmpty,
     }
 }()

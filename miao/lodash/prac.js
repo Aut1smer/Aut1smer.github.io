@@ -111,19 +111,23 @@ function condensedArrayToTree(ary) {
 }
 
 
-var inorderTraversal = function(root, ary = []){
-   if(root){
-       inorderTraversal(root.left)
-       ary.push(root.val)
-       inorderTraversal(root.right)
-   }
+var inorderTraversal = function(root, ary = []) {
+    if (root) {
+        inorderTraversal(root.left)
+        ary.push(root.val)
+        inorderTraversal(root.right)
+    }
     return ary
 };
 var inorderTraversal = function(root, ary = []) {
-    if(root){
+    if (root) {
         inorderTraversal(root.left, ary)
         ary.push(root.val)
         inorderTraversal(root.right, ary)
     }
     return ary
 };
+
+addEventListener('message', function() {
+
+})
