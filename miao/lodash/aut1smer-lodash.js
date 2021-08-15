@@ -817,15 +817,17 @@ var aut1smer = function() {
                 //lodash规则奇怪，src可以不是对象，也返回true
         }
         for (var key in src) {
-            if (typeof src[key] !== 'object') {
-                if (!(obj.hasOwnProperty(key) && obj[key] === src[key])) {
-                    return false
-                }
-            } else { //src[key]是Object，深层判断
-                if (src[key] === null) {
-                    return obj[key] === null
-                } else if (!isMatch(obj[key], src[key])) {
-                    return false
+            if (src.hasOwnProperty(key)) {
+                if (typeof src[key] !== 'object') {
+                    if (!obj.hasOwnProperty(key) || obj[key] !== src[key]) {
+                        return false
+                    }
+                } else { //src[key]是Object，深层判断
+                    if (src[key] === null && obj[key] !== null) {
+                        return false
+                    } else if (!isMatch(obj[key], src[key])) {
+                        return false
+                    }
                 }
             }
         }

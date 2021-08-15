@@ -70,7 +70,8 @@
             margin: auto;
         }
         
-        .clear {
+        .clear,
+        .save {
             width: 48px;
             height: 28px;
             text-align: center;
@@ -88,7 +89,8 @@
 <body>
     <p>Painting this canvas for any...</p>
     <div class="painting">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width='80%' height='500'></svg>
+        <!-- width='80%' -->
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height='500'></svg>
         <br>
         <section class="setting">
             <div class="tool">
@@ -105,6 +107,7 @@
             <input type="range" name="" min="1" max="10" value="2" id="widthInput"></span>
 
             </div>
+            <button class="save">保存</button>
             <button class="clear">清空</button>
         </section>
 
@@ -122,6 +125,7 @@
         var widthInput = document.querySelector('#widthInput')
         var tool = document.querySelector('.tool')
         var clear = document.querySelector('.clear')
+        var saver = document.querySelector('.save')
         var lastX = null //初始化为null，否则执行连线会从0 0 连到鼠标点击的位置
         var lastY = null
         var lastPos = null
@@ -133,7 +137,8 @@
             circle = false
 
 
-        document.addEventListener('mousedown', function(e) {
+        svg.addEventListener('mousedown', function(e) {
+            drawedAndNoSave = true
             if (goline) {
                 //初始化一条polyline
                 let startPos = mousePos(svg)
@@ -314,6 +319,31 @@
         })
 
 
+        // 保存
+        requestAnimationFrame(function setWidth() {
+            svg.style.width = document.body.getBoundingClientRect().width * 0.8 + 'px'
+            requestAnimationFrame(setWidth)
+        })
+        saver.addEventListener('click', function(e) {
+            var svgSource = svg.outerHTML
+            var blob = new Blob(['<?xml version="1.0" encoding="utf-8"?>', svgSource], {
+                type: 'image/xml+svg'
+            })
+            var url = URL.createObjectURL(blob)
+            var anchor = document.createElement('a')
+            anchor.href = url
+            anchor.download = '_.svg'
+            anchor.click()
+            drawedAndNoSave = false
+        })
+
+        var drawedAndNoSave = false
+
+        window.addEventListener('beforeunload', function(e) {
+            if (drawedAndNoSave) {
+                e.returnValue = '还未保存，是否要退出？'
+            }
+        })
 
 
         //获取鼠标在svg的位置

@@ -1,0 +1,45 @@
+<style>
+    div {
+        width: 30px;
+        height: 30px;
+        background-color: red;
+        position: fixed;
+    }
+</style>
+
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+<div style="left: 0; top: 0;"></div>
+
+
+<script>
+    var fires = document.querySelectorAll('div')
+    var mx = -9999 //浏览器一开始拿不到鼠标的位置，只有触发了事件才能拿到
+    var my = -9999
+
+    window.addEventListener('mousemove', e => {
+        mx = e.clientX
+        my = e.clientY
+    })
+
+    requestAnimationFrame(function ani(time) {
+        var angle = time * 0.01
+            // var angle2 = angle + 2 * Math.PI / 3
+            // var angle3 = angle2 + 2 * Math.PI / 3
+            // fire.style.left = Math.cos(angle) * 50 + mx + 'px'
+            // fire.style.top = Math.sin(angle) * 50  +my + 'px'
+
+        for (var fire of fires) {
+            fire.style.left = Math.cos(angle) * 150 + mx + 'px'
+            fire.style.top = Math.sin(angle) * 150 + my + 'px'
+            angle += 2 * Math.PI / fires.length
+        }
+
+        requestAnimationFrame(ani)
+    })
+</script>
