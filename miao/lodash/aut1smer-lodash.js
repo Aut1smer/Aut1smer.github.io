@@ -1874,5 +1874,12 @@ var aut1smer = function() {
         isBoolean: isBoolean,
         isDate: isDate,
         isEmpty: isEmpty,
+        isEqualWith: isEqualWith,
+        isArrayLike: isArrayLike,
+        isArrayLikeObject: isArrayLikeObject,
+        isArrayBuffer: isArrayBuffer,
+        isElement: isElement,
+
+
     }
 }()
