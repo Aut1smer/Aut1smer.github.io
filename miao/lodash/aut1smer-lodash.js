@@ -873,6 +873,57 @@ var aut1smer = function() {
         }
     }
 
+
+    function isGreeting(val) {
+        return /^h(?:i|ello)$/.test(val)
+    }
+
+    //The customizer is invoked with up to six arguments: (objValue, othValue [, index|key, object, other, stack]).
+    function customizer(objValue, othValue, idx, obj, other, stack) {
+        if (isGreeting(objValue) && isGreeting(othValue)) {
+            return true
+        }
+        //否则返回undefined
+    }
+
+    // If customizer returns undefined, comparisons are handled by the method instead.
+    function isEqualWith(val, other, customizer = function() {}) {
+
+        if (customizer(val, other) || val === other) { //maybe undefined
+            return true
+        }
+        let typeVal = typeof val
+        let typeOther = typeof other
+        if (typeVal != typeOther) {
+            return false
+        } else {
+            if (val && typeVal == 'object') {
+                let valKeys = keys(val)
+                let otherKeys = keys(other)
+                if (valKeys.length != otherKeys.length) {
+                    return false
+                }
+                for (let key in val) {
+                    if (val.hasOwnProperty(key)) {
+                        if (!other.hasOwnProperty(key)) {
+                            return false
+                        }
+                        if (customizer(val[key], other[key], key, val, other)) {
+                            continue
+                        }
+                        if (!isEqualWith(val[key], other[key])) {
+                            return false
+                        }
+                    }
+                }
+                return true
+            } else {
+                return customizer(val, other) || val == other
+            }
+        }
+    }
+
+
     //存疑  全局isNaN(undefined)=true，Number.isNaN(undefined)=false,
     // 全局 isNaN(new Number(NaN))=true  Number.isNaN(new Number(NaN)) = false 
     //该函数只检测作为数字的NaN。NaN与new Number(NaN)
@@ -899,6 +950,30 @@ var aut1smer = function() {
         return toString.call(val) === '[object Array]'
     }
 
+    function isArrayBuffer(val) { //指定字节长度的ArrayBuffer对象，表示通用的、固定长度的二进制数据缓冲区
+        return Object.prototype.toString.call(val) === '[object ArrayBuffer]'
+    }
+    //检测值是否为类数组，只要不是function且有有效length属性即可，包括字符串
+    function isArrayLike(val) {
+        if (typeof val == 'function') {
+            return false
+        }
+        //val.hasOwnProperty('length') document.body.children的length属性是个继承来的getter,故document.body.children.__proto__.hasOwnProperty('length')为true
+        if (val.length >= 0 && val.length <= Number.MAX_SAFE_INTEGER) { //53位
+            return true
+        }
+        return false
+    }
+    //类数组对象：对象里有有效的length属性且不是函数对象
+    function isArrayLikeObject(val) {
+        if (val && typeof val == 'object') {
+            if (val.length >= 0 && val.length <= Number.MAX_SAFE_INTEGER) {
+                return true
+            }
+        }
+        return false
+    }
+
     function isBoolean(val) {
         return Object.prototype.toString.call(val) === '[object Boolean]'
     }
@@ -906,17 +981,37 @@ var aut1smer = function() {
     function isDate(val) {
         return Object.prototype.toString.call(val) === '[object Date]'
     }
+    //dom元素从html开始皆继承于ELement.prototype 
+    function isElement(val) {
+        while (val) {
+            if (val.__proto__ == Element.prototype) {
+                return true
+            }
+            val = val.__proto__
+        }
+        return false
+    }
+
 
     //https://lodash.com/docs/4.17.15#isEmpty
+    //原子类型、对象、类数组对象、Map、Set
     function isEmpty(val) {
-        if (typeof val !== 'object') {
+        if (typeof val != 'object' || !val) {
+            return true
+        }
+        if (Object.prototype.toString(val) !== '[object Object]') {
+            if (('size' in val && val.size == 0) || ('length' in val && val.length == 0)) {
+                return true
+            }
             return false
         }
-
-        for (let k in val) {
-            if (val.hasOwnProperty(k)) {
-                return false
+        if (typeof val == 'object') {
+            for (let key in val) {
+                if (val.hasOwnProperty(key)) {
+                    return false
+                }
             }
+            return true
         }
     }
 

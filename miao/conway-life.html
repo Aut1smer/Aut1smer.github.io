@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>conway-life</title>
+    <style>
+        .conway-life {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .content {
+            width: 410px;
+            /* height: 400px; */
+        }
+        
+        .controller {
+            width: 150px;
+            /* height: 200px; */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        input {
+            margin: 4px;
+        }
+        /* button {
+            width: 40px;
+            height: 26px;
+             margin: auto; 
+    }
+    */
+    </style>
+</head>
+
+<body>
+    <section class="conway-life">
+        <div class="content">
+            <input type="checkbox" data-idx="1">
+            <input type="checkbox" data-idx="2">
+            <input type="checkbox" data-idx="3">
+            <input type="checkbox" data-idx="4">
+            <input type="checkbox" data-idx="5">
+            <input type="checkbox" data-idx="6">
+            <input type="checkbox" data-idx="7">
+            <input type="checkbox" data-idx="8">
+            <input type="checkbox" data-idx="9">
+            <input type="checkbox" data-idx="10">
+            <input type="checkbox" data-idx="11">
+            <input type="checkbox" data-idx="12">
+            <input type="checkbox" data-idx="13">
+            <input type="checkbox" data-idx="14">
+            <input type="checkbox" data-idx="15">
+            <input type="checkbox" data-idx="16">
+            <input type="checkbox" data-idx="17">
+            <input type="checkbox" data-idx="18">
+            <input type="checkbox" data-idx="19">
+            <input type="checkbox" data-idx="20">
+            <input type="checkbox" data-idx="21">
+            <input type="checkbox" data-idx="22">
+            <input type="checkbox" data-idx="23">
+            <input type="checkbox" data-idx="24">
+            <input type="checkbox" data-idx="25">
+            <input type="checkbox" data-idx="26">
+            <input type="checkbox" data-idx="27">
+            <input type="checkbox" data-idx="28">
+            <input type="checkbox" data-idx="29">
+            <input type="checkbox" data-idx="30">
+            <input type="checkbox" data-idx="31">
+            <input type="checkbox" data-idx="32">
+            <input type="checkbox" data-idx="33">
+            <input type="checkbox" data-idx="34">
+            <input type="checkbox" data-idx="35">
+            <input type="checkbox" data-idx="36">
+            <input type="checkbox" data-idx="37">
+            <input type="checkbox" data-idx="38">
+            <input type="checkbox" data-idx="39">
+            <input type="checkbox" data-idx="40">
+            <input type="checkbox" data-idx="41">
+            <input type="checkbox" data-idx="42">
+            <input type="checkbox" data-idx="43">
+            <input type="checkbox" data-idx="44">
+            <input type="checkbox" data-idx="45">
+            <input type="checkbox" data-idx="46">
+            <input type="checkbox" data-idx="47">
+            <input type="checkbox" data-idx="48">
+            <input type="checkbox" data-idx="49">
+            <input type="checkbox" data-idx="50">
+            <input type="checkbox" data-idx="51">
+            <input type="checkbox" data-idx="52">
+            <input type="checkbox" data-idx="53">
+            <input type="checkbox" data-idx="54">
+            <input type="checkbox" data-idx="55">
+            <input type="checkbox" data-idx="56">
+            <input type="checkbox" data-idx="57">
+            <input type="checkbox" data-idx="58">
+            <input type="checkbox" data-idx="59">
+            <input type="checkbox" data-idx="60">
+            <input type="checkbox" data-idx="61">
+            <input type="checkbox" data-idx="62">
+            <input type="checkbox" data-idx="63">
+            <input type="checkbox" data-idx="64">
+            <input type="checkbox" data-idx="65">
+            <input type="checkbox" data-idx="66">
+            <input type="checkbox" data-idx="67">
+            <input type="checkbox" data-idx="68">
+            <input type="checkbox" data-idx="69">
+            <input type="checkbox" data-idx="70">
+            <input type="checkbox" data-idx="71">
+            <input type="checkbox" data-idx="72">
+            <input type="checkbox" data-idx="73">
+            <input type="checkbox" data-idx="74">
+            <input type="checkbox" data-idx="75">
+            <input type="checkbox" data-idx="76">
+            <input type="checkbox" data-idx="77">
+            <input type="checkbox" data-idx="78">
+            <input type="checkbox" data-idx="79">
+            <input type="checkbox" data-idx="80">
+            <input type="checkbox" data-idx="81">
+            <input type="checkbox" data-idx="82">
+            <input type="checkbox" data-idx="83">
+            <input type="checkbox" data-idx="84">
+            <input type="checkbox" data-idx="85">
+            <input type="checkbox" data-idx="86">
+            <input type="checkbox" data-idx="87">
+            <input type="checkbox" data-idx="88">
+            <input type="checkbox" data-idx="89">
+            <input type="checkbox" data-idx="90">
+            <input type="checkbox" data-idx="91">
+            <input type="checkbox" data-idx="92">
+            <input type="checkbox" data-idx="93">
+            <input type="checkbox" data-idx="94">
+            <input type="checkbox" data-idx="95">
+            <input type="checkbox" data-idx="96">
+            <input type="checkbox" data-idx="97">
+            <input type="checkbox" data-idx="98">
+            <input type="checkbox" data-idx="99">
+            <input type="checkbox" data-idx="100">
+            <input type="checkbox" data-idx="101">
+            <input type="checkbox" data-idx="102">
+            <input type="checkbox" data-idx="103">
+            <input type="checkbox" data-idx="104">
+            <input type="checkbox" data-idx="105">
+            <input type="checkbox" data-idx="106">
+            <input type="checkbox" data-idx="107">
+            <input type="checkbox" data-idx="108">
+            <input type="checkbox" data-idx="109">
+            <input type="checkbox" data-idx="110">
+            <input type="checkbox" data-idx="111">
+            <input type="checkbox" data-idx="112">
+            <input type="checkbox" data-idx="113">
+            <input type="checkbox" data-idx="114">
+            <input type="checkbox" data-idx="115">
+            <input type="checkbox" data-idx="116">
+            <input type="checkbox" data-idx="117">
+            <input type="checkbox" data-idx="118">
+            <input type="checkbox" data-idx="119">
+            <input type="checkbox" data-idx="120">
+            <input type="checkbox" data-idx="121">
+            <input type="checkbox" data-idx="122">
+            <input type="checkbox" data-idx="123">
+            <input type="checkbox" data-idx="124">
+            <input type="checkbox" data-idx="125">
+            <input type="checkbox" data-idx="126">
+            <input type="checkbox" data-idx="127">
+            <input type="checkbox" data-idx="128">
+            <input type="checkbox" data-idx="129">
+            <input type="checkbox" data-idx="130">
+            <input type="checkbox" data-idx="131">
+            <input type="checkbox" data-idx="132">
+            <input type="checkbox" data-idx="133">
+            <input type="checkbox" data-idx="134">
+            <input type="checkbox" data-idx="135">
+            <input type="checkbox" data-idx="136">
+            <input type="checkbox" data-idx="137">
+            <input type="checkbox" data-idx="138">
+            <input type="checkbox" data-idx="139">
+            <input type="checkbox" data-idx="140">
+            <input type="checkbox" data-idx="141">
+            <input type="checkbox" data-idx="142">
+            <input type="checkbox" data-idx="143">
+            <input type="checkbox" data-idx="144">
+            <input type="checkbox" data-idx="145">
+            <input type="checkbox" data-idx="146">
+            <input type="checkbox" data-idx="147">
+            <input type="checkbox" data-idx="148">
+            <input type="checkbox" data-idx="149">
+            <input type="checkbox" data-idx="150">
+            <input type="checkbox" data-idx="151">
+            <input type="checkbox" data-idx="152">
+            <input type="checkbox" data-idx="153">
+            <input type="checkbox" data-idx="154">
+            <input type="checkbox" data-idx="155">
+            <input type="checkbox" data-idx="156">
+            <input type="checkbox" data-idx="157">
+            <input type="checkbox" data-idx="158">
+            <input type="checkbox" data-idx="159">
+            <input type="checkbox" data-idx="160">
+            <input type="checkbox" data-idx="161">
+            <input type="checkbox" data-idx="162">
+            <input type="checkbox" data-idx="163">
+            <input type="checkbox" data-idx="164">
+            <input type="checkbox" data-idx="165">
+            <input type="checkbox" data-idx="166">
+            <input type="checkbox" data-idx="167">
+            <input type="checkbox" data-idx="168">
+            <input type="checkbox" data-idx="169">
+            <input type="checkbox" data-idx="170">
+            <input type="checkbox" data-idx="171">
+            <input type="checkbox" data-idx="172">
+            <input type="checkbox" data-idx="173">
+            <input type="checkbox" data-idx="174">
+            <input type="checkbox" data-idx="175">
+            <input type="checkbox" data-idx="176">
+            <input type="checkbox" data-idx="177">
+            <input type="checkbox" data-idx="178">
+            <input type="checkbox" data-idx="179">
+            <input type="checkbox" data-idx="180">
+            <input type="checkbox" data-idx="181">
+            <input type="checkbox" data-idx="182">
+            <input type="checkbox" data-idx="183">
+            <input type="checkbox" data-idx="184">
+            <input type="checkbox" data-idx="185">
+            <input type="checkbox" data-idx="186">
+            <input type="checkbox" data-idx="187">
+            <input type="checkbox" data-idx="188">
+            <input type="checkbox" data-idx="189">
+            <input type="checkbox" data-idx="190">
+            <input type="checkbox" data-idx="191">
+            <input type="checkbox" data-idx="192">
+            <input type="checkbox" data-idx="193">
+            <input type="checkbox" data-idx="194">
+            <input type="checkbox" data-idx="195">
+            <input type="checkbox" data-idx="196">
+            <input type="checkbox" data-idx="197">
+            <input type="checkbox" data-idx="198">
+            <input type="checkbox" data-idx="199">
+            <input type="checkbox" data-idx="200">
+            <input type="checkbox" data-idx="201">
+            <input type="checkbox" data-idx="202">
+            <input type="checkbox" data-idx="203">
+            <input type="checkbox" data-idx="204">
+            <input type="checkbox" data-idx="205">
+            <input type="checkbox" data-idx="206">
+            <input type="checkbox" data-idx="207">
+            <input type="checkbox" data-idx="208">
+            <input type="checkbox" data-idx="209">
+            <input type="checkbox" data-idx="210">
+            <input type="checkbox" data-idx="211">
+            <input type="checkbox" data-idx="212">
+            <input type="checkbox" data-idx="213">
+            <input type="checkbox" data-idx="214">
+            <input type="checkbox" data-idx="215">
+            <input type="checkbox" data-idx="216">
+            <input type="checkbox" data-idx="217">
+            <input type="checkbox" data-idx="218">
+            <input type="checkbox" data-idx="219">
+            <input type="checkbox" data-idx="220">
+            <input type="checkbox" data-idx="221">
+            <input type="checkbox" data-idx="222">
+            <input type="checkbox" data-idx="223">
+            <input type="checkbox" data-idx="224">
+            <input type="checkbox" data-idx="225">
+            <input type="checkbox" data-idx="226">
+            <input type="checkbox" data-idx="227">
+            <input type="checkbox" data-idx="228">
+            <input type="checkbox" data-idx="229">
+            <input type="checkbox" data-idx="230">
+            <input type="checkbox" data-idx="231">
+            <input type="checkbox" data-idx="232">
+            <input type="checkbox" data-idx="233">
+            <input type="checkbox" data-idx="234">
+            <input type="checkbox" data-idx="235">
+            <input type="checkbox" data-idx="236">
+            <input type="checkbox" data-idx="237">
+            <input type="checkbox" data-idx="238">
+            <input type="checkbox" data-idx="239">
+            <input type="checkbox" data-idx="240">
+            <input type="checkbox" data-idx="241">
+            <input type="checkbox" data-idx="242">
+            <input type="checkbox" data-idx="243">
+            <input type="checkbox" data-idx="244">
+            <input type="checkbox" data-idx="245">
+            <input type="checkbox" data-idx="246">
+            <input type="checkbox" data-idx="247">
+            <input type="checkbox" data-idx="248">
+            <input type="checkbox" data-idx="249">
+            <input type="checkbox" data-idx="250">
+            <input type="checkbox" data-idx="251">
+            <input type="checkbox" data-idx="252">
+            <input type="checkbox" data-idx="253">
+            <input type="checkbox" data-idx="254">
+            <input type="checkbox" data-idx="255">
+            <input type="checkbox" data-idx="256">
+
+        </div>
+        <div class="controller">
+            <button class="next">NEXT</button>
+            <button class="start">Start and Pause</button>
+        </div>
+    </section>
+
+    <script>
+        var box = document.querySelector('.content');
+        var cells = Array.from(box.children)
+        var next = document.querySelector('.next')
+        var start = document.querySelector('.start')
+
+        var matrix2d = new Array(16).fill(0).map(it => Array.from({
+            length: 16
+        }).fill(0))
+
+        box.addEventListener('change', function(e) {
+            //     console.log(e);
+            cells.forEach(cell => {
+                let row = (cell.dataset.idx - 1) / 16 | 0
+                let col = (cell.dataset.idx - 1) % 16
+                    // debugger
+                if (cell.checked) {
+                    matrix2d[row][col] = 1
+                } else {
+                    matrix2d[row][col] = 0
+                }
+            })
+        })
+        next.addEventListener('click', function(e) {
+            let curState = matrix2d.slice()
+            let rowLen = curState.length
+            let colLen = curState[0].length
+            for (let i = 0; i < curState.length; i++) {
+                let temp = curState[i]
+                for (let j = 0; j < temp.length; j++) {
+                    let count = 0
+                        // let top = i - 1 < 0 ? i + rowLen - 1 : i - 1
+                        // let bottom = i + 1 > rowLen - 1 ? 0 : i + 1
+                        // let left = j - 1 < 0 ? colLen - 1 : j - 1
+                        // let right = j + 1 > colLen - 1 ? 0 : j + 1
+                    if (i == 0) {
+                        if (j == 0) {
+                            if (matrix2d[i + rowLen - 1][j + colLen - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + rowLen - 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i + rowLen - 1][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j + colLen - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j + colLen - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j + 1]) {
+                                count++
+                            }
+
+
+
+                        } else if (j == temp.length - 1) {
+                            if (matrix2d[i + rowLen - 1][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + rowLen - 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i + rowLen - 1][0]) {
+                                count++
+                            }
+                            if (matrix2d[i][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][0]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][0]) {
+                                count++
+                            }
+
+
+
+
+                        } else {
+
+                            if (matrix2d[i + rowLen - 1][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + rowLen - 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i + rowLen - 1][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i + 1][j + 1]) {
+                                count++
+                            }
+
+
+
+
+
+
+                        }
+                    } else if (i == curState.length - 1) {
+
+                        if (j == 0) {
+
+                            if (matrix2d[i - 1][j + colLen - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i - 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i - 1][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j + colLen - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[0][j + colLen - 1]) {
+                                count++
+                            }
+                            if (matrix2d[0][j]) {
+                                count++
+                            }
+                            if (matrix2d[0][j + 1]) {
+                                count++
+                            }
+
+
+
+
+                        } else if (j == temp.length - 1) {
+                            if (matrix2d[i - 1][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i - 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i - 1][0]) {
+                                count++
+                            }
+                            if (matrix2d[i][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][0]) {
+                                count++
+                            }
+                            if (matrix2d[0][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[0][j]) {
+                                count++
+                            }
+                            if (matrix2d[0][0]) {
+                                count++
+                            }
+
+
+
+
+                        } else {
+
+                            if (matrix2d[i - 1][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i - 1][j]) {
+                                count++
+                            }
+                            if (matrix2d[i - 1][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[i][j + 1]) {
+                                count++
+                            }
+                            if (matrix2d[0][j - 1]) {
+                                count++
+                            }
+                            if (matrix2d[0][j]) {
+                                count++
+                            }
+                            if (matrix2d[0][j + 1]) {
+                                count++
+                            }
+
+
+                        }
+                    } else {
+
+                        if (matrix2d[i - 1][j - 1]) {
+                            count++
+                        }
+                        if (matrix2d[i - 1][j]) {
+                            count++
+                        }
+                        if (matrix2d[i - 1][j + 1]) {
+                            count++
+                        }
+                        if (matrix2d[i][j - 1]) {
+                            count++
+                        }
+                        if (matrix2d[i][j + 1]) {
+                            count++
+                        }
+                        if (matrix2d[i + 1][j - 1]) {
+                            count++
+                        }
+                        if (matrix2d[i + 1][j]) {
+                            count++
+                        }
+                        if (matrix2d[i + 1][j + 1]) {
+                            count++
+                        }
+
+                    }
+
+
+                    if (curState[i][j] == 0) { //死亡状态
+                        if (count >= 3) {
+                            curState[i][j] = 1
+                            cells[i * 16 + j].checked = true
+                        }
+                    } else if (curState[i][j] == 1) { //存活状态
+                        if (count < 2) {
+                            curState[i][j] = 0
+                            cells[i * 16 + j].checked = false
+                        } else if (count > 3) {
+                            curState[i][j] = 0
+                            cells[i * 16 + j].checked = false
+                        }
+                    }
+                }
+            }
+
+            matrix2d = curState
+        })
+
+        var id
+        var i = 0
+        start.addEventListener('click', function(e) {
+            i++
+            if (i & 1) {
+                id = setInterval(() => {
+                    next.click()
+                }, 500);
+            } else {
+                clearInterval(id)
+            }
+        })
+    </script>
+</body>
+
+</html>
