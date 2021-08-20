@@ -834,6 +834,43 @@ var aut1smer = function() {
         return true
     }
 
+
+    function isMatchWith(obj, src, customizer = function() {}) {
+        if (customizer(obj, src) || obj === src) {
+            return true
+        }
+        if ((typeof obj == 'object') + (typeof src == 'object') == 1) {
+            return false
+        }
+
+        for (let key in src) {
+            if (src.hasOwnProperty(key)) {
+                if (!obj.hasOwnProperty(key)) {
+                    return false
+                } else {
+                    if (customizer(obj[key], src[key], key, obj, src)) {
+                        continue
+                    }
+                    if (typeof src[key] != 'object') {
+                        return src[key] === obj[key]
+                    } else {
+                        if ((src[key] === null) + (obj[key] === null) === 1) {
+                            return false
+                        } else
+                        if (!isMatchWith(obj[key], src[key], customizer)) {
+                            return false
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return true
+    }
+
+
+
     function isEqual(a, b) {
         if (a === b) {
             return true
@@ -908,7 +945,7 @@ var aut1smer = function() {
                         if (!other.hasOwnProperty(key)) {
                             return false
                         }
-                        if (customizer(val[key], other[key], key, val, other)) {
+                        if (customizer(val[key], other[key], key, val, other)) { //比较函数比较不出来会返回undefined，再进行相等比较
                             continue
                         }
                         if (!isEqualWith(val[key], other[key])) {
@@ -1067,7 +1104,10 @@ var aut1smer = function() {
 
     //Checks if value is a pristine native function.
     function isNative(val) {
-        return val.__proto__ == Function.prototype
+        if (val) {
+            return val.__proto__ == Function.prototype
+        }
+        return false
     }
 
     // exclude Infinity, -Infinity, and NaN
@@ -1976,7 +2016,7 @@ var aut1smer = function() {
         isLength: isLength,
         toLength: toLength,
         isInteger: isInteger,
-
+        isMatchWith: isMatchWith,
 
     }
 }()
