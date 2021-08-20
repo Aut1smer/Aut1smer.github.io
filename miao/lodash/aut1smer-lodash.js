@@ -1014,9 +1014,95 @@ var aut1smer = function() {
             return true
         }
     }
+    //EvalError, RangeError, ReferenceError, SyntaxError, TypeError, or URIError object.
+    function isError(val) {
+        while (val) {
+            if (val.__proto__ === Error.prototype) {
+                return true
+            }
+            val = val.__proto__
+        }
+        return false
+    }
+    //写法二 不循环
+    function isError2(val) {
+        if (Object.prototype.toString.call(val) == '[object Error]') {
+            return true
+        }
+        return false
+    }
+
+    //Number.MAX_VALUE + 10**(308-16) === Infinity //IEEE754规定，大于1.7976931348623158e+308的数才为Infinity.同 Number.isFinite(),不会进行强制转换
+    function isFinite(val) {
+        if (typeof val == 'number' && Math.abs(val) !== Infinity) {
+            return true
+        }
+        return false
+    }
+
+    //同 Number.isInterger()
+    function isInteger(val) {
+        // return val === (val | 0) //没法判断64位数
+        return typeof val == 'number' && val - Math.floor(val) === 0
+    }
+
+    //类数组对象可用length,范围0到4字节
+    function toLength(val) {
+        if (val >= 0) {
+            if (val <= 4294967295) { // 2147483648 * 2 - 1   2^32
+                return val | 0
+            }
+            return 4294967295
+        }
+        return 0
+    }
+
+    function isLength(val) {
+        return val === toLength(val)
+    }
+
+    function isMap(val) {
+        return Object.prototype.toString.call(val) == '[object Map]'
+    }
+
+    //Checks if value is a pristine native function.
+    function isNative(val) {
+        return val.__proto__ == Function.prototype
+    }
+
+    // exclude Infinity, -Infinity, and NaN
+    function isNumber(val) {
+        if (Math.abs(val) == Infinity || val != val || isFinite(val)) {
+            return true
+        }
+        return false
+    }
+
+    // (e.g. arrays, functions, objects, regexes, new Number(0), and new String(''))
+    function isObject(val) {
+        while (val) {
+            if (val.__proto__ == Object.prototype) {
+                return true
+            }
+            val = val.__proto__
+        }
+        return false
+    }
+
+    //A value is object-like if it's not null and has a typeof result of "object".
+    function isObjectLike(val) {
+        if (val !== null && typeof val == 'object') {
+            return true
+        }
+        return false
+    }
+
+    //朴素对象
+    function isPlainObject(val) {
+        return val.__proto__ === Object.prototype || val.__proto__ === null
+    }
 
     //----------------Lang-----------------
-
 
 
 
@@ -1879,6 +1965,17 @@ var aut1smer = function() {
         isArrayLikeObject: isArrayLikeObject,
         isArrayBuffer: isArrayBuffer,
         isElement: isElement,
+        isError: isError,
+        isFinite: isFinite,
+        isPlainObject: isPlainObject,
+        isObjectLike: isObjectLike,
+        isObject: isObject,
+        isNumber: isNumber,
+        isNative: isNative,
+        isMap: isMap,
+        isLength: isLength,
+        toLength: toLength,
+        isInteger: isInteger,
 
 
     }
