@@ -490,6 +490,14 @@ var aut1smer = function() {
         return result
     }
 
+    function tail(ary) {
+        let res = []
+        for (let i = 1; i < ary.length; i++) {
+            res.push(ary[i])
+        }
+        return res
+    }
+
     function last(ary) {
         return ary[ary.length - 1]
     }
@@ -556,6 +564,142 @@ var aut1smer = function() {
             return true
         })
         return ary
+    }
+
+    function fill(ary, value, start = 0, end = ary.length) {
+        for (let i = start; i < end; i++) {
+            ary[i] = value
+        }
+        return ary
+    }
+
+    function reverse(ary) {
+        let left = 0,
+            right = ary.length - 1
+        while (left < right) {
+            let temp = ary[left]
+            ary[left] = ary[right]
+            ary[right] = temp
+            left++
+            right--
+        }
+        return ary
+    }
+
+
+    //这里对数组的zip是挑选相同位置的元素归为一组
+    //允许每个数组长度不一，选最大长度数组迭代，没有值填入undefined
+    function zip(...args) {
+        let res = []
+        let maxLength = 0
+        for (let i = 0; i < args.length; i++) {
+            maxLength = args[i].length > maxLength ? args[i].length : maxLength
+        }
+        for (let i = 0; i < maxLength; i++) {
+            let temp = []
+            for (let j = 0; j < args.length; j++) {
+                temp.push(args[j][i])
+            }
+            res.push(temp)
+        }
+        return res
+    }
+
+    function unzip(ary) {
+        let res = []
+        let len = ary[0].length
+        for (let i = 0; i < len; i++) {
+            let temp = []
+            for (let j = 0; j < ary.length; j++) {
+                temp.push(ary[j][i])
+            }
+            res.push(temp)
+        }
+        return res
+    }
+
+    function unzipWith(ary, predicate = identity) {
+        predicate = iteratee(predicate)
+            //ary is like as [[1, 10, 100], [2, 20, 200]]
+        let res = []
+        let resLen = ary[0].length
+        for (let i = 0; i < resLen; i++) {
+            let temp = []
+            for (let j = 0; j < ary.length; j++) {
+                temp.push(ary[j][i])
+            }
+            let val = predicate.apply(null, temp)
+            res.push(val)
+        }
+        return res
+    }
+
+    // using `SameValueZero` for equality comparisons.Unique values is collected in order of ARYS.
+    function union(...arys) {
+        let res = []
+        arys.forEach(ary => {
+            ary.forEach(val => {
+                if (!res.includes(val)) {
+                    res.push(val)
+                }
+            })
+        })
+        return res
+    }
+
+    function unionBy(...arys) {
+        let mapper = identity
+        if (!Array.isArray(arys[arys.length - 1])) {
+            mapper = arys.pop()
+        }
+        mapper = iteratee(mapper)
+        let res = []
+        let compareRes = []
+        arys.forEach(ary => {
+            ary.forEach(val => {
+                let compareVal = mapper(val)
+                if (!compareRes.includes(compareVal)) {
+                    compareRes.push(compareVal)
+                    res.push(val)
+                }
+            })
+        })
+        return res
+    }
+
+    //The comparator is invoked with two arguments: (arrVal, othVal).
+    function unionWith(...arys) {
+        let comparator = isEqual
+        if (!Array.isArray(arys[arys.length - 1])) {
+            comparator = arys.pop()
+        }
+        let result = []
+        arys.forEach(ary => {
+            ary.forEach(item => {
+                let flag = true
+                forEach(result, val => {
+                    if (comparator(val, item)) {
+                        flag = false
+                        return false
+                    }
+                })
+                if (flag) {
+                    result.push(item)
+                }
+            })
+        })
+        return result
+    }
+
+    // using SameValueZero for equality comparisons.filter ary has,but values dont have
+    function without(ary, ...values) {
+        let res = []
+        ary.forEach(item => {
+            if (!values.includes(item)) {
+                res.push(item)
+            }
+        })
+        return res
     }
 
     /* --------------------------Array-------------------------- */
@@ -636,14 +780,14 @@ var aut1smer = function() {
     }
 
 
-
-    function reduce(collection, reducer, initial) {
+    //支持对象reduce
+    function reduce(collection, reducer = identity, initial) {
         let keyAry = []
         for (let key in collection) { //对象也可能从1开始数
             if (collection.hasOwnProperty(key)) {
                 keyAry.push(key)
             }
-        }
+        } //等同于Object.keys(collection)
 
         let startIdx = 0
         if (arguments.length == 2) {
@@ -658,7 +802,7 @@ var aut1smer = function() {
 
 
 
-    function reduceRight(collection, reducer, initial) {
+    function reduceRight(collection, reducer = identity, initial) {
         let keyAry = []
         for (let key in collection) {
             if (collection.hasOwnProperty(key)) {
@@ -761,7 +905,148 @@ var aut1smer = function() {
     }
 
 
+    //lodash可以取出对象里的值进行排序，返回新数组
+    function sortBy(collection, ary) { //ary could be [function(o) { return o.user; }] or ['user', 'age']
 
+        //need a compare func
+        function compare(a, b, ary, idx = 0) {
+            if (typeof ary[idx] == 'function') {
+                if (ary[idx](a) < ary[idx](b)) {
+                    return -1
+                } else if (ary[idx](a) > ary[idx](b)) {
+                    return 1
+                } else {
+                    if (idx < ary.length - 1) {
+                        return compare(a, b, ary, idx + 1)
+                    } else {
+                        return 0
+                    }
+                }
+            }
+            if (typeof ary[idx] == 'string') {
+                if (a[ary[idx]] < b[ary[idx]]) {
+                    return -1
+                } else if (a[ary[idx]] > b[ary[idx]]) {
+                    return 1
+                } else {
+                    if (idx < ary.length - 1) {
+                        return compare(a, b, ary, idx + 1)
+                    } else {
+                        return 0
+                    }
+                }
+            }
+        }
+
+
+        // need return a new array
+        if (typeof collection == 'object') {
+            if (Array.isArray(collection)) {
+                collection = collection.slice()
+            } else {
+                let temp = []
+                for (let k in collection) {
+                    if (collection.hasOwnProperty(k)) {
+                        temp.push(collection[k])
+                    }
+                }
+                collection = temp
+            }
+        }
+
+        //insertion sort
+        for (let i = 1; i < collection.length; i++) {
+            let temp = collection[i]
+            for (var j = i - 1; j >= 0; j--) {
+                if (compare(temp, collection[j], ary) < 0) {
+                    collection[j + 1] = collection[j]
+                } else {
+                    break
+                }
+            }
+            collection[j + 1] = temp
+        }
+        return collection
+    }
+
+
+    //创建一个数组，以谓词处理的结果升序排列。需要稳定排序。collection可以是Array|Object一个可迭代的集合。predicate谓词是函数。
+    function sortByWrong(collection, predicate = identity) {
+        let res = []
+        if (!collection) {
+            return []
+        }
+        //插入排序是稳定的
+        if (Array.isArray(collection)) {
+            for (let i = 1; i < collection.length; i++) {
+                let t = collection[i]
+                let temp = predicate(collection[i], i)
+
+                for (var j = i - 1; j >= 0; j--) {
+                    if (predicate(collection[j]) > temp) {
+                        collection[j + 1] = collection[j]
+                    } else {
+                        break
+                    }
+                }
+                collection[j + 1] = t
+            }
+            //排好序了，按照特定格式输出
+            for (let i = 0; i < collection.length; i++) {
+                let temp = []
+                for (let k in collection[i]) {
+                    temp.push(collection[i][k])
+                }
+                res.push(temp)
+            }
+
+        }
+
+        return res
+    }
+
+    // 根据谓词计数，谓词可以是函数也可以是属性
+    function countBy2(collection, predicate = identity) {
+        if (typeof predicate === 'function') {
+            return collection.reduce((res, item, idx) => {
+
+                let key = predicate(item, idx)
+                if (!(key in res)) {
+                    res[key] = 1
+                } else {
+                    res[key] += 1
+                }
+                return res
+            }, {})
+        } else { //把predicate当做一个属性看待
+            return collection.reduce((res, item, idx) => {
+
+                let key = item[predicate]
+                if (!(key in res)) {
+                    res[key] = 1
+                } else {
+                    res[key] += 1
+                }
+                return res
+            }, {})
+        }
+    }
+
+    //重构countBy,lodash里的collection似乎只支持函数
+    function countBy(collection, predicate = identity) {
+        predicate = iteratee(predicate) //maybe need _.property
+        return collection.reduce((accum, item, idx, collection) => {
+            let key = predicate(item)
+            if (key in accum) {
+                accum[key]++
+            } else {
+                accum[key] = 1
+            }
+            return accum
+        }, {})
+
+    }
+    //-------------------Collection--------------------------
 
     /*-----------------------------------
      *              Date
@@ -971,6 +1256,26 @@ var aut1smer = function() {
         return val !== val
     }
 
+    function isNil(val) {
+        if (val === null || val === undefined) {
+            return true
+        }
+        return false
+    }
+
+    function isUndefined(val) {
+        if (val === undefined) return true
+        return false
+    }
+
+    function isNull(val) {
+
+        if (val === null) {
+            return true
+        }
+        return false
+    }
+
     //Checks if value is classified as a Function object.
     function isFunction(val) {
         if (typeof val == 'function') {
@@ -1103,11 +1408,15 @@ var aut1smer = function() {
     }
 
     //Checks if value is a pristine native function.
-    function isNative(val) {
+    function isNative2(val) {
         if (val) {
             return val.__proto__ == Function.prototype
         }
         return false
+    }
+
+    function isNative(val) {
+        return Object.prototype.toString.call(val) == '[object Function]'
     }
 
     // exclude Infinity, -Infinity, and NaN
@@ -1142,10 +1451,50 @@ var aut1smer = function() {
         return val.__proto__ === Object.prototype || val.__proto__ === null
     }
 
+
+    function toArray(value) {
+        let res = [],
+            type = typeof value
+        if (type === 'object') {
+            for (let k in value) {
+                res.push(value[k])
+            }
+        } else if (type === 'string') {
+            for (let i = 0; i < value.length; i++) {
+                res.push(value[i])
+            }
+        }
+        return res
+    }
+
+    function isRegExp(val) {
+        return Object.prototype.toString.call(val) == '[object RegExp]'
+    }
+
+    //This method is based on Number.isSafeInteger.
+    function isSafeInteger(val) {
+        if (typeof val == 'number' &&
+            Math.round(val) === val &&
+            val >= Number.MIN_SAFE_INTEGER && val <= Number.MAX_SAFE_INTEGER) { //2^53 - 1 ~ -2^53
+            return true
+        }
+        return false
+    }
+
+    function isSet(val) {
+        return Object.prototype.toString.call(val) == '[object Set]'
+    }
+
+    function isString(val) {
+        //new String() is true
+        return Object.prototype.toString.call(val) == '[object String]'
+    }
+
+
+
+
+
     //----------------Lang-----------------
-
-
-
 
 
 
@@ -1342,10 +1691,27 @@ var aut1smer = function() {
     }
     //对于obj的可枚举属性，依托断言函数修改这些属性值，返回和原对象property相同的新对象
     function mapValues(obj, mapper = identity) {
+        mapper = iteratee(mapper)
         let res = {}
         for (let k in obj) {
             if (obj.hasOwnProperty(k)) {
                 res[k] = mapper(obj[k], k, obj)
+            }
+        }
+        return res
+    }
+
+    function mapValuesWrong(obj, mapper = identity) {
+        mapper = iteratee(mapper)
+        return reduce(obj, mapper, {})
+    }
+
+    function values(obj) {
+        let dealed = new Object(obj)
+        let res = []
+        for (let k in dealed) {
+            if (dealed.hasOwnProperty(k)) {
+                res.push(dealed[k])
             }
         }
         return res
@@ -1513,258 +1879,6 @@ var aut1smer = function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function zip(...args) {
-        let res = []
-        let maxLength = 0
-        for (let i = 0; i < args.length; i++) {
-            maxLength = args[i].length > maxLength ? args[i].length : maxLength
-        }
-        for (let i = 0; i < maxLength; i++) {
-            let temp = []
-            for (let j = 0; j < args.length; j++) {
-                if (typeof args[j][i] !== 'undefined') {
-                    temp.push(args[j][i])
-                }
-            }
-            res.push(temp)
-        }
-        return res
-    }
-
-    function unzip(ary) {
-        let res = []
-        let len = ary[0].length
-        for (let i = 0; i < len; i++) {
-            let temp = []
-            for (let j = 0; j < ary.length; j++) {
-                temp.push(ary[j][i])
-            }
-            res.push(temp)
-        }
-        return res
-    }
-
-
-    function fill(ary, value, start = 0, end = ary.length) {
-        for (let i = start; i < end; i++) {
-            ary[i] = value
-        }
-        return ary
-    }
-
-    function reverse(ary) {
-        let left = 0,
-            right = ary.length - 1
-        while (left < right) {
-            let temp = ary[left]
-            ary[left] = ary[right]
-            ary[right] = temp
-            left++
-            right--
-        }
-        return ary
-    }
-
-
-
-    function values(obj) {
-        let dealed = new Object(obj)
-        let res = []
-        for (let k in dealed) {
-            if (dealed.hasOwnProperty(k)) {
-                res.push(dealed[k])
-            }
-        }
-        return res
-    }
-
-
-    function toArray(value) {
-        let res = [],
-            type = typeof value
-        if (type === 'object') {
-            for (let k in value) {
-                res.push(value[k])
-            }
-        } else if (type === 'string') {
-            for (let i = 0; i < value.length; i++) {
-                res.push(value[i])
-            }
-        }
-        return res
-    }
-
-
-
-
-    function isNull(val) {
-
-        if (val === null) {
-            return true
-        }
-        return false
-    }
-
-    function isNil(val) {
-        if (val === null || val === undefined) {
-            return true
-        }
-        return false
-    }
-
-    function isUndefined(val) {
-        if (val === undefined) return true
-        return false
-    }
-
-
-    // 根据谓词计数，谓词可以是函数也可以是属性
-    function countBy(collection, predicate) {
-        if (typeof predicate === 'function') {
-
-            return collection.reduce((res, item, idx) => {
-
-                let key = predicate(item, idx)
-                if (!(key in res)) {
-                    res[key] = 1
-                } else {
-                    res[key] += 1
-                }
-                return res
-            }, {})
-        } else { //把predicate当做一个属性看待
-            return collection.reduce((res, item, idx) => {
-
-                let key = item[predicate]
-                if (!(key in res)) {
-                    res[key] = 1
-                } else {
-                    res[key] += 1
-                }
-                return res
-            }, {})
-        }
-    }
-
-    //创建一个数组，以谓词处理的结果升序排列。需要稳定排序。collection可以是Array|Object一个可迭代的集合。predicate谓词是函数。
-    function sortBy(collection, predicate = identity) {
-        let res = []
-        if (!collection) {
-            return []
-        }
-        //插入排序是稳定的
-        if (Array.isArray(collection)) {
-            for (let i = 1; i < collection.length; i++) {
-                let t = collection[i]
-                let temp = predicate(collection[i], i)
-
-                for (var j = i - 1; j >= 0; j--) {
-                    if (predicate(collection[j]) > temp) {
-                        collection[j + 1] = collection[j]
-                    } else {
-                        break
-                    }
-                }
-                collection[j + 1] = t
-            }
-            //排好序了，按照特定格式输出
-            for (let i = 0; i < collection.length; i++) {
-                let temp = []
-                for (let k in collection[i]) {
-                    temp.push(collection[i][k])
-                }
-                res.push(temp)
-            }
-
-        }
-
-        return res
-    }
-    //lodash可以取出对象里的值进行排序，返回新数组
-    function sortBy(collection, ary) { //ary could be [function(o) { return o.user; }] or ['user', 'age']
-
-        //need a compare func
-        function compare(a, b, ary, idx = 0) {
-            if (typeof ary[idx] == 'function') {
-                if (ary[idx](a) < ary[idx](b)) {
-                    return -1
-                } else if (ary[idx](a) > ary[idx](b)) {
-                    return 1
-                } else {
-                    if (idx < ary.length - 1) {
-                        return compare(a, b, ary, idx + 1)
-                    } else {
-                        return 0
-                    }
-                }
-            }
-            if (typeof ary[idx] == 'string') {
-                if (a[ary[idx]] < b[ary[idx]]) {
-                    return -1
-                } else if (a[ary[idx]] > b[ary[idx]]) {
-                    return 1
-                } else {
-                    if (idx < ary.length - 1) {
-                        return compare(a, b, ary, idx + 1)
-                    } else {
-                        return 0
-                    }
-                }
-            }
-        }
-
-
-        // need return a new array
-        if (typeof collection == 'object') {
-            if (Array.isArray(collection)) {
-                collection = collection.slice()
-            } else {
-                let temp = []
-                for (let k in collection) {
-                    if (collection.hasOwnProperty(k)) {
-                        temp.push(collection[k])
-                    }
-                }
-                collection = temp
-            }
-        }
-
-        //insertion sort
-        for (let i = 1; i < collection.length; i++) {
-            let temp = collection[i]
-            for (var j = i - 1; j >= 0; j--) {
-                if (compare(temp, collection[j], ary) < 0) {
-                    collection[j + 1] = collection[j]
-                } else {
-                    break
-                }
-            }
-            collection[j + 1] = temp
-        }
-        return collection
-    }
-
-
-
     //递归下降parseJson   str = '{"aa":"123","b":{"x":1,"y":[35,36,37],"z":null},"ccc":false}'
     function parseJson(str) {
         var i = 0
@@ -1928,6 +2042,7 @@ var aut1smer = function() {
         reduce: reduce,
         zip: zip,
         unzip: unzip,
+        unzipWith: unzipWith,
         keys: keys,
         values: values,
         every: every,
@@ -2017,6 +2132,14 @@ var aut1smer = function() {
         toLength: toLength,
         isInteger: isInteger,
         isMatchWith: isMatchWith,
-
+        isRegExp: isRegExp,
+        isSafeInteger: isSafeInteger,
+        isSet: isSet,
+        isString: isString,
+        union: union,
+        unionBy: unionBy,
+        unionWith: unionWith,
+        without: without,
+        tail: tail,
     }
 }()
