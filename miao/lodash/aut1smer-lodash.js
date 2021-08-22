@@ -811,6 +811,81 @@ var aut1smer = function() {
         return res
     }
 
+    //ary.slice(1,~)
+    function take(ary, n = 1) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || n == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        if (n > ary.length) {
+            n = ary.length
+        } else if (n < 0) {
+            n = 0
+        }
+        return ary.slice(0, n)
+
+    }
+    // 从前向后探测predicate(val)，如不符合，结束探测
+    function takeWhile(ary, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary == 'string') {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        predicate = iteratee(predicate)
+        let res = [],
+            len = ary.length
+        for (let i = 0; i < len; i++) {
+            if (predicate(ary[i], i, ary)) {
+                res.push(ary[i])
+            } else {
+                break
+            }
+        }
+        return res
+    }
+
+    //ary.slice(ary.length - n)
+    function takeRight(ary, n = 1) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || n == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        let start = ary.length - n
+        if (start < 0) {
+            start = 0
+        }
+        return ary.slice(start)
+    }
+
+
+    //从后向前探测predicate(val)，如果不符合则探测结束
+    function takeRightWhile(ary, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = split('')
+        }
+        predicate = iteratee(predicate)
+
+        let res = []
+        for (let i = ary.length - 1; i >= 0; i--) {
+            if (predicate(ary[i], i, ary)) {
+                res.push(ary[i])
+            } else {
+                break
+            }
+        }
+
+        return res.reverse()
+    }
+
     /* --------------------------Array-------------------------- */
 
 
