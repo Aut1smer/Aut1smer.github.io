@@ -2330,5 +2330,9 @@ var aut1smer = function() {
         unionWith: unionWith,
         without: without,
         tail: tail,
+        take: take,
+        takeWhile: takeWhile,
+        takeRight: takeRight,
+        takeRightWhile: takeRightWhile,
     }
 }()
