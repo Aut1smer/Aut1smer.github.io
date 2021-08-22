@@ -227,7 +227,7 @@ var aut1smer = function() {
         })
     }
 
-    //找到第一个插入位置
+    //找到第一个插入位置  the lowest index at which value should be inserted into array in order to maintain its sort order.
     // _.sortedIndex(30, 40);返回NaN  _.sortedIndex('512', 40);返回3  _.sortedIndex(30, 40);返回1
     function sortedIndex(ary, value) { //ary为sorted
         if (!Array.isArray(ary) && typeof ary != 'string') {
@@ -254,6 +254,7 @@ var aut1smer = function() {
     }
 
     //找到第一个插入位置
+    //sortedIndexBy([1,2,3,3,4,4,5],3) => 2
     function sortedIndexBy(ary, value, predicate = identity) {
         if (!Array.isArray(ary) && typeof ary != 'string') {
             return NaN
@@ -283,6 +284,7 @@ var aut1smer = function() {
     }
 
     //binary search on a sorted ary. find first index of val which was in ary
+    // sortedIndexOf([4, 5, 5, 5, 6], 5); => 1
     function sortedIndexOf(ary, val) {
         if (val == undefined) {
             return -1
@@ -304,7 +306,114 @@ var aut1smer = function() {
         return -1
     }
 
+    //the highest index at which value should be inserted into array in order to maintain its sort order. 
+    //sortedLastIndex([4, 5, 5, 5, 6], 5); => 4
+    function sortedLastIndex(ary, val) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return NaN
+        }
+        if (Number(val) != val) {
+            return 0
+        }
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (ary[mid] > val) {
+                end = mid
+            } else {
+                begin = mid + 1
+            }
+        }
+        return begin
+    }
 
+    //every element of ary has been sorted by predicate in past time.
+    function sortedLastIndexBy(ary, val, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return NaN
+        }
+        predicate = iteratee(predicate)
+        let v = predicate(val)
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (predicate(ary[mid]) > v) {
+                end = mid
+            } else {
+                begin = mid + 1
+            }
+        }
+        return begin
+    }
+
+    //sortedLastIndexOf([4, 5, 5, 5, 6], 5) => 3
+    function sortedLastIndexOf(ary, val) {
+        if (!Array.isArray(ary) || typeof val != 'number') {
+            return -1
+        }
+        //法1.找最后插入位置，看前项是否为val
+        //法2.直接在相等时分情况讨论，能够出来循环说明begin=end，指向的值一定不等于val
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (ary[mid] < val) {
+                begin = mid + 1
+            } else if (ary[mid] > val) {
+                end = mid
+            } else {
+                if (ary[mid + 1] != val) {
+                    return mid
+                } else {
+                    begin = mid + 1
+                }
+            }
+        }
+        return -1
+    }
+
+    // a string can be dealed yet.This ary has been sorted.
+    function sortedUniq(ary) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || ary.length == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        //方法1. res=ary.slice()，双指针游走，最后res.length = slow指针
+        //方法2. 遍历ary，ary[i]不等res的最后一项，res就把此项拿过来.时间复杂度是方法1的1/2，空间复杂度更少一点.
+        let res = [ary[0]] //be careful with undefined because of ary.length = 0
+        let ri = 0,
+            len = ary.length
+        for (let i = 1; i < len; i++) {
+            if (res[ri] !== ary[i]) {
+                res[++ri] = ary[i]
+            }
+        }
+        return res
+    }
+
+
+    function sortedUniqBy(ary, predicate = identity) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || ary.length == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split()
+        }
+        let res = [ary[0]]
+        predicate = iteratee(predicate)
+        let ri = 0,
+            len = ary.length
+        for (let i = 1; i < len; i++) {
+            if (predicate(res[ri]) !== predicate(ary[i])) {
+                res[++ri] = ary[i]
+            }
+        }
+        return res
+    }
 
 
     //除了Set哈希表以外，去重都是n^2，最低不过nlogn(排序后遍历一遍)
@@ -2075,6 +2184,11 @@ var aut1smer = function() {
         sortedIndex: sortedIndex,
         sortedIndexBy: sortedIndexBy,
         sortedIndexOf: sortedIndexOf,
+        sortedLastIndex: sortedLastIndex,
+        sortedLastIndexBy: sortedLastIndexBy,
+        sortedLastIndexOf: sortedLastIndexOf,
+        sortedUniq: sortedUniq,
+        sortedUniqBy: sortedUniqBy,
         floor: floor,
         isMatch: isMatch,
         matches: matches,
