@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>workBench</title>
+    <style>
+        /* pre {
+           border: 1px solid lightcoral; 
+        
+        box-shadow: 2px 2px lightcoral;
+    }
+    */
+    </style>
+</head>
+
+<body>
+
+    <textarea name="" id="" cols="30" rows="10"></textarea><br>
+    <button>运行代码</button> <br> 运行结果
+    <pre></pre>
+    <script>
+        //造一个沙箱 || 虚拟机 Node里也有虚拟机VM
+        var btn = document.querySelector('button')
+        var content = document.querySelector('textarea')
+        var resultShow = document.querySelector('pre')
+        btn.addEventListener('click', run)
+
+        function run() {
+            resultShow.textContent = ''
+            var console = {
+                log: function(...args) {
+                    window.console.log(...args) //在主控制台打一遍
+                    resultShow.textContent += args.join(' ') + '\n'
+                }
+            }
+            var code = content.value
+            var result = eval(code)
+            resultShow.textContent += '>' + result
+        }
+
+
+
+        function run() {
+            resultShow.textContent = ''
+            var console = {
+                log: function(...args) {
+                    window.console.log(...args)
+                    resultShow.textContent += args.join(' ') + '\n'
+                }
+            }
+            var code = content.value
+            var result = eval(code)
+            resultShow += '>' + result
+        }
+
+
+
+
+
+
+
+
+
+        /*
+测试用例 
+var a = 1
+var b = 2 
+var c = 0
+
+window.run = 999 //run被eval执行给刷掉了，变成了999
+window.document.write('abc') //重绘了页面
+console.log(a)
+console.log(b)
+
+c = a * b
+ 
+ 
+ */
+    </script>
+</body>
+
+</html>

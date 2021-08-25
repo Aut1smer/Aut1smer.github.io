@@ -330,6 +330,7 @@
             })
         })
         next.addEventListener('click', function(e) {
+            debugger
             let curState = matrix2d.slice()
             let rowLen = curState.length
             let colLen = curState[0].length
@@ -555,15 +556,15 @@
                     if (curState[i][j] == 0) { //死亡状态
                         if (count >= 3) {
                             curState[i][j] = 1
-                            cells[i * 16 + j].checked = true
+                            box.children[i * 16 + j].checked = true
                         }
                     } else if (curState[i][j] == 1) { //存活状态
                         if (count < 2) {
                             curState[i][j] = 0
-                            cells[i * 16 + j].checked = false
+                            box.children[i * 16 + j].checked = false
                         } else if (count > 3) {
                             curState[i][j] = 0
-                            cells[i * 16 + j].checked = false
+                            box.children[i * 16 + j].checked = false
                         }
                     }
                 }

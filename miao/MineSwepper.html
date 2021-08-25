@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        ul {
+            list-style: none;
+        }
+        
+        .readyStage {
+            margin-top: 20px;
+            width: 960px;
+            /* height: 80vh; */
+            border: 1px solid #ebebeb;
+            border-radius: 10px;
+            box-shadow: 1px #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: nowrap column;
+        }
+        
+        .frontpage {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .frontpage img {
+            margin: auto;
+        }
+        
+        .readyStage>section {
+            width: 400px;
+            height: 60px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        
+        .readyStage section button {
+            width: 90px;
+            height: 36px;
+            font-size: 14px;
+            font-weight: 700;
+            background-color: #1A73E8;
+            color: white;
+            border-radius: 9px;
+            outline: none;
+            /* 防止用户选到文本 */
+            /* user-select: none; */
+            border: 0;
+            cursor: pointer;
+        }
+        
+        .readyIntro {
+            flex-grow: 1;
+            width: 700px;
+            height: 300px;
+            padding: 20px;
+            padding-bottom: 0;
+            padding-bottom: 10px;
+            border: 1px solid #ebebeb;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .readyIntro pre {
+            margin-bottom: 0;
+        }
+        
+        .comment {
+            display: none;
+        }
+        
+        .gameStage {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, .8);
+        }
+        
+        .gameStage span {
+            position: absolute;
+            top: 5vh;
+            right: 5vw;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: rotate(0);
+            transition: transform .2s ease-in-out, color .2s ease-in-out;
+            background-color: #3335;
+            text-align: center;
+            line-height: 30px;
+            color: rgba(0, 0, 0, .7);
+        }
+        
+        .gameStage span:hover {
+            background-color: rgba(0, 0, 0, .9);
+            transform: rotate(180deg);
+            color: rgba(255, 255, 255, .7);
+        }
+        
+        .game {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 500px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="readyStage">
+        <div class="frontpage"><img src="mineImages/front.png" alt=""></div>
+        <section><button>游戏玩法</button><button data-hash="gaming:)">开始游戏</button><button>参与评价</button></section>
+        <div class="readyIntro">
+            <pre class="howToPlay">
+<strong>游戏目标</strong>
+
+找出空方块，同时避免触雷。清除扫雷区的速度越快，得分就越高。
+
+
+<strong>游戏玩法</strong> 
+
+扫雷的规则非常简单：
+
+挖开地雷，游戏即告结束。
+
+挖开空方块，可以继续玩。
+
+挖开数字，则表示在其周围的八个方块中共有多少个雷，可以使用该信息推断能够安全单击附近的哪些方块。
+
+左键：挖开方块   右键：插红旗   鼠标中键：探测雷区
+            </pre>
+            <ul class="comment">
+                <li></li>
+            </ul>
+        </div>
+
+        <div class="gameStage">
+            <span onclick="history.back()">X</span>
+            <div class="game"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+        // 准备大厅
+        let btns = document.querySelectorAll('.readyStage>section>button')
+        let readyIntro = document.querySelector('.readyIntro')
+        let gameStage = document.querySelector('.gameStage')
+            //准备大厅的三个按钮
+            //how to play
+        btns[0].addEventListener('click', function(e) {
+            // console.log(e);
+            Array.from(readyIntro.children).forEach(elt => {
+                if (elt.matches('.howToPlay')) {
+                    elt.style.display = 'block'
+                } else {
+                    elt.style.display = 'none'
+                }
+            })
+        });
+        //comment
+        btns[2].addEventListener('click', function(e) {
+            // console.log(e);
+            Array.from(readyIntro.children).forEach(elt => {
+                if (elt.matches('.comment')) {
+                    elt.style.display = 'block'
+                } else {
+                    elt.style.display = 'none'
+                }
+            })
+        });
+        //playing , load game world. Or close the world
+        btns[1].addEventListener('click', function(e) {
+            gameStage.style.display = 'block'
+            location.hash = '/' + e.target.dataset.hash
+        })
+
+        window.addEventListener('hashchange', function(e) {
+            if (location.href.endsWith('MineSwepper.html')) {
+                gameStage.style.display = 'none'
+            } else {
+                gameStage.style.display = 'block'
+            }
+        });
+        window.dispatchEvent(new Event('hashchange'));
+        window.addEventListener('keydown', function(e) {
+            history.back()
+        })
+    </script>
+</body>
+
+</html>
