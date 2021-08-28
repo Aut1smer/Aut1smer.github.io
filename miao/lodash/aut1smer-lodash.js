@@ -227,7 +227,7 @@ var aut1smer = function() {
         })
     }
 
-    //找到第一个插入位置
+    //找到第一个插入位置 the lowest index at which value should be inserted into array in order to maintain its sort order.
     // _.sortedIndex(30, 40);返回NaN  _.sortedIndex('512', 40);返回3  _.sortedIndex(30, 40);返回1
     function sortedIndex(ary, value) { //ary为sorted
         if (!Array.isArray(ary) && typeof ary != 'string') {
@@ -254,6 +254,7 @@ var aut1smer = function() {
     }
 
     //找到第一个插入位置
+    //sortedIndexBy([1,2,3,3,4,4,5],3) => 2
     function sortedIndexBy(ary, value, predicate = identity) {
         if (!Array.isArray(ary) && typeof ary != 'string') {
             return NaN
@@ -283,6 +284,7 @@ var aut1smer = function() {
     }
 
     //binary search on a sorted ary. find first index of val which was in ary
+    // sortedIndexOf([4, 5, 5, 5, 6], 5); => 1
     function sortedIndexOf(ary, val) {
         if (val == undefined) {
             return -1
@@ -304,7 +306,114 @@ var aut1smer = function() {
         return -1
     }
 
+    //the highest index at which value should be inserted into array in order to maintain its sort order. 
+    //sortedLastIndex([4, 5, 5, 5, 6], 5); => 4
+    function sortedLastIndex(ary, val) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return NaN
+        }
+        if (Number(val) != val) {
+            return 0
+        }
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (ary[mid] > val) {
+                end = mid
+            } else {
+                begin = mid + 1
+            }
+        }
+        return begin
+    }
 
+    //every element of ary has been sorted by predicate in past time.
+    function sortedLastIndexBy(ary, val, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return NaN
+        }
+        predicate = iteratee(predicate)
+        let v = predicate(val)
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (predicate(ary[mid]) > v) {
+                end = mid
+            } else {
+                begin = mid + 1
+            }
+        }
+        return begin
+    }
+
+    //sortedLastIndexOf([4, 5, 5, 5, 6], 5) => 3
+    function sortedLastIndexOf(ary, val) {
+        if (!Array.isArray(ary) || typeof val != 'number') {
+            return -1
+        }
+        //法1.找最后插入位置，看前项是否为val
+        //法2.直接在相等时分情况讨论，能够出来循环说明begin=end，指向的值一定不等于val
+        let begin = 0,
+            end = ary.length
+        while (begin < end) {
+            let mid = (begin + end) >> 1
+            if (ary[mid] < val) {
+                begin = mid + 1
+            } else if (ary[mid] > val) {
+                end = mid
+            } else {
+                if (ary[mid + 1] != val) {
+                    return mid
+                } else {
+                    begin = mid + 1
+                }
+            }
+        }
+        return -1
+    }
+
+    // a string can be dealed yet.This ary has been sorted.
+    function sortedUniq(ary) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || ary.length == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        //方法1. res=ary.slice()，双指针游走，最后res.length = slow指针
+        //方法2. 遍历ary，ary[i]不等res的最后一项，res就把此项拿过来.时间复杂度是方法1的1/2，空间复杂度更少一点.
+        let res = [ary[0]] //be careful with undefined because of ary.length = 0
+        let ri = 0,
+            len = ary.length
+        for (let i = 1; i < len; i++) {
+            if (res[ri] !== ary[i]) {
+                res[++ri] = ary[i]
+            }
+        }
+        return res
+    }
+
+
+    function sortedUniqBy(ary, predicate = identity) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || ary.length == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split()
+        }
+        let res = [ary[0]]
+        predicate = iteratee(predicate)
+        let ri = 0,
+            len = ary.length
+        for (let i = 1; i < len; i++) {
+            if (predicate(res[ri]) !== predicate(ary[i])) {
+                res[++ri] = ary[i]
+            }
+        }
+        return res
+    }
 
 
     //除了Set哈希表以外，去重都是n^2，最低不过nlogn(排序后遍历一遍)
@@ -605,6 +714,26 @@ var aut1smer = function() {
         return res
     }
 
+    /* zipWith([1, 2], [10, 20], [100, 200], function(a, b, c) {
+    return a + b + c; }); => [111, 222]  */
+    function zipWith(...arys) {
+        let predicate = arys.pop()
+        if (typeof predicate != 'function') {
+            arys.push(predicate)
+            predicate = identity
+        }
+        let result = []
+        for (let i = 0; i < arys[0].length; i++) {
+            let item = predicate.apply(null, arys.reduce((param, ary) => {
+                param.push(ary[i])
+                return param
+            }, []))
+            result.push(item)
+        }
+        return result
+    }
+
+
     function unzip(ary) {
         let res = []
         let len = ary[0].length
@@ -633,6 +762,48 @@ var aut1smer = function() {
         }
         return res
     }
+
+    //zipObject(['a', 'b'], [1, 2]); => { 'a': 1, 'b': 2 }
+    function zipObject(props = [], values = []) {
+        if (typeof props != 'string' && !Array.isArray(props)) {
+            return {}
+        }
+
+        let res = {}
+        for (let i = 0; i < props.length; i++) {
+            res[props[i]] = values[i]
+        }
+        return res
+    }
+
+
+    /*有点麻，Deep会误导人去想递归*/
+    function zipObjectDeep(props = [], values = []) {
+        let res = {}
+        for (let i = 0; i < props.length; i++) {
+            let propAry = toPath(props[i])
+            let resPointer = res
+            if (propAry.length > 0) {
+                for (let j = 0; j < propAry.length - 1; j++) {
+                    if (Number(propAry[j + 1]) == propAry[j + 1] && !resPointer[propAry[j]]) {
+                        resPointer[propAry[j]] = []
+                    } else if (!resPointer[propAry[j]]) {
+                        resPointer[propAry[j]] = {}
+                    }
+                    resPointer = resPointer[propAry[j]]
+                }
+                resPointer[propAry[propAry.length - 1]] = values[i]
+            }
+        }
+        return res
+    }
+
+
+
+
+
+
+
 
     // using `SameValueZero` for equality comparisons.Unique values is collected in order of ARYS.
     function union(...arys) {
@@ -702,6 +873,223 @@ var aut1smer = function() {
         return res
     }
 
+
+    //ary.slice(1,~)
+    function take(ary, n = 1) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || n == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        if (n > ary.length) {
+            n = ary.length
+        } else if (n < 0) {
+            n = 0
+        }
+        return ary.slice(0, n)
+
+    }
+    // 从前向后探测predicate(val)，如不符合，结束探测
+    function takeWhile(ary, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary == 'string') {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        predicate = iteratee(predicate)
+        let res = [],
+            len = ary.length
+        for (let i = 0; i < len; i++) {
+            if (predicate(ary[i], i, ary)) {
+                res.push(ary[i])
+            } else {
+                break
+            }
+        }
+        return res
+    }
+
+    //ary.slice(ary.length - n)
+    function takeRight(ary, n = 1) {
+        if ((!Array.isArray(ary) && typeof ary != 'string') || n == 0) {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = ary.split('')
+        }
+        let start = ary.length - n
+        if (start < 0) {
+            start = 0
+        }
+        return ary.slice(start)
+    }
+
+
+    //从后向前探测predicate(val)，如果不符合则探测结束
+    function takeRightWhile(ary, predicate = identity) {
+        if (!Array.isArray(ary) && typeof ary != 'string') {
+            return []
+        }
+        if (typeof ary == 'string') {
+            ary = split('')
+        }
+        predicate = iteratee(predicate)
+
+        let res = []
+        for (let i = ary.length - 1; i >= 0; i--) {
+            if (predicate(ary[i], i, ary)) {
+                res.push(ary[i])
+            } else {
+                break
+            }
+        }
+
+        return res.reverse()
+    }
+
+
+
+    //异或：所有数组的值中只出现一次//数组交集后的补集取并集
+    //写法1，利用浏览器的map.forEach实现
+    function xor(...arys) {
+        let map = new Map()
+        let res = []
+        for (let i = 0; i < arys.length; i++) {
+            let ary = arys[i]
+            if (Array.isArray(ary)) {
+                for (let j = 0; j < ary.length; j++) {
+                    if (map.has(ary[j])) {
+                        map.set(ary[j], 2)
+                    } else {
+                        map.set(ary[j], 1)
+                    }
+                }
+            }
+        }
+        map.forEach((v, k) => { //map.forEach能够保证遍历顺序是存入顺序
+            if (v == 1) {
+                res.push(k)
+            }
+        })
+        return res
+    }
+
+    //写法2,非信任的map遍历
+    function xor2(...arys) {
+        let map = new Map()
+        let res = []
+        for (let i = 0; i < arys.length; i++) {
+            let ary = arys[i]
+            if (Array.isArray(ary)) {
+                for (let j = 0; j < ary.length; j++) {
+                    if (map.has(ary[j])) {
+                        map.set(ary[j], 2)
+                    } else {
+                        map.set(ary[j], 1)
+                    }
+                }
+            }
+        }
+
+        for (let i = 0; i < arys.length; i++) {
+            let ary = arys[i]
+            if (Array.isArray(ary)) {
+                for (let j = 0; j < ary.length; j++) {
+                    if (map.get(ary[j]) == 1) {
+                        res.push(ary[j])
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+
+    //space exchange time(timeless first)
+    function xorBy(...arys) {
+        let predicate
+        if (Array.isArray(arys[arys.length - 1])) {
+            predicate = identity
+        } else {
+            predicate = iteratee(arys.pop())
+
+        }
+        let map = new Map()
+        let res = []
+        for (let i = 0; i < arys.length; i++) {
+            let ary = arys[i]
+            if (Array.isArray(ary)) {
+                for (let j = 0; j < ary.length; j++) {
+                    let val = predicate(ary[j])
+                    if (map.has(val)) {
+                        map.set(val, 2)
+                    } else {
+                        map.set(val, 1)
+                    }
+                }
+            }
+        }
+        //非信任map.forEach写法
+        for (let i = 0; i < arys.length; i++) {
+            let ary = arys[i]
+            if (Array.isArray(ary)) {
+                for (let j = 0; j < ary.length; j++) {
+                    let val = predicate(ary[j])
+                    if (map.get(val) == 1) {
+                        res.push(ary[j])
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+    //没办法化为O(n)了，只能O(n^2)
+    function xorWith(...arys) {
+        let comparator
+        if (typeof arys[arys.length - 1] == 'function') {
+            comparator = arys.pop()
+        } else {
+            comparator = isEqual
+        }
+        let res = []
+
+        for (let i = 0; i < arys.length; i++) {
+            let ary = arys[i]
+            if (Array.isArray(ary)) {
+                for (let j = 0; j < ary.length; j++) {
+                    let val = ary[j]
+                    let pushFlag = true
+                        //对比
+                    for (let p = 0; p < arys.length; p++) {
+                        let aryTest = arys[p]
+                        if (Array.isArray(aryTest)) {
+                            for (let q = 0; q < aryTest.length; q++) {
+                                if (p == i && q == j) {
+                                    continue
+                                }
+                                let valTest = aryTest[q]
+                                if (comparator(val, valTest)) {
+                                    pushFlag = false
+                                    break
+                                }
+                            }
+                            if (!pushFlag) {
+                                break
+                            }
+                        }
+                    }
+                    if (pushFlag) {
+                        res.push(val)
+                    }
+                }
+            }
+        }
+        return res
+    }
+
     /* --------------------------Array-------------------------- */
 
 
@@ -751,6 +1139,19 @@ var aut1smer = function() {
         }
         return collection
     }
+
+
+    function forEachRight(collection, predicate = identity) {
+        let keys = Object.keys(collection)
+
+        for (let i = keys.length - 1; i >= 0; i--) {
+            if (predicate(collection[keys[i]], keys[i], collection) == false) {
+                break
+            }
+        }
+        return collection
+    }
+
 
 
     function map(collection, mapper = identity) {
@@ -1044,8 +1445,173 @@ var aut1smer = function() {
             }
             return accum
         }, {})
-
     }
+
+
+    function find(collection, test = identity, fromIdx = 0) {
+        test = iteratee(test)
+
+        if (Array.isArray(collection)) {
+            if (fromIdx < 0) {
+                fromIdx += collection.length
+                fromIdx = fromIdx < 0 ? 0 : fromIdx
+            }
+            for (let i = fromIdx; i < collection.length; i++) {
+                if (test(collection[i], i, collection)) {
+                    return collection[i]
+                }
+            }
+        } else { //object
+            let count = 0
+            if (fromIdx < 0) {
+                fromIdx += Object.keys(collection).length
+                fromIdx = fromIdx < 0 ? 0 : fromIdx
+            }
+            for (let key in collection) {
+                if (count >= fromIdx) {
+                    if (test(collection[key], key, collection)) {
+                        return collection[key]
+                    }
+                }
+                count++
+            }
+
+        }
+        return
+    }
+
+    //从右向前找到第一个元素. 这个函数可以用Object.keys简化代码
+    function findLast(collection, predicate = identity, fromIndex = collection.length - 1) {
+        predicate = iteratee(predicate)
+        let midAry = collection
+        if (!Array.isArray(collection)) {
+            midAry = reduce(collection, (accum, val, key) => {
+                accum.push([key, val])
+                return accum
+            }, [])
+        }
+
+        if (fromIndex >= midAry.length) {
+            fromIndex = midAry.length - 1
+        } else if (fromIndex < 0) {
+            fromIndex += midAry.length
+            fromIndex = fromIndex < 0 ? 0 : fromIndex
+        }
+        if (Array.isArray(collection)) {
+            for (let i = fromIndex; i >= 0; i--) {
+                if (predicate(midAry[i], i, collection)) {
+                    return midAry[i]
+                }
+            }
+        } else {
+            for (let i = fromIndex; i >= 0; i--) {
+                if (predicate(midAry[i][1], midAry[i][0], collection)) {
+                    return midAry[i][1]
+                }
+            }
+        }
+
+        return
+    }
+
+    //Creates a flattened array of values by running each element in collection thru iteratee and flattening the mapped results.
+    function flatMap(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        let midAry = []
+        for (let key in collection) {
+            midAry.push(predicate(collection[key], key, collection))
+        }
+        return flatten(midAry)
+    }
+
+
+    function flatMapDeep(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        let midAry = []
+        for (let key in collection) {
+            midAry.push(predicate(collection[key], key, collection))
+        }
+        return flattenDeep(midAry)
+    }
+
+
+    function flatMapDepth(collection, predicate = identity, depth = 1) {
+        predicate = iteratee(predicate)
+        let midAry = []
+        for (let key in collection) {
+            midAry.push(predicate(collection[key], key, collection))
+        }
+        return flattenDepth(midAry, depth)
+    }
+
+
+    function includes(collection, val, fromIndex = 0) {
+        if (typeof collection == 'string' && typeof val != 'string') {
+            return false
+        }
+        let keys = Object.keys(collection) //string有效
+        if (fromIndex < 0) {
+            fromIndex += keys.length
+            fromIndex = fromIndex < 0 ? 0 : fromIndex
+        }
+        if (typeof collection == 'string') {
+            let end = collection.length - val.length
+            for (let i = fromIndex; i < end; i++) {
+                let subStr = collection.substr(i, val.length)
+                if (subStr == val) {
+                    return true
+                }
+            }
+        } else {
+            if (isNaN(val)) {
+                for (let i = fromIndex; i < keys.length; i++) {
+                    if (isNaN(collection[keys[i]])) {
+                        return true
+                    }
+                }
+            } else {
+                for (let i = fromIndex; i < keys.length; i++) {
+                    if (val === collection[keys[i]]) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    //内置函数路由，考察用字符串寻找函数名
+    function invokeMap(collection, path, ...args) {
+        let result = []
+        let predicate
+        let everyFlag = false
+        if (Array.isArray(path)) {
+            predicate = property(path)
+        } else if (typeof path == 'function') {
+            predicate = path
+        } else if (typeof path == 'string') {
+            everyFlag = true // 对每个元素调用元素上的方法,such as sort, reverse,and so on...
+            for (let i = 0; i < path.length; i++) {
+                if (path[i] == '[' || path[i] == '.') {
+                    everyFlag = false
+                    break
+                }
+            }
+            if (!everyFlag) {
+                predicate = property(path) // [a].b[0].c
+            }
+        }
+        for (let key in collection) {
+            if (everyFlag) {
+                predicate = collection[key].__proto__[path]
+            }
+            let item = predicate.apply(collection[key], args)
+            result.push(item)
+        }
+        return result
+    }
+
+
     //-------------------Collection--------------------------
 
     /*-----------------------------------
@@ -2043,6 +2609,9 @@ var aut1smer = function() {
         zip: zip,
         unzip: unzip,
         unzipWith: unzipWith,
+        zipObject: zipObject,
+        zipObjectDeep: zipObjectDeep,
+        zipWith: zipWith,
         keys: keys,
         values: values,
         every: every,
@@ -2075,6 +2644,11 @@ var aut1smer = function() {
         sortedIndex: sortedIndex,
         sortedIndexBy: sortedIndexBy,
         sortedIndexOf: sortedIndexOf,
+        sortedLastIndex: sortedLastIndex,
+        sortedLastIndexBy: sortedLastIndexBy,
+        sortedLastIndexOf: sortedLastIndexOf,
+        sortedUniq: sortedUniq,
+        sortedUniqBy: sortedUniqBy,
         floor: floor,
         isMatch: isMatch,
         matches: matches,
@@ -2107,6 +2681,7 @@ var aut1smer = function() {
         constant: constant,
         isFunction: isFunction,
         functions: functions,
+        functionsIn: functionsIn,
         keysIn: keysIn,
         mapKeys: mapKeys,
         mapValues: mapValues,
@@ -2141,5 +2716,20 @@ var aut1smer = function() {
         unionWith: unionWith,
         without: without,
         tail: tail,
+        take: take,
+        takeWhile: takeWhile,
+        takeRight: takeRight,
+        takeRightWhile: takeRightWhile,
+        xor: xor,
+        xorBy: xorBy,
+        xorWith: xorWith,
+        find: find,
+        findLast: findLast,
+        flatMap: flatMap,
+        flatMapDeep: flatMapDeep,
+        flatMapDepth: flatMapDepth,
+        forEachRight: forEachRight,
+        includes: includes,
+        invokeMap: invokeMap,
     }
 }()
