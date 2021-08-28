@@ -1602,11 +1602,13 @@ var aut1smer = function() {
             }
         }
         for (let key in collection) {
-            if (everyFlag) {
-                predicate = collection[key].__proto__[path]
+            if (collection.hasOwnProperty(key)) {
+                if (everyFlag) {
+                    predicate = collection[key].__proto__[path]
+                }
+                let item = predicate.apply(collection[key], args)
+                result.push(item)
             }
-            let item = predicate.apply(collection[key], args)
-            result.push(item)
         }
         return result
     }
