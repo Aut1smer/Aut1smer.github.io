@@ -1154,15 +1154,23 @@ var aut1smer = function() {
 
 
 
+    //_.map([1,2,3],function(v,i,o) {return v+i+o.length*2}) =>  [7, 9, 11]
+    // lodash的map对于数组的key来说有Number(key)的行为，所以仍需划分obj还是ary
     function map(collection, mapper = identity) {
         // if (typeof mapper === 'string') {
         //     mapper = property(mapper) //_.property('a.b')
         // }
         mapper = iteratee(mapper)
         var result = []
-        for (var key in collection) {
-            if (collection.hasOwnProperty(key)) {
-                result.push(mapper(collection[key], key, collection))
+        if (Array.isArray(collection)) {
+            for (let i = 0; i < collection.length; i++) {
+                result.push(mapper(collection[i], i, collection))
+            }
+        } else {
+            for (var key in collection) {
+                if (collection.hasOwnProperty(key)) {
+                    result.push(mapper(collection[key], key, collection))
+                }
             }
         }
         return result
@@ -1801,7 +1809,7 @@ var aut1smer = function() {
         let timerId = setTimeout(() => {
             func.apply(null, args)
         })
-        return timerId
+        return timerId + 1
     }
 
     //setTimeout会自动进行'1000' => 1000，里面应该是用了Number()而非parseInt
@@ -1809,7 +1817,7 @@ var aut1smer = function() {
         let timerId = setTimeout(() => {
             func.apply(null, args)
         }, wait)
-        return timerId
+        return timerId + 1
     }
 
 
@@ -2226,6 +2234,9 @@ var aut1smer = function() {
     //Casts value as an array if it's not one.
     //array = [1, 2, 3]; console.log(_.castArray(array) === array);// => true
     function castArray(val) {
+        if (arguments.length == 0) {
+            return []
+        }
         if (Array.isArray(val)) {
             return val
         } else {
@@ -2796,7 +2807,6 @@ var aut1smer = function() {
             return null
         }
     }
-
 
 
     return {
