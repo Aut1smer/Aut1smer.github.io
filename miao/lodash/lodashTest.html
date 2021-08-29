@@ -619,16 +619,23 @@
             return collection
         }
 
-
+        //_.map([1,2,3],function(v,i,o) {return v+i+o.length*2}) =>  [7, 9, 11]
+        // lodash的map对于数组的key来说有Number(key)的行为，所以仍需划分obj还是ary
         function map(collection, mapper = identity) {
             // if (typeof mapper === 'string') {
             //     mapper = property(mapper) //_.property('a.b')
             // }
             mapper = iteratee(mapper)
             var result = []
-            for (var key in collection) {
-                if (collection.hasOwnProperty(key)) {
-                    result.push(mapper(collection[key], key, collection))
+            if (Array.isArray(collection)) {
+                for (let i = 0; i < collection.length; i++) {
+                    result.push(mapper(collection[i], i, collection))
+                }
+            } else {
+                for (var key in collection) {
+                    if (collection.hasOwnProperty(key)) {
+                        result.push(mapper(collection[key], key, collection))
+                    }
                 }
             }
             return result
@@ -1796,6 +1803,7 @@
     </script>
 </body>
 
-</html></body>
+</html>
+</body>
 
 </html>

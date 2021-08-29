@@ -1614,6 +1614,151 @@ var aut1smer = function() {
     }
 
 
+
+    //asc is default, dont need key but only value.
+    function orderBy(collection, comparators = [identity], orders = ['asc']) {
+        while (orders.length < comparators.length) {
+            orders.push('asc')
+        }
+
+        //compare can assert relative position between a and b, this func will iterate all of functions in 'comparators'.
+        function compare(a, b, ary, orderAry, idx = 0) {
+            if (typeof ary[idx] == 'function') {
+                if ((ary[idx](a) < ary[idx](b) && orderAry[idx] == 'asc') || (ary[idx](a) > ary[idx](b) && orderAry[idx] == 'desc')) {
+                    return -1
+                } else if ((ary[idx](a) > ary[idx](b) && orderAry[idx] == 'asc') || (ary[idx](a) < ary[idx](b) && orderAry[idx] == 'desc')) {
+                    return 1
+                } else if (idx < ary.length) {
+                    return compare(a, b, ary, orderAry, idx + 1)
+                } else {
+                    return 0
+                }
+
+            } else if (typeof ary[idx] == 'string') {
+                if ((a[ary[idx]] < b[ary[idx]] && orderAry[idx] == 'asc') || (a[ary[idx]] > b[ary[idx]] && orderAry[idx] == 'desc')) {
+                    return -1
+                } else if ((a[ary[idx]] > b[ary[idx]] && orderAry[idx] == 'asc') || (a[ary[idx]] < b[ary[idx]] && orderAry[idx] == 'desc')) {
+                    return 1
+                } else if (idx < ary.length) {
+                    return compare(a, b, ary, orderAry, idx + 1)
+                } else {
+                    return 0
+                }
+            } else {
+                return 0 //In this case that typeof every item in ary are neither func and string, we think a equals with b. By myself but not lodash official.
+            }
+        }
+
+        //stable swapper algorithm need iterate array but not object, and return value belongs to type of array.
+        if (typeof collection == 'object') {
+            if (Array.isArray(collection)) {
+                collection = collection.slice()
+            } else {
+                let temp = []
+                for (let k in collection) { //dont need key but only value
+                    if (collection.hasOwnProperty(k)) {
+                        temp.push(collection[k])
+                    }
+                }
+                collection = temp
+            }
+        } else {
+            console.log('collection parameter is wrong type!');
+            return collection
+        }
+
+        for (let i = 1; i < collection.length; i++) {
+            let selectVal = collection[i]
+            for (var j = i - 1; j >= 0; j--) {
+                if (compare(selectVal, collection[j], comparators, orders) < 0) {
+                    collection[j + 1] = collection[j]
+                } else {
+                    break
+                }
+            }
+            collection[j + 1] = selectVal
+        }
+
+        return collection
+    }
+
+    //two groups: [true group, false group].  The predicate is invoked with one argument: (value).
+    function partition(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        let result = [
+            [],
+            []
+        ]
+        for (let k in collection) {
+            if (collection.hasOwnProperty(k)) {
+                if (predicate(collection[k]) == true) {
+                    result[0].push(collection[k])
+                } else {
+                    result[1].push(collection[k])
+                }
+            }
+        }
+        return result
+    }
+
+    //the opposite of filter().
+    function reject(collection, predicate = identity) {
+        predicate = iteratee(predicate)
+        let result = []
+        for (let key in collection) {
+            if (collection.hasOwnProperty(key)) {
+                if (predicate(collection[key], key, collection) == false) {
+                    result.push(collection[key])
+                }
+            }
+        }
+        return result
+    }
+
+    //Gets a random element from collection.
+    function sample(collection) {
+        let keys = Object.keys(collection)
+        let len = keys.length
+        let idx = Math.random() * len | 0
+        return collection[keys[idx]]
+    }
+
+    // we need n * sample
+    function sampleSize(collection, n = 1) {
+        let keys = Object.keys(collection)
+        let len = keys.length
+        if (n <= 0) {
+            return []
+        } else if (n > len) {
+            n = len
+        }
+        let result = []
+        while (n) {
+            let idx = Math.random() * keys.length | 0
+            swap(keys, idx, keys.length - 1)
+            result.push(collection[keys.pop()])
+            n--
+        }
+        return result
+    }
+
+    //Object.keys完成了for in + hasOwnProperty
+    function size(collection) {
+        if (collection && typeof collection == 'object') {
+            if (Array.isArray(collection)) {
+                return collection.length
+            }
+            return Object.keys(collection).length
+        } else if (typeof collection == 'string') {
+            return collection.length
+        }
+        return
+    }
+
+
+
+
+
     //-------------------Collection--------------------------
 
     /*-----------------------------------
@@ -1650,6 +1795,26 @@ var aut1smer = function() {
             return f.apply(thisArg, parameters)
         }
     }
+
+    //延迟 1ms执行func
+    function defer(func, ...args) {
+        let timerId = setTimeout(() => {
+            func.apply(null, args)
+        })
+        return timerId
+    }
+
+    //setTimeout会自动进行'1000' => 1000，里面应该是用了Number()而非parseInt
+    function delay(func, wait, ...args) {
+        let timerId = setTimeout(() => {
+            func.apply(null, args)
+        }, wait)
+        return timerId
+    }
+
+
+
+    //-----------------Function--------------------
 
 
 
@@ -2058,9 +2223,50 @@ var aut1smer = function() {
         return Object.prototype.toString.call(val) == '[object String]'
     }
 
+    //Casts value as an array if it's not one.
+    //array = [1, 2, 3]; console.log(_.castArray(array) === array);// => true
+    function castArray(val) {
+        if (Array.isArray(val)) {
+            return val
+        } else {
+            return [val]
+        }
+    }
 
+    //src属性对应着obj属性，src属性值是个检测obj属性值的函数。
+    function conformsTo(obj, src) {
+        for (let key in src) {
+            if (src.hasOwnProperty(key)) {
+                if (!obj.hasOwnProperty(key) || !src[key](obj[key])) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 
+    //SameValueZero  +0 === -0 === 0
+    function eq(val, other) {
+        if (isNaN(val)) {
+            return isNaN(other)
+        }
+        return val === other
+    }
 
+    // great than
+    function gt(val, other) {
+        if (val - other > Number.EPSILON) {
+            return true
+        }
+        return false
+    }
+
+    function gte(val, other) {
+        if (val - other > Number.EPSILON || Math.abs(val - other) < Number.EPSILON) {
+            return true
+        }
+        return false
+    }
 
     //----------------Lang-----------------
 
@@ -2733,5 +2939,18 @@ var aut1smer = function() {
         forEachRight: forEachRight,
         includes: includes,
         invokeMap: invokeMap,
+        orderBy: orderBy,
+        partition: partition,
+        reject: reject,
+        sample: sample,
+        sampleSize: sampleSize,
+        size: size,
+        defer: defer,
+        delay: delay,
+        castArray: castArray,
+        conformsTo: conformsTo,
+        eq: eq,
+        gt: gt,
+        gte: gte,
     }
 }()
