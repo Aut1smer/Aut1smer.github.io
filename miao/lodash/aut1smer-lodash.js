@@ -1809,7 +1809,7 @@ var aut1smer = function() {
         let timerId = setTimeout(() => {
             func.apply(null, args)
         })
-        return timerId + 1
+        return timerId - 1
     }
 
     //setTimeout会自动进行'1000' => 1000，里面应该是用了Number()而非parseInt
@@ -1817,7 +1817,7 @@ var aut1smer = function() {
         let timerId = setTimeout(() => {
             func.apply(null, args)
         }, wait)
-        return timerId + 1
+        return timerId - 1
     }
 
 
