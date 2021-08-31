@@ -2278,6 +2278,91 @@ var aut1smer = function() {
         }
         return false
     }
+    //如果other是String，就只解析它的第一位数字位，如果val也是String，就对比他俩的第一位
+    function lt(val, other) {
+        let num1 = parseFloat(val)
+        let type1 = typeof val
+        let num2 = parseFloat(other)
+        if (type1 != 'string' && type1 != 'number') {
+            return false
+        }
+        if (typeof other == 'string') {
+            if (num2 < 0) {
+                num2 = parseFloat(other.substr(0, 2))
+            }
+            if (type1 == 'string') {
+                if (num1 < 0) {
+                    // num1 = parseFloat(val.subStr(0, 2)) //lt('-1','-5')=>true
+                    return true
+                } else { //_.lt('1','-5')=>false _.lt('50','100')=>false _.lt('10','200')=>true
+                    if (num2 < 0) {
+                        return false
+                    } else {
+                        for (var i = 0; i < val.length; i++) {
+                            if (Number(val[i]) > Number(other[i])) {
+                                return false
+                            }
+                        }
+                        return true
+                    }
+                }
+            } else {
+                return num1 < num2
+            }
+
+        } else if (typeof other == 'number') {
+            return num2 - num1 > Number.EPSILON
+        }
+        return false
+    }
+
+    function lte(val, other) {
+        let type1 = typeof val
+        let type2 = typeof other
+        let num1 = parseFloat(val)
+        let num2 = parseFloat(other)
+        if (type1 == 'string' && type2 == 'string') {
+            for (let i = 0; i < num1.length; i++) {
+                if (!other[i] || val.charCodeAt(i) > other.charCodeAt(i)) {
+                    return false
+                }
+            }
+            return true
+        } else if ((type2 == 'number' && type1 == 'string') || (type1 == 'number' && type2 == 'string')) {
+            return Number(val) <= Number(other)
+        } else if (type2 == 'number' && type1 == 'number') {
+            return Math.abs(other - val) < Number.EPSILON || other > val
+        }
+        return false
+    }
+
+    function isTypedArray(val) {
+        if (!val) {
+            return false
+        }
+        return Object.prototype.toString.call(val) === '[object Uint8Array]'
+    }
+
+    function isSymbol(val) {
+        if (!val) {
+            return false
+        }
+        return Object.prototype.toString.call(val) == '[object Symbol]'
+    }
+
+    function isWeakMap(val) {
+        if (!val) {
+            return false
+        }
+        return Object.prototype.toString.call(val) == '[object WeakMap]'
+    }
+
+    function isWeakSet(val) {
+        if (!val) {
+            return false
+        }
+        return Object.prototype.toString.call(val) == '[object WeakSet]'
+    }
 
     //----------------Lang-----------------
 
@@ -2962,5 +3047,11 @@ var aut1smer = function() {
         eq: eq,
         gt: gt,
         gte: gte,
+        isTypedArray: isTypedArray,
+        isSymbol: isSymbol,
+        isWeakMap: isWeakMap,
+        isWeakSet: isWeakSet,
+        lt: lt,
+        lte: lte,
     }
 }()
