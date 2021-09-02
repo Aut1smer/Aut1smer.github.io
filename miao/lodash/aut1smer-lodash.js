@@ -2364,6 +2364,39 @@ var aut1smer = function() {
         return Object.prototype.toString.call(val) == '[object WeakSet]'
     }
 
+    function toFinite(val) {
+        //Converts value to a finite number.
+        if (Math.abs(val) == Infinity) {
+            return val < 0 ? -Number.MAX_VALUE : Number.MAX_VALUE
+        }
+        return isNaN(Number(val)) ? 0 : Number(val)
+    }
+
+    /**
+     * Let number be ? ToNumber(argument).
+     * If number is NaN, return +0.
+     * If number is +0, -0, +∞, or -∞, return number.
+     * Return the number value that is the same sign as number and whose magnitude isfloor(abs(number)).
+     */
+
+    // it will 去掉 last 位,正负数向0取整
+    function toInteger(val) {
+        if (typeof val != 'number') {
+            if (isNaN(Number(val))) {
+                return +0
+            }
+            val = Number(val)
+        }
+        if (Math.abs(val) == Infinity) {
+            return val < 0 ? -Number.MAX_VALUE : Number.MAX_VALUE
+        }
+        return val < 0 ? -Math.floor(Math.abs(val)) : Math.floor(val)
+    }
+
+    function toNumber(val) {
+        return Number(val)
+    }
+
     //----------------Lang-----------------
 
 
@@ -3074,5 +3107,8 @@ var aut1smer = function() {
         isWeakSet: isWeakSet,
         lt: lt,
         lte: lte,
+        toNumber: toNumber,
+        toInteger: toInteger,
+        toFinite: toFinite,
     }
 }()
