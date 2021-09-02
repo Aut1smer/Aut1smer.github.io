@@ -2397,6 +2397,41 @@ var aut1smer = function() {
         return Number(val)
     }
 
+    //将srcs中每个src的实例可枚举属性
+    function assign(obj, ...srcs) {
+        for (let i = 0; i < srcs.length; i++) {
+            let src = srcs[i]
+            if (typeof src == 'object') {
+                for (let key in src) {
+                    if (src.hasOwnProperty(key)) {
+                        obj[key] = src[key]
+                    }
+                }
+            }
+        }
+        return obj
+    }
+
+    function assignIn(obj, ...srcs) {
+        for (let i = 0; i < srcs.length; i++) {
+            let src = srcs[i]
+            if (typeof src == 'object') {
+                for (let key in src) {
+                    obj[key] = src[key]
+                }
+            }
+        }
+        return obj
+    }
+
+    function toSafeInteger(val) {
+        val = toInteger(val)
+        if (val > Number.MAX_SAFE_INTEGER || val < Number.MIN_SAFE_INTEGER) {
+            val = val < 0 ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER
+        }
+        return val
+    }
+
     //----------------Lang-----------------
 
 
@@ -2459,7 +2494,61 @@ var aut1smer = function() {
         }
     }
 
+    function add(augend, addend) {
+        return augend + addend
+    }
 
+
+    function ceil(number, precision = 0) {
+        if (number == 0) {
+            return 0
+        }
+        if (!precision) {
+            precision = 0
+        }
+        precision = toInteger(precision)
+        let result = number * Math.pow(10, precision) | 0
+        return result * Math.pow(10, -precision) == number ? result * Math.pow(10, -precision) : (result + 1) * Math.pow(10, -precision)
+    }
+
+    function ceilWrong(number, precision = 0) {
+        // ???我在干嘛
+        if (number == 0) {
+            return 0
+        }
+        if (!precision) { // prevent undefined
+            precision = 0
+        }
+        precision = toInteger(precision)
+
+        let absNumber = Math.abs(number)
+        let sign = absNumber == number ? 1 : -1
+        let strNum = absNumber.toString()
+        let dot = '.',
+            dotIdx = strNum.length
+        for (let i = 0; i < strNum.length; i++) {
+            dotIdx = strNum[i] == dot ? i : dotIdx
+        }
+        if (precision >= 0) {
+            if (dotIdx + precision >= strNum.length - 1) {
+                return number
+            } else {
+                return Number(strNum.substr(0, dotIdx + precision + 1)) + 1 * Math.pow(10, -precision)
+            }
+        } else { //precision < 0
+            let dealedIdx = dotIdx - 1
+            dealedIdx = dealedIdx + precision
+            if (dealedIdx > 0) {
+                strNum.slice(0, dealedIdx)
+            }
+        }
+    }
+
+    function divide(dividend, devisor = 1) {
+        dividend = Number(dividend)
+        devisor = Number(devisor)
+        return dividend / devisor
+    }
     // -------------------Math--------------------
 
 
@@ -3110,5 +3199,11 @@ var aut1smer = function() {
         toNumber: toNumber,
         toInteger: toInteger,
         toFinite: toFinite,
+        assign: assign,
+        assignIn: assignIn,
+        toSafeInteger: toSafeInteger,
+        add: add,
+        divide: divide,
+        ceil: ceil,
     }
 }()
