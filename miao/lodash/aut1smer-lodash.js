@@ -2987,6 +2987,78 @@ var aut1smer = function() {
         }
         return res
     }
+
+
+    function at(obj, path) {
+        if (!Array.isArray(path) && typeof path != 'string') {
+            return []
+        }
+        let result = []
+        for (let i = 0; i < path.length; i++) {
+            result.push(get(obj, path[i]))
+        }
+        return result
+    }
+
+
+    function defaults(obj, ...srcs) {
+        for (let i = 0; i < srcs.length; i++) {
+            let src = srcs[i]
+            if (src && typeof src == 'object') {
+                for (let key in src) {
+                    if (src.hasOwnProperty(key) && obj[key] == undefined) {
+                        obj[key] = src[key]
+                    }
+                }
+            }
+        }
+        return obj
+    }
+
+    function defaultsDeep(obj, ...srcs) {
+        for (let i = 0; i < srcs.length; i++) {
+            let src = srcs[i]
+            if (src && typeof src == 'object') {
+                for (let key in src) {
+                    if (src.hasOwnProperty(key)) {
+                        if (src[key] && typeof src[key] == 'object') {
+                            if (obj[key] === undefined) {
+                                obj[key] = {}
+                            }
+                            if (obj[key] && typeof obj[key] == 'object') {
+                                obj[key] = defaultsDeep(obj[key], src[key])
+                            }
+                        } else {
+                            if (obj[key] === undefined) {
+                                obj[key] = src[key]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return obj
+    }
+
+    function findKey(obj, predicate = identity) {
+        predicate = iteratee(predicate)
+        for (let key in obj) {
+            if (predicate(obj[key], key, obj)) {
+                return key
+            }
+        }
+    }
+
+    function findLastKey(obj, predicate = identity) {
+        predicate = iteratee(predicate)
+        let keys = Object.keys(obj)
+        for (let i = keys.length - 1; i >= 0; i--) {
+            if (predicate(obj[keys[i]], keys[i], obj)) {
+                return keys[i]
+            }
+        }
+    }
+
     //----------------------Object----------------------------
 
     /*-----------------------------------
@@ -3463,5 +3535,23 @@ var aut1smer = function() {
         add: add,
         divide: divide,
         ceil: ceil,
+        max: max,
+        maxBy: maxBy,
+        mean: mean,
+        meanBy: meanBy,
+        min: min,
+        minBy: minBy,
+        multiply: multiply,
+        round: round,
+        subtract: subtract,
+        clamp: clamp,
+        inRange: inRange,
+        random: random,
+        at: at,
+        defaults: defaults,
+        defaultsDeep: defaultsDeep,
+        findKey: findKey,
+        findLastKey: findLastKey,
+
     }
 }()
