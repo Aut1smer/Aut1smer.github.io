@@ -2549,6 +2549,137 @@ var aut1smer = function() {
         devisor = Number(devisor)
         return dividend / devisor
     }
+
+
+
+
+    function max(ary) {
+        if (typeof ary == 'string' || Array.isArray(ary)) {
+            if (!ary.length) {
+                return undefined
+            }
+            let max = -Infinity
+            for (let i = 0; i < ary.length; i++) {
+                max = ary[i] > max ? ary[i] : max
+            }
+            return max
+        }
+        return undefined
+    }
+
+    function maxBy(ary, predicate = identity) {
+        predicate = iteratee(predicate)
+        if (typeof ary == 'string' || Array.isArray(ary)) {
+            if (!ary.length) {
+                return undefined
+            }
+            let max = -Infinity,
+                maxIdx = -1
+            for (let i = 0; i < ary.length; i++) {
+                if (predicate(ary[i]) > max) {
+                    max = predicate(ary[i])
+                    maxIdx = i
+                }
+            }
+            if (maxIdx == -1) {
+                return -Infinity
+            }
+            return ary[maxIdx]
+        }
+        return undefined
+    }
+
+    //average of ary 
+    function mean(ary) {
+        if (!('length' in ary)) {
+            return NaN
+        }
+        let len = ary.length
+        let sumofAry = sum(ary)
+        return sumofAry / len
+    }
+
+
+    function meanBy(ary, predicate = identity) {
+        if (!('length' in ary)) {
+            return NaN
+        }
+        let sum = 0
+        let len = ary.length
+        predicate = iteratee(predicate)
+        for (let i = 0; i < len; i++) {
+            sum += predicate(ary[i])
+        }
+        return sum / len
+    }
+
+    function min(ary) {
+        if (typeof ary == 'string' || Array.isArray(ary)) {
+            let len = ary.length
+            if (!len) {
+                return undefined
+            }
+            let result = Infinity
+            for (let i = 0; i < len; i++) {
+                result = ary[i] < result ? ary[i] : result
+            }
+
+            return result
+        }
+        return undefined
+    }
+
+    function minBy(ary, predicate = identity) {
+        if (typeof ary == 'string' || Array.isArray(ary)) {
+            let len = ary.length
+            if (!len) {
+                return undefined
+            }
+            predicate = iteratee(predicate)
+            let min = Infinity,
+                minIdx = -1
+            for (let i = 0; i < len; i++) {
+                let val = predicate(ary[i])
+                if (val < min) {
+                    min = val
+                    minIdx = i
+                }
+            }
+            if (minIdx == -1) {
+                return Infinity
+            }
+            return ary[minIdx]
+        }
+        return undefined
+
+    }
+
+    function multiply(multiplier, multiplicand) {
+        return multiplier * multiplicand
+    }
+
+    function round(number, precision = 0) {
+        let temp = number * Math.pow(10, precision)
+        let ft = Math.abs(temp - Math.floor(temp))
+        if (ft >= 0.5) {
+            if (precision >= 0) {
+                return Number(((Math.floor(temp) + 1) * Math.pow(10, -precision)).toFixed(precision))
+            } else {
+                return (Math.floor(temp) + 1) * Math.pow(10, -precision)
+            }
+        } else {
+            if (precision >= 0) {
+                return Number((Math.floor(temp) * Math.pow(10, -precision)).toFixed(precision)) //round(0.25,1)=>0.30000000000000004× 0.3√
+            } else {
+                return Math.floor(temp) * Math.pow(10, -precision)
+            }
+        }
+    }
+
+    function subtract(minuend, subtrahend) {
+        return minuend - subtrahend
+    }
+
     // -------------------Math--------------------
 
 
@@ -2557,6 +2688,133 @@ var aut1smer = function() {
      *              Number
      *------------------------------------
      */
+
+    //类似夹逼定理的夹数
+    function clamp(num, lower, upper) {
+        if (arguments.length == 2) {
+            upper = lower
+            return num > upper ? upper : num
+        } else if (arguments.length == 3) {
+            if (upper < lower) {
+                return num < lower ? lower : num
+            } else {
+                if (num < lower) {
+                    return lower
+                } else if (num >= lower && num < upper) {
+                    return num
+                } else {
+                    return upper
+                }
+            }
+        } else {
+            return num
+        }
+    }
+
+    //number is in range of [start, end)
+    function inRange(number, start = 0, end) {
+        if (arguments.length == 2) {
+            end = start
+            start = 0
+        }
+        if (end < start) {
+            let temp = start
+            start = end
+            end = temp
+        }
+        if (number >= start && number < end) {
+            return true
+        }
+        return false
+    }
+
+    function random(lower = 0, upper = 1, floating = false) {
+        if (typeof lower != 'number' && typeof lower != 'boolean') {
+            lower = 0
+        }
+        if (typeof upper != 'number' && typeof upper != 'boolean') {
+            upper = 0
+        }
+        if (lower - Math.floor(lower) > 0 || upper - Math.floor(upper) > 0) {
+            floating = true
+        }
+
+        if (arguments.length == 0) {
+            return Math.round(Math.random())
+        }
+        if (arguments.length == 1) {
+            if (typeof lower == 'number') {
+                if (lower > 0) {
+                    upper = lower
+                    lower = 0
+                } else {
+                    upper = 0
+                }
+                let result = lower + Math.random() * (upper - lower)
+                if (floating) {
+                    return result
+                } else {
+                    return Math.round(result)
+                }
+
+            } else {
+                if (lower == true) {
+                    return Math.random()
+                } else {
+                    return Math.round(Math.random())
+                }
+            }
+        }
+
+        if (arguments.length == 2) {
+            if (typeof upper == 'number') {
+                if (upper < lower) {
+                    let temp = lower
+                    lower = upper
+                    upper = lower
+                }
+                let result = lower + Math.random() * (upper - lower)
+                if (floating) {
+                    return result
+                } else {
+                    return Math.round(result)
+                }
+            } else { //boolean
+                if (upper == true) {
+                    floating = true
+                }
+                if (lower > 0) {
+                    upper = lower
+                    lower = 0
+                } else {
+                    upper = 0
+                }
+                let result = lower + Math.random() * (upper - lower)
+                if (floating) {
+                    return result
+                } else {
+                    return Math.round(result)
+                }
+            }
+        }
+
+        if (arguments.length == 3) {
+            if (lower > upper) {
+                let temp = lower
+                lower = upper
+                upper = temp
+            }
+            let result = lower + Math.random() * (upper - lower)
+            if (floating) {
+                return result
+            } else {
+                return Math.round(result)
+            }
+        }
+    }
+
+
+    //----------------Number------------------
 
 
     /*-----------------------------------
