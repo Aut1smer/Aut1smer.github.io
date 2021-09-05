@@ -2409,6 +2409,27 @@ var aut1smer = function() {
         return result / digit
     }
 
+    //----------working-------------
+    function max(ary) {
+        if (isArray(ary)) {
+            let result = ary.reduce((max, it) => {
+                if (typeof it == 'string') {
+                    if (typeof max == 'number') {
+                        return Math.max(max, Number(it.charCodeAt(0)))
+                    } else if (typeof max == 'string') {
+                        return Math.max(Number(max))
+                    }
+                } else if (typeof it == 'number') {
+                    return Math.max()
+                }
+            }, -Infinity)
+        }
+    }
+
+
+    // -------------------Math--------------------
+
+
 
     /*-----------------------------------
      *              Number
