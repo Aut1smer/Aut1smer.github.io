@@ -3000,7 +3000,7 @@ var aut1smer = function() {
         return result
     }
 
-
+    // 仅仅补全obj上不存在的属性啦
     function defaults(obj, ...srcs) {
         for (let i = 0; i < srcs.length; i++) {
             let src = srcs[i]
@@ -3057,6 +3057,104 @@ var aut1smer = function() {
                 return keys[i]
             }
         }
+    }
+
+    function has(obj, path) { //  own
+        path = toPath(path)
+        for (let i = 0; i < path.length; i++) {
+            if (!obj.hasOwnProperty(path[i])) {
+                return false
+            }
+            obj = obj[path[i]]
+        }
+        return true
+    }
+
+    function hasIn(obj, path) { //prototype included
+        path = toPath(path)
+        for (let i = 0; i < path.length; i++) {
+            if (!(path[i] in obj)) {
+                return false
+            }
+            obj = obj[path[i]]
+        }
+        return true
+    }
+
+
+    function invert(obj) { //no deep
+        let result = {}
+        let keys = Object.keys(obj)
+        for (let i = keys.length - 1; i >= 0; i--) {
+            let key = keys[i]
+            result[obj[key]] = key
+        }
+        return result
+    }
+
+    function invertBy(obj, predicate = identity) {
+        let result = {}
+        let keys = Object.keys(obj)
+        for (let i = 0; i < keys.length; i++) { //lodash很奇怪，By却不倒着遍历了
+            let key = predicate(obj[keys[i]])
+            let val = keys[i]
+            if (key in result) {
+                result[key].push(val)
+            } else {
+                result[key] = [val]
+            }
+        }
+        return result
+    }
+
+    function invoke(obj, path, ...args) {
+        path = toPath(path)
+        for (var i = 0; i < path.length - 1; i++) {
+            if (!(path[i] in obj)) { //insurance
+                return -1
+            }
+            obj = obj[path[i]]
+        }
+        return obj[path[i]].call(obj, ...args)
+    }
+
+    function merge(obj, ...srcs) {
+        for (let i = 0; i < srcs.length; i++) {
+            let src = srcs[i]
+            for (let key in src) {
+                if (src[key] && typeof src[key] == 'object' && obj[key] && typeof obj[key] == 'object') {
+                    obj[key] = merge(obj[key], src[key])
+                } else {
+                    obj[key] = src[key]
+                }
+            }
+        }
+        return obj
+    }
+
+    function mergeWith(obj, ...srcs) {
+        let customizer = function() {}
+        if (typeof srcs[srcs.length - 1] == 'function') {
+            customizer = srcs.pop()
+        }
+        for (let i = 0; i < srcs.length; i++) {
+            let src = srcs[i]
+            for (let key in src) {
+
+                let val = customizer(obj[key], src[key], key, obj, src)
+                if (val === undefined) {
+                    if (src[key] && typeof src[key] == 'object' && obj[key] && typeof obj[key] == 'object') {
+                        obj[key] = mergeWith(obj[key], src[key])
+                    } else {
+                        obj[key] = src[key]
+                    }
+                } else {
+                    obj[key] = val
+                }
+
+            }
+        }
+        return obj
     }
 
     //----------------------Object----------------------------
@@ -3552,6 +3650,13 @@ var aut1smer = function() {
         defaultsDeep: defaultsDeep,
         findKey: findKey,
         findLastKey: findLastKey,
+        has: has,
+        hasIn: hasIn,
+        invert: invert,
+        invertBy: invertBy,
+        invoke: invoke,
+        merge: merge,
+        mergeWith: mergeWith,
 
     }
 }()
