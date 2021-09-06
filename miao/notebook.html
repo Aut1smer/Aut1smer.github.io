@@ -425,9 +425,13 @@
             top: -3px;
             width: 81px;
             height: 27px;
-            background-color: #F2F3F4;
+            background-color: #fff;
             transform: skewY(-55deg) rotate(82deg);
             z-index: -10;
+            border: 5px solid #F2F3F4;
+            border-left-width: 10px;
+            box-sizing: border-box;
+            border-radius: 11px;
         }
         
         .nekoBg .bgTitle::before {
@@ -438,9 +442,13 @@
             top: -3px;
             width: 81px;
             height: 27px;
-            background-color: #F2F3F4;
+            background-color: #fff;
             transform: skewY(55deg) rotate(-82deg);
             z-index: -10;
+            border: 5px solid #F2F3F4;
+            border-right-width: 10px;
+            box-sizing: border-box;
+            border-radius: 11px;
         }
         
         .nekoBg .bgTitle li button {
@@ -527,6 +535,150 @@
         
         .dailyClock {
             font-size: 18px;
+        }
+        /* 清除提示 */
+        
+        .clearNotes {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 40;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .3);
+        }
+        
+        .clearNotes>div {
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: space-evenly;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            /* transform: translate(-50%, -50%); */
+            width: 300px;
+            height: 260px;
+            background-color: #fff;
+            border-radius: 10px;
+            position: absolute;
+        }
+        
+        .rightEar {
+            position: absolute;
+            /* right: 30px; */
+            left: 10px;
+            top: -3px;
+            width: 120px;
+            height: 45px;
+            background-color: #F2F3F4;
+            transform: skewY(-55deg) rotate(82deg);
+            /* z-index: 1!important; */
+            z-index: -1;
+            box-sizing: border-box;
+            border: 5px solid #fff;
+            border-left-width: 16px;
+            border-radius: 30px;
+        }
+        
+        .leftEar {
+            /* display: block; */
+            position: absolute;
+            /* left: 30px; */
+            right: 10px;
+            top: -3px;
+            width: 120px;
+            height: 45px;
+            background-color: #F2F3F4;
+            transform: skewY(55deg) rotate(-82deg);
+            z-index: -1;
+            box-sizing: border-box;
+            border: 5px solid #fff;
+            border-right-width: 16px;
+            border-radius: 30px;
+        }
+        
+        .clearNotes>div .alertSign {
+            width: 90px;
+            height: 84px;
+            box-sizing: border-box;
+            border: 4px solid #F8BC86;
+            border-radius: 50%;
+            margin-top: 20px;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            animation: borderBlink 2s infinite;
+        }
+        
+        .clearNotes>div .alertSign::before {
+            content: '';
+            height: 50px;
+            width: 6px;
+            border-radius: 5px;
+            background-color: #F8BC86;
+            /* position: absolute; */
+            animation: blink 2s infinite;
+        }
+        
+        .clearNotes>div .alertSign::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #F8BC86;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0% {
+                background-color: #F8BC86;
+            }
+            50% {
+                background-color: #eef21c;
+            }
+            100% {
+                background-color: #F8BC86;
+            }
+        }
+        
+        @keyframes borderBlink {
+            0% {
+                border-color: #F8BC86;
+            }
+            50% {
+                border-color: #eef21c;
+            }
+            100% {
+                border-color: #F8BC86;
+            }
+        }
+        
+        .clearNotes>div p {
+            user-select: none;
+        }
+        
+        .clearNotes>div button {
+            width: 86px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 16px;
+            color: #fff;
+            background-color: #C1C1C1;
+            margin: 20px;
+            margin-top: 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .clearNotes>div button:nth-of-type(2) {
+            background-color: #DD6B55;
         }
     </style>
 </head>
@@ -622,6 +774,16 @@
         <div class="support "></div>
     </footer>
 
+    <div class="clearNotes">
+        <div>
+            <div class="alertSign"></div>
+            <p>要删掉所有便签吗\(=‘ｘ‘=)</p>
+            <div><button>不删了</button>
+                <button>删掉</button></div>
+            <div class="leftEar"></div>
+            <div class="rightEar"></div>
+        </div>
+    </div>
 
     <!-- note example -->
     <!-- <div class="note ">
@@ -645,6 +807,7 @@
         let header = document.querySelector('header')
         let content = document.querySelector('.content')
         let noteCtl = document.querySelector('.noteCtl')
+        let clearNotes = document.querySelector('.clearNotes')
         let hasRemainNote = false
             //  blue green pink purple yellow white
         let noteHeadColor = ['#C9ECF8', '#C8F8C3', '#F1C3F1', '#D6CFFE', '#FDFCBF', '#F5F5F5']
@@ -665,13 +828,7 @@
 
             if (hasRemainNote) {
                 /*清除所有笔记*/
-                noteCtl.textContent = 'ฅ New Notes'
-
-                let notes = Array.from(document.querySelectorAll('.note'))
-                for (let note of notes) {
-                    note.remove()
-                }
-                hasRemainNote = false
+                clearNotes.style.display = 'block'
             } else {
                 /*新建一个笔记*/
                 noteCtl.textContent = 'ฅ Clear Notes'
@@ -685,6 +842,22 @@
 
         })
 
+        // 清除笔记警示框
+
+        let clearNotesBtns = clearNotes.querySelectorAll('button')
+
+        clearNotesBtns[0].addEventListener('click', function(e) {
+            clearNotes.style.display = 'none'
+        })
+        clearNotesBtns[1].addEventListener('click', function(e) {
+            clearNotes.style.display = 'none'
+            noteCtl.textContent = 'ฅ New Notes'
+            let notes = Array.from(document.querySelectorAll('.note'))
+            for (let note of notes) {
+                note.remove()
+            }
+            hasRemainNote = false
+        })
 
         //新建便签
         function newNote() {
@@ -1152,11 +1325,12 @@
         nekoBg.children[1].addEventListener('click', function(e) {
             if (e.target.matches('button')) {
                 document.body.style.backgroundImage = e.target.style.backgroundImage
-                    // let mask = document.querySelector('.mask')
-                    // mask.classList.remove('mask')
-                    // mask.classList.remove('loading')
-                    // mask.classList.add('mask')
-                    // mask.classList.add('loading')
+
+                let mask = document.querySelector('.mask')
+                mask.classList.remove('loading')
+                setTimeout(() => {
+                    mask.classList.add('loading')
+                }, 100)
 
             }
         })
@@ -1164,7 +1338,6 @@
         //召唤Options菜单
         let optionsBtn = document.querySelector('.options>button')
         optionsBtn.addEventListener('click', function(e) {
-            // nekoBg.style.display = 'block';
             nekoBg.classList.add('seeNekoBg')
         })
         window.addEventListener('click', function(e) {
@@ -1183,15 +1356,15 @@
         let weekTable = ['日', '一', '二', '三', '四', '五', '六']
 
         function updataTime() {
-            timeClock.textContent = moment(Date.now()).format('kk:mm')
-            dailyClock.children[0].textContent = '周' + weekTable[Number(moment(Date.now()).format('d'))] + '     |'
-            dailyClock.children[1].textContent = moment(Date.now()).format('    YYYY.M.D')
-            setInterval(() => {
-                // console.log(moment(Date.now()).format('kk:mm  d  YYYY.M.D'));
-                // console.log(moment(Date.now()).format('d  YYYY.M.D'));
-                updataTime()
-            }, 1000);
+            timeClock.textContent = moment().format('kk:mm')
+            dailyClock.children[0].textContent = '周' + weekTable[Number(moment().format('d'))] + '     |'
+            dailyClock.children[1].textContent = moment().format('    YYYY.M.D')
         }
+        setInterval(() => {
+            // console.log(moment(Date.now()).format('kk:mm  d  YYYY.M.D'));
+            // console.log(moment(Date.now()).format('d  YYYY.M.D'));
+            updataTime()
+        }, 1000);
 
         updataTime()
     </script>

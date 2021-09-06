@@ -3085,7 +3085,7 @@ var aut1smer = function() {
     function invert(obj) { //no deep
         let result = {}
         let keys = Object.keys(obj)
-        for (let i = keys.length - 1; i >= 0; i--) {
+        for (let i = 0; i < keys.length; i--) {
             let key = keys[i]
             result[obj[key]] = key
         }
@@ -3657,6 +3657,5 @@ var aut1smer = function() {
         invoke: invoke,
         merge: merge,
         mergeWith: mergeWith,
-
     }
 }()
