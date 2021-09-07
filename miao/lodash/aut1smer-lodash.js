@@ -3157,6 +3157,80 @@ var aut1smer = function() {
         return obj
     }
 
+    //就只剩path里没有的属性啦，每一项paths[i]都可能是数组||字符串，不deep只一层.toPath仅仅是解析成单个的属性
+    function omit(obj, ...paths) {
+        let path = paths.reduce((accum, item) => {
+            return accum.concat(toPath(item))
+        }, [])
+        let pathSet = new Set(path)
+        let result = {}
+        for (let key in obj) {
+            if (!pathSet.has(key)) {
+                result[key] = obj[key]
+            }
+        }
+        return result
+    }
+
+    function omitBy(obj, predicate = identity) {
+        predicate = iteratee(predicate)
+        let result = {}
+        for (let key in obj) {
+            if (predicate(obj[key], key) === false) {
+                result[key] = obj[key]
+            }
+        }
+        return result
+    }
+
+    function pick(obj, ...paths) {
+        let path = paths.reduce((accum, item) => {
+            return accum.concat(toPath(item))
+        }, [])
+        let pathSet = new Set(path)
+        let result = {}
+        for (let key in obj) {
+            if (pathSet.has(key)) {
+                result[key] = obj[key]
+            }
+        }
+        return result
+    }
+
+    function pickBy(obj, predicate = identity) {
+        predicate = iteratee(predicate)
+        let result = {}
+        for (let key in obj) {
+            if (predicate(obj[key], key) === true) {
+                result[key] = obj[key]
+            }
+        }
+        return result
+    }
+
+    function result(obj, path, defaultVal) {
+        path = toPath(path)
+        let flag = typeof defaultVal == 'function'
+        if (obj == undefined) {
+            return flag ? defaultVal.call(undefined) : defaultVal
+        }
+        for (let i = 0; i < path.length; i++) {
+
+            let next = obj[path[i]]
+            if (next == undefined) {
+                return flag ? defaultVal.call(obj) : defaultVal
+            }
+
+            if (i == path.length - 1) {
+                if (typeof next == 'function') {
+                    return next.call(obj)
+                }
+            }
+            obj = next
+        }
+        return obj
+    }
+
     //----------------------Object----------------------------
 
     /*-----------------------------------
@@ -3657,5 +3731,10 @@ var aut1smer = function() {
         invoke: invoke,
         merge: merge,
         mergeWith: mergeWith,
+        omit: omit,
+        omitBy: omitBy,
+        pick: pick,
+        pickBy: pickBy,
+        result: result,
     }
 }()
