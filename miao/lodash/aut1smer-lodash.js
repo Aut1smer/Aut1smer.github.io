@@ -2477,7 +2477,6 @@ var aut1smer = function() {
         return result / digit
     }
 
-    //----------working-------------
     function max(ary) {
         if (isArray(ary)) {
             let result = ary.reduce((max, it) => {
@@ -3085,7 +3084,7 @@ var aut1smer = function() {
     function invert(obj) { //no deep
         let result = {}
         let keys = Object.keys(obj)
-        for (let i = 0; i < keys.length; i--) {
+        for (let i = 0; i < keys.length; i++) {
             let key = keys[i]
             result[obj[key]] = key
         }
@@ -3230,6 +3229,32 @@ var aut1smer = function() {
         }
         return obj
     }
+
+    function set(obj, path, val) {
+        if (typeof obj != 'object' || !obj) {
+            return obj
+        }
+        let p = obj
+        path = toPath(path)
+
+        for (var i = 0; i < path.length - 1; i++) {
+            if (p.hasOwnProperty(path[i])) {
+                p = p[path[i]]
+            } else { //p没有这一项，看看这一项应该是什么
+                let nextVal
+                if (Number(path[i + 1]) == path[i + 1]) {
+                    nextVal = Array(Number(path[i + 1]) + 1)
+                } else {
+                    nextVal = {}
+                }
+                p[path[i]] = nextVal
+                p = p[path[i]]
+            }
+        }
+        p[path[i]] = val
+        return obj
+    }
+
 
     //----------------------Object----------------------------
 
@@ -3736,5 +3761,6 @@ var aut1smer = function() {
         pick: pick,
         pickBy: pickBy,
         result: result,
+        set: set,
     }
 }()
