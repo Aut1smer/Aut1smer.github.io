@@ -1242,6 +1242,32 @@
             }
             return res
         }
+
+        //就只剩path里没有的属性啦
+        function omit(obj, ...paths) {
+            let path = paths.reduce((accum, item) => {
+                return accum.concat(toPath(item))
+            }, [])
+            let pathSet = new Set(path)
+            let result = {}
+            for (let key in obj) {
+                if (!pathSet.has(key)) {
+                    result[key] = obj[key]
+                }
+            }
+            return result
+        }
+
+        function omitBy(obj, predicate = identity) {
+            predicate = iteratee(predicate)
+            let result = {}
+            for (let key in obj) {
+                if (!predicate(obj[key], key)) {
+                    result[key] = obj[key]
+                }
+            }
+            return result
+        }
         //----------------------Object----------------------------
 
         /*-----------------------------------

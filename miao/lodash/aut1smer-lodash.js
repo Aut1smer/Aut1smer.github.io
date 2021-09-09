@@ -2901,11 +2901,30 @@ var aut1smer = function() {
 
     //将实例对象上的key:val变为[key,val]
     function toPairs(obj) {
+        if (isMap(obj) || isSet(obj)) {
+            return [...obj.entries()]
+        }
+
         var result = []
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {
                 result.push([key, obj[key]])
             }
+        }
+        return result
+    }
+
+    function toPairsIn(obj) {
+        if (isMap(obj) || isSet(obj)) {
+            return [...obj.entries()]
+        }
+        let result = []
+            // if(typeof obj[Symbol.iterator] == 'function'){
+            //     // for(let item of obj) //需要生成器挂载到Object.prototype，并重写内容使其合法
+            // }
+
+        for (let key in obj) {
+            result.push([key, obj[key]])
         }
         return result
     }
@@ -3239,7 +3258,7 @@ var aut1smer = function() {
 
         for (var i = 0; i < path.length - 1; i++) {
             if (p.hasOwnProperty(path[i])) {
-                p = p[path[i]]
+                p = p[path[i]] //可能这里还需要看看这一项是不是obj的type，
             } else { //p没有这一项，看看这一项应该是什么
                 let nextVal
                 if (Number(path[i + 1]) == path[i + 1]) {
@@ -3253,6 +3272,33 @@ var aut1smer = function() {
         }
         p[path[i]] = val
         return obj
+    }
+
+    function setWith(obj, path, val, customizer = function() {}) {
+        //这个代码起码能够达到效果
+        path = toPath(path)
+
+        if (customizer === Object) {
+            let p = obj
+            for (var i = 0; i < path.length - 1; i++) {
+                let key = path[i]
+                let nextVal = p[key]
+                if (p.hasOwnProperty(key)) {
+                    if (typeof nextVal != 'object') {
+                        p[key] = {}
+                    }
+                    p = p[key]
+                } else {
+                    p[key] = {}
+                    p = p[key]
+                }
+            }
+            p[path[i]] = val
+            return obj
+        } else {
+            return set(obj, path, val)
+        }
+
     }
 
 
@@ -3638,6 +3684,7 @@ var aut1smer = function() {
         flatten: flatten,
         fromPairs: fromPairs,
         toPairs: toPairs,
+        toPairsIn: toPairsIn,
         head: head,
         indexOf: indexOf,
         lastIndexOf: lastIndexOf,
@@ -3762,5 +3809,7 @@ var aut1smer = function() {
         pickBy: pickBy,
         result: result,
         set: set,
+        setWith: setWith,
+
     }
 }()
