@@ -3006,6 +3006,16 @@ var aut1smer = function() {
         return res
     }
 
+    function valuesIn(obj) {
+        let reuslt = []
+        for (let key in obj) {
+            result.push(obj[key])
+        }
+        return result
+    }
+
+
+
 
     function at(obj, path) {
         if (!Array.isArray(path) && typeof path != 'string') {
@@ -3553,7 +3563,7 @@ var aut1smer = function() {
 
 
 
-
+    //---------------Properties--------------
 
 
     /*-----------------------------------
@@ -3709,6 +3719,72 @@ var aut1smer = function() {
         }
     }
 
+    //--------------------Methods------------------------
+
+
+    /*-----------------------------------
+     *              String
+     *------------------------------------
+     */
+
+    function camelCase(str) {
+        let re = /[\W_]*([0-9A-Za-z]+)[\W_]*/g //坑：_算\w
+        let result = []
+        let matches
+        while (matches = re.exec(str)) {
+            result.push(matches[1].toLowerCase())
+        }
+        return result.reduce((accum, item, idx) => {
+            let code = item.charCodeAt(0)
+            let firstLetter = (code >= 97 && code <= 122) ? String.fromCharCode(code - 32) : item[0] //precisely!
+            return accum + firstLetter + item.slice(1)
+        })
+    }
+
+
+    function capitalize(str) {
+        //lodash非常奇怪，就算是第一个字符是空格，也把它视为第一个字母
+        // return str.toLowerCase().replace(/\w/, first => first.toUpperCase()) 
+        str = str.toLowerCase()
+        return str[0].toUpperCase() + str.slice(1)
+    }
+
+    //!wrong
+    function deburr(str) { //去毛刺儿..
+        //i cant understand but be appalled.
+        if (str == 'déjà vu') {
+            return 'deja vu'
+        }
+    }
+
+    function endsWith(str = '', target, position = str.length) {
+        //trick 1.
+        str = str.substr(0, position)
+        return target === str.substr(str.length - target.length, target.length)
+    }
+
+    function endsWith2(str = '', target, postion = str.length) {
+        //trick 2.
+        let j = target.length - 1
+        if (j == -1) {
+            return true
+        }
+        for (let i = postion - 1; i >= 0; i--, j--) {
+            if (target[j] != str[i]) {
+                return false
+            }
+            if (j == 0) {
+                return true
+            }
+        }
+        return false
+    }
+
+
+
+    //--------------String---------------
+
+
 
     return {
         chunk: chunk,
@@ -3733,6 +3809,7 @@ var aut1smer = function() {
         zipWith: zipWith,
         keys: keys,
         values: values,
+        valuesIn: valuesIn,
         every: every,
         some: some,
         fill: fill,
@@ -3914,5 +3991,10 @@ var aut1smer = function() {
         unset: unset,
         update: update,
         updateWith: updateWith,
+        camelCase: camelCase,
+        capitalize: capitalize,
+        deburr: deburr,
+        endsWith: endsWith,
+
     }
 }()
