@@ -3302,6 +3302,106 @@ var aut1smer = function() {
     }
 
 
+    function transform(obj, predicate = identity, accum) {
+        let keys = Object.keys(obj)
+        let startIdx = 0
+        if (arguments.length == 2) {
+            accum = obj[keys[0]]
+            startIdx = 1
+        }
+        for (let i = startIdx; i < keys.length; i++) {
+            if (predicate(accum, obj[keys[i]], keys[i], obj) === false) {
+                break
+            }
+            // if(accum === false){
+            //     break
+            // }
+        }
+        return accum
+    }
+
+    function unset(obj, path) {
+        path = toPath(path)
+        for (var i = 0; i < path.length - 1; i++) {
+            if (!obj.hasOwnProperty(path[i])) {
+                return true //lodash很奇怪，它只要求里面没有path这条属性，不要求删没删成功.
+            }
+            obj = obj[path[i]]
+        }
+        return delete obj[path[i]] //操作完后，只要里面没有那个属性就会返回true
+    }
+
+    function update(obj, path, updater = () => {}) {
+        if (typeof obj != 'object' || !obj) {
+            return obj
+        }
+        path = toPath(path)
+        let p = obj
+
+        for (var i = 0; i < path.length - 1; i++) {
+            let nextVal = p[path[i]]
+            if (p.hasOwnProperty(path[i])) {
+                if (typeof nextVal == 'object') {
+                    p = p[path[i]]
+                } else {
+                    if (Number(path[i + 1]) == path[i + 1]) {
+                        nextVal = Array(Number(path[i + 1]) + 1)
+                    } else {
+                        nextVal = {}
+                    }
+                    p[path[i]] = nextVal
+                    p = p[path[i]]
+                }
+            } else {
+                if (Number(path[i + 1]) == path[i + 1]) {
+                    nextVal = Array(Number(path[i + 1]) + 1)
+                } else {
+                    nextVal = {}
+                }
+                p[path[i]] = nextVal
+                p = p[path[i]]
+            }
+        }
+        p[path[i]] = updater(p[path[i]])
+        return obj
+    }
+
+
+    function updateWith(obj, path, updater, customizer = () => {}) {
+        //customizer will create a new path.but...
+        // i cant understand, but be appalled. suibianxiexie
+        if (typeof obj != 'object' || !obj) {
+            return obj
+        }
+        path = toPath(path)
+        let p = obj
+        if (customizer === Object) {
+
+            for (var i = 0; i < path.length - 1; i++) {
+                let nextVal = p[path[i]]
+                if (p.hasOwnProperty(path[i])) {
+                    if (typeof nextVal == 'object') {
+                        p = p[path[i]]
+                    } else {
+                        nextVal = {}
+                        p[path[i]] = nextVal
+                        p = p[path[i]]
+                    }
+                } else {
+                    nextVal = {}
+                    p[path[i]] = nextVal
+                    p = p[path[i]]
+                }
+            }
+
+            p[path[i]] = updater(p[path[i]])
+            return obj
+        } else {
+            return update(obj, path, updater)
+        }
+
+    }
+
     //----------------------Object----------------------------
 
     /*-----------------------------------
@@ -3810,6 +3910,9 @@ var aut1smer = function() {
         result: result,
         set: set,
         setWith: setWith,
-
+        transform: transform,
+        unset: unset,
+        update: update,
+        updateWith: updateWith,
     }
 }()
