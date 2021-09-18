@@ -3757,7 +3757,8 @@ var aut1smer = function() {
         }
     }
 
-    function endsWith(str = '', target, position = str.length) {
+    function endsWith(str =
+        '', target, position = str.length) {
         //trick 1.
         str = str.substr(0, position)
         return target === str.substr(str.length - target.length, target.length)
@@ -3780,6 +3781,59 @@ var aut1smer = function() {
         return false
     }
 
+
+    function escape(str = '') {
+        let result = ''
+        for (let i = 0; i < str.length; i++) {
+            switch (str[i]) {
+                case '&':
+                    result += '&amp;'
+                    break;
+                case '<':
+                    result += '&lt;'
+                    break;
+                case '>':
+                    result += '&gt;'
+                    break;
+                case '"':
+                    result += '&quot;'
+                    break;
+                case "'":
+                    result += '&apos;'
+                    break;
+                case '`':
+                    result += '&#96;'
+                    break;
+                default:
+                    result += str[i]
+            }
+        }
+        return result
+    }
+
+    function escape2(str = '') {
+        let map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&apos;',
+            '`': '&#96;',
+        }
+        return str.replace(/[&><"'`]/g, val => map[val])
+    }
+
+    function unescape(str = '') {
+        let map = {
+            '&amp;': '&',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+            '&apos;': "'",
+            '&#96;': '`',
+        }
+        return str.replace(/(&amp;)|(&lt;)|(&gt;)|(&quot;)|(&apos;)|(&#96;)/g, val => map[val])
+    }
 
 
     //--------------String---------------
@@ -3995,6 +4049,7 @@ var aut1smer = function() {
         capitalize: capitalize,
         deburr: deburr,
         endsWith: endsWith,
-
+        escape: escape,
+        unescape: unescape,
     }
 }()
