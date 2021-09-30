@@ -3835,12 +3835,199 @@ var aut1smer = function() {
         return str.replace(/(&amp;)|(&lt;)|(&gt;)|(&quot;)|(&apos;)|(&#96;)/g, val => map[val])
     }
 
+    function escapeRegExp(str) {
+        if (typeof str != 'string') {
+            return str
+        }
+        let result = ''
+        for (let i = 0; i < str.length; i++) {
+            let temp = ''
+            switch (str[i]) {
+                case '^':
+                    temp = '\\^'
+                    break;
+                case '$':
+                    temp = '\\$'
+                    break;
+                case '.':
+                    temp = '\\.'
+                    break;
+                case '*':
+                    temp = '\\*'
+                    break;
+                case '+':
+                    temp = '\\+'
+                    break;
+                case '?':
+                    temp = '\\?'
+                    break;
+                case '(':
+                    temp = '\\('
+                    break;
+                case ')':
+                    temp = '\\)'
+                    break;
+                case '[':
+                    temp = '\\['
+                    break;
+                case ']':
+                    temp = '\\]'
+                    break;
+                case '{':
+                    temp = '\\{'
+                    break;
+                case '}':
+                    temp = '\\}'
+                    break;
+                case '|':
+                    temp = '\\|'
+                    break;
+                default:
+                    temp = str[i]
+                    break;
+            }
+            result += temp
+        }
+        return result
+    }
+
+    //转成中划线分割的
+    //Foo bar    fooBar   __FOO_BAR__  
+    function kebabCase(str = '') {
+        str = str.trim().replace(/[\s_]+|([a-z])([A-Z])/g, (match, small, big) => {
+            if (small && big) {
+                return small + '-' + big
+            }
+            return '-'
+        })
+
+        if (str[0] == '-') {
+            str = str.slice(1)
+        }
+        if (str[str.length - 1] == '-') {
+            return str.substr(0, str.length - 1).toLowerCase()
+        }
+        return str.toLowerCase()
+    }
+
+    function lowerCase(str = '') {
+        str = str.trim().replace(/[\W_]+|([a-z])([A-Z])/g, (match, small, big) => {
+            if (small && big) {
+                return small + ' ' + big.toLowerCase()
+            }
+            return ' '
+        })
+        return str.trim().toLowerCase()
+    }
+
+    function lowerFirst(str = '') {
+        if (str[0]) {
+            return str[0].toLowerCase() + str.slice(1)
+        } else {
+            return str
+        }
+    }
+
+    function pad(str = '', length = 0, chars = ' ') {
+        if (length <= str.length) {
+            return str
+        }
+        let count = Math.ceil((length - str.length) / chars.length)
+        let result = ''
+        if (count > 0) {
+            if (count & 1) {
+                result = chars.repeat(count >> 1) + str + chars.repeat((count >> 1) + 1)
+            } else {
+                result = chars.repeat(count >> 1) + str + chars.repeat(count >> 1)
+            }
+        } else {
+            result = str
+        }
+        return result.substr(0, length)
+    }
+
+    function padEnd(str = '', length = 0, chars = ' ') {
+        if (length <= str.length) {
+            return str
+        }
+        return (str + chars.repeat(Math.ceil((length - str.length) / chars.length))).substr(0, length)
+    }
+
+    function padStart(str = '', length = 0, chars = ' ') {
+        if (length <= str.length) {
+            return str
+        }
+        let prefix = chars.repeat(Math.ceil((length - str.length) / chars.length))
+        return prefix.length + str.length == length ? prefix + str : prefix.substr(0, length - str.length) + str
+    }
+
+
+    function parseInt(str, radix = 10) {
+        // 1.find them out who belongs to my radix
+        let inTenRadix = true // <10 handle bar
+        if (!radix || arguments[2]) { //奇怪的lodash，传第三个参数隐式转换是true就按10进制理解
+            radix = 10
+        }
+        let target = ''
+        let maxAcceptCode = 48 + radix
+        if (radix < 10) {
+            for (let i = 0; i < str.length; i++) {
+                let code = str.charCodeAt(i)
+                if (code >= 48 && code <= maxAcceptCode) { // 0-9 radix
+                    target += str[i]
+                } else {
+                    break
+                }
+            }
+        } else if (radix >= 10 && radix <= 36) {
+            inTenRadix = false
+            maxAcceptCode = 97 + radix
+            for (let i = 0; i < str.length; i++) {
+                let code = str.charCodeAt(i)
+                if ((code >= 48 && code <= 57) || (code >= 97 && code <= maxAcceptCode)) { // 0-9 & a-z
+                    target += str[i]
+                } else if (code >= 65 && code <= 90) {
+                    target += str[i].toLowerCase()
+                } else {
+                    break
+                }
+            }
+        } else {
+            throw new Error('给个正常点的radix, ありがとう～')
+        }
+        //2. deal them
+        let result = 0
+        let len = target.length
+        if (inTenRadix) {
+            for (let i = len - 1; i >= 0; i--) {
+                result += Number(target[i]) * Math.pow(radix, len - 1 - i)
+            }
+        } else {
+            for (let i = len - 1; i >= 0; i--) {
+                if (target[i] >= 'a') { //字母
+                    result += (target.charCodeAt(i) - 65 + 10) * Math.pow(radix, len - 1 - i)
+                } else { //数字
+                    result += Number(target[i]) * Math.pow(radix, len - 1 - i)
+                }
+            }
+        }
+
+        return result
+    }
 
     //--------------String---------------
 
 
 
     return {
+        parseInt: parseInt,
+        padStart: padStart,
+        padEnd: padEnd,
+        pad: pad,
+        lowerFirst: lowerFirst,
+        lowerCase: lowerCase,
+        escapeRegExp: escapeRegExp,
+        kebabCase: kebabCase,
         chunk: chunk,
         compact: compact,
         concat: concat,
