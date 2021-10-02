@@ -3910,6 +3910,38 @@ var aut1smer = function() {
         return str.toLowerCase()
     }
 
+    //result is about foo_bar
+    function snakeCase(str = '') {
+        str = str.trim().replace(/[_\s-]+|([a-z])([A-Z])/g, (match, small, big) => { //this function will accept all of [match] properties. Be careful !!
+            if (big && small) {
+                return small + '_' + big
+            }
+            return '_'
+        })
+        if (str[0] == '_') {
+            str = str.slice(1)
+        }
+        if (str[str.length - 1] == '_') {
+            return str.substr(0, str.length - 1).toLowerCase()
+        }
+        return str.toLowerCase()
+    }
+
+    function startCase(str = '') {
+        str = str.trim().replace(/[_-\s]+([a-z]|[A-Z])|([a-z])([A-Z])|[_-\s]+/g, (match, char, small, big) => {
+            if (char) {
+                return ' ' + char.toUpperCase()
+            } else if (small && big) {
+                return small + ' ' + big
+            } else {
+                return ' '
+            }
+
+        })
+        str = str.trim()
+        return str[0].toUpperCase() + str.slice(1)
+    }
+
     function lowerCase(str = '') {
         str = str.trim().replace(/[\W_]+|([a-z])([A-Z])/g, (match, small, big) => {
             if (small && big) {
@@ -4015,11 +4047,269 @@ var aut1smer = function() {
         return result
     }
 
+
+    function repeat(str = '', n = 1) {
+        if (n <= 0) {
+            return ''
+        }
+        let result = ''
+        while (n--) {
+            result += str
+        }
+        return result
+    }
+
+    function replace(str = '', replacer, replacement) {
+        if (typeof replacer == 'string' || typeof replacer == 'number') {
+            let idx = str.indexOf(replacer)
+            if (idx == -1) {
+                return str
+            }
+            if (typeof replacement == 'function') { //除了function都是拼字串
+                replacement = replacement(replacer, idx, str) // got a string
+            }
+            // 针对replacement是$&的情况，仅它适用于非正则替换;把$&换为replacer
+            replacement = replacement.split('$&').join(replacer)
+            return str.slice(0, idx) + replacement + str.slice(idx + replacer.length)
+
+        } else if (replacer instanceof RegExp) {
+            replacer = new RegExp(replacer, replacer.flags) //second param can be ignored
+            if (typeof replacement == 'string') {
+                replacement = tranformReplacement_stringToFunction(replacement)
+            }
+            let match = null
+            if (!replacer.global) {
+                match = replacer.exec(str)
+                if (!match) { //null
+                    return str
+                }
+                return str.slice(0, match.index) + replacement(match) + str.slice(replacer.lastIndex)
+            }
+            let result = ''
+            let startIndex = replacer.lastIndex
+            while (match = replacer.exec(str)) {
+                result += str.slice(startIndex, match.index) + replacement(match)
+                startIndex = replacer.lastIndex
+                if (match[0] == '') {
+                    replacer.lastIndex++
+                }
+            }
+            result += str.slice(startIndex)
+            return result
+        } else {
+            return str
+        }
+
+    }
+
+    function tranformReplacement_stringToFunction(replacement) {
+        let splitted = replacement.split(/($[\d&])/) //if want $& $1 $2.. , remember add the (),then split func will insert captures into 隔板
+        return function(args) { // i need index but not another parts of match object
+            // [aa, $&, b, $1, ccd, $2, dq]
+            let result = ''
+            for (let part of splitted) {
+                if (part.length == 2 && part[0] == '$') {
+                    if (part[1] == '&') {
+                        result += args[0]
+                    } else if (part[1] >= 0 && part[1] <= 9) {
+                        result += args[part[2]] || ''
+                    }
+                } else {
+                    result += part
+                }
+            }
+            return result
+        }
+    }
+
+
+    function split(str = '', separator, limit = Infinity) {
+        let result = []
+        if (typeof separator == 'string') {
+            let startIdx = 0,
+                matchIdx
+            while ((matchIdx = str.indexOf(separator, startIdx)) > -1) {
+                result.push(str.slice(startIdx, matchIdx))
+                startIdx = matchIdx + separator.length
+            }
+            result.push(str.slice(startIdx))
+        } else if (separator instanceof RegExp) {
+            if (separator.global) {
+                separator = new RegExp(separator, separator.flags)
+            } else {
+                separator = new RegExp(separator, separator.flags + 'g')
+            }
+            let match = null
+            let startIdx = separator.lastIndex
+            while (match = separator.exec(str)) {
+                result.push(str.slice(startIdx, match.index))
+                startIdx = separator.lastIndex
+                if (match[0] == '') {
+                    separator.lastIndex++
+                }
+            }
+            result.push(str.slice(startIdx))
+        } else {
+            result = [str]
+        }
+
+        if (limit < 0) {
+            return result
+        }
+        return result.slice(0, limit)
+    }
+
+    function startsWith(str = '', target, postion = 0) {
+        return str.slice(postion).indexOf(target) == 0
+    }
+
+    /**
+     * there are `template` function,
+     * about 模板, like pug.
+     * 
+     */
+
+
+    function toUpper(str = '') {
+        let result = ''
+        for (let i = 0; i < str.length; i++) {
+            let code = str.charCodeAt(i)
+            if (code >= 0x61 && code <= 0x7A) {
+                result += String.fromCharCode(code - 32)
+            } else {
+                result += str[i]
+            }
+        }
+        return result
+    }
+
+    function toLower(str = '') {
+        let result = ''
+        for (let i = 0; i < str.length; i++) {
+            let code = str.charCodeAt(i)
+            if (code >= 0x41 && code <= 0x5A) {
+                result += String.fromCharCode(code + 32)
+            } else {
+                result += str[i]
+            }
+        }
+        return result
+    }
+
+
+    function trim(str = '', chars = ' ') {
+        return trimStart(str, chars).trimEnd(str, chars)
+    }
+
+    function trimStart(str = '', chars = ' ') {
+        let set = new Set()
+        for (let i = 0; i < chars.length; i++) {
+            if (!set.has(chars[i])) {
+                set.add(chars[i])
+            }
+        }
+        let sliceIdx = 0
+        for (; sliceIdx < str.length; sliceIdx++) {
+            if (!set.has(str[sliceIdx])) {
+                break
+            }
+        }
+        return str.slice(sliceIdx)
+    }
+
+    function trimEnd(str = '', chars = ' ') {
+        let set = new Set()
+        for (let i = 0; i < chars.length; i++) {
+            if (!set.has(chars[i])) {
+                set.add(chars[i])
+            }
+        }
+        let endIdx = str.length - 1
+        for (; endIdx >= 0; endIdx--) {
+            if (!set.has(str[endIdx])) {
+                break
+            }
+        }
+        return str.slice(0, endIdx + 1)
+    }
+
+    function WrongtrimStart(str = '', chars = ' ') {
+        let len = str.length
+        let charsLen = chars.length
+        let sliceIdx = 0
+        for (let i = 0; i < len; i += charsLen) {
+            if (str.slice(i, i + charsLen) == chars) {
+                sliceIdx = i + charsLen
+            } else {
+                break
+            }
+        }
+        return str.slice(sliceIdx)
+    }
+
+    // https://mgear-blogs.obs-website.cn-east-3.myhuaweicloud.com/articles/source-code/lodash/lodash.html
+    function truncate(str = '', options = {}) {
+        let length = options.length || 30
+        let omission = options.omission || '...'
+        let separator = options.separator
+
+        /**
+         * 【Unicode乱码问题】
+         * "𝌆".length是2，但它在被按顺序读取时，会分解成两个字符  "𝌆".split('') // ["�", "�"]
+         * 这两个字符长度为1，在控制台长相与前者也不相同，后者长得像这样：�；
+         * lodash && 我们应该把这个字串信息保留，作为【1】个字符看待，Array.from()具有这一神奇功效，之后处理数组再join回来就好
+         * 
+         * 暂时没有找到 判断str中是否含有Unicode字符 的方法，索性全转数组处理了
+         */
+
+        str = Array.from(str) //toArray
+
+        if (length >= str.length) {
+            return str.join('') //_.truncate('abc',{length:3}) --> 'abc'
+        }
+
+        let end = length - omission.length //str应截取的长度
+        str = end >= 0 ? str.slice(0, end).join('') : ''
+
+        if (!separator) {
+            return str + omission
+        }
+        //如果有分隔符，把结果裁剪到最后一个分隔符的位置（最后一个分隔符之后的不要）
+        if (typeof separator == "string") {
+            let endIdx = str.lastIndexOf(separator)
+            return endIdx == -1 ? str + omission : str.slice(0, endIdx) + omission
+        } else if (separator instanceof RegExp) {
+            if (separator.global) {
+                separator = new RegExp(separator, separator.flags)
+            } else {
+                separator = new RegExp(separator, separator.flags + 'g')
+            }
+            let match = null,
+                endIdx = str.length
+            while (match = separator.exec(str)) {
+                endIdx = match.index
+            }
+            return str.slice(0, endIdx) + omission
+        } else {
+            return str + omission
+        }
+    }
+
     //--------------String---------------
 
 
 
     return {
+        truncate: truncate,
+        trim: trim,
+        trimStart: trimStart,
+        trimEnd: trimEnd,
+        toUpper: toUpper,
+        toLower: toLower,
+        startsWith: startsWith,
+        split: split,
+        replace: replace,
+        repeat: repeat,
         parseInt: parseInt,
         padStart: padStart,
         padEnd: padEnd,
@@ -4027,6 +4317,8 @@ var aut1smer = function() {
         lowerFirst: lowerFirst,
         lowerCase: lowerCase,
         escapeRegExp: escapeRegExp,
+        startCase: startCase,
+        snakeCase: snakeCase,
         kebabCase: kebabCase,
         chunk: chunk,
         compact: compact,
