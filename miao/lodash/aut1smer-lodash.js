@@ -4217,6 +4217,7 @@ var aut1smer = function() {
         return str.slice(sliceIdx)
     }
 
+
     function trimEnd(str = '', chars = ' ') {
         let set = new Set()
         for (let i = 0; i < chars.length; i++) {
@@ -4301,9 +4302,9 @@ var aut1smer = function() {
 
     return {
         truncate: truncate,
-        trim: trim,
         trimStart: trimStart,
         trimEnd: trimEnd,
+        trim: trim,
         toUpper: toUpper,
         toLower: toLower,
         startsWith: startsWith,
