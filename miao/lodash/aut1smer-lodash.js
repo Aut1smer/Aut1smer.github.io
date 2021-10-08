@@ -3552,6 +3552,109 @@ var aut1smer = function() {
         }
     }
 
+    //返回第一个接收到的参数
+    function identity(val) {
+        return arguments[0]
+    }
+    //实测了很多类型与上下界情况...
+    function range(start = 0, end, step = 1) {
+        let result = []
+        start = Number(start)
+        end = Number(end)
+        step = Number(step)
+        start = isNumber(start) && !isNaN(start) ? start : 0
+        end = isNumber(end) && !isNaN(end) ? end : 0
+        step = isNumber(step) && !isNaN(step) ? step : 0
+
+        if (arguments.length == 0) {
+            return result
+        } else if (arguments.length == 1) {
+            if (start >= 0) {
+                for (let i = 0; i < start; i++) {
+                    result.push(i)
+                }
+            } else {
+                for (let i = 0; i > start; i--) {
+                    result.push(i)
+                }
+            }
+        } else if (arguments.length == 2) {
+            if (start <= end) {
+                for (let i = start; i < end; i++) {
+                    result.push(i)
+                }
+            } else {
+                for (let i = start; i > end; i--) {
+                    result.push(i)
+                }
+            }
+        } else if (arguments.length == 3) {
+            if (step == 0) {
+                result = Array(end - start > 0 ? end - start : 0).fill(start)
+            } else {
+                if (step > 0 && end - start > 0) {
+                    for (let i = start; i < end; i += step) {
+                        result.push(i)
+                    }
+                } else if (step < 0 && end - start < 0) {
+                    for (let i = start; i > end; i += step) {
+                        result.push(i)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    function rangeRight(start = 0, end, step = -1) {
+        let result = []
+        start = Number(start)
+        end = Number(end)
+        step = Number(step)
+        start = isNumber(start) && !isNaN(start) ? start : 0
+        end = isNumber(end) && !isNaN(end) ? end : 0
+        step = isNumber(step) && !isNaN(step) ? step : 0
+            //not unshift写法，but reverse写法
+        if (arguments.length == 0) {
+            return result
+        } else if (arguments.length == 1) {
+            if (start >= 0) {
+                for (let i = 0; i < start; i++) {
+                    result.push(i)
+                }
+            } else {
+                for (let i = 0; i > start; i--) {
+                    result.push(i)
+                }
+            }
+        } else if (arguments.length == 2) {
+            if (start <= end) {
+                for (let i = start; i < end; i++) {
+                    result.push(i)
+                }
+            } else {
+                for (let i = start; i > end; i--) {
+                    result.push(i)
+                }
+            }
+        } else if (arguments.length == 3) {
+            if (step == 0) {
+                result = Array(end - start > 0 ? end - start : 0).fill(start)
+            } else {
+                if (step > 0 && end - start > 0) {
+                    for (let i = start; i < end; i += step) {
+                        result.push(i)
+                    }
+                } else if (step < 0 && end - start < 0) {
+                    for (let i = start; i > end; i += step) {
+                        result.push(i)
+                    }
+                }
+            }
+        }
+        return result.reverse()
+    }
+
     //------------------------Util---------------------
 
 
@@ -3960,6 +4063,25 @@ var aut1smer = function() {
         }
     }
 
+
+    function upperCase(str = '') {
+        str = str.trim().replace(/[_-\s]+|([a-z])([A-Z])/g, (match, small, big) => {
+            if (small && big) {
+                return small + ' ' + big
+            }
+            return ' '
+        })
+        return str.trim().toUpperCase()
+    }
+
+    function upperFirst(str = '') {
+        if (str[0]) {
+            return str[0].toUpperCase() + str.slice(1)
+        }
+        return str
+    }
+
+
     function pad(str = '', length = 0, chars = ' ') {
         if (length <= str.length) {
             return str
@@ -4296,11 +4418,28 @@ var aut1smer = function() {
         }
     }
 
+    function words(str = '', pattern) {
+        let result = []
+            //比lodash还好用的自动加g
+        pattern = pattern ? (new RegExp(pattern, pattern.global ? pattern.flags : pattern.flags + 'g')) : /\b[a-zA-Z]+\b/g
+        let match = null
+        while (match = pattern.exec(str)) {
+            result.push(match[0])
+            if (match[0] == '') {
+                pattern.lastIndex++
+            }
+        }
+        return result
+    }
+
     //--------------String---------------
 
 
 
     return {
+        range: range,
+        rangeRight: rangeRight,
+        words: words,
         truncate: truncate,
         trimStart: trimStart,
         trimEnd: trimEnd,
@@ -4317,6 +4456,8 @@ var aut1smer = function() {
         pad: pad,
         lowerFirst: lowerFirst,
         lowerCase: lowerCase,
+        upperFirst: upperFirst,
+        upperCase: upperCase,
         escapeRegExp: escapeRegExp,
         startCase: startCase,
         snakeCase: snakeCase,

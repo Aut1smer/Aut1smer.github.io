@@ -51,6 +51,54 @@
         return res
     }
 
+    function range(start = 0, end, step = 1) {
+        let result = []
+        start = Number(start)
+        end = Number(end)
+        step = Number(step)
+        start = isNumber(start) && !isNaN(start) ? start : 0
+        end = isNumber(end) && !isNaN(end) ? end : 0
+        step = isNumber(step) && !isNaN(step) ? step : 0
+        if (arguments.length == 0) {
+            return result
+        } else if (arguments.length == 1) {
+            if (start >= 0) {
+                for (let i = 0; i < start; i++) {
+                    result.push(i)
+                }
+            } else {
+                for (let i = 0; i > start; i--) {
+                    result.push(i)
+                }
+            }
+        } else if (arguments.length == 2) {
+            if (start <= end) {
+                for (let i = start; i < end; i++) {
+                    result.push(i)
+                }
+            } else {
+                for (let i = start; i > end; i--) {
+                    result.push(i)
+                }
+            }
+        } else if (arguments.length == 3) {
+            if (step == 0) {
+                result = Array(end - start > 0 ? end - start : 0).fill(start)
+            } else {
+                if (step > 0 && end - start > 0) {
+                    for (let i = start; i < end; i += step) {
+                        result.push(i)
+                    }
+                } else if (step < 0 && end - start < 0) {
+                    for (let i = start; i > end; i += step) {
+                        result.push(i)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
     // 二维数组变一维
     function flatten(ary) {
         let result = []
