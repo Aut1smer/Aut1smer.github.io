@@ -51,6 +51,23 @@
         return res
     }
 
+       function method(path, ...args) {
+        path = toPath(path)
+        return function(v, k, o, ...args) {
+            if(!(path[0] in v) || path.length < 1) {
+                return
+            }
+            for(let i = 1; i < path.length; i++) {
+                v = v[path[i - 1]]
+                if((!path[i] in v)) {
+                    return
+                }
+            }
+            return v[path[path.length - 1]]
+        }
+    }
+
+
     function range(start = 0, end, step = 1) {
         let result = []
         start = Number(start)

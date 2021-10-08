@@ -1090,6 +1090,16 @@ var aut1smer = function() {
         return res
     }
 
+    function pullAt(ary, idxes) {
+        //默认它俩都是符合规则的类型
+        //mutate origin ary, return values deleted from ary
+        let result = []
+        for (let idx of idxes) {
+            result.push(ary.splice(idx, 1))
+        }
+        return result
+    }
+
     /* --------------------------Array-------------------------- */
 
 
@@ -1820,7 +1830,108 @@ var aut1smer = function() {
         return timerId - 1
     }
 
+    // 使func只接n个参数
+    function ary(func, n = func.length) {
+        return function(...args) {
+            return func.apply(window, args.slice(0, n))
+        }
+    }
 
+    // 使func只接受1个参数
+    function unary(func) {
+        return function(...args) {
+            return func.call(null, args[0])
+        }
+    }
+
+    // 返回predicate运行的否定的结果
+    function negate(predicate) {
+        return function(...args) {
+            if (typeof predicate != 'function') {
+                throw new Error('negate只能接一个函数')
+            }
+            let result = predicate.call(this, ...args)
+            return !result
+        }
+    }
+
+    //限制func只能被调用一次，调用多次时返回第一次的调用结果
+    //function a (k) { return k + 1 };var init = _.once(a);
+    //init(5) //6  init(10) //6
+    function once(func) {
+        let n = 0
+        let firstResult //把第一次结果与是否是第一次调用保存在闭包里
+        return function(...args) {
+            if (n == 0) {
+                firstResult = func.apply(this, args)
+                n++
+            }
+            return firstResult
+        }
+    }
+
+
+    //经大量测验：start意味着视arguments[0]为全参还是params里的仅仅一项
+    //不足：
+    //   var say = _.spread(function(who, what,c,d,e,f) {
+    //   return who + ' says ' + what+c+d+e+f;
+    // },2);
+    // say(['cy','q','asd'],['aaa',['bbbb','vvvv'],'c'],'ggg',['c']) 
+    //返回了 'cy,q,asd says aaabbbb,vvvvcgggundefined'
+    //lodash返回了 'cy,q,asd says aaa,bbbb,vvvv,cgggundefined' 多一个逗号
+    function spread(func, start = 0) { //零式战机上陈旧的lodash写法
+        start = Number(start)
+        return function() {
+            while (start < 0) {
+                start += arguments.length
+            }
+            var funcLen = func.length
+            var params = []
+            if (start == 0) {
+                return func.apply(this, arguments[start].slice(0, funcLen))
+            } else {
+                params[0] = arguments[0]
+                outmost:
+                    for (var i = 1; i <= start; i++) { //测试得出结果最多两层嵌套遍历
+                        var val = arguments[i]
+                        if (Array.isArray(val)) {
+                            for (var j = 0; j < val.length; j++) {
+                                params.push(val[j])
+                                if (params.length == funcLen) {
+                                    break outmost
+                                }
+                            }
+                        } else {
+                            params.push(val)
+                        }
+                        if (params.length == funcLen) {
+                            break
+                        }
+                    }
+                return func.apply(this, params)
+            }
+        }
+    }
+
+
+    //传播参数，延展操作符 spread operator 比lodash还要好的实现思路！
+    function spreadGreat(func, start = 0) {
+        start = Number(start)
+            //应该是要用es5的方式实现...
+        return function() {
+            let length = func.length
+            let params = []
+            let flattenArgs = []
+            for (let i = 0; i < arguments.length; i++) {
+                flattenArgs.push(arguments[i])
+            }
+            flattenArgs = flattenDeep(flattenArgs)
+            while (start < length) {
+                params.push(flattenArgs[start++])
+            }
+            return func.apply(this, params)
+        }
+    }
 
     //-----------------Function--------------------
 
@@ -3461,6 +3572,15 @@ var aut1smer = function() {
         }
     }
 
+    //_.map(['a[2]', 'c[0]'], _.propertyOf(object));
+    // => [2, 0]
+    function propertyOf(obj) {
+        return function(...args) {
+            let valPath = args[0]
+            return get(obj, valPath)
+        }
+    }
+
 
 
     //将String的路径转为数组 
@@ -3654,6 +3774,83 @@ var aut1smer = function() {
         }
         return result.reverse()
     }
+
+
+    function defaultTo(val, defaultVal) {
+        //如果val传的是个函数,loadsh并没有查看函数的返回值符不符合规则
+        if (val === null || val === undefined || isNaN(val)) {
+            return defaultVal
+        }
+        return val
+    }
+
+    //得到第n个参数
+    function nthArg(n = 0) {
+        return function(...args) {
+            return n >= 0 ? args[n] : args[args.length + n]
+        }
+    }
+
+    //创建的方法被调用在接受对象的path路径上。应付着答案写
+    function method(path, ...args) {
+        path = toPath(path)
+        return function(...argms) {
+            let v = argms[0]
+            if (!(path[0] in v) || path.length < 1) {
+                return
+            }
+            for (let i = 1; i < path.length; i++) {
+                v = v[path[i - 1]]
+                if ((!path[i] in v)) {
+                    return
+                }
+            }
+            v = v[path[path.length - 1]]
+            return v.apply(this, argms.concat(args))
+        }
+
+    }
+
+
+    function methodOf(obj, ...args) {
+        return function(...argms) {
+            let valPath = argms[0]
+            let f = get(obj, valPath)
+            return f.apply(this, argms.concat(args))
+        }
+    }
+
+    //很像reduce，reduce是对连续的值使用单个函数得到最终累计结果；flow是对连续的函数灌入生成的值得到最终累计结果
+    function flow(funcs) {
+        if (!Array.isArray(funcs)) {
+            funcs = Array.from(arguments)
+        }
+        return function(...args) {
+            if (!funcs.length || typeof funcs[0] != 'function') {
+                return
+            }
+            let result = funcs[0].apply(this, args)
+            for (let i = 1; i < funcs.length; i++) {
+                if (typeof funcs[i] != 'function') {
+                    return
+                }
+                result = funcs[i].call(this, result) // union return value
+            }
+            return result
+        }
+    }
+
+    //generate a uniqueID.
+    function uniqueId(prefix = '') {
+        let sObj = Symbol.for('uniqueId')
+            //  window.[Symbol(uniqueId)]= {lastId: 1}
+        if (typeof window[sObj] !== 'object') {
+            window[sObj] = {}
+            window[sObj].lastId = 1
+        }
+        return prefix + (window[sObj].lastId++)
+    }
+
 
     //------------------------Util---------------------
 
@@ -4437,6 +4634,19 @@ var aut1smer = function() {
 
 
     return {
+        negate: negate,
+        once: once,
+        spread: spread,
+        ary: ary,
+        unary: unary,
+        nthArg: nthArg,
+        method: method,
+        methodOf: methodOf,
+        propertyOf: propertyOf,
+        flow: flow,
+        pullAt: pullAt,
+        uniqueId: uniqueId,
+        defaultTo: defaultTo,
         range: range,
         rangeRight: rangeRight,
         words: words,
@@ -4672,5 +4882,6 @@ var aut1smer = function() {
         endsWith: endsWith,
         escape: escape,
         unescape: unescape,
+        identity: identity,
     }
 }()
