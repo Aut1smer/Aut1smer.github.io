@@ -1941,6 +1941,37 @@ var aut1smer = function() {
         }
     }
 
+    //函数柯里化：强制接参个数直到指定的数量，否则就不
+    function curry(func, arity = func.length) {
+        return function exec(func, ...args) {
+                if (args.length >= arity) {
+                    func.apply(this, args)
+                } else {
+                    return curry(exec.bind(this, func, ...args), arity - (args.length))
+                }
+            }
+            // bind(exec, bind.placeholder, func)
+    }
+
+
+    function curryWrong(func, arity = func.length) {
+        return function exec(...args) {
+            if (arity <= args.length) {
+                return func.call(this, ...args)
+            } else { //直到参数个数
+                return function(...rest) {
+                    let params = args.concat(rest)
+                    if (params.length >= arity) {
+                        return func.call(this, ...params)
+                    } else {
+                        return exec(params)
+                    }
+                }
+
+            }
+        }
+    }
+
     //-----------------Function--------------------
 
 
@@ -3943,6 +3974,57 @@ var aut1smer = function() {
         }
     }
 
+
+    function bindAll(obj, methodsNames) {
+        if (Array.isArray(methodsNames)) {
+            for (let i = 0; i < methodsNames.length; i++) {
+                obj[methodsNames[i]] = obj[methodsNames[i]].bind(obj)
+            }
+        } else if (typeof methodsNames == 'string') {
+            obj[methodsNames] = obj[methodsNames].bind(obj)
+        }
+    }
+
+    function _() {}
+    // https://cloud.tencent.com/developer/article/1507017
+    function mixin(obj = _, src, options = {}) {
+        //简易实现一下mixin
+        let isFunc = false
+        let funcProps = []
+        if (arguments.length == 1) {
+            src = obj
+            obj = _
+            options.chain = true
+        } else if (arguments.length == 2) {
+            if ('chain' in src) {
+                options = src
+                options.chain = !!options.chain
+                src = obj
+                obj = _
+            } else {
+                isFunc = isFunction(obj)
+            }
+        } else {
+            isFunc = isFunction(obj)
+            options.chain = !!options.chain
+        }
+        for (let key in src) {
+            if (src.hasOwnProperty(key) && isFunction(src[key])) {
+                funcProps.push([key, src[key]])
+            }
+        }
+        if (isFunc) {
+            for (let entry of funcProps) {
+                obj.prototype[entry[0]] = entry[1]
+            }
+        } else {
+            for (let entry of funcProps) {
+                obj[entry[0]] = entry[1]
+            }
+        }
+        return obj
+    }
+
     //------------------------Util---------------------
 
 
@@ -4725,6 +4807,9 @@ var aut1smer = function() {
 
 
     return {
+        bindAll: bindAll,
+        mixin: mixin,
+        curry: curry,
         cloneDeep: cloneDeep,
         flip: flip,
         conforms: conforms,
