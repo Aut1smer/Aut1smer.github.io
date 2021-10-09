@@ -1094,10 +1094,12 @@ var aut1smer = function() {
         //默认它俩都是符合规则的类型
         //mutate origin ary, return values deleted from ary
         let result = []
-        for (let idx of idxes) {
-            result.push(ary.splice(idx, 1))
+        idxes = idxes.sort((a, b) => b - a)
+        for (let i = 0; i < idxes.length; i++) {
+            result.push(...ary.splice(idxes[i], 1)) //splice以数组形式返回内容
         }
-        return result
+
+        return result.reverse()
     }
 
     /* --------------------------Array-------------------------- */
@@ -1932,6 +1934,12 @@ var aut1smer = function() {
             return func.apply(this, params)
         }
     }
+    //空翻 希望func函数在调用时，参数是反向传递的
+    function flip(func) {
+        return function(...args) {
+            return func.apply(this, args.reverse())
+        }
+    }
 
     //-----------------Function--------------------
 
@@ -2542,6 +2550,76 @@ var aut1smer = function() {
         }
         return val
     }
+
+    function cloneDeep(val, map = new Map(), latestObj = val, latestKey) {
+        //cloneDeep最好的实现版本还是笔记上的双函数：deepClone+deepMutate，本方案的实现会将cloneDeep传染成async，对cloneDeep的调用者也会被传染成async且必须await cloneDeep的结果
+        let circleVal
+        if (map.has(val)) {
+            circleVal = map.get(val)
+            if (typeof circleVal == 'function' && (circleVal.name == '_needToMap' || circleVal.name == '_needToSet')) {
+                circleVal().then(() => { latestObj[latestKey] = map.get(val) })
+                    //我并不需要resolve出的结果
+            } else {
+                return circleVal
+            }
+        }
+
+        let result
+        latestObj = val //获取本轮更新的对象
+        if (val === null) {
+            return null
+        } else if (Array.isArray(val)) {
+            result = []
+            map.set(val, result)
+            for (let key in val) {
+                if (val.hasOwnProperty(key)) {
+                    latestKey = key
+                    result[key] = cloneDeep(val[key], map, latestObj, latestKey) //不用push怕数组上挂载了其他自定义属性
+                }
+            }
+        } else if (val instanceof RegExp) { //dont think about val.xxx in constructor of RegExp and Date.
+            return new RegExp(val, val.flags)
+        } else if (val instanceof Date) {
+            return new Date(val)
+        } else if (val instanceof Map) {
+            let valToAry = [...val.entries()] //also can be [...val]
+                // valToAry._needToMap = true
+            map.set(val, function _needToMap() { return Promise.resolve(valToAry) }) //先拿这个数组凑个数
+                //迭代map的核心数组
+            for (let key in valToAry) { //也可以直接迭代val
+                if (valToAry.hasOwnProperty(key)) {
+                    latestKey = key
+                    result.push(cloneDeep(valToAry[key], map, latestObj, latestKey)) //如果这里面有环：属性xx指向这里的val，那么只有到第二次cloneDeep当前层的result时，才能从map里发现它；亦或者是死循环；解决：利用微任务的时间差拿到值
+                }
+            }
+            result = new Map(result)
+            map.set(val, result)
+        } else if (val instanceof Set) {
+            let valToAry = Array.from(val)
+            map.set(val, function _needToSet() { return Promise.resolve(valToAry) })
+            for (let key in valToAry) {
+                if (valToAry.hasOwnProperty(key)) {
+                    latestKey = key
+                    result.push(cloneDeep(valToAry[key], map, latestObj, latestKey))
+                }
+            }
+            result = new Set(result)
+            map.set(val, result)
+        } else if (typeof val == 'object') {
+            result = {}
+            map.set(val, result)
+            for (let key in val) {
+                if (val.hasOwnProperty(key)) {
+                    latestKey = key
+                    result[key] = cloneDeep(val[key], map, latestObj, latestKey)
+                }
+            }
+        } else { //非对象
+            return val
+        }
+        return result
+    }
+
 
     //----------------Lang-----------------
 
@@ -3851,6 +3929,19 @@ var aut1smer = function() {
         return prefix + (window[sObj].lastId++)
     }
 
+    //创建一个函数。 这个函数会 调用 source 的属性名对应的 predicate 与传入对象相对应属性名的值进行断言处理。 如果都符合返回 true ，否则返回 false 。
+    function conforms(src) {
+        return function(obj) {
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key) && typeof src[key] == 'function') {
+                    if (src[key](obj[key]) === false) {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+    }
 
     //------------------------Util---------------------
 
@@ -4634,6 +4725,9 @@ var aut1smer = function() {
 
 
     return {
+        cloneDeep: cloneDeep,
+        flip: flip,
+        conforms: conforms,
         negate: negate,
         once: once,
         spread: spread,
