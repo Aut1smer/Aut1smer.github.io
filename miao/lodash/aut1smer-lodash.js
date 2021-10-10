@@ -4022,6 +4022,7 @@ var aut1smer = function() {
         } else if (typeof methodsNames == 'string') {
             obj[methodsNames] = obj[methodsNames].bind(obj)
         }
+        return obj
     }
 
     function _() {}
