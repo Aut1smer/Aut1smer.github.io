@@ -1943,11 +1943,28 @@ var aut1smer = function() {
 
     //函数柯里化：强制接参个数直到指定的数量，否则就不
     function curry(func, arity = func.length) {
+        return _curry.call(this, func, arity)
+    }
+
+    function _curry(func, arity, ...args) {
+        return function(...restArgs) {
+            let params = args.concat(restArgs)
+            if (params.length >= arity) {
+                return func.call(this, ...params)
+            } else {
+                return _curry.call(this, func, arity, ...params)
+            }
+        }
+    }
+
+
+
+    function curryWrong(func, arity = func.length) {
         return function exec(func, ...args) {
                 if (args.length >= arity) {
                     func.apply(this, args)
                 } else {
-                    return curry(exec.bind(this, func, ...args), arity - (args.length))
+                    return curryWrong(exec.bind(this, func, ...args), arity - (args.length))
                 }
             }
             // bind(exec, bind.placeholder, func)
@@ -1970,6 +1987,28 @@ var aut1smer = function() {
 
             }
         }
+    }
+
+
+    //传进来的对象作键，值只缓存最初的
+    function memoize(func, resolver) {
+        memoize.cache = new Map()
+        let that = this //func在调用时this会被绑定在缓存函数上
+        function _memoize(...args) {
+            if (resolver && typeof resolver == 'function') {
+                _memoize.cache.set(args[0], resolver(...args))
+            }
+            let result
+            if (_memoize.cache.has(args[0])) {
+                result = _memoize.cache.get(args[0])
+            } else {
+                result = func.call(that, ...args)
+                _memoize.cache.set(args[0], result)
+            }
+            return result
+        }
+        _memoize.cache = memoize.cache
+        return _memoize
     }
 
     //-----------------Function--------------------
@@ -4807,6 +4846,7 @@ var aut1smer = function() {
 
 
     return {
+        memoize: memoize,
         bindAll: bindAll,
         mixin: mixin,
         curry: curry,
