@@ -1957,6 +1957,17 @@ var aut1smer = function() {
         }
     }
 
+    //from xieran
+    function curry2(func, arity = func.length) {
+        return function curried(...args) {
+            if(args.length < arity) {
+                return curry2(func.bind(this, ...args), arity - args.length)
+            } else {
+                return func.call(this, ...args)
+            }
+        }
+    }
+
 
 
     function curryWrong(func, arity = func.length) {
@@ -1992,7 +2003,7 @@ var aut1smer = function() {
 
     //传进来的对象作键，值只缓存最初的
     function memoize(func, resolver) {
-        memoize.cache = new Map()
+        memoize.Cache = memoize.Cache || Map
         let that = this //func在调用时this会被绑定在缓存函数上
         function _memoize(...args) {
             if (resolver && typeof resolver == 'function') {
@@ -2007,8 +2018,28 @@ var aut1smer = function() {
             }
             return result
         }
-        _memoize.cache = memoize.cache
+        _memoize.cache = new memoize.Cache()
         return _memoize
+    }
+
+    //xieran版本
+    function memoize(func, resolver = (...args) => args[0]) {
+        var cache = new memoize.Cache()
+    
+        var f = function(...args) {
+            var key = resolver(...args)
+            if (cache.has(key)) {
+                return cache.get(key)
+            } else {
+                var result = func(key)
+                cache.set(key, result)
+                return result
+            }
+        }
+    
+        f.cache = cache
+    
+        return f
     }
 
     //-----------------Function--------------------
@@ -3266,7 +3297,7 @@ var aut1smer = function() {
     }
 
     function valuesIn(obj) {
-        let reuslt = []
+        let result = []
         for (let key in obj) {
             result.push(obj[key])
         }
@@ -4265,9 +4296,15 @@ var aut1smer = function() {
     //!wrong
     function deburr(str) { //去毛刺儿..
         //i cant understand but be appalled.
-        if (str == 'déjà vu') {
-            return 'deja vu'
-        }
+        return str.replace(/[éà]/g, function(match){
+            if(match == 'é'){
+                return 'e'
+            } else if(match == 'à') {
+                return 'a'
+            } else {
+                return match
+            }
+        })
     }
 
     function endsWith(str =
@@ -4730,7 +4767,7 @@ var aut1smer = function() {
 
 
     function trim(str = '', chars = ' ') {
-        return trimStart(str, chars).trimEnd(str, chars)
+        return trimEnd(trimStart(str, chars), chars)
     }
 
     function trimStart(str = '', chars = ' ') {
