@@ -1109,7 +1109,7 @@
 
         //本地存储
         window.addEventListener('storage', updateFromStorage)
-
+        window.addEventListener('focus', updateFromStorage)
 
         function updateFromStorage() {
             content.innerHTML = ''
