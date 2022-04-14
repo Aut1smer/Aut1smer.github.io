@@ -12,8 +12,9 @@
             width: 100%;
             height: 100%;
         }
+
         /* 背景图遮罩 */
-        
+
         body {
             margin: 0;
             /* opacity: 0; */
@@ -22,8 +23,9 @@
             background-position: 0 10%;
             background-size: cover;
         }
+
         /* 图片加载中~ */
-        
+
         .mask {
             position: fixed;
             top: 0;
@@ -36,7 +38,7 @@
             user-select: none;
             z-index: 20;
         }
-        
+
         .loading {
             transition: 1s;
             opacity: 0;
@@ -44,31 +46,31 @@
             background-color: transparent;
             z-index: -999;
         }
-        
+
         button {
             border: none;
             outline: none;
         }
-        
+
         ul,
         li {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
+
         a {
             color: black;
             text-decoration: none;
         }
-        
+
         header {
             display: flex;
             height: 80px;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         footer {
             position: fixed;
             bottom: 0;
@@ -80,7 +82,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .noteCtl {
             box-sizing: border-box;
             height: 100%;
@@ -96,17 +98,18 @@
             border-radius: 6px;
             user-select: none;
         }
-        
+
         .noteCtl:hover {
             transition: .2s;
             background-color: rgba(0, 0, 0, .3);
         }
-        
+
         .content {
             /* border: 1px solid lightcoral; */
         }
+
         /* 每个note */
-        
+
         .note {
             position: fixed;
             z-index: 10;
@@ -121,13 +124,13 @@
             box-shadow: 2px 3px 7px 0 rgba(0, 0, 0, 20%);
             overflow: hidden;
         }
-        
+
         .note .noteTitle {
             position: relative;
             width: 100%;
             height: 30px;
         }
-        
+
         .note .noteTitle button {
             display: none;
             position: absolute;
@@ -144,15 +147,15 @@
             padding-top: 0;
             padding-bottom: 0;
         }
-        
+
         .note .noteTitle button:last-of-type {
             right: 0;
         }
-        
+
         .note .noteTitle button:hover {
             color: #555;
         }
-        
+
         .note textarea {
             width: 100%;
             height: calc(100% - 30px);
@@ -170,7 +173,7 @@
             color: #555;
             font-style: italic;
         }
-        
+
         .note textarea::-webkit-scrollbar {
             position: absolute;
             right: 0;
@@ -180,34 +183,35 @@
             width: 8px;
             background-color: transparent;
         }
-        
+
         .note textarea::-webkit-scrollbar-thumb {
             display: none;
             width: 8px;
             background-color: #aaa;
             border-radius: 5px;
         }
-        
+
         .note textarea::-webkit-scrollbar-button {
             display: block;
             height: 0;
             background-color: transparent;
         }
-        
+
         .note:hover .noteTitle>button {
             display: block;
         }
-        
+
         .note:hover textarea::-webkit-scrollbar-thumb {
             display: block;
         }
+
         /* 搜索框 */
-        
+
         .search {
             width: 22%;
             height: 46px;
         }
-        
+
         .search input {
             position: relative;
             display: block;
@@ -226,11 +230,11 @@
             background-color: transparent;
             transition: .35s;
         }
-        
+
         .search input:focus {
             background-color: rgba(255, 255, 255, 0.66);
         }
-        
+
         .association {
             overflow: hidden;
             background-color: rgba(255, 255, 255, 0.8);
@@ -238,7 +242,7 @@
             padding-top: 2px;
             padding-bottom: 2px;
         }
-        
+
         .association li {
             /* width: 305px; */
             width: 100%;
@@ -248,7 +252,7 @@
             padding-bottom: 4px;
             box-sizing: border-box;
         }
-        
+
         .association li>a {
             display: block;
             border-radius: 3px;
@@ -259,17 +263,18 @@
             line-height: 32px;
             font-family: 'Arial';
         }
-        
+
         .association li>a:hover {
             background: radial-gradient(farthest-side ellipse at center, #ccc9, #eee3);
         }
-        
+
         .searchHover {
             background: radial-gradient(farthest-side ellipse at center, #ccc9, #eee3);
             position: relative;
         }
+
         /* .association li>a:hover a::after, */
-        
+
         .searchHover::after {
             content: 'ฅ';
             display: block;
@@ -282,18 +287,19 @@
             font-family: consolas;
             color: #3339;
         }
+
         /* 右键菜单 */
-        
+
         .colorMenu {
             position: fixed;
             box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
             z-index: 2147483647;
         }
-        
+
         .colorMenu li {
             font-size: 0;
         }
-        
+
         .colorMenu button {
             width: 118px;
             height: 28px;
@@ -311,19 +317,20 @@
             cursor: default;
             letter-spacing: 1px;
         }
-        
+
         .colorMenu button:hover {
             background-color: #F3EDED;
         }
-        
+
         .rightTop {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
         }
+
         /* 切换neko背景 */
-        
+
         .options {
             flex: 1;
             position: relative;
@@ -333,7 +340,7 @@
             line-height: 40px;
             font-family: Arial, Helvetica, sans-serif;
         }
-        
+
         .options button {
             margin-left: 15px;
             margin-right: 15px;
@@ -345,16 +352,16 @@
             font-weight: 500;
             font-size: 18px;
         }
-        
+
         .options>button {
             color: #fffe;
             text-shadow: 0 0 3px #000;
         }
-        
+
         .options button:hover+.optionAlt {
             display: block;
         }
-        
+
         .optionAlt {
             display: none;
             position: absolute;
@@ -368,7 +375,7 @@
             line-height: 1.5;
             letter-spacing: 1.2px;
         }
-        
+
         .optionAlt::after {
             content: '';
             position: absolute;
@@ -384,7 +391,7 @@
             border-color: transparent;
             border-bottom-color: #0009;
         }
-        
+
         .nekoBg {
             /* display: none; */
             visibility: hidden;
@@ -399,24 +406,24 @@
             user-select: none;
             z-index: 10;
         }
-        
+
         .seeNekoBg {
             user-select: auto;
             transition: .3s;
             visibility: visible;
             opacity: 1;
         }
-        
+
         .nekoBg li {
             float: left;
         }
-        
+
         .nekoBg .bgTitle {
             display: flow-root;
             background-color: #F2F3F4;
             position: relative;
         }
-        
+
         .nekoBg .bgTitle::after {
             content: '';
             display: block;
@@ -433,7 +440,7 @@
             box-sizing: border-box;
             border-radius: 11px;
         }
-        
+
         .nekoBg .bgTitle::before {
             content: '';
             display: block;
@@ -450,7 +457,7 @@
             box-sizing: border-box;
             border-radius: 11px;
         }
-        
+
         .nekoBg .bgTitle li button {
             box-sizing: border-box;
             width: 122px;
@@ -464,7 +471,7 @@
             padding: 0;
             margin: 0;
         }
-        
+
         .nekoBg .bgBody {
             width: 560px;
             height: 400px;
@@ -473,11 +480,11 @@
             /* background-color: #fff; */
             background-color: #eeee;
         }
-        
+
         .nekoBg .bgBody::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         .nekoBg .bgBody::-webkit-scrollbar-thumb {
             margin-right: 3px;
             display: block;
@@ -486,16 +493,16 @@
             border-radius: 5px;
             transition: .3s;
         }
-        
+
         .nekoBg .bgBody::-webkit-scrollbar-thumb:hover {
             background-color: #0009;
         }
-        
+
         .nekoBg .bgBody::-webkit-scrollbar-button {
             height: 0;
             background-color: transparent;
         }
-        
+
         .nekoBg .bgBody li button {
             margin: 12px;
             padding: 0;
@@ -506,14 +513,16 @@
             border-radius: 50%;
             box-shadow: 2px 3px 5px rgba(0, 0, 0, .3);
         }
+
         /* .nekoBg .bgTitle li button {} */
         /* 左半部分 */
-        
+
         .leftHeader {
             width: 300px;
         }
+
         /* 时钟 */
-        
+
         .clock {
             cursor: default;
             /* width: 220px; */
@@ -524,7 +533,7 @@
             margin-left: 60px;
             padding-top: 20px;
         }
-        
+
         .timeClock {
             font-size: 50px;
             color: #fff;
@@ -532,12 +541,13 @@
             font-weight: lighter;
             font-family: Arial, Helvetica, sans-serif;
         }
-        
+
         .dailyClock {
             font-size: 18px;
         }
+
         /* 清除提示 */
-        
+
         .clearNotes {
             display: none;
             position: fixed;
@@ -548,7 +558,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, .3);
         }
-        
+
         .clearNotes>div {
             display: flex;
             flex-flow: column nowrap;
@@ -566,7 +576,7 @@
             border-radius: 10px;
             position: absolute;
         }
-        
+
         .rightEar {
             position: absolute;
             /* right: 30px; */
@@ -583,7 +593,7 @@
             border-left-width: 16px;
             border-radius: 30px;
         }
-        
+
         .leftEar {
             /* display: block; */
             position: absolute;
@@ -600,7 +610,7 @@
             border-right-width: 16px;
             border-radius: 30px;
         }
-        
+
         .clearNotes>div .alertSign {
             width: 90px;
             height: 84px;
@@ -615,7 +625,7 @@
             align-items: center;
             animation: borderBlink 2s infinite;
         }
-        
+
         .clearNotes>div .alertSign::before {
             content: '';
             height: 50px;
@@ -625,7 +635,7 @@
             /* position: absolute; */
             animation: blink 2s infinite;
         }
-        
+
         .clearNotes>div .alertSign::after {
             content: '';
             width: 6px;
@@ -634,35 +644,39 @@
             background-color: #F8BC86;
             animation: blink 2s infinite;
         }
-        
+
         @keyframes blink {
             0% {
                 background-color: #F8BC86;
             }
+
             50% {
                 background-color: #eef21c;
             }
+
             100% {
                 background-color: #F8BC86;
             }
         }
-        
+
         @keyframes borderBlink {
             0% {
                 border-color: #F8BC86;
             }
+
             50% {
                 border-color: #eef21c;
             }
+
             100% {
                 border-color: #F8BC86;
             }
         }
-        
+
         .clearNotes>div p {
             user-select: none;
         }
-        
+
         .clearNotes>div button {
             width: 86px;
             height: 40px;
@@ -676,7 +690,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        
+
         .clearNotes>div button:nth-of-type(2) {
             background-color: #DD6B55;
         }
@@ -779,7 +793,8 @@
             <div class="alertSign"></div>
             <p>要删掉所有便签吗\(=‘ｘ‘=)</p>
             <div><button>不删了</button>
-                <button>删掉</button></div>
+                <button>删掉</button>
+            </div>
             <div class="leftEar"></div>
             <div class="rightEar"></div>
         </div>
@@ -809,14 +824,14 @@
         let noteCtl = document.querySelector('.noteCtl')
         let clearNotes = document.querySelector('.clearNotes')
         let hasRemainNote = false
-            //  blue green pink purple yellow white
+        //  blue green pink purple yellow white
         let noteHeadColor = ['#C9ECF8', '#C8F8C3', '#F1C3F1', '#D6CFFE', '#FDFCBF', '#F5F5F5']
         let noteBodyColor = ['#C0E1F5', '#A3ED9B', '#ECB2EC', '#CBC0FE', '#FCFAAE', '#ECECEC']
-            // 笔记位置信息 [xPos,yPos]
+        // 笔记位置信息 [xPos,yPos]
         let noteStartPos = [
-                '4.2%', '13.3%'
-            ]
-            // localStorage存储信息
+            '4.2%', '13.3%'
+        ]
+        // localStorage存储信息
         let notesInfo = {}
 
 
@@ -824,7 +839,7 @@
         //                  便签控制
         //-------------------------------------------------------
 
-        noteCtl.addEventListener('click', function(e) {
+        noteCtl.addEventListener('click', function (e) {
 
             if (hasRemainNote) {
                 /*清除所有笔记*/
@@ -846,10 +861,10 @@
 
         let clearNotesBtns = clearNotes.querySelectorAll('button')
 
-        clearNotesBtns[0].addEventListener('click', function(e) {
+        clearNotesBtns[0].addEventListener('click', function (e) {
             clearNotes.style.display = 'none'
         })
-        clearNotesBtns[1].addEventListener('click', function(e) {
+        clearNotesBtns[1].addEventListener('click', function (e) {
             clearNotes.style.display = 'none'
             noteCtl.textContent = 'ฅ New Notes'
             let notes = Array.from(document.querySelectorAll('.note'))
@@ -906,34 +921,34 @@
             note.tabIndex = '0'
             txar.focus()
             hasRemainNote = true
-                //新建与关闭
-            note.addEventListener('click', function(e) {
-                    if (e.target == btn1) {
-                        let freshNote = newNote()
-                        if (freshNote === false) {
-                            return
-                        }
-                        let idShuffle = 'note_' + Math.random().toString(16).slice(2)
-                        freshNote.id = idShuffle
-                        saveToStorage()
-                    } else if (e.target == btn2) {
-                        // let idx = Array.from(content.children).findIndex(it => it === this)
-                        content.removeChild(this)
-                        if (content.children.length == 0) {
-                            hasRemainNote = false
-                            noteCtl.textContent = 'ฅ New Notes'
-                        }
-                        saveToStorage()
+            //新建与关闭
+            note.addEventListener('click', function (e) {
+                if (e.target == btn1) {
+                    let freshNote = newNote()
+                    if (freshNote === false) {
+                        return
                     }
-                })
-                // 键入Tab与切换tabindex
-            txar.addEventListener('keydown', function(e) {
+                    let idShuffle = 'note_' + Math.random().toString(16).slice(2)
+                    freshNote.id = idShuffle
+                    saveToStorage()
+                } else if (e.target == btn2) {
+                    // let idx = Array.from(content.children).findIndex(it => it === this)
+                    content.removeChild(this)
+                    if (content.children.length == 0) {
+                        hasRemainNote = false
+                        noteCtl.textContent = 'ฅ New Notes'
+                    }
+                    saveToStorage()
+                }
+            })
+            // 键入Tab与切换tabindex
+            txar.addEventListener('keydown', function (e) {
                 if (e.key == 'Tab') { //问题：tabindex会抢夺txar里的光标，导致两者都触发
                     this.textContent += '\t'
                 }
             })
             txar.addEventListener('input', debounce(250, saveToStorage))
-                //创建右键菜单
+            //创建右键菜单
             txar.addEventListener('contextmenu', createColorMenu)
             return note
         }
@@ -945,7 +960,7 @@
             for (let i = 0; i < noteBodyColor.length; i++) {
                 let li = document.createElement('li')
                 let btn = document.createElement('button')
-                btn.addEventListener('click', function(ev) {
+                btn.addEventListener('click', function (ev) {
                     let boxPos = colorMenu.getBoundingClientRect()
                     let notes = Array.from(document.querySelectorAll('.note'))
                     let note = notes.findLast(it => {
@@ -975,7 +990,7 @@
         }
 
         //简单写个findLast
-        Array.prototype.findLast = function(predicate) {
+        Array.prototype.findLast = function (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
                 if (predicate(this[i], i, this)) {
                     return this[i]
@@ -986,7 +1001,7 @@
 
 
         //删除右键菜单colorMenu
-        window.addEventListener('click', function(e) {
+        window.addEventListener('click', function (e) {
             let colorMenus = document.querySelectorAll('ul.colorMenu')
             if (colorMenus.length) {
                 for (let item of colorMenus) {
@@ -994,7 +1009,7 @@
                 }
             }
         })
-        window.addEventListener('contextmenu', function(e) {
+        window.addEventListener('contextmenu', function (e) {
             let colorMenus = document.querySelectorAll('ul.colorMenu')
             if (colorMenus.length) {
                 for (let item of colorMenus) {
@@ -1010,7 +1025,7 @@
 
 
         //聚焦提升z-index
-        window.addEventListener('focusin', function(e) {
+        window.addEventListener('focusin', function (e) {
             // if (e.target.matches('.note')) {
             if (e.target.matches('.note>textarea')) {
                 let note = e.target.parentElement
@@ -1020,7 +1035,7 @@
         })
 
         //失焦平级z-index
-        window.addEventListener('focusout', function(e) {
+        window.addEventListener('focusout', function (e) {
             if (e.target.matches('.note>textarea')) {
                 // let note = e.target.parentElement
                 Array.from(content.children).forEach(note => {
@@ -1032,20 +1047,20 @@
 
 
         //移动note
-        window.addEventListener('mousedown', function(e) {
+        window.addEventListener('mousedown', function (e) {
             if (e.target.matches('.noteTitle')) {
                 let note = e.target.parentElement
                 let noteBoxPos = note.getBoundingClientRect()
                 let mouseInNote = {
-                        x: e.clientX - noteBoxPos.x,
-                        y: e.clientY - noteBoxPos.y
-                    }
-                    /*问题：无法在mousedown时focus焦点,异步才能触发获焦。顺序:mousedown,blur,focus*/
+                    x: e.clientX - noteBoxPos.x,
+                    y: e.clientY - noteBoxPos.y
+                }
+                /*问题：无法在mousedown时focus焦点,异步才能触发获焦。顺序:mousedown,blur,focus*/
                 setTimeout(() => {
-                        note.lastElementChild.focus()
-                    })
-                    // console.log(note.lastElementChild);
-                    // debugger;
+                    note.lastElementChild.focus()
+                })
+                // console.log(note.lastElementChild);
+                // debugger;
                 note.style.zIndex = 1 + Array.from(content.children).reduce((max, it) => Math.max(max, it.style.zIndex), -Infinity)
 
                 function noteMoving(ev) {
@@ -1059,7 +1074,7 @@
                     let left = ev.clientX - mouseInNote.x
                     let top = ev.clientY - mouseInNote.y
                     let headerInfo = header.getBoundingClientRect()
-                        //排斥
+                    //排斥
                     if (top < headerInfo.height) {
                         top = headerInfo.height + 2
                     }
@@ -1154,45 +1169,45 @@
         //搜索联想
         let searchForm = document.querySelector('.search') //form
         let searchInput = searchForm.firstElementChild //input
-            // let association = searchForm.lastElementChild //ul
+        // let association = searchForm.lastElementChild //ul
         let curSuggestStart = 0
-            //联想数据
+        //联想数据
         searchInput.addEventListener('input', debounce(200, e => {
-                // this.value
-                let startTime = Date.now()
-                getAssociation(searchInput.value, (suggests) => {
-                    if (startTime < curSuggestStart) {
-                        return -1
-                    }
-                    curSuggestStart = startTime
-                        //添加li到ul中
-                    let idx = Array.from(searchForm.children).findIndex(it => it.matches('.association'))
-                    if (idx != -1) {
-                        searchForm.children[idx].remove()
-                    }
-                    let ans = JSON.parse(suggests)
-                    if (ans.AS.FullResults == 1) { //等于0说明无联想
-                        let association = document.createElement('ul')
-                        association.classList.add('association')
+            // this.value
+            let startTime = Date.now()
+            getAssociation(searchInput.value, (suggests) => {
+                if (startTime < curSuggestStart) {
+                    return -1
+                }
+                curSuggestStart = startTime
+                //添加li到ul中
+                let idx = Array.from(searchForm.children).findIndex(it => it.matches('.association'))
+                if (idx != -1) {
+                    searchForm.children[idx].remove()
+                }
+                let ans = JSON.parse(suggests)
+                if (ans.AS.FullResults == 1) { //等于0说明无联想
+                    let association = document.createElement('ul')
+                    association.classList.add('association')
 
-                        ans.AS.Results[0].Suggests.forEach(data => {
-                            let li = document.createElement('li')
-                            let anchor = document.createElement('a')
-                            anchor.textContent = data.Txt
-                            anchor.href = `https://cn.bing.com/search?q=${data.Txt}`
-                            li.append(anchor)
-                            association.append(li)
+                    ans.AS.Results[0].Suggests.forEach(data => {
+                        let li = document.createElement('li')
+                        let anchor = document.createElement('a')
+                        anchor.textContent = data.Txt
+                        anchor.href = `https://cn.bing.com/search?q=${data.Txt}`
+                        li.append(anchor)
+                        association.append(li)
 
-                        })
-                        searchForm.append(association)
-                            // searchForm.setAttribute('action', `https://cn.bing.com/search?q=${searchInput.value}`)
-                    }
-                })
-            }))
-            //切换搜索目标
+                    })
+                    searchForm.append(association)
+                    // searchForm.setAttribute('action', `https://cn.bing.com/search?q=${searchInput.value}`)
+                }
+            })
+        }))
+        //切换搜索目标
         let searchPos = -1
         let inputTargetIsUl = false
-        searchInput.addEventListener('keydown', function(e) {
+        searchInput.addEventListener('keydown', function (e) {
             let hasUl = searchForm.lastElementChild.matches('.association')
 
             // 上下
@@ -1209,11 +1224,11 @@
                 let ul = searchForm.lastElementChild
                 let ulInfo = ul.getBoundingClientRect()
                 let lis = Array.from(ul.children)
-                    // ul.addEventListener('mousemove', function(e) {
-                    //放弃根据光标位置高亮<a>，选择css的方式高亮
-                    //     searchPos = lis.findIndex(li => li.firstElementChild == e.target)
-                    //     console.log(searchPos);
-                    // })
+                // ul.addEventListener('mousemove', function(e) {
+                //放弃根据光标位置高亮<a>，选择css的方式高亮
+                //     searchPos = lis.findIndex(li => li.firstElementChild == e.target)
+                //     console.log(searchPos);
+                // })
                 if (searchPos >= lis.length) {
                     searchPos = lis.length - 1
                 }
@@ -1255,7 +1270,7 @@
 
         })
 
-        searchInput.addEventListener('keyup', function(e) {
+        searchInput.addEventListener('keyup', function (e) {
             if (e.key == 'ArrowDown') {
                 this.selectionStart = this.selectionEnd = this.value.length
             } else if (e.key == 'ArrowUp') {
@@ -1268,7 +1283,7 @@
         function getAssociation(word, callback) {
             let xhr = new XMLHttpRequest()
             xhr.open('get', `https://sg1.api.bing.com/qsonhs.aspx?type=cb&q=${word}`)
-            xhr.addEventListener('load', function(e) {
+            xhr.addEventListener('load', function (e) {
                 // console.log(xhr.responseText);
                 callback(xhr.responseText)
             })
@@ -1279,7 +1294,7 @@
 
         function debounce(duration, f) {
             let id
-            return function(...args) {
+            return function (...args) {
                 clearTimeout(id)
                 id = setTimeout(() => {
                     f.call(this, ...args)
@@ -1289,16 +1304,17 @@
 
 
         // 背景图换调
-        window.addEventListener('DOMContentLoaded', function(e) {
+        window.addEventListener('DOMContentLoaded', function (e) {
             let idx = 1 + (Math.random() * 185 | 0)
             if (idx <= 75 && idx >= 71) {
                 document.body.style.backgroundImage = `url(noteImages/bg-${idx}.gif)`
             } else {
                 document.body.style.backgroundImage = `url(noteImages/bg-${idx}.jpg)`
             }
+            updateFromStorage()
             // console.log(document.readyState);
         })
-        window.addEventListener('load', function(e) {
+        window.addEventListener('load', function (e) {
             let mask = document.querySelector('.mask')
             mask.classList.add('loading')
 
@@ -1322,7 +1338,7 @@
         }
 
         let nekoBg = document.querySelector('.nekoBg')
-        nekoBg.children[1].addEventListener('click', function(e) {
+        nekoBg.children[1].addEventListener('click', function (e) {
             if (e.target.matches('button')) {
                 document.body.style.backgroundImage = e.target.style.backgroundImage
 
@@ -1337,10 +1353,10 @@
 
         //召唤Options菜单
         let optionsBtn = document.querySelector('.options>button')
-        optionsBtn.addEventListener('click', function(e) {
+        optionsBtn.addEventListener('click', function (e) {
             nekoBg.classList.add('seeNekoBg')
         })
-        window.addEventListener('click', function(e) {
+        window.addEventListener('click', function (e) {
             if (!nekoBg.contains(e.target) && e.target !== optionsBtn) {
                 nekoBg.classList.remove('seeNekoBg')
             }
