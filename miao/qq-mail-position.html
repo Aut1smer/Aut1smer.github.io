@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QQmail Position-Aut1smer</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #1e5494;
+        }
+        
+        i {
+            font-style: normal;
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+        }
+        
+        header {
+            overflow: auto;
+            height: 100px;
+            width: 100%;
+            background-color: pink;
+            padding: 10px;
+        }
+        
+        aside {
+            overflow: auto;
+            width: 180px;
+            height: calc(100vh - 100px);
+            background-color: aqua;
+            padding: 10px;
+        }
+        /* section */
+        
+        section {
+            position: absolute;
+            top: 100px;
+            left: 180px;
+            width: calc(100vw - 180px);
+            height: calc(100vh - 100px);
+            background: violet;
+            overflow: auto;
+        }
+        /* section>head */
+        
+        .head {
+            width: calc(100% - 330px);
+            height: 110px;
+            background-color: #a7c5e233;
+            border: 1px solid #a7c5e2;
+            margin: 20px 15px;
+            padding: 20px;
+            min-width: 200px;
+        }
+        
+        .head ul li:first-child {
+            font: 700 16px '';
+        }
+        
+        .head ul li:nth-child(2) {
+            font: 12px '';
+            /* padding-left: ; */
+        }
+        
+        .head ul li:nth-child(2) i {
+            font-weight: 700;
+        }
+        
+        .head ul li:last-child {
+            font: 700 14px '';
+        }
+        /* 定死右边 监测section宽度到达定值后display:none*/
+        
+        .fix {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            margin: auto 0;
+            padding: 20px;
+            width: 300px;
+            height: 325px;
+            border: 1px solid #a7c5e2;
+            background-color: #a7c5e233;
+        }
+        
+        .recommend {
+            overflow: auto;
+            width: calc(100% - 330px);
+            height: 230px;
+            border: 1px solid #a7c5e2;
+            margin: 20px 15px;
+            padding: 20px;
+            background-color: #a7c5e233;
+            min-width: 200px;
+        }
+        
+        .foot {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #a7c5e233;
+            border: 1px solid #a7c5e2;
+        }
+        
+        .foot {
+            padding-left: 15px;
+        }
+        
+        .foot ul li {
+            float: left;
+            font: 12px '';
+        }
+    </style>
+</head>
+
+<body>
+    <header> Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta aut vero quam sed laborum quod vitae aliquam, officia quia molestiae enim asperiores architecto aperiam eos ullam quibusdam omnis. Quae, sapiente. Lorem ipsum dolor sit amet consectetur
+        adipisicing elit. Distinctio minus inventore animi provident consequuntur totam voluptatem, culpa molestiae aperiam tenetur, impedit sit veritatis ullam laudantium placeat facilis vero! Earum, voluptatibus.</header>
+    <aside>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet odio ducimus dolore culpa architecto similique ipsa. Non, deleniti eligendi asperiores molestias, nostrum illo recusandae culpa aperiam est similique voluptatem cupiditate. Lorem ipsum
+        dolor sit, amet consectetur adipisicing elit. Voluptatem molestiae id cupiditate, dicta modi atque doloribus excepturi ullam facere, nam natus unde eligendi iusto pariatur! Culpa error exercitationem dicta mollitia.</aside>
+    <section>
+        <div class="head">
+            <ul>
+                <li>下午好， <a href="javascript:;">Autismer</a>。</li>
+                <li><img src="../images/mail.png" alt="图片没了" /> 邮件： <i>392</i> 封 <a href="javascript:;">未读邮件</a></li>
+                <li>
+                    <a href="javascript:;">收件箱（<i>363</i>）</a> <a href="javascript:;">群邮件（<i>29</i>）</a>
+                </li>
+            </ul>
+        </div>
+        <div class="recommend">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Atque ex, sapiente maxime quasi aperiam praesentium, labore sint veritatis repellat vel ab molestiae, Lorem, ipsum dolor sit amet consectetur adipisicing elit. Error nulla laborum cum laudantium
+            doloremque saepe rerum reiciendis fugit obcaecati modi laboriosam maiores suscipit tempore nisi similique commodi, quasi ipsum incidunt. velit similique nisi? Ea repudiandae eos cum facilis?</div>
+        <div class="foot">
+
+
+            <ul>
+                <li><a href="javascript:;">企业邮箱</a> |</li>
+                <li><a href="javascript:;">体验室</a> |</li>
+                <li><a href="javascript:;">邮箱助手</a> |</li>
+                <li><a href="javascript:;">自助查询</a> |</li>
+                <li><a href="javascript:;">隐私政策</a> |</li>
+            </ul>
+
+            <br>
+            <ul>
+                <li><a href="javascript:;" id="normalized" disabled>标准版</a> - <a href="javascript:;">基本版</a> |</li>
+                <li> &#169; 1998 - 2021 Tencent Inc. All Rights Reserved</li>
+            </ul>
+
+        </div>
+        <div class="fix">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam aperiam hic necessitatibus amet modi deleniti quos, molestias ipsam corrupti mollitia facilis sunt vitae eveniet animi veritatis rem distinctio minima omnis.</div>
+
+
+    </section>
+</body>
+
+</html>

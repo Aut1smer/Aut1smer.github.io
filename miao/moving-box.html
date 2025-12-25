@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .content {
+            border: 2px solid indianred;
+            width: 80%;
+            height: 80vh;
+            position: relative;
+        }
+        
+        .frameShadow {
+            z-index: -1;
+            /* border: 2px solid indianred; */
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /* 暂停遮罩 */
+        
+        .shadowed {
+            z-index: 999;
+            background-color: #3339;
+            color: #111;
+            font-size: 42px;
+            line-height: 80vh;
+            text-align: center;
+            font-weight: 900;
+        }
+        
+        .one {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            position: absolute;
+            /* transform: translate(-50%, -50%); */
+            /* top: 50%;
+            left: 50%; */
+        }
+        
+        .two {
+            width: 30px;
+            height: 30px;
+            background-color: blueviolet;
+            position: absolute;
+            /* transform: translate(-50%, -50%); */
+            /* top: 50%;
+            left: 50%; */
+        }
+        
+        .interface {
+            width: 60%;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .interface button {
+            width: 80px;
+            height: 30px;
+            font-size: 16px;
+        }
+        
+        img {
+            position: absolute;
+            height: 60%;
+        }
+        
+        article {
+            font-size: 50px;
+            font-weight: 900;
+            font-family: 'Arial';
+            position: fixed;
+            z-index: 999;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        /* 计分板 */
+        
+        .score {
+            position: absolute;
+            right: 0;
+            top: -30px;
+            width: 300px;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="" alt="">
+    <p>Catch the Purple!</p>
+    <section class="content">
+        <div class="one" style="top: 50px; left: 50px;"></div>
+        <div class="two" style="top: 150px; left: 150px;"></div>
+        <div class="score"><span>紫色得分:</span><em class="box2Score"></em>
+            <span>逃窜倒计时:</span><em class="timeout"></em></div>
+        <div class="frameShadow"></div>
+    </section>
+
+    <section class="interface"><button class="retry">Retry</button> <button class="start">开始</button><button class="setting">设置</button> <button class="stop">我玩不起</button></section>
+
+
+
+
+    <script>
+        //调用window.close的抓手
+        window.open('', '_self');
+
+        // frameContent
+        var frame = document.querySelector('.content')
+        var frameWidth = parseInt(window.getComputedStyle(frame).width)
+        var frameHeight = parseInt(window.getComputedStyle(frame).height)
+
+        // box1.one
+        var box = document.querySelector('.one')
+        var boxWidth = parseInt(window.getComputedStyle(box).width)
+        var boxHeight = parseInt(window.getComputedStyle(box).height)
+        var vx = 0
+        var vy = 0
+        var leftPress = false
+        var rightPress = false
+        var upPress = false
+        var downPress = false
+
+        // box2.two
+        var box2 = document.querySelector('.two')
+        var box2Width = parseInt(window.getComputedStyle(box2).width)
+        var box2Height = parseInt(window.getComputedStyle(box2).height)
+        var vx2 = 0
+        var vy2 = 0
+        var leftPress2 = false
+        var rightPress2 = false
+        var upPress2 = false
+        var downPress2 = false
+
+
+        // interface
+        var start = document.querySelector('.start')
+        var retry = document.querySelector('.retry')
+        var exit = document.querySelector('.stop')
+        var setting = document.querySelector('.setting')
+        var box2Score = document.querySelector('.box2Score')
+        var timeout = document.querySelector('.timeout')
+        var frameShadow = document.querySelector('.frameShadow')
+        var totalTime = 100 //totalTime isnt varied
+        var restTime = totalTime //restTime will vary about now
+        var passTime = 0
+        var score = 0
+        var startFlag = false
+        var startTime = Date.now() //刷新页面开始的时间
+
+
+
+
+        function moveTo(e) {
+            // console.log(e);
+            if (startFlag) {
+                if (e.key === 'ArrowRight') {
+                    vx = 1
+                    rightPress = true
+                }
+                if (e.key === 'ArrowLeft') {
+                    vx = -1
+                    leftPress = true
+                }
+                if (e.key === 'ArrowDown') {
+                    vy = 1
+                    downPress = true
+                }
+                if (e.key === 'ArrowUp') {
+                    vy = -1
+                    upPress = true
+                }
+                if (e.key === 'd') {
+                    vx2 = 1
+                    rightPress2 = true
+                }
+                if (e.key === 'a') {
+                    vx2 = -1
+                    leftPress2 = true
+                }
+                if (e.key === 'w') {
+                    vy2 = -1
+                    upPress2 = true
+                }
+                if (e.key === 's') {
+                    vy2 = 1
+                    downPress2 = true
+                }
+            }
+        }
+
+        function stopBy(e) {
+            if (startFlag) {
+                if (e.key === 'ArrowRight') {
+                    if (leftPress) {
+                        vx = -1
+                    } else {
+                        vx = 0
+                    }
+                    rightPress = false
+                }
+                if (e.key === 'ArrowLeft') {
+                    if (rightPress) {
+                        vx = 1
+                    } else {
+                        vx = 0
+                    }
+                    leftPress = false
+                }
+                if (e.key === 'ArrowDown') {
+                    if (upPress) {
+                        vy = -1
+                    } else {
+                        vy = 0
+                    }
+                    downPress = false
+                }
+                if (e.key === 'ArrowUp') {
+                    if (downPress) {
+                        vy = 1
+                    } else {
+                        vy = 0
+                    }
+                    upPress = false
+                }
+                if (e.key == 'd') {
+                    if (leftPress2) {
+                        vx2 = -1
+                    } else {
+                        vx2 = 0
+                    }
+                    rightPress2 = false
+                }
+                if (e.key == 'a') {
+                    if (rightPress2) {
+                        vx2 = 1
+                    } else {
+                        vx2 = 0
+                    }
+                    leftPress2 = false
+                }
+                if (e.key == 'w') {
+                    if (downPress2) {
+                        vy2 = 1
+                    } else {
+                        vy2 = 0
+                    }
+                    upPress2 = false
+                }
+                if (e.key == 's') {
+                    if (upPress2) {
+                        vy2 = -1
+                    } else {
+                        vy2 = 0
+                    }
+                    downPress2 = false
+                }
+            }
+        }
+
+
+        //可以通过此函数做到每台设备都是每秒钟运动20px
+        //用时间差计算出移动的距离：每次函数执行都是16ms，速度v*16ms即单帧运动的路程
+        var lastTime = 0
+
+        function move(time) {
+            if (startFlag) {
+                var timeDiff = time - lastTime //every diff is 16ms
+                lastTime = time
+                passTime = passTime + timeDiff //box2's score about
+
+                // box.one
+                var boxLeft = parseFloat(box.style.left) + vx * timeDiff * 0.25
+                var boxTop = parseFloat(box.style.top) + vy * timeDiff * 0.25
+                box.style.left = boxLeft + 'px'
+                box.style.top = boxTop + 'px'
+                    // box2.two
+                var box2Left = parseFloat(box2.style.left) + vx2 * timeDiff * 0.55
+                var box2Top = parseFloat(box2.style.top) + vy2 * timeDiff * 0.55
+                box2.style.left = box2Left + 'px'
+                box2.style.top = box2Top + 'px'
+                    //box2 score
+                score = passTime / 800 | 0
+                var tempTime = passTime / 1600 | 0 //restTime zero,box2 win.
+                box2Score.textContent = score + '  分'
+                timeout.textContent = restTime - tempTime + '  秒' //逃窜时间
+                console.log(score);
+                if (restTime <= 0) {
+                    startFlag = false
+                    alert('Mr.two WIN this gameeee!')
+                    return
+                }
+                //碰撞检测
+                if (boxTop < box2Top + box2Height && boxTop + boxHeight > box2Top) {
+                    if (boxLeft < box2Left + box2Width && boxLeft + boxWidth > box2Left) {
+                        startFlag = false
+
+                        alert('Mr.one catched Mr.two!')
+                        return
+                    }
+                }
+                //出界
+                if (boxLeft < 0 || boxLeft + boxWidth > frameWidth || boxTop < 0 || boxTop + boxHeight > frameHeight) {
+                    startFlag = false
+
+                    alert('Mr.one is died!')
+                } else if (box2Left < 0 || box2Left + box2Width > frameWidth || box2Top < 0 || box2Top + box2Height > frameHeight) {
+                    startFlag = false
+
+                    alert('Mr.two is died!')
+                } else {
+                    requestAnimationFrame(move)
+                }
+            }
+        }
+
+
+
+
+
+        //interface 面板
+        start.addEventListener('click', startingGame)
+        setting.addEventListener('click', settingGame)
+        retry.addEventListener('click', retryGame)
+        exit.addEventListener('click', quitGame)
+
+
+
+
+        function startingGame(e) {
+            lastTime = Date.now() - startTime
+            startFlag = true
+
+            //键盘事件只能在body上触发,决定运动方向与速度
+            document.addEventListener('keydown', moveTo);
+            document.addEventListener('keyup', stopBy);
+
+
+            requestAnimationFrame(move)
+        }
+
+        function settingGame(e) {
+            totalTime = +prompt('请输入逃窜时间(秒)')
+            if (totalTime <= 0) {
+                totalTime = 100
+            }
+            timeout.textContent = totalTime + '  秒'
+            restTime = totalTime
+        }
+
+
+
+        function retryGame(e) {
+            document.removeEventListener('keydown', moveTo)
+                // lastTime = 0
+            leftPress = false
+            rightPress = false
+            upPress = false
+            downPress = false
+            leftPress2 = false
+            rightPress2 = false
+            upPress2 = false
+            downPress2 = false
+            vx = 0
+            vy = 0
+            vx2 = 0
+            vy2 = 0
+            box.style.left = 50 + 'px'
+            box.style.top = 50 + 'px'
+            box2.style.left = 150 + 'px'
+            box2.style.top = 150 + 'px'
+            startFlag = false
+            document.removeEventListener('keydown', moveTo)
+            document.removeEventListener('keyup', stopBy)
+                //清空状态栏
+            box2Score.textContent = 0 + '  分'
+            timeout.textContent = 100 + '  秒'
+        }
+
+        function quitGame(e) {
+            startFlag = false
+            document.removeEventListener('keydown', moveTo)
+            document.removeEventListener('keyup', stopBy)
+                //添加广告
+            for (let i = 0; i < 3; i++) {
+                var img = document.createElement('img')
+                img.src = 'xieranIntro/' + (i + 1) + '.png'
+                img.style.left = Math.random() * parseInt(window.getComputedStyle(document.body).width)
+                img.style.top = Math.random() * parseInt(window.getComputedStyle(document.body).height)
+                img.style.transform = 'rotateZ(' + (Math.random() * 180 - 90) + 'deg)'
+                document.body.appendChild(img)
+            }
+            var summary = document.createElement('article')
+            summary.append('看个广告再走吧')
+            document.body.appendChild(summary)
+            window.setTimeout(window.close, 5000)
+        }
+
+
+
+        // 监听窗口失焦
+        window.addEventListener('blur', (e) => {
+            startFlag = false
+            frameShadow.classList.add('shadowed')
+            frameShadow.textContent = 'Pause'
+                // document.removeEventListener('keydown', moveTo)
+                // document.removeEventListener('keyup', stopBy)
+        })
+        window.addEventListener('focus', (e) => {
+            startFlag = true
+            if (frameShadow.classList.contains('shadowed')) {
+                frameShadow.classList.remove('shadowed')
+                frameShadow.textContent = ''
+            }
+            // document.addEventListener('keydown', moveTo)
+            // document.addEventListener('keyup', stopBy)
+        })
+    </script>
+</body>
+
+</html>

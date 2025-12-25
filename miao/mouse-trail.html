@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+     :root {
+        --pLength: 100px;
+        --length: 30px;
+    }
+    
+    article {
+        width: var(--pLength);
+        height: var(--pLength);
+        position: relative;
+    }
+    
+    section {
+        width: var(--pLength);
+        height: var(--pLength);
+        /* border: 1px solid lightcoral; */
+    }
+    
+    .one {
+        position: absolute;
+        width: var(--length);
+        height: var(--length);
+        background-color: violet;
+        top: -15px;
+        left: 35px;
+        /* transform: translate(calc(var(--pLength) /2), calc(var(--length)/-2)); */
+    }
+    
+    .two {
+        width: var(--length);
+        height: var(--length);
+        background-color: aqua;
+        top: 60px;
+        left: -8.25px;
+        position: absolute;
+        /* transform: translate(calc(var(--pLength)*(2-1.73)/4 - var(--length)/2), calc(3/4*var(--pLength)-var(--length)/2)) */
+        /* transform: translate(-1.5px, 60px); */
+    }
+    
+    .three {
+        width: var(--length);
+        height: var(--length);
+        background-color: lime;
+        position: absolute;
+        top: 60px;
+        /* left: 56.625px; */
+        left: 76px;
+        /* transform: translate(calc(var(--pLength)*(2+1.73)/4 - var(--length)/2), calc(3/4*var(--pLength)-var(--length)/2)); */
+        /* transform: translate(53.25px, 60px); */
+    }
+</style>
+
+<body>
+    <article>
+        <section>
+            <div class="one"></div>
+            <div class="two"></div>
+            <div class="three"></div>
+        </section>
+    </article>
+    <script>
+        var box = document.querySelector('article') //acticle负责跟随鼠标
+        var tail = document.querySelector('section') //section负责自行旋转
+        var degree = 0
+        var boxInfo = box.getBoundingClientRect()
+        var d = setInterval(function() {
+                degree += 10
+                tail.style.transform = 'rotateZ(' + degree + 'deg)'
+            }, 16) // 每16ms转4度
+
+
+
+        function move(e) {
+            box.style.top = e.clientY - boxInfo.height / 2 + 'px'
+            box.style.left = e.clientX - boxInfo.width / 2 + 'px'
+        }
+
+
+        window.addEventListener('mousemove', move)
+        window.addEventListener('focus', function() {
+            window.addEventListener('mousemove', move)
+        })
+
+        window.addEventListener('blur', function() {
+            window.removeEventListener('mousemove', move)
+        })
+    </script>
+</body>
+
+</html>

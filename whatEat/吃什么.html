@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吃什么？</title>
+    <link rel="shortcut icon" href="../images/oogi2.ico" type="image/x-icon">
+    <style>
+        /* 初始化 */
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        a {
+            text-decoration-line: none;
+            color: rgb(10, 105, 247);
+        }
+        
+        i {
+            font-style: normal;
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        body {
+            background: linear-gradient(to right, rgb(238, 118, 5), rgb(5, 236, 74));
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .box {
+            position: relative;
+            padding: 20px;
+            /* padding-left: 0; */
+            margin: 30px auto;
+            border-radius: 40px;
+            background: linear-gradient(to right bottom, rgba(255, 255, 255, .6), rgba(255, 255, 255, .4), rgba(255, 255, 255, .2));
+            border-top: 1px solid rgba(255, 255, 255, .8);
+            border-left: 1px solid rgba(255, 255, 255, .8);
+        }
+        
+        .shaxian caption {
+            font: 900 50px 'serif';
+            color: #333;
+            text-align: right;
+            padding-right: 50px;
+        }
+        
+        .shaxian caption span {
+            transition: .4s;
+            transition-delay: calc(var(--i)*.1s);
+        }
+        
+        .shaxian caption:hover span {
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 30px #fff, 0 0 50px #fff, 0 0 80px #fff;
+        }
+        /* 内容区样式 */
+        
+        .shaxian tbody tr th {
+            font: 24px 'Comic Sans MS', 'serif';
+            color: saddlebrown;
+        }
+        /* .shaxian tbody tr td {
+            background: linear-gradient(to left top, rgba(255, 255, 255, .6), rgba(255, 255, 255, .4), rgba(255, 255, 255, .2));
+        }
+         */
+        
+        .shaxian tbody tr td {
+            width: 60px;
+            height: 60px;
+            /* border: 1px dashed rgba(0, 0, 0, .8); */
+            text-align: center;
+            font: 16px '楷书';
+            background: linear-gradient(to left top, rgba(255, 255, 255, .6), rgba(255, 255, 255, .4), rgba(255, 255, 255, .2));
+        }
+        
+        .shaxian tbody tr td a {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            /* align-items: flex-end; */
+            transition: .3s;
+            /* transition-delay: .1s; */
+        }
+        
+        .shaxian tbody tr td:hover {
+            background: linear-gradient(to right bottom, rgba(255, 255, 255, .6), rgba(255, 255, 255, .4), rgba(255, 255, 255, .2));
+        }
+        
+        .shaxian tbody tr td:hover a {
+            color: rgb(23, 207, 240);
+            text-shadow: 0 0 1px #fff, 0 0 3px #fff, 0 0 5px #fff;
+        }
+        
+        .shaxian tbody tr td i {
+            display: block;
+            align-self: flex-end;
+        }
+        /* 选择按钮 */
+        
+        .choose {
+            position: absolute;
+            bottom: 150px;
+            right: 235px;
+            width: 200px;
+            height: 80px;
+            font: 700 24px '';
+            text-align: center;
+            background: linear-gradient(to right, rgb(10, 231, 194), rgb(247, 143, 8), rgb(247, 8, 120));
+            border-radius: 30px;
+            box-shadow: 3px 3px 7px;
+            /* color: rgb(247, 8, 120) */
+            transition: .4s;
+            /* transition-delay: .3s; */
+            outline: none;
+        }
+        
+        .choose:hover {
+            border: 1px solid #fff;
+            box-shadow: 0 0 10px #fff, 0 0 30px #fff;
+            color: #fff;
+        }
+        
+        .choose:active {
+            width: 199px;
+            height: 79px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <table class="shaxian">
+            <caption>
+                <span style="--i:1">沙</span>
+                <span style="--i:2">县</span>
+                <span style="--i:3">小</span>
+                <span style="--i:4">吃</span>
+            </caption>
+            <tbody>
+                <!-- 饭类 -->
+                <tr>
+                    <th>炒饭</th>
+                    <td><a href="javacript:;">蛋炒饭<i> 8元</i></a></td>
+                    <td><a href="javacript:;">蛋炒年糕<i> 8元</i></a></td>
+                    <td><a href="javacript:;">扬州炒饭<i> 8元</i></a></td>
+                    <td><a href="javacript:;">肉丝炒饭 <i>11元</i></a></td>
+                    <td><a href="javacript:;">肉丝炒年糕 <i>11元</i></a></td>
+                    <td><a href="javacript:;">牛肉炒饭 <i>13元</i></a></td>
+                    <td><a href="javacript:;">牛肉炒年糕 <i>13元</i></a></td>
+                    <td><a href="javacript:;">香肠炒饭 <i>12元</i></a></td>
+                </tr>
+                <tr>
+                    <th>排骨饭</th>
+
+                    <td><a href="javacript:;">香菇排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">千张排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">萝卜排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">冬瓜排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">海带排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">玉米排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">黄豆排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">笋干排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">油豆腐排骨饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">骨头饭 <i>19元</i></a></td>
+                </tr>
+                <tr>
+                    <th>木桶饭送汤</th>
+                    <td><a href="javacript:;">酸辣土豆丝木桶饭 <i>10元</i></a></td>
+                    <td><a href="javacript:;">香菇青菜木桶饭 <i>10元</i></a></td>
+                    <td><a href="javacript:;">酸辣白菜木桶饭 <i>10元</i></a></td>
+                    <td><a href="javacript:;">土豆肉丝木桶饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">木耳肉丝木桶饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">香干肉丝木桶饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">青椒肉丝木桶饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">香菇肉丝木桶饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">回锅肉木桶饭 <i>18元</i></a></td>
+                    <td><a href="javacript:;">肥肠木桶饭 <i>19元</i></a></td>
+                    <td><a href="javacript:;">牛腩木桶饭 <i>18元</i></a></td>
+                    <td><a href="javacript:;">牛肚木桶饭 <i>18元</i></a></td>
+                    <td><a href="javacript:;">红烧牛肉木桶饭 <i>18元</i></a></td>
+                </tr>
+                <tr>
+                    <th>卤味饭</th>
+                    <td><a href="javacript:;">青菜饭<i> 9元</i></a></td>
+                    <td><a href="javacript:;">鸭胗饭 <i>12元</i></a></td>
+                    <td><a href="javacript:;">鸡腿饭 <i>13元</i></a></td>
+                    <td><a href="javacript:;">鸭头饭 <i>13元</i></a></td>
+                    <td><a href="javacript:;">肉丝饭 <i>12元</i></a></td>
+                    <td><a href="javacript:;">大肉饭 <i>15元</i></a></td>
+                    <td><a href="javacript:;">大排饭 <i>15元</i></a></td>
+                    <td><a href="javacript:;">鸭腿饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">牛腩饭 <i>15元</i></a></td>
+                    <td><a href="javacript:;">牛肚饭 <i>16元</i></a></td>
+                </tr>
+                <tr>
+                    <th>砂锅</th>
+                    <td><a href="javacript:;">经典砂锅 <i>10元</i></a></td>
+                    <td><a href="javacript:;">鸡蛋砂锅 <i>12元</i></a></td>
+                    <td><a href="javacript:;">馄饨砂锅 <i>12元</i></a></td>
+                    <td><a href="javacript:;">鸡腿砂锅 <i>16元</i></a></td>
+                    <td><a href="javacript:;">鸭胗砂锅 <i>14元</i></a></td>
+                    <td><a href="javacript:;">大排砂锅 <i>18元</i></a></td>
+                    <td><a href="javacript:;">大肉砂锅 <i>18元</i></a></td>
+                    <td><a href="javacript:;">鸭腿砂锅 <i>19元</i></a></td>
+                    <td><a href="javacript:;">牛肉砂锅 <i>19元</i></a></td>
+                    <td><a href="javacript:;">排骨砂锅 <i>17元</i></a></td>
+                    <td><a href="javacript:;">老鸭砂锅 <i>17元</i></a></td>
+                    <td><a href="javacript:;">猪心砂锅 <i>17元</i></a></td>
+                    <td><a href="javacript:;">乌鸡砂锅 <i>18元</i></a></td>
+                    <td><a href="javacript:;">猪肚砂锅 <i>18元</i></a></td>
+                    <td><a href="javacript:;">牛肚砂锅 <i>20元</i></a></td>
+                    <td><a href="javacript:;">牛腩砂锅 <i>20元</i></a></td>
+                </tr>
+                <!-- 汤饭 -->
+                <tr>
+                    <th>汤饭</th>
+                    <td><a href="javacript:;">排骨汤饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">老鸭汤饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">猪心汤饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">猪肚汤饭 <i>14元</i></a></td>
+                    <td><a href="javacript:;">乌鸡汤饭 <i>14元</i></a></td>
+                </tr>
+                <!-- 面类 -->
+                <tr>
+                    <th>汤面</th>
+                    <td><a href="javacript:;">飘香拌面<i> 5元</i></a></td>
+                    <td><a href="javacript:;">葱油拌面<i> 5元</i></a></td>
+                    <td><a href="javacript:;">香脆馄饨<i> 5元</i></a></td>
+                    <td><a href="javacript:;">青菜面<i> 5元</i></a></td>
+                    <td><a href="javacript:;">雪菜面<i> 5元</i></a></td>
+                    <td><a href="javacript:;">柳叶蒸饺<i> 5元</i></a></td>
+                    <td><a href="javacript:;">香炸馄饨<i> 7元</i></a></td>
+                    <td><a href="javacript:;">香脆炸饺<i> 7元</i></a></td>
+                    <td><a href="javacript:;">鸡蛋面<i> 7元</i></a></td>
+                    <td><a href="javacript:;">馄饨面<i> 7元</i></a></td>
+                    <td><a href="javacript:;">雪菜肉丝面<i> 9元</i></a></td>
+                    <td><a href="javacript:;">青菜肉丝面<i> 9元</i></a></td>
+                    <td><a href="javacript:;">榨菜肉丝面<i> 9元</i></a></td>
+                    <td><a href="javacript:;">排骨面 <i>12元</i></a></td>
+                    <td><a href="javacript:;">老鸭面 <i>12元</i></a></td>
+                    <td><a href="javacript:;">猪心面 <i>12元</i></a></td>
+                    <td><a href="javacript:;">乌鸡面 <i>13元</i></a></td>
+                    <td><a href="javacript:;">猪肚面 <i>13元</i></a></td>
+                    <td><a href="javacript:;">大排面 <i>15元</i></a></td>
+                    <td><a href="javacript:;">大肉面 <i>14元</i></a></td>
+                    <td><a href="javacript:;">鸭腿面 <i>14元</i></a></td>
+                    <td><a href="javacript:;">牛腩面 <i>13元</i></a></td>
+                    <td><a href="javacript:;">牛肚面 <i>15元</i></a></td>
+                    <td><a href="javacript:;">鸡腿面 <i>12元</i></a></td>
+                </tr>
+                <tr>
+                    <th>干面/炸酱面(送汤)</th>
+                    <td><a href="javacript:;">经典炸酱面 <i>12元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 煎蛋 <i>14元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 香肠 <i>14元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 鸡腿 <i>18元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 鸭腿 <i>20元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 大排 <i>20元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 大肉 <i>20元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 牛肉 <i>20元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 牛腩 <i>20元</i></a></td>
+                    <td><a href="javacript:;">炸酱面 + 牛肚 <i>20元</i></a></td>
+                    <td><a href="javacript:;">蛋炒面<i> 8元</i></a></td>
+                    <td><a href="javacript:;">肉丝炒面 <i>11元</i></a></td>
+                    <td><a href="javacript:;">牛肉炒面 <i>13元</i></a></td>
+                </tr>
+                <!-- 粉类 -->
+                <tr>
+                    <th>炒粉</th>
+                    <td><a href="javacript:;">蛋炒河粉<i> 8元</i></a></td>
+                    <td><a href="javacript:;">蛋炒米粉<i> 8元</i></a></td>
+                    <td><a href="javacript:;">肉丝炒米粉 <i>11元</i></a></td>
+                    <td><a href="javacript:;">肉丝炒河粉 <i>13元</i></a></td>
+                    <td><a href="javacript:;">牛肉炒米粉 <i>13元</i></a></td>
+                    <td><a href="javacript:;">牛肉炒河粉 <i>13元</i></a></td>
+                </tr>
+                <tr>
+                    <th>汤粉</th>
+                    <td><a href="javacript:;">排骨粉 <i>12元</i></a></td>
+                    <td><a href="javacript:;">老鸭粉 <i>12元</i></a></td>
+                    <td><a href="javacript:;">猪心粉 <i>12元</i></a></td>
+                    <td><a href="javacript:;">乌鸡粉 <i>13元</i></a></td>
+                    <td><a href="javacript:;">猪肚粉 <i>13元</i></a></td>
+                    <td><a href="javacript:;">大排粉 <i>15元</i></a></td>
+                    <td><a href="javacript:;">大肉粉 <i>14元</i></a></td>
+                    <td><a href="javacript:;">鸭腿粉 <i>14元</i></a></td>
+                    <td><a href="javacript:;">牛腩粉 <i>13元</i></a></td>
+                    <td><a href="javacript:;">牛肚粉 <i>15元</i></a></td>
+                    <td><a href="javacript:;">鸡腿粉 <i>12元</i></a></td>
+
+                </tr>
+                <!-- 炖汤 -->
+                <tr>
+                    <th>炖汤类</th>
+                    <td><a href="javacript:;">海带排骨汤<i> 8元</i></a></td>
+                    <td><a href="javacript:;">黄豆排骨汤<i> 8元</i></a></td>
+                    <td><a href="javacript:;">萝卜排骨汤<i> 8元</i></a></td>
+                    <td><a href="javacript:;">虫草花排骨汤<i> 8元</i></a></td>
+                    <td><a href="javacript:;">党参猪心汤<i> 8元</i></a></td>
+                    <td><a href="javacript:;">茶树菇老鸭汤<i> 8元</i></a></td>
+                    <td><a href="javacript:;">花旗参乌鸡汤<i> 9元</i></a></td>
+                    <td><a href="javacript:;">莲子猪肚汤<i> 9元</i></a></td>
+                </tr>
+                <!-- 卤味 -->
+                <tr>
+                    <th>卤味</th>
+                    <td><a href="javacript:;">豆干 <i>1.5元</i></a></td>
+                    <td><a href="javacript:;">卤蛋<i> 2元</i></a></td>
+                    <td><a href="javacript:;">荷包蛋<i> 2元</i></a></td>
+                    <td><a href="javacript:;">鸭胗<i> 6元</i></a></td>
+                    <td><a href="javacript:;">极品鸭头<i> 6元</i></a></td>
+                    <td><a href="javacript:;">鸡腿<i> 6元</i></a></td>
+                    <td><a href="javacript:;">鸭腿<i> 8元</i></a></td>
+                    <td><a href="javacript:;">大排 <i>10元</i></a></td>
+                    <td><a href="javacript:;">大肉<i> 8元</i></a></td>
+                    <td><a href="javacript:;">牛肚 <i>10元</i></a></td>
+                    <td><a href="javacript:;">鸭脖<i> 6元</i></a></td>
+                </tr>
+                <!-- 夏季甜品 -->
+                <tr>
+                    <th>夏季甜品</th>
+                    <td><a href="javacript:;">红枣银耳汤<i> 4元</i></a></td>
+                    <td><a href="javacript:;">冰糖绿豆汤<i> 4元</i></a></td>
+                </tr>
+            </tbody>
+            <button class="choose">开选！</button>
+        </table>
+
+    </div>
+    <script>
+        let shaxian = document.querySelector('.box');
+        let sxFoodTypes = shaxian.querySelectorAll('th');
+        let sxFoods = shaxian.querySelectorAll('td');
+        let chooseBtn = shaxian.querySelector('.choose');
+        let sxFoodsArr = [];
+        for (let i = 0; i < sxFoods.length; i++) {
+            sxFoodsArr.push(sxFoods[i].innerText);
+        }
+        // let sxFoodsName = sxFoods.querySelectorAll('a');
+
+        // for (let i = 0; i < sxFoods.length; i++) {
+        //     console.log(sxFoods[i].innerText);
+        // }
+        // for (let i = 0; i < sxFoodTypes.length; i++) {
+        //     console.log(sxFoodTypes[i].innerHTML);
+        // }
+
+        // 先搞一个队列
+        function Queue() {
+            let items = [];
+            this.enqueue = function(ele) {
+                items.push(ele);
+            };
+            this.dequeue = function() {
+                return items.shift();
+            };
+            this.front = function() {
+                return items[0];
+            }
+            this.size = function() {
+                return items.length;
+            };
+            this.isEmpty = function() {
+                return items.length === 0;
+            };
+            this.clear = function() {
+                items = [];
+            }
+            this.print = function() {
+                console.log(items.join(' '));
+            }
+
+        }
+        //直接筛选全部食品
+        function whatEat(nameList) {
+            let circleQueue = new Queue();
+            for (let i = 0; i < nameList.length; i++) {
+                circleQueue.enqueue(nameList[i]);
+            }
+            let eliminator = '';
+            while (circleQueue.size() > 1) {
+                for (let i = 0; i < Math.floor(Math.random() * circleQueue.size() + .5); i++) {
+                    circleQueue.enqueue(circleQueue.dequeue());
+                };
+                eliminator = circleQueue.dequeue();
+                console.log(eliminator + '？ 换膳！');
+            }
+
+            return circleQueue.dequeue();
+        }
+        // console.log(whatEat(sxFoodsArr));
+        // alert(whatEat(sxFoodsArr));
+        chooseBtn.addEventListener('click', function() {
+            let prom = prompt('欢迎来到吃什么^^\n机器代劳请输入1，回到菜单请按0~');
+            if (prom == 1) {
+                alert(whatEat(sxFoodsArr) + ' 是您今天的主食，祝您用餐愉快^_^');
+            } else if (prom == 0) {
+                alert('欢迎再来哦＼（＾∀＾）メ（＾∀＾）ノ');
+            }
+
+
+
+        });
+    </script>
+</body>
+
+</html>

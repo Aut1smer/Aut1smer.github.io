@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag</title>
+    <style>
+        p {
+            font-size: 22px;
+            text-align: center;
+            margin: 5px;
+        }
+        
+        html {
+            user-select: none;
+        }
+        
+        section {
+            /* position: relative; */
+            width: 80%;
+            height: 90vh;
+            margin: auto;
+            /* margin-top: 5vh; */
+            background-color: rgba(123, 123, 123, .9);
+        }
+        
+        section div {
+            width: 50.5px;
+            height: 50px;
+            position: absolute;
+        }
+        
+        .one {
+            background-color: violet;
+        }
+        
+        .two {
+            background-color: lime;
+        }
+        
+        .three {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Please drag one of them...</p>
+    <section>
+        <div class="one" style="top: 150px; left: 300px;"></div>
+        <div class="two" style="top: 240px; left: 400px;"></div>
+        <div class="three" style="top: 180px; left: 360px;"></div>
+    </section>
+    <script defer>
+        //浏览器dom刷新完毕后才执行
+        // var frame = 
+        var one = document.querySelector('.one')
+        var boxParent = document.querySelector('section')
+        var boxParentInfo = boxParent.getBoundingClientRect()
+
+        //事件委托
+        boxParent.addEventListener('mousedown', function(e) {
+            if (e.target.tagName === 'DIV') {
+                // console.log(e.target);
+                var box = e.target
+                var boxInfo = box.getBoundingClientRect()
+                var startMousePos = {
+                    x: e.clientX - boxInfo.x,
+                    y: e.clientY - boxInfo.y
+                }
+
+                box.style.zIndex = 1 + Array.from(boxParent.children).reduce((max, it) => Math.max(max, it.style.zIndex), -Infinity)
+
+                function move(ev) {
+                    // if (ev.which == 0 || ev.buttons == 0) { //移动中的监听方法
+                    //     window.removeEventListener('mousemove', move)
+                    //     return
+                    // }
+                    var left = ev.clientX - startMousePos.x
+                    var top = ev.clientY - startMousePos.y
+                    if (left <= boxParentInfo.left + 20) {
+                        left = boxParentInfo.left
+                    }
+                    if (left + boxInfo.width >= boxParentInfo.right - 20) {
+                        left = boxParentInfo.right - boxInfo.width
+                    }
+                    if (top <= boxParentInfo.top + 20) {
+                        top = boxParentInfo.top
+                    }
+                    if (top + boxInfo.height >= boxParentInfo.bottom - 20) {
+                        top = boxParentInfo.bottom - boxInfo.height
+                    }
+
+                    box.style.left = left + 'px'
+                    box.style.top = top + 'px'
+                }
+
+                window.addEventListener('mousemove', move)
+                window.addEventListener('mouseup', function once() {
+                    window.removeEventListener('mouseup', once)
+                    window.removeEventListener('mousemove', move)
+                })
+            }
+        })
+
+
+
+        function mousePosInElt(node) {
+            var box = node.getBoundingClientRect()
+            return {
+                x: window.event.clientX - box.x,
+                y: window.event.clientY - box.y
+            }
+        }
+    </script>
+</body>
+
+</html>

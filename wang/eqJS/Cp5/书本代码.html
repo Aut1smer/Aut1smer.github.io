@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="ancestry.js">
+    </script>
+    <script>
+        //此时 ANCESTRY_FILE是一个经JSON.stringify后的字符串
+        var ancestry = JSON.parse(ANCESTRY_FILE)
+
+
+        //-------------filter-----------------------
+
+
+        function filter(ary, test) {
+            var res = [],
+                len = ary.length
+            for (let i = 0; i < len; i++) {
+                if (test(ary[i], i)) {
+                    res.push(ary[i])
+                }
+            }
+            return res
+        }
+        //出生在1900年后的人
+        var bornAfter1900 = filter(ancestry, person => {
+                return person.born >= 1900
+            })
+            // console.log(bornAfter1900);
+            //男人
+        var men = filter(ancestry, person => person.sex == 'm ')
+            // console.log(men);
+            //父亲为 "Carel Haverbeke"的人
+        var sonOfCarel = filter(ancestry, person => person.father == "Carel Haverbeke")
+            // console.log(sonOfCarel);
+            //出生在1900年后的人的名字
+        var names = ancestry.filter(person => person.born >= 1900).forEach(person => {
+            console.log(person.name)
+        });
+
+
+        //-------------map-----------------------
+
+        function map(ary, mapper) {
+            let res = []
+            for (let i = 0; i < ary.length; i++) {
+                res.push(mapper(ary[i], i))
+            }
+            return res
+        }
+
+        //超过90岁的人的名字
+        var overNinety = ancestry.filter(person => person.died - person.born > 90).map(person => person.name)
+        console.log(overNinety);
+
+
+
+        //-------------reduce-----------------------
+
+        let ary = [1, 2, 3, 4, 5, 6]
+
+        function sum(ary) {
+            let sum = 0
+            for (let i = 0; i < ary.length; i++) {
+                sum += ary[i]
+            }
+            return sum
+        }
+
+        function multiple(ary) {
+            let res = 1
+            for (let i = 0; i < ary.length; i++) {
+                res *= ary[i]
+            }
+            return res
+        }
+
+        function max(ary) {
+            let res = -Infinity
+            for (let i = 0; i < ary.length; i++) {
+                res = ary[i] > res ? ary[i] : res
+            }
+            return res
+        }
+
+        function reduce(ary, reducer, initial) {
+            let res = initial
+            for (let i = 0; i < ary.length; i++) {
+                res = reducer(res, ary[i], i)
+            }
+            return res
+        }
+
+
+        function reduce(ary, reducer, initial) {
+            let res = initial
+            let startIdx = 0
+            if (arguments.length == 2) {
+                res = ary[0]
+                startIdx = 1
+            }
+            for (let i = startIdx; i < ary.length; i++) {
+                res = reducer(res, ary[i], i)
+            }
+            return res
+        }
+
+        //其实reduce的结果是对initial的累计
+        function reduce(ary, reducer, initial) {
+            let startIdx = 0
+            if (arguments.length == 2) {
+                startIdx = 1
+                initial = ary[0]
+            }
+            for (let i = startIdx; i < ary.length; i++) {
+                initial = reducer(initial, ary[i], i)
+            }
+            return initial
+        }
+
+
+        //找最古老的祖先
+        var oldest = ancestry.reduce((accum, item) => {
+                if (item.born > accum.born) {
+                    return accum
+                }
+                return item
+            })
+            // console.log(oldest);
+
+
+        function average(ary) {
+            return ary.reduce((accum, item) => accum + item) / ary.length
+        }
+
+        function age(p) {
+            return p.died - p.born
+        }
+
+        function male(p) {
+            return p.sex == 'm'
+        }
+
+        function female(p) {
+            return p.sex == 'f'
+        }
+
+        //平均年龄、男性平均年龄、女性平均年龄
+        var avgtotal = ancestry.reduce((accum, item) => accum + item.died - item.born, 0) / ancestry.length
+        var avgMen = average(ancestry.filter(male).map(age))
+        var avgWomen = average(ancestry.filter(female).map(age))
+        console.log(avgtotal, avgMen, avgWomen);
+
+
+        //bind
+
+        var theSet = ["Carel Haverbeke", "Maria van Brussel",
+            "Donald Duck"
+        ];
+
+        function isInSet(set, person) {
+            return set.includes(person.name)
+        }
+
+
+        var isinset = ancestry.filter(person => isInSet(theSet, person))
+        console.log(isinset);
+
+        var f = isInSet.bind(null, theSet)
+
+        function bind(f, a) {
+            return function(b, c, d) {
+                return f(a, b, c, d)
+            }
+        }
+
+        function bind(f, ...fixedArgs) {
+            return function(...args) {
+                return f(...fixedArgs, ...args)
+            }
+        }
+
+        function bind(f) {
+            var fixedArgs = Array.from(arguments).slice(1)
+            return function() {
+                var args = Array.from(arguments)
+                return f.apply(null, fixedArgs.concat(args))
+            }
+        }
+
+        function bind(f, ...fixedArgs) {
+            return function(...args) {
+                return f(...fixedArgs, ...args)
+            }
+        }
+
+        function bind(f) {
+            var fixedArgs = Array.from(arguments).slice(1)
+            return function() {
+                var args = Array.from(arguments)
+                return f.apply(null, fixedArgs.concat(args))
+            }
+        }
+
+
+        var targetName = 'Pauwels van Haverbeke'
+
+        function getShareGene(name) {
+            if (name == targetName) {
+                return 1
+            }
+            if (!person) {
+                return 0
+            }
+            let person = nameMap[name]
+            return getShareGene(person.father) + getShareGene(person.mother)
+        }
+
+
+        //递归思维。二叉路线求最大和
+        var nums = [
+            [1], // nums[x][y]
+            [2, 1], // nums[x+1][y]    nums[x+1][y+1]
+            [4, 7, 4],
+            [8, 3, 6, 4],
+            [15, 0, 3, 9, 7]
+        ]
+
+        function maxSum(x, y) {
+            if (x == nums.length - 1) { //如果数到最后一层，就可以返回了
+                return nums[x][y]
+            }
+
+            return nums[x][y] + Math.max(maxSum(x + 1, y), maxSum(x + 1, y + 1))
+        }
+    </script>
+</body>
+
+</html>

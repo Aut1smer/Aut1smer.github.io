@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //根据这个f(),写函数rand()，使p不管取多少，让rand()返回0和1的概率相同
+        let p = random()
+
+        function f() {
+            if (Math.random() < p) {
+                return 1
+            } else {
+                return 0
+            }
+        }
+        //运行2次f()。结果为11的概率为p*p，结果为00的概率为(1-p)(1-p)；结果为10的概率为p(1-p)，结果为01的概率为(1-p)p，这两者概率相同
+        function rand() {
+            var a = f() //运行第一次
+            var b = f() //运行第二次
+            if (a == 1 && b == 0) {
+                return 1
+            }
+            if (a == 0 && b == 1) {
+                return 0
+            }
+            return rand()
+        }
+
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let list = {
+            value: 1,
+            rest: {
+                value: 2,
+                rest: {
+                    value: 3,
+                    rest: null
+                }
+            }
+        }
+
+        function arrayToList(ary) {
+            let len = ary.length
+            let res = {
+                value: ary[0],
+                rest: {}
+            }
+            let result = res
+
+            for (let i = 0; i < len; i++) {
+                res.rest = {
+                    
+                }
+                res.rest = res.rest.rest
+            }
+
+            return result
+        }
+        // debugger;
+        console.log(arrayToList([1, 2, 3]));
+    </script>
+</body>
+
+</html>

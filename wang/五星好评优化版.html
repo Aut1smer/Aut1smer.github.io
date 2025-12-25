@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href=".\font-awesome-4.7.0\css\font-awesome.min.css">
+    <style>
+        .box {
+            width: 400px;
+            height: 100px;
+            position: relative;
+            margin: 100px auto;
+            font-size: 3em;
+            direction: rtl;
+        }
+        
+        .box i {
+            font-style: normal;
+            opacity: 0;
+            z-index: -1;
+        }
+        
+        .box span {
+            z-index: 1;
+            opacity: 1;
+        }
+        
+        .box span,
+        .box i {
+            position: absolute;
+        }
+        
+        .box span:first-of-type,
+        .box i:first-of-type {
+            right: 0;
+        }
+        
+        .box span:nth-of-type(2),
+        .box i:nth-of-type(2) {
+            right: 80px;
+        }
+        
+        .box span:nth-of-type(3),
+        .box i:nth-of-type(3) {
+            right: 160px;
+        }
+        
+        .box span:nth-of-type(4),
+        .box i:nth-of-type(4) {
+            right: 240px;
+        }
+        
+        .box span:nth-of-type(5),
+        .box i:nth-of-type(5) {
+            right: 320px;
+        }
+        
+        .box span:hover,
+        .box span:hover~span {
+            color: transparent;
+        }
+        
+        .box span:hover~i {
+            opacity: 1;
+            color: gold;
+        }
+        
+        i:hover,
+        i:hover~i {
+            opacity: 1;
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <p>定位重叠+</p>
+    <div class="box">
+        <span class="fa fa-star-o"></span>
+        <i class="fa fa-star"></i>
+        <span class="fa fa-star-o "></span>
+        <i class="fa fa-star"></i>
+        <span class="fa fa-star-o "></span>
+        <i class="fa fa-star"></i>
+        <span class="fa fa-star-o "></span>
+        <i class="fa fa-star"></i>
+        <span class="fa fa-star-o "></span>
+        <i class="fa fa-star"></i>
+    </div>
+
+
+    <style>
+        .floatBox {
+            width: 400px;
+            height: 100px;
+            border: 1px dotted #ccc;
+            font-size: 3em;
+            font-family: 'fa';
+        }
+    </style>
+    <p>
+        asdad
+    </p>
+    <div class="floatBox">
+        <span class="fa">☆</span>
+        <span class="fa">☆</span>
+        <span class="fa">☆</span>
+        <span class="fa">☆</span>
+        <span class="fa">☆</span>
+    </div>
+</body>
+
+</html>

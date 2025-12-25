@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inline</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            /* border: 1px solid #000; */
+        }
+        
+        body {
+            margin: 0;
+            border: none;
+        }
+        
+        .left {
+            display: inline-block;
+            width: 200px;
+            height: 100vh;
+            background-color: aqua;
+            vertical-align: top;
+            border-top: none;
+            border-bottom: none;
+            border-left: none;
+            border-right: 2px solid #000;
+        }
+        
+        .header {
+            display: inline-block;
+            width: calc(100vw - 600px);
+            height: 100px;
+            background-color: tomato;
+            vertical-align: top;
+            border-top: none;
+            border-bottom: 2px solid #000;
+        }
+        
+        .container {
+            display: inline-block;
+            width: calc(100vw - 619px);
+            height: calc(100vh - 100px);
+            background-color: teal;
+            margin-left: calc(-100vw + 600px);
+            vertical-align: bottom;
+            border-bottom: none;
+            overflow: auto;
+        }
+        
+        .right-2 {
+            display: inline-block;
+            width: 200px;
+            height: 100vh;
+            background-color: pink;
+            vertical-align: top;
+            border-top: none;
+            border-bottom: none;
+            border-left: 2px solid #000;
+        }
+        
+        .right-1 {
+            display: inline-block;
+            width: 200px;
+            height: 100vh;
+            background-color: violet;
+            vertical-align: top;
+            border-top: none;
+            border-bottom: none;
+            /* margin-left: -19px; */
+            border-left: 2px solid #000;
+        }
+    </style>
+</head>
+
+<body><span class="left"></span><span class="header"></span><span class="container"></span><span class="right-2"></span><span class="right-1"></span></body>
+
+</html>

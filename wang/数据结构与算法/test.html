@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function swap(arr, prev, next) {
+            let temp = arr[next];
+            arr[next] = arr[prev];
+            arr[prev] = temp;
+            return arr;
+        }
+
+        function quickSort(ary, start = 0, end = ary.length - 1) {
+            if (start >= end) {
+                return ary
+            }
+            var pivotIdx = Math.floor(Math.random() * (end - start + 1)) + start
+            var pivot = ary[pivotIdx]
+            swap(ary, pivotIdx, end)
+            var i = start
+            var j = start
+            for (; j < end; j++) {
+                if (ary[j] < pivot) {
+                    swap(ary, i++, j)
+                }
+            }
+            swap(ary, i, end)
+            quickSort(ary, start, i - 1)
+            quickSort(ary, i + 1, end)
+            return ary
+        }
+
+        function mergeSort(ary, begin = 0, end = ary.length) {
+            //归并排序 时间Onlogn 空间n 非原地 稳定
+            if (end - begin < 2) {
+                return ary
+            }
+            let mid = (begin + end) >> 1
+            mergeSort(ary, begin, mid)
+            mergeSort(ary, mid, end)
+
+            let leftAry = ary.slice(begin, mid)
+
+            let li = 0,
+                le = mid - begin,
+                ri = mid,
+                re = end,
+                ai = begin
+            while (li < le) {
+                if (ary[ri] < leftAry[li] && ri < re) {
+                    ary[ai++] = ary[ri++]
+                } else {
+                    ary[ai++] = leftAry[li++]
+                }
+            }
+            return ary
+        };
+    </script>
+</body>
+
+</html>

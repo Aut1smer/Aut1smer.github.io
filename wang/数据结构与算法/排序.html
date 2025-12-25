@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //交换数组项的函数
+        function swap(ary, i, j) {
+            let t = ary[i]
+            ary[i] = ary[j]
+            ary[j] = t
+            return ary //交换函数可以不return，只是为了方便查看交换后的样子
+        }
+
+
+        //冒泡排序  
+        /**
+         * 时间复杂度 O(n*n)
+         * 空间复杂度 O(1)
+         **/
+        function bubbleSort(ary) {
+            let len = ary.length
+            for (let i = 0; i < len - 1; i++) { //共冒泡len-1次（一共有len-1个数需要冒泡）
+                let swap = false //如果j圈里面没有发生过交换，说明j圈有序，可直接退出外层循环
+                for (let j = 0; j < len - 1 - i; j++) { //每次扫描扫描到冒泡前的元素
+                    if (ary[j] > ary[j + 1]) {
+                        swap = true
+                        let temp = ary[j]
+                        ary[j] = ary[j + 1]
+                        ary[j + 1] = temp
+                    }
+                }
+                if (!swap) {
+                    break
+                }
+            }
+            return ary
+        }
+
+        console.log(bubbleSort([5, 4, 3, 2, 1]));
+
+        //选择排序
+        /**
+         * 时间复杂度 O(n*n)
+         * 空间复杂度 O(1)
+         **/
+        function selectSort(ary) {
+            for (let i = 0; i < ary.length - 1; i++) { //交换完后最后一个元素一定是最大的，所以走到最后一项总是不用执行排序
+                let minIndex = i
+                for (let j = i + 1; j < ary.length; j++) { //每次找到最小的，就会放到i上去。新一轮就从i+1项到ary.length-1范围内找最小的
+                    if (ary[j] < ary[minIndex]) {
+                        minIndex = j
+                    }
+                }
+                swap(ary, i, minIndex)
+            }
+            return ary
+        }
+
+        console.log(selectSort(Array(100).fill(0).map(item => Math.random() * 100 | 0)));
+
+
+        //插入排序
+        /** 时间复杂度 O(n*n)
+         * 空间复杂度 O(1)
+         **/
+        function insertSort(ary) {
+            let len = ary.length
+            for (let i = 1; i < len; i++) {
+                let pivot = ary[i]
+                    //找到i号元素，插到0~i-1元素的位置里 二分查找
+                let left = 0,
+                    right = i
+                while (left < right) {
+                    let mid = (left + right) >> 1
+                    if (pivot < ary[mid]) {
+                        right = mid
+                    } else {
+                        left = mid + 1
+                    }
+                }
+                //现在left就是我要找的位置
+                for (let j = i; j > left; j--) {
+                    ary[j] = ary[j - 1]
+                }
+                ary[left] = pivot
+            }
+            return ary
+        }
+        console.log(insertSort(Array(100).fill(0).map(item => Math.random() * 100 | 0)));
+
+        //Xieran
+        function insertSort(array) {
+
+            for (var i = 1; i < array.length; i++) {
+                var tmp = array[i]
+                for (var j = i - 1; j >= 0; j--) {
+                    if (array[j] > tmp) array[j + 1] = array[j]
+                    else {
+                        break
+                    }
+                }
+
+                array[j + 1] = tmp
+                    // console.log(array)
+            }
+            return array
+        }
+
+
+
+
+
+        //归并排序
+        /** 时间复杂度 O(nlogn)
+         * 空间复杂度 O(2n)
+         **/
+        function mergeSort(ary) {
+            if (ary.length < 2) {
+                return ary
+            }
+            let midIdx = ary.length >> 1
+            let leftAry = ary.slice(0, midIdx)
+            let rightAry = ary.slice(midIdx)
+            leftAry = mergeSort(leftAry)
+            rightAry = mergeSort(rightAry)
+
+            let origin = 0,
+                left = 0,
+                right = 0
+            while (left < leftAry.length && right < rightAry.length) {
+                if (rightAry[right] < leftAry[left]) {
+                    ary[ai++] = rightAry[right++]
+                } else {
+                    ary[ai++] = leftAry[left++]
+                }
+            }
+            while (left < leftAry.length) {
+                ary[ai++] = ary[left++]
+            }
+            while (right < rightAry.length) {
+                ary[ai++] = ary[right++]
+            }
+
+            return ary
+        }
+
+        // by Mozill
+        function quickSort(ary, start = 0, end = ary.length - 1) {
+            if (start >= end) {
+                return ary
+            }
+            var pivotIdx = Math.floor(Math.random() * (end - start + 1)) + start
+            var pivot = ary[pivotIdx]
+            swap(ary, pivotIdx, end)
+            var i = start
+            var j = start
+            for (; j < end; j++) {
+                if (ary[j] < pivot) {
+                    swap(ary, i++, j)
+                }
+            }
+            swap(ary, i, end)
+            quickSort(ary, start, i - 1)
+            quickSort(ary, i + 1, end)
+            return ary
+        }
+        //应用1： 找数组里第k大的数字() kth-largest-element
+
+
+
+        //sort方法
+        function sortBy(ary, f = it => it) { //f接收数组中的某一项，返回一个用于确定该项位置的数值
+            for (let i = 0; i < ary.length - 1; i++) {
+                let minIndex = i
+                for (let j = i + 1; j < ary.length; j++) {
+                    if (f(ary[j]) < f(ary[minIndex])) {
+                        minIndex = j
+                    }
+                }
+                swap(ary, i, minIndex)
+            }
+            return ary
+        }
+        //JS里的排序算法就是这么写的
+        function sortBy(ary, compare) { //compare函数接收数组中的两个元素，通过返回正、负、零来表示a跟b的顺序
+            for (let i = 0; i < ary.length - 1; i++) {
+                let minIndex = i
+                for (let j = i + 1; j < ary.length; j++) {
+                    if (compare(ary[j], ary[minIndex]) < 0) {
+                        minIndex = j
+                    }
+                }
+                swap(ary, i, minIndex)
+            }
+            return ary
+        }
+
+
+        function sort(ary, compare) {
+            let len = ary.length
+            for (let i = 0; i < len - 1; i++) {
+                let minIdx = i
+                for (let j = i + 1; j < len; j++) {
+                    if (compare(ary[minIdx], ary[j]) < 0) {
+                        minIdx = j
+                    }
+                }
+                swap(ary, i, minIdx)
+            }
+            return ary
+        }
+
+
+        //计数排序  只能排数字且数字的范围比较窄
+        //用哈希表记录每个数出现的次数（On），然后顺序清空哈希表到数组中(这个操作实际上也只操作了n个数)
+    </script>
+</body>
+
+</html>

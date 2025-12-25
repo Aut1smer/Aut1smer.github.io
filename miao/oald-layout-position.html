@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>position OxfordDictionary</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            border: 1px solid #000;
+        }
+        
+        html,
+        body {
+            margin: 0;
+            border: none;
+        }
+        
+        body {
+            position: relative;
+            min-width: 800px;
+        }
+        
+        .left {
+            width: 200px;
+            height: 100vh;
+        }
+        
+        .head {
+            position: absolute;
+            top: 0;
+            left: 200px;
+            width: calc(100vw - 600px);
+            height: 100px;
+            min-width: 200px;
+        }
+        
+        .container {
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            width: calc(100vw - 600px);
+            height: calc(100vh - 100px);
+            overflow: scroll;
+            min-width: 200px;
+        }
+        
+        .right-2 {
+            position: absolute;
+            top: 0;
+            right: 200px;
+            width: 200px;
+            height: 100vh;
+        }
+        
+        .right-1 {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left"></div>
+    <div class="head"></div>
+    <div class="container">
+
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, modi. Aspernatur alias architecto id impedit, nam sapiente odio iste illum. Beatae culpa error fuga obcaecati repudiandae ducimus maiores tempore ipsa! Voluptas voluptate sequi beatae quas
+        libero iste tempora omnis optio? Obcaecati quam reprehenderit et dolor esse qui amet voluptatibus voluptatum. Dolores quos eveniet nisi sint nihil. Illo laborum asperiores soluta? Explicabo officiis inventore ipsum dicta minus aliquam consequatur
+        incidunt omnis. Voluptatum, explicabo possimus error earum molestiae rem mollitia incidunt porro. Repellat, ullam cumque. Modi natus unde omnis autem pariatur earum! Quas, voluptatum mollitia nostrum explicabo dignissimos cupiditate qui voluptate
+        delectus.
+
+    </div>
+    <div class="right-2"></div>
+    <div class="right-1"></div>
+</body>
+
+</html>

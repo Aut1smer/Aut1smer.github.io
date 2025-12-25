@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>qq-mail-flex</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        html {
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            margin: 0;
+        }
+        
+        header {
+            width: 100%;
+            height: 70px;
+            background-color: pink;
+            overflow: auto;
+        }
+        
+        .container {
+            width: 100%;
+            height: calc(100% - 70px);
+            background-color: violet;
+            flex-grow: 1;
+            display: flex;
+            flex-flow: row nowrap;
+        }
+        
+        aside {
+            min-width: 180px;
+            flex-basis: 180px;
+            background-color: aqua;
+            overflow: auto;
+        }
+        
+        section {
+            flex-grow: 1;
+            overflow: auto;
+        }
+        /* 滚动块 */
+        
+        header::-webkit-scrollbar {
+            width: 10px;
+            background-image: linear-gradient(to right, pink, #F1F1F1);
+        }
+        
+        header::-webkit-scrollbar-thumb {
+            background-color: #F070A5;
+            border-radius: 5px;
+            border: 1px solid #a6a6a6;
+        }
+        
+        header::-webkit-scrollbar-button {
+            display: block;
+            background-color: transparent;
+            height: 0;
+        }
+        
+        aside::-webkit-scrollbar {
+            /* 滚动条 */
+            width: 10px;
+            /* background-color: #e4d8d8; */
+            background-image: linear-gradient(to right, #00FFFF, violet);
+        }
+        
+        aside::-webkit-scrollbar-thumb {
+            /* 滑块 */
+            /* overflow: visible; */
+            background-color: #4179E2;
+            border-radius: 5px;
+            border: 1px solid #a6a6a6;
+        }
+        
+        aside::-webkit-scrollbar-button {
+            /* 上下小按钮 */
+            display: block;
+            height: 0;
+            background-color: transparent;
+        }
+        
+        section::-webkit-scrollbar {
+            width: 10px;
+            background-image: linear-gradient(to right, violet, #EDEDED);
+        }
+        
+        section::-webkit-scrollbar-thumb {
+            background-color: rgb(206, 41, 228);
+            border-radius: 5px;
+            border: 1px solid #a6a6a6;
+        }
+    </style>
+</head>
+
+<body>
+    <header>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus cupiditate officia harum similique sit quaerat, consequuntur quod voluptas eos adipisci accusantium asperiores illo sequi eveniet libero nemo. Asperiores, eaque aut!</header>
+    <div class="container">
+        <aside>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam at accusamus eaque modi natus autem, consequuntur sed quia facere aliquid aliquam harum, voluptatibus distinctio pariatur consequatur qui ipsa! Exercitationem, cupiditate.lorem
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequatur odio dolorum cumque modi iusto voluptas deserunt exercitationem vel ea?Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam at accusamus eaque modi natus
+            autem, consequuntur sed quia facere aliquid aliquam harum, voluptatibus distinctio pariatur consequatur qui ipsa! Exercitationem, cupiditate.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequatur odio dolorum cumque
+            modi iusto voluptas deserunt exercitationem vel ea?Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam at accusamus eaque modi natus autem, consequuntur sed quia facere aliquid aliquam harum, voluptatibus distinctio pariatur
+            consequatur qui ipsa! Exercitationem, cupiditate.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequatur odio dolorum cumque modi iusto voluptas deserunt exercitationem vel ea?Lorem ipsum, dolor sit amet consectetur
+            adipisicing elit. Numquam at accusamus eaque modi natus autem, consequuntur sed quia facere aliquid aliquam harum, voluptatibus distinctio pariatur consequatur qui ipsa! Exercitationem, cupiditate.lorem Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Quia consequatur odio dolorum cumque modi iusto voluptas deserunt exercitationem vel ea?</aside>
+        <section>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum repudiandae architecto nemo cupiditate nisi reprehenderit porro. Eos voluptatum, natus a dolor voluptas blanditiis totam reprehenderit beatae, repellat sit recusandae officiis! culpa
+            id quo fuga, accusantium aliquam neque perspiciatis quia ratione incidunt fugit! Hic corporis molestiae quisquam cupiditate, ab illum mollitia ducimus deserunt vitae similique fugit. Reiciendis quae sapiente optio non, ut minima suscipit quibusdam
+            voluptates cupiditate obcaecati ex unde, minus et facere. Explicabo officia autem itaque quisquam, ducimus inventore rem numquam vel quo, minima voluptate. Eos, quas numquam. Illum in nulla quidem, animi placeat impedit tempora perferendis
+            veritatis.
+        </section>
+    </div>
+</body>
+
+</html>

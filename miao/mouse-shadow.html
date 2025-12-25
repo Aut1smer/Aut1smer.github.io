@@ -1,0 +1,96 @@
+<style>
+    span.shadow {
+        width: 4px;
+        height: 4px;
+        background-color: red;
+        position: fixed;
+    }
+</style>
+
+<div></div>
+<script>
+    //先创建再删,每移动2次创建一个span（每移动二次恰好绘制一次页面）
+    var i = 0
+    window.addEventListener('mousemove', e => {
+        i++
+        console.log(i);
+        if ((i & 1) == 0) {
+            var span = document.createElement('span')
+            span.classList.add('shadow')
+            span.style.left = e.clientX + 'px'
+            span.style.top = e.clientY + 'px'
+            document.body.append(span)
+            setTimeout(() => {
+                    document.body.removeChild(span)
+                }, 16 * 8) //只存在8个span
+        }
+    })
+
+
+    // 每帧绘制一个span，时刻监听mousemove的鼠标位置。不能保证鼠标一移动立即画，所以这些点会跟不上鼠标
+    // var mx = -9999
+    // var my = -9999
+    // window.addEventListener('mousemove', function(e) {
+    //         mx = e.clientX
+    //         my = e.clientY
+    //     })
+    //     //经常性地删除修改dom会造成性能问题 延迟卡顿、不断地更换内存（申请内存与释放内存也有成本）
+    // var stack = []
+
+    // function getSpan() { //栈里有就用栈里的，栈里没有就new新的
+    //     if (stack.length) {
+    //         return stack.pop()
+    //     } else {
+    //         return document.createElement('span')
+    //     }
+    // }
+    // requestAnimationFrame(function ani() {
+    //     var span = getSpan()
+    //     span.classList.add('shadow')
+    //     span.style.left = mx + 'px'
+    //     span.style.top = my + 'px'
+    //     document.body.append(span)
+    //     setTimeout(() => {
+    //             document.body.removeChild(span)
+    //             stack.push(span)
+    //         }, 16 * 8) //一帧绘制一个span，场上保留8个span，第一个span绘制成功后延迟8帧移除
+    //     requestAnimationFrame(ani)
+    // })
+
+
+
+
+
+
+
+
+    //干柴烈火
+    // window.addEventListener('mousemove', throttle(function(e) {
+    //     var span = document.createElement('span')
+    //     span.classList.add('shadow')
+    //     span.style.left = e.clientX + 'px'
+    //     span.style.top = e.clientY + 'px'
+    //     document.body.append(span)
+    //     setTimeout(() => {
+    //         // span.remove() //这个方法耗时，卡顿严重
+    //         document.body.removeChild(span)
+    //     }, 200)
+    // }))
+
+
+
+    function throttle(f, duration) {
+        var lastRuntime = 0
+        var id
+        return function(...args) {
+            if (Date.now() - lastRuntime > duration) {
+                f.call(this, ...args)
+            } else {
+                clearTimeout(id)
+                id = setTimeout(() => {
+                    f.call(this, ...args)
+                }, duration)
+            }
+        }
+    }
+</script>

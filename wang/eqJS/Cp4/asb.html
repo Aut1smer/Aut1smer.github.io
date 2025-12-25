@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        /* float三栏等高 */
+        
+        body {
+            margin: 0;
+            /* width: 100%; */
+            overflow: hidden;
+        }
+        
+        .mid {
+            margin-left: 30%;
+            margin-right: 30%;
+            background-color: violet;
+            width: 40%;
+            /* height: 100%; */
+            /* 可视盒子变大，布局盒子其实还是原来的bfc布局盒子范围 */
+            margin-bottom: -999999999px;
+            padding-bottom: 9999999999px;
+        }
+        
+        .left {
+            float: left;
+            width: 30%;
+            /* height: 100%; */
+            margin-bottom: -999999999px;
+            padding-bottom: 9999999999px;
+            background-color: pink;
+        }
+        
+        .right {
+            float: right;
+            width: 30%;
+            /* height: 100%; */
+            margin-bottom: -999999999px;
+            padding-bottom: 9999999999px;
+            background-color: aqua;
+        }
+    </style>
+
+    <div class="left">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis veritatis maxime porro voluptas aliquid dolore sit ipsum vero corrupti, ab vitae quibusdam, possimus, perferendis dignissimos expedita esse odit adipisci quasi. Lorem ipsum dolor sit
+        amet consectetur adipisicing elit. Culpa ab, asperiores officiis perferendis voluptas nam harum placeat, soluta ea nesciunt maiores, eaque natus! Maxime non vitae exercitationem optio laboriosam iure. Lorem ipsum dolor sit, amet consectetur adipisicing
+        elit. Laudantium harum dolores minima magnam autem illo maxime! Non magnam, delectus nostrum aspernatur quam facilis qui id? Iure natus ipsum officiis harum.
+    </div>
+    <div class="mid">ro voluptas aliquid dolore sit ipsum vero corrupti, ab vitae quibusdam, possimus, perferendis dignissimos expedita esse odit adipisci quasi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ab, asperiores officiis perferendis voluptas
+        nam harum placeat, soluta ea nesciunt maiores, eaque natus! Maxime non vitae exercitationem optio laboriosam iure. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium harum dolores minima magnam autem illo maxime! Non magnam,
+        delectus nostrum aspernatur quam facilis qui id? Iure natus ipsum officiis harum.</div>
+    <div class="right">ro voluptas aliquid dolore sit ipsum vero corrupti, ab vitae quibusdam, possimus, perferendis dignissimos expedita esse odit adipisci quasi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ab, asperiores officiis perferendis voluptas
+        nam harum placeat, soluta ea nesciunt maiores, eaque natus! Maxime non vitae exercitationem optio laboriosam iure. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium harum dolores minima magnam autem illo maxime! Non magnam,
+        delectus nostrum aspernatur quam facilis qui id? Iure natus ipsum officiis harum.</div>
+
+
+    <script>
+        function max() {
+            let res = -Infinity
+            for (let i = 0; i < arguments.length; i++) {
+                if (arguments[i] > res) {
+                    res = arguments[i]
+                }
+            }
+            return res
+        }
+
+        var intersection = function(nums1, nums2) {
+            let res = []
+            nums1 = nums1.sort((a, b) => a - b)
+            nums2 = nums2.sort((a, b) => a - b)
+            let s1 = 0,
+                s2 = 0,
+                len1 = nums1.length,
+                len2 = nums2.length
+            while (s1 < len1 && s2<len2) {
+                if (nums1[s1] === nums2[s2] && nums1[s1 - 1] !== nums1[s1] && nums2[s2 - 1] != nums2[s2]) {
+                    res.push(nums1[s1])
+                    s1++
+                    s2++
+                } else if (nums1[s1] == nums2[s2] && nums1[s1] == nums1[s1 - 1]) {
+                    s1++
+                } else if (nums1[s1] == nums2[s2] && nums2[s2] == nums2[s2 - 1]){
+                    s2++
+                }else if (nums[s1]<nums2[s2]){
+                    s1++
+                }else if(nums[s1]>nums2[s2]){
+                    s2++
+                }
+            }
+            return res
+        }
+    </script>
+</body>
+
+</html>

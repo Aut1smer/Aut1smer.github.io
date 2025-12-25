@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessBoard</title>
+</head>
+
+<body>
+    <script>
+        function chessBoard(size, signal) {
+
+            let char = ''
+            for (let i = 1; i <= size; i++) {
+                for (let j = 1; j <= size; j++) {
+                    if (i & 1 === 1) {
+                        if (j & 1 === 1) {
+                            char += ' '
+                        } else {
+                            char += signal
+                        }
+                        if (j === size) {
+                            char += '\n'
+                        }
+                    } else {
+                        if (j & 1 === 1) {
+                            char += signal
+                        } else {
+                            char += ' '
+                        }
+                        if (j === size) {
+                            char += '\n'
+                        }
+                    }
+                }
+            }
+            console.log(char);
+        }
+        // chessBoard(8, '#')
+
+        function chessBoard2(size, signal) {
+            let result = ''
+            for (let i = 1; i <= size; i++) {
+                for (let j = 1; j <= size; j++) {
+                    if ((i + j) % 2 === 0) {
+                        result += ' '
+                    } else {
+                        result += signal
+                    }
+                }
+                result += '\n'
+            }
+            console.log(result);
+        }
+        chessBoard2(8, '#')
+    </script>
+</body>
+
+</html>

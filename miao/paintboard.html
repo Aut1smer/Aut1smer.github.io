@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        em {
+            font-style: normal;
+        }
+        
+        p {
+            text-align: center;
+            font-size: 24px;
+            color: black;
+            font-weight: 900;
+            margin: 10px;
+        }
+        
+        .painting {
+            width: 100%;
+            height: 90vh;
+            /* justify-content: ; */
+            text-align: center;
+        }
+        
+        .goline {
+            width: 6px;
+            height: 6px;
+            background: violet;
+        }
+        
+        svg {
+            border: 1px solid coral;
+            margin: auto;
+        }
+        
+        .setting {
+            width: 80%;
+            height: 8vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid lightcoral;
+            margin: auto;
+        }
+        
+        .tool {
+            width: 40%;
+            /* height: 8vh; */
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            animation: ;
+        }
+        
+        @keyframes blink {
+            0% {
+                box-shadow: ;
+            }
+        }
+        
+        .tool button {
+            width: 30px;
+            height: 24px;
+        }
+        
+        .format {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        input {
+            margin: auto;
+        }
+        
+        .clear,
+        .save,
+        .open-wrapper {
+            width: 48px;
+            height: 28px;
+            text-align: center;
+        }
+        
+        .open-wrapper {
+            padding: 0;
+        }
+        
+        .open-wrapper>label {
+            width: 100%;
+            height: 100%;
+        }
+        /* .open {
+            display: none;
+        } */
+        /* 被选中的按钮 */
+        
+        .selected {
+            background: radial-gradient( #fff, #999);
+            /* box-shadow: -1px -1px 1px black; */
+            /* outgoline: transparent; */
+        }
+    </style>
+</head>
+
+<body>
+    <p>Painting this canvas for any...</p>
+    <div class="painting">
+        <!-- width='80%' -->
+        <div id="svgContent">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height='500'></svg>
+        </div>
+        <br>
+        <section class="setting">
+            <div class="tool">
+                <span>工具栏</span>
+                <button>乙</button><button>○</button><button>●</button><button>□</button><button>■</button>
+            </div>
+            <div class="format">
+
+                <span>笔触颜色
+            <input type="color" id='colorInput'></span>
+                <span>颜色填充
+              <input type="color"  id="fillColor"></span>
+                <span>笔尖粗细(<em>2</em>)
+            <input type="range" name="" min="1" max="10" value="2" id="widthInput"></span>
+
+            </div><input type="file" class="open" id="openFile" accept=".svg" hidden>
+            <button class="open-wrapper">打开
+                <!-- <label for="openFile">打开</label> -->
+            </button>
+            <button class="save">保存</button>
+            <button class="clear">清空</button>
+        </section>
+
+    </div>
+
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2"/>
+    </svg> -->
+
+    <script>
+        'use strict';
+        var svg = document.querySelector('svg')
+        var color = document.querySelector('#colorInput')
+        var fillColor = document.querySelector('#fillColor')
+        var widthInput = document.querySelector('#widthInput')
+        var tool = document.querySelector('.tool')
+        var clear = document.querySelector('.clear')
+        var saver = document.querySelector('.save')
+        var fileInput = document.querySelector('.open')
+        var lastX = null //初始化为null，否则执行连线会从0 0 连到鼠标点击的位置
+        var lastY = null
+        var lastPos = null
+        var goline = false,
+            goEllipse = false,
+            filledEllipse = false,
+            rect = false,
+            filledRect = false,
+            circle = false
+
+
+        svgContent.addEventListener('mousedown', function(e) {
+            if (!svgContent.contains(e.target)) { //保证点击触发的事件对象在svgContent里面
+                return
+            }
+            if (goline) {
+                drawedAndNoSave = true
+                    //初始化一条polyline
+                let startPos = mousePos(svg)
+                let polyline = document.createElementNS("http://www.w3.org/2000/svg", 'polyline')
+                polyline.setAttribute('fill', 'none')
+                polyline.setAttribute('stroke', color.value)
+                polyline.setAttribute('stroke-width', widthInput.value)
+                polyline.setAttribute('stroke-linecap', 'round') //笔触开始与结束位置的形状
+                polyline.setAttribute('stroke-linejoin', 'round') //笔触转折点的形状
+                let points = `${startPos.x},${startPos.y} ` //polyline的points路径形式,空格与逗号都可以
+                polyline.setAttribute('points', points)
+                svg.append(polyline)
+
+                //画线
+                function drawline(e) {
+                    var newPoint = mousePos(svg)
+                    points += `${newPoint.x},${newPoint.y} `
+                    polyline.setAttribute('points', points)
+                }
+                document.addEventListener('mousemove', drawline)
+                document.addEventListener('mouseup', function once() {
+                    document.removeEventListener('mouseup', once)
+                    document.removeEventListener('mousemove', drawline)
+                })
+            }
+            if (goEllipse) {
+                drawedAndNoSave = true
+                let startPos = mousePos(svg)
+                let ellipse = null
+                if (circle) {
+                    ellipse = document.createElementNS("http://www.w3.org/2000/svg", 'circle')
+                } else {
+                    ellipse = document.createElementNS("http://www.w3.org/2000/svg", 'ellipse')
+                }
+                svg.append(ellipse)
+                ellipse.setAttribute('stroke-width', widthInput.value)
+                ellipse.setAttribute('stroke', color.value)
+                if (filledEllipse) {
+                    ellipse.setAttribute('fill', fillColor.value)
+                } else {
+                    ellipse.setAttribute('fill', 'none')
+                }
+                //画椭圆 
+                function drawEllipse(e) {
+                    var newPoint = mousePos(svg)
+                    var cx = (startPos.x + newPoint.x) / 2
+                    var cy = (startPos.y + newPoint.y) / 2
+                    var rx = Math.abs((newPoint.x - startPos.x) / 2)
+                    var ry = Math.abs((newPoint.y - startPos.y) / 2)
+                    ellipse.setAttribute('cx', cx)
+                    ellipse.setAttribute('cy', cy)
+                    ellipse.setAttribute('rx', rx)
+                    ellipse.setAttribute('ry', ry)
+
+                }
+                //画圆 
+                function drawCircle(e) {
+                    var newPoint = mousePos(svg)
+                    var r = Math.min(Math.abs(newPoint.x - startPos.x), Math.abs(newPoint.y - startPos.y)) / 2
+                    var cx = (startPos.x + newPoint.x) / 2
+                    var cy = (startPos.y + newPoint.y) / 2
+                    ellipse.setAttribute('cx', cx)
+                    ellipse.setAttribute('cy', cy)
+                    ellipse.setAttribute('r', r)
+                }
+                if (circle) {
+                    document.addEventListener('mousemove', drawCircle)
+                    document.addEventListener('mouseup', function once() {
+                        document.removeEventListener('mouseup', once)
+                        document.removeEventListener('mousemove', drawCircle)
+                    })
+                } else {
+                    document.addEventListener('mousemove', drawEllipse)
+                    document.addEventListener('mouseup', function once() {
+                        document.removeEventListener('mouseup', once)
+                        document.removeEventListener('mousemove', drawEllipse)
+                    })
+                }
+            }
+
+            if (rect) {
+                drawedAndNoSave = true
+                var startPos = mousePos(svg)
+                var rectangle = document.createElementNS("http://www.w3.org/2000/svg", 'rect')
+                svg.append(rectangle)
+
+                rectangle.setAttribute('stroke', color.value)
+                rectangle.setAttribute('stroke-width', widthInput.value)
+                if (filledRect) {
+                    rectangle.setAttribute('fill', fillColor.value)
+                } else {
+                    rectangle.setAttribute('fill', 'none')
+                }
+                //画矩形
+                function drawRect(e) {
+                    var newPoint = mousePos(svg)
+                    var width = Math.abs(newPoint.x - startPos.x)
+                    var height = Math.abs(newPoint.y - startPos.y)
+                    rectangle.setAttribute('width', width)
+                    rectangle.setAttribute('height', height)
+                    if (newPoint.x < startPos.x) {
+                        if (newPoint.y < startPos.y) {
+                            rectangle.setAttribute('x', newPoint.x)
+                            rectangle.setAttribute('y', newPoint.y)
+                        } else {
+                            rectangle.setAttribute('x', newPoint.x)
+                            rectangle.setAttribute('y', startPos.y)
+                        }
+                    } else {
+                        if (newPoint.y < startPos.y) {
+                            rectangle.setAttribute('x', startPos.x)
+                            rectangle.setAttribute('y', newPoint.y)
+                        } else {
+                            rectangle.setAttribute('x', startPos.x)
+                            rectangle.setAttribute('y', startPos.y)
+                        }
+                    }
+
+                }
+                document.addEventListener('mousemove', drawRect)
+                document.addEventListener('mouseup', function once() {
+                    document.removeEventListener('mousemove', drawRect)
+                    document.removeEventListener('mouseup', once)
+                })
+            }
+        })
+
+
+
+
+        //响应撤销Ctrl+Z 触发正圆绘制
+        document.addEventListener('keydown', function(e) {
+            console.log(e);
+            if (e.ctrlKey && e.key == 'z') {
+                if (svg.lastElementChild) {
+                    svg.removeChild(svg.lastElementChild)
+                }
+            } else if (e.shiftKey) { //正圆绘制
+                circle = true
+            }
+        });
+        document.addEventListener('keyup', function(e) {
+            circle = false
+        })
+
+
+
+        // 笔尖粗细
+        widthInput.addEventListener('input', function(e) {
+            this.previousElementSibling.textContent = widthInput.value
+        })
+
+        //清空画布
+        clear.addEventListener('click', function(e) {
+
+            while (svg.lastElementChild) {
+                svg.removeChild(svg.lastElementChild)
+            }
+        })
+
+        //工具栏
+        tool.addEventListener('click', function(e) {
+            goline = false
+            goEllipse = false
+            rect = false
+            filledEllipse = false
+            filledRect = false
+            for (var i = 1; i < tool.children.length; i++) {
+                tool.children[i].classList.remove('selected')
+            }
+
+            switch (e.target) {
+                case tool.children[1]:
+                    goline = true
+                    tool.children[1].classList.add('selected')
+                    break;
+                case tool.children[2]:
+                    goEllipse = true
+                    tool.children[2].classList.add('selected')
+                    break;
+                case tool.children[3]:
+                    goEllipse = true
+                    filledEllipse = true
+                    tool.children[3].classList.add('selected')
+
+                    break;
+                case tool.children[4]:
+                    rect = true
+                    tool.children[4].classList.add('selected')
+                    break;
+                case tool.children[5]:
+                    rect = true
+                    filledRect = true
+                    tool.children[5].classList.add('selected')
+                    break;
+            }
+        })
+
+
+        //更新svg画板大小，做到持续可控
+        requestAnimationFrame(function setWidth() {
+            svg.style.width = document.body.getBoundingClientRect().width * 0.8 + 'px'
+            requestAnimationFrame(setWidth)
+        });
+
+        // 保存
+        saver.addEventListener('click', function(e) {
+            var svgSource = svg.outerHTML
+            var blob = new Blob(['<?xml version="1.0" encoding="utf-8"?>', svgSource], {
+                type: 'image/xml+svg'
+            })
+            var url = URL.createObjectURL(blob)
+            var anchor = document.createElement('a')
+            anchor.href = url
+            anchor.download = '_.svg'
+            anchor.click()
+            drawedAndNoSave = false
+        })
+
+        var drawedAndNoSave = false //绘制未保存时退出页面提示
+
+        window.addEventListener('beforeunload', function(e) {
+            if (drawedAndNoSave) {
+                e.returnValue = '还未保存，是否要退出？'
+            }
+        })
+
+
+        //获取鼠标在svg的位置
+        function mousePos(node) {
+            var box = node.getBoundingClientRect()
+            return {
+                x: window.event.clientX - box.x,
+                y: window.event.clientY - box.y
+            }
+        }
+
+        //按钮点击，触发文件框点击
+        fileInput.nextElementSibling.addEventListener('click', openFile);
+
+        //打开一个svg文件，小心document.open()
+        function openFile() {
+            if (drawedAndNoSave) {
+                let ans = confirm('您的文件还未保存！是否打开新文件？')
+                if (ans == false) {
+                    return
+                }
+            }
+            fileInput.click() //文件选择对话框只能在用户交互的条件下显示
+        }
+        fileInput.addEventListener('change', function(e) {
+            console.log(e);
+            let svgFile = this.files[0]
+            let fr = new FileReader()
+            fr.addEventListener('load', function() {
+                let svgFileContent = fr.result
+                svgContent.innerHTML = svgFileContent
+                window.svg = svgContent.querySelector('svg')
+                fileInput.value = null
+            })
+            fr.readAsText(svgFile) //html元素当作文本读即可
+        })
+    </script>
+</body>
+
+</html>

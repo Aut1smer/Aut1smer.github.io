@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function fn1(row, col, signal) {
+            let char = ''
+            for (let i = 1; i <= row; i++) {
+                for (let j = 1; j <= i; j++) {
+                    char += signal
+                }
+                char += '\n'
+
+            }
+            console.log(char);
+        }
+        fn1(7, 7, '#')
+
+        function fn2(row, col, signal) {
+            let char = ''
+            for (let i = 1; i <= row; i++) {
+                for (let j = 1; j <= col; j++) {
+                    // i个signal + col-i个空格
+                    if (char.length <= i) {
+                        char += signal
+                    } else {
+                        char += ' '
+                    }
+                }
+                console.log(char);
+                char = ''
+            }
+        }
+        fn2(8, 6, '$')
+    </script>
+
+</body>
+
+</html>

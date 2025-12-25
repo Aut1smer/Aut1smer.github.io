@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>radio-slider</title>
+
+    <style>
+        *,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        
+        input {
+            display: none;
+        }
+        
+        p {
+            margin-top: 100px;
+            text-align: center;
+        }
+        
+        .box,
+        .box1 {
+            width: 400px;
+            height: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .imgs {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .imgs img {
+            width: 400px;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            transition: left 1s ease-in-out;
+        }
+        
+        .box input:nth-child(1):checked~div img:nth-child(1) {
+            left: 0;
+            z-index: 8;
+        }
+        
+        .box input:nth-child(2):checked~div img:nth-child(2) {
+            left: 0;
+            z-index: 8;
+        }
+        
+        .box input:nth-child(3):checked~div img:nth-child(3) {
+            left: 0;
+            z-index: 8;
+        }
+        
+        .box input:nth-child(4):checked~div img:nth-child(4) {
+            left: 0;
+            z-index: 8;
+        }
+        /* label */
+        
+        .box label,
+        .box1 label {
+            /* display: block; */
+            position: absolute;
+            bottom: 10px;
+            left: 40px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 5px;
+            background-clip: content-box;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            z-index: 999;
+        }
+        
+        .box label:nth-of-type(2) {
+            left: 135px;
+        }
+        
+        .box label:nth-of-type(3) {
+            left: auto;
+            right: 135px;
+        }
+        
+        .box label:nth-of-type(4) {
+            right: 40px;
+            left: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <p>radio:checked + ~ +绝对定位边偏移</p>
+    <div class="box">
+        <input type="radio" name="pic" id="pic1">
+        <input type="radio" name="pic" id="pic2">
+        <input type="radio" name="pic" id="pic3">
+        <input type="radio" name="pic" id="pic4">
+        <div class="imgs">
+            <img src="../images/1024a.jpg" alt=""><img src="../images/1024b.jpg" alt=""><img src="../images/1024c.jpg" alt=""><img src="../images/1024d.jpg" alt="">
+            <label for="pic1"></label>
+            <label for="pic2"></label>
+            <label for="pic3"></label>
+            <label for="pic4"></label>
+        </div>
+
+    </div>
+
+
+    <style>
+        .box1 {
+            overflow: hidden;
+        }
+        
+        .list {
+            width: 3000px;
+            height: 100%;
+            position: absolute;
+            left: 20px;
+            transition: .5s ease;
+        }
+        
+        .list img {
+            width: 400px;
+            height: 300px;
+            margin-right: 20px;
+        }
+        
+        .list img:last-child {
+            margin-right: 0;
+        }
+        /* label */
+        
+        .box1 label {
+            bottom: 30px;
+            left: 60px;
+        }
+        
+        .box1 label:nth-of-type(2) {
+            left: 150px;
+        }
+        
+        .box1 label:nth-of-type(3) {
+            right: 150px;
+            left: auto;
+        }
+        
+        .box1 label:nth-of-type(4) {
+            right: 60px;
+            left: auto;
+        }
+        /* radio:checked list 小圆点 */
+        
+        .box1>input:nth-child(1):checked~.list {
+            left: 20px;
+            transition: 0.2s;
+        }
+        
+        .box1>input:nth-child(2):checked~.list {
+            left: -400px;
+        }
+        
+        .box1>input:nth-child(3):checked~.list {
+            left: -820px;
+        }
+        
+        .box1>input:nth-child(4):checked~.list {
+            left: -1240px;
+        }
+        /* 两边的radio */
+        
+        input.control {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 130px;
+            width: 20px;
+            height: 80px;
+            text-align: center;
+            line-height: 80px;
+            cursor: pointer;
+            background-image: radial-gradient(closest-corner ellipse at 50% 50%, white 20%, rgb(248, 166, 12));
+            border-radius: 25%;
+            pointer-events: auto;
+            z-index: 1000;
+        }
+        
+        input.control:nth-child(3),
+        input.control:nth-child(4) {
+            left: auto;
+            right: 0;
+        }
+        
+        input.control:nth-child(1):checked {
+            display: none;
+            pointer-events: none;
+        }
+        
+        input.control:checked~.list {
+            left: calc(var(--i) * (420px));
+        }
+        /* input.control:nth-child(1):checked~.list {
+            left: -1240px
+        } */
+        
+        input.control:nth-child(2):checked {
+            display: none;
+            pointer-events: none;
+        }
+        /* input.control:nth-child(2):checked~.list {
+            left: -400px;
+        }
+         */
+        
+        input.control:nth-child(3):checked {
+            display: none;
+            pointer-events: none;
+        }
+        /* input.control:nth-child(3):checked~.list {
+            left: 20px;
+        } */
+        
+        input.control:nth-child(4):checked {
+            display: none;
+            pointer-events: none;
+        }
+        /* input.control:nth-child(4):checked~.list {
+            left: -820px;
+        } */
+        
+        pre {
+            padding-left: 100px;
+            margin: auto;
+        }
+    </style>
+
+    <p>radio:checked ~ list+绝对定位边偏移
+    </p>
+    <pre> 两边的radio因结构顺序无法使每次点击都能促使当前block状态的两个
+        radio交换位置并备用（displaynone+pointer-events:none+边偏移margin-left），
+        故无法使用每边层叠的两个radio以表示四种list的偏移状态。
+        但是可以用8个label放在两边，每张图占有两个label，两个label控制不同的input.status。
+    </pre>
+
+
+    <div class="box1">
+
+        <input type="radio" name="pict" id="pict1" class="control" style="--i:4 --j:-1">
+        <input type="radio" name="pict" id="pict2" class="control" style="--i:3">
+        <input type="radio" name="pict" id="pict3" class="control" style="--i:2">
+        <input type="radio" name="pict" id="pict4" class="control" style="--i:1">
+
+        <input type="radio" name="pict" id="pict1">
+        <input type="radio" name="pict" id="pict2">
+        <input type="radio" name="pict" id="pict3">
+        <input type="radio" name="pict" id="pict4">
+        <div class="list">
+            <img src="../images/1024a.jpg" alt=""><img src="../images/1024b.jpg" alt=""><img src="../images/1024c.jpg" alt=""><img src="../images/1024d.jpg" alt=""><img src="../images/1024a.jpg" alt="">
+        </div>
+        <label for="pict1" style="--i:1"></label>
+        <label for="pict2" style="--i:2"></label>
+        <label for="pict3" style="--i:3"></label>
+        <label for="pict4" style="--i:4"></label>
+
+    </div>
+
+
+
+    <style>
+        @keyframes leave {
+            from {
+                left: 0;
+            }
+            to {
+                left: 100%;
+            }
+        }
+        
+        .box2 {
+            width: 480px;
+            height: 270px;
+            padding: 20px;
+            border: 2px solid cadetblue;
+            margin: auto;
+            position: relative;
+        }
+        
+        .box2 input {
+            display: none;
+        }
+        
+        .a,
+        .b,
+        .c,
+        .d {
+            position: relative;
+            width: 120px;
+            height: 270px;
+            box-sizing: border-box;
+            /* border: 1px solid green; */
+            float: left;
+            overflow: hidden;
+        }
+        
+        .a>div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-position: 0 0!important;
+            left: -100%;
+            animation: leave 1s ease 1;
+        }
+        
+        .b>div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-position: -120px 0!important;
+            left: -100%;
+            animation: leave 1s ease 1;
+        }
+        
+        .c>div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-position: -240px 0!important;
+            left: -100%;
+            animation: leave 1s ease 1;
+        }
+        
+        .d>div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-position: -360px 0!important;
+            left: -100%;
+            animation: leave 1s ease 1;
+        }
+        
+        .a>div:nth-child(1),
+        .b>div:nth-child(1),
+        .c>div:nth-child(1),
+        .d>div:nth-child(1) {
+            background: url(../images/1920-a.jpg) no-repeat;
+            background-size: cover;
+        }
+        
+        .a>div:nth-child(2),
+        .b>div:nth-child(2),
+        .c>div:nth-child(2),
+        .d>div:nth-child(2) {
+            background: url(../images/1920-b.jpg) no-repeat;
+            background-size: cover;
+        }
+        
+        .a>div:nth-child(3),
+        .b>div:nth-child(3),
+        .c>div:nth-child(3),
+        .d>div:nth-child(3) {
+            background: url(../images/1920-f.jpg) no-repeat;
+            background-size: cover;
+        }
+        
+        .a>div:nth-child(4),
+        .b>div:nth-child(4),
+        .c>div:nth-child(4),
+        .d>div:nth-child(4) {
+            background: url(../images/1920-g.jpg) no-repeat;
+            background-size: cover;
+        }
+        /* 下面的四个小label */
+        
+        .labelbox {
+            position: absolute;
+            z-index: 8;
+            bottom: 25px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .labelbox>label {
+            width: 40px;
+            height: 40px;
+            box-sizing: border-box;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(252, 252, 252, .4);
+            background-color: #76B2C8;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+            font-style: italic;
+            text-indent: -5px;
+            color: #fff;
+            position: relative;
+            cursor: pointer;
+        }
+        /* 左右的8个小label */
+        
+        .labelbox2 {
+            width: 200px;
+            height: 0;
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            /* z-index: -1; */
+        }
+        
+        .labelbox2>label.label-left {
+            display: none;
+            position: absolute;
+            /* z-index: 8; */
+            left: 0;
+            width: 60px;
+            height: 20px;
+            background-color: #76B2C8;
+            /* border-radius: 20% 50% / 40% 10%; */
+            border-radius: 20% 40%;
+            cursor: pointer;
+            box-shadow: 0 0 5px 0px rgba(252, 252, 252, .3);
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            font-size: 18px;
+            font-weight: 900;
+            transform: rotate(45deg);
+        }
+        
+        .labelbox2>label.label-right {
+            display: none;
+            position: absolute;
+            /* z-index: 8; */
+            right: 0;
+            width: 60px;
+            height: 20px;
+            background-color: #76B2C8;
+            /* border-radius: 50% 20% / 10% 40%; */
+            border-radius: 20% 40%;
+            cursor: pointer;
+            box-shadow: 0 0 5px 0px rgba(252, 252, 252, .3);
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            font-size: 18px;
+            font-weight: 900;
+            transform: rotate(-45deg);
+        }
+        /* input控制labelbox行为 */
+        
+        .box2 input:nth-of-type(1):checked~.labelbox label:nth-of-type(1) {
+            background-color: #fff;
+            color: #76B2C8;
+        }
+        
+        .box2 input:nth-of-type(2):checked~.labelbox label:nth-of-type(2) {
+            background-color: #fff;
+            color: #76B2C8;
+        }
+        
+        .box2 input:nth-of-type(3):checked~.labelbox label:nth-of-type(3) {
+            background-color: #fff;
+            color: #76B2C8;
+        }
+        
+        .box2 input:nth-of-type(4):checked~.labelbox label:nth-of-type(4) {
+            background-color: #fff;
+            color: #76B2C8;
+        }
+        /* input控制图片行为 */
+        
+        .box2 input:nth-of-type(1):checked~.a>div:nth-of-type(1),
+        .box2 input:nth-of-type(1):checked~.b>div:nth-of-type(1),
+        .box2 input:nth-of-type(1):checked~.c>div:nth-of-type(1),
+        .box2 input:nth-of-type(1):checked~.d>div:nth-of-type(1) {
+            left: 0;
+            transition: .5s;
+            animation: none;
+        }
+        
+        .box2 input:nth-of-type(2):checked~.a>div:nth-of-type(2),
+        .box2 input:nth-of-type(2):checked~.b>div:nth-of-type(2),
+        .box2 input:nth-of-type(2):checked~.c>div:nth-of-type(2),
+        .box2 input:nth-of-type(2):checked~.d>div:nth-of-type(2) {
+            left: 0;
+            transition: .5s;
+            animation: none;
+        }
+        
+        .box2 input:nth-of-type(3):checked~.a>div:nth-of-type(3),
+        .box2 input:nth-of-type(3):checked~.b>div:nth-of-type(3),
+        .box2 input:nth-of-type(3):checked~.c>div:nth-of-type(3),
+        .box2 input:nth-of-type(3):checked~.d>div:nth-of-type(3) {
+            left: 0;
+            transition: .5s;
+            animation: none;
+        }
+        
+        .box2 input:nth-of-type(4):checked~.a>div:nth-of-type(4),
+        .box2 input:nth-of-type(4):checked~.b>div:nth-of-type(4),
+        .box2 input:nth-of-type(4):checked~.c>div:nth-of-type(4),
+        .box2 input:nth-of-type(4):checked~.d>div:nth-of-type(4) {
+            left: 0;
+            transition: .5s;
+            animation: none;
+        }
+        /* input控制labelbox2行为 */
+        
+        .box2 input:nth-of-type(1):checked~.labelbox2>label:nth-child(1),
+        .box2 input:nth-of-type(1):checked~.labelbox2>label:nth-child(5) {
+            display: block;
+        }
+        
+        .box2 input:nth-of-type(2):checked~.labelbox2>label:nth-child(2),
+        .box2 input:nth-of-type(2):checked~.labelbox2>label:nth-child(6) {
+            display: block;
+        }
+        
+        .box2 input:nth-of-type(3):checked~.labelbox2>label:nth-child(3),
+        .box2 input:nth-of-type(3):checked~.labelbox2>label:nth-child(7) {
+            display: block;
+        }
+        
+        .box2 input:nth-of-type(4):checked~.labelbox2>label:nth-child(4),
+        .box2 input:nth-of-type(4):checked~.labelbox2>label:nth-child(8) {
+            display: block;
+        }
+    </style>
+
+    <p>高级轮播图</p>
+    <div class="box2">
+        <input type="radio" name="changePic" id="img1" checked>
+        <input type="radio" name="changePic" id="img2">
+        <input type="radio" name="changePic" id="img3">
+        <input type="radio" name="changePic" id="img4">
+        <div class="labelbox">
+            <label for="img1">1</label>
+            <label for="img2">2</label>
+            <label for="img3">3</label>
+            <label for="img4">4</label>
+        </div>
+        <div class="labelbox2">
+            <label for="img4" class="label-left">&lt;</label>
+            <label for="img1" class="label-left">&lt;</label>
+            <label for="img2" class="label-left">&lt;</label>
+            <label for="img3" class="label-left">&lt;</label>
+            <label for="img2" class="label-right">&gt;</label>
+            <label for="img3" class="label-right">&gt;</label>
+            <label for="img4" class="label-right">&gt;</label>
+            <label for="img1" class="label-right">&gt;</label>
+
+        </div>
+        <div class="a">
+            <div class="a-1"></div>
+            <div class="a-2"></div>
+            <div class="a-3"></div>
+            <div class="a-4"></div>
+        </div>
+        <div class="b">
+            <div class="b-1"></div>
+            <div class="b-2"></div>
+            <div class="b-3"></div>
+            <div class="b-4"></div>
+        </div>
+        <div class="c">
+            <div class="c-1"></div>
+            <div class="c-2"></div>
+            <div class="c-3"></div>
+            <div class="c-4"></div>
+        </div>
+        <div class="d">
+            <div class="d-1"></div>
+            <div class="d-2"></div>
+            <div class="d-3"></div>
+            <div class="d-4"></div>
+        </div>
+
+    </div>
+
+    <p></p>
+</body>
+
+</html>

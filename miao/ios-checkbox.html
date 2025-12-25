@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <caption>Optional table caption.</caption>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th>2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th>3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
+input:checked~label .circle { left: 126px; width: 135px; padding-left: 0px; /* margin-left: -25px; */ transition: left .5s ease, width .25s, padding-left .25s .25s; } input:not(:checked)~label .circle { left: 7px; width: 105px; padding-left: 25px; transition:
+left .5s, width .25s .25s, padding-left .25s; } .whiteBox { width: 266px; height: 146px; background-color: white; border-radius: 75px; margin: auto; transition: .5s; } input:checked~label { transition: .5s; border-color: rgb(48, 243, 75); padding-top:
+75px; background-color: rgb(48, 243, 75); } input:checked~label .whiteBox { transition: .5s; width: 0px; height: 0px; border-radius: 0; } .test { margin: 100px 50%; border: 1px solid tomato; width: 1000px; height: 200px; } .content { width: 200px; height:
+100%; border-radius: 200px; background-color: aqua; } .test:hover { margin-left: calc(50% + 100px); transition: .5s; } .test:hover .content { transition: .5s; padding-left: 250px; }
+</style>
+</head>
+
+<body>
+    <input type="checkbox" name="" id="btn">
+    <label for="btn">
+      <div class="arround">
+        <div class="circle"></div>
+      </div>
+      <div class="whiteBox"></div>
+    </label>
+    <!-- 这个案例还可以不用whiteBox，利用label的box-shadow:inset:0  0  0 25px rgb 完成 -->
+</body>
+
+</html>

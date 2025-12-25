@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href=".\font-awesome-4.7.0\css\font-awesome.min.css">
+    <style>
+        p {
+            margin-top: 100px;
+            text-align: center;
+        }
+        /* 1.右浮动+hover~ */
+        
+        .box {
+            margin: 0 auto;
+            width: 400px;
+            height: 100px;
+            border: 1px dotted #ccc;
+            text-align: center;
+        }
+        
+        .box span {
+            float: right;
+            margin-top: 15px;
+        }
+        
+        .box span:first-child {
+            margin-right: 15px;
+        }
+        
+        .box span:hover,
+        .box span:hover~span {
+            color: gold;
+        }
+        /* 2.flex row-reverse */
+        
+        .flexBox {
+            width: 400px;
+            height: 100px;
+            border: 1px dotted #ccc;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .flexBox span:hover,
+        .flexBox span:hover~span {
+            color: gold;
+        }
+        /* 定位 */
+        
+        .postionBox {
+            position: relative;
+            width: 400px;
+            height: 100px;
+            border: 1px dotted #ccc;
+            margin: 0 auto;
+            padding-top: 15px;
+        }
+        
+        .postionBox span {
+            position: absolute;
+            right: 0;
+        }
+        
+        .postionBox span:nth-child(2) {
+            right: 85px;
+        }
+        
+        .postionBox span:nth-child(3) {
+            right: 163px;
+        }
+        
+        .postionBox span:nth-child(4) {
+            left: 85px;
+            right: auto;
+        }
+        
+        .postionBox span:nth-child(5) {
+            left: 0;
+            right: auto;
+        }
+        
+        .postionBox span:hover,
+        .postionBox span:hover~span {
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <p>1.右浮动+hover~</p>
+    <div class="box">
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+    </div>
+
+    <p>2.flex row-reverse</p>
+    <div class="flexBox">
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+    </div>
+
+    <p>3.定位</p>
+    <div class="postionBox">
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+        <span class="fa fa-star fa-5x"></span>
+    </div>
+</body>
+
+</html>

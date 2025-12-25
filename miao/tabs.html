@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <section>
+        <div data-tabname="Home">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum totam nostrum, minus a atque pariatur quam cum placeat harum amet eligendi. Neque architecto, nesciunt dolore est laudantium dignissimos ducimus sequi.</div>
+        <div data-tabname="Link">Dolor animi beatae quibusdam voluptas dicta! Ipsa earum dolor excepturi ab possimus dolorum commodi numquam repellat hic officiis. Sapiente alias reprehenderit a veniam ipsam dolor expedita! Nemo soluta similique est.</div>
+        <div data-tabname="About">Voluptatibus animi praesentium unde natus soluta officia sit nemo mollitia est doloribus. Facere laudantium deserunt ea aperiam magnam adipisci doloribus voluptatibus. Temporibus ipsa cum magnam incidunt impedit est sit obcaecati!</div>
+    </section>
+    <section>
+        <div data-tabname="Home">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum totam nostrum, minus a atque pariatur quam cum placeat harum amet eligendi. Neque architecto, nesciunt dolore est laudantium dignissimos ducimus sequi.</div>
+        <div data-tabname="Link">Dolor animi beatae quibusdam voluptas dicta! Ipsa earum dolor excepturi ab possimus dolorum commodi numquam repellat hic officiis. Sapiente alias reprehenderit a veniam ipsam dolor expedita! Nemo soluta similique est.</div>
+        <div data-tabname="About">Voluptatibus animi praesentium unde natus soluta officia sit nemo mollitia est doloribus. Facere laudantium deserunt ea aperiam magnam adipisci doloribus voluptatibus. Temporibus ipsa cum magnam incidunt impedit est sit obcaecati!</div>
+    </section>
+    <script>
+        //asTabs为选中的元素的子元素创建btn，点击btn即可切换子元素的显示
+        function asTabs(node) {
+            let children = Array.from(node.children).reverse()
+            let btns = [] //创建一个按钮，push一个
+                //循环三个div，为其创建出按钮
+            for (let child of children) { //注意要用let创建新作用域，否则var会变量提升
+                let btn = document.createElement('button')
+                btns.push(btn)
+                btn.textContent = child.dataset.tabname
+                child.style.display = 'none'
+                node.prepend(btn)
+                btn.addEventListener('click', e => {
+                    children.forEach(it => it.style.display = 'none') //排他
+                    btns.forEach(it => it.style.background = '') //调成空即可
+                    child.style.display = 'block'
+                    btn.style.background = 'pink'
+                })
+            }
+            node.firstElementChild.click() //让第一个按钮被点一下
+
+        }
+
+        asTabs(document.querySelector('section')) //section显示的东西依托按钮点击
+        asTabs(document.querySelectorAll('section')[1])
+    </script>
+</body>
+
+</html>

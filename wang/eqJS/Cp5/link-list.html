@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function createListNode(val) {
+            return {
+                val: val,
+                next: null,
+            }
+        }
+
+
+        //把数组转成一个链表
+        function arrayToList(ary) {
+            if (ary.length == 0) {
+                return null // 空数组对应空链表，空链表什么都没有，是个null
+            }
+
+            let head = createListNode(ary[0])
+            let cur = head
+            for (let i = 1; i < ary.length; i++) {
+                let node = createListNode(ary[i])
+                cur.next = node
+                cur = cur.next
+            }
+            return head
+        }
+        //dummy写法 不用判断数组长度,dummy是要被抛弃的结点
+        function arrayToList2(ary) {
+            let dummy = createListNode(0)
+            let cur = dummy
+            for (let i = 0; i < ary.length; i++) {
+                let node = createListNode(ary[i])
+                cur.next = node
+                cur = cur.next
+            }
+            return dummy.next
+        }
+        //递归写法,每轮递归都把数组中的第1项拿出来做为一个新结点
+        function arrayToList3(ary) {
+            if (ary.length == 0) {
+                return null
+            }
+            let head = createListNode(ary[0])
+            head.next = arrayToList3(ary.slice(1)) //head的next指向由数组的剩余部分组成的链表的头部
+            return head
+        }
+        //同上的递归
+        function arrayToListRecursive(ary) {
+            if (ary.length == 0) {
+                return null
+            }
+            let cur = createListNode(ary[0])
+            cur.next = arrayToListRecursive(ary.slice(1))
+            return cur
+        }
+
+
+
+
+        //把链表转换成数组(遍历链表)
+        let ary = [1, 2, 3, 4, 5, 6, 7]
+        let linkedList = arrayToList(ary)
+
+        function listToArray(cur) { //cur指的指针头部
+            let res = []
+            while (cur) {
+                res.push(cur.val)
+                cur = cur.next
+            }
+            return res
+        }
+
+        //递归写法
+        function listToArray2(cur) {
+            if (!cur) {
+                return []
+            }
+            let ary = [cur.val]
+            ary = ary.concat(listToArray2(cur.next))
+            return ary
+                // return [head.val].concat( listToArray2(head.next) )
+        }
+
+        function listToArrayRecursive(head) {
+            if (head == null) {
+                return []
+            }
+            return [head.val].concat(listToArrayRecursive(head.next))
+        }
+        //递归 少创建数组
+        function listToArray3(cur, ary, pos = 0) { //把这个cur链表放入ary的pos位置，从0号位置开始放
+            if (!cur) {
+                return ary
+            }
+            ary[pos] = cur.val
+            listToArray3(cur.next, ary, pos + 1)
+            return ary
+        }
+
+
+
+
+
+        //把新节点插到头部
+        function prepend(val, head) {
+            let node = createListNode(val)
+            node.next = head
+            return node
+        }
+
+        //把新节点添加到链表末尾
+        function append(val, head) {
+            let node = createListNode(val)
+            if (!head) { //要考虑链表是否为空的情况
+                return node
+            }
+            let cur = head
+            while (cur.next) {
+                cur = cur.next
+            }
+            cur.next = node
+            return head
+        }
+        //递归写法 不理解
+        function append1(val, head) {
+            if (!head) {
+                return createListNode(val)
+            }
+            head.next = append1(val, head.next)
+            return head  
+        }
+
+
+
+
+        //返回链表第n个结点的值
+        function nth(head, n) {
+            if (n < 0) {
+                return undefined // null
+            }
+            while (n-- && head) {
+                head = head.next
+            }
+            return head ? head.val : undefined
+        }
+        //递归写法
+        function nthRecursive(head, n) {
+
+            if (!head || n < 0) {
+                return undefined
+            }
+            if (n == 0) {
+                return head.val
+            }
+            return nthRecursive(head.next, n - 1)
+        }
+    </script>
+</body>
+
+</html>

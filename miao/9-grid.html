@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            padding: 0 220px 0 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="middle">这是个middle</div>
+        <div class="left">这个是left</div>
+        <div class="right">这个是right</div>
+
+    </div>
+</body>
+
+</html> text-align: center; margin-top: 100px; } .i-b { width: 170px; height: 170px; box-sizing: border-box; font-size: 0; letter-spacing: -5px; } .i-b span { /* box-sizing: border-box; */ display: inline-block; width: 50px; height: 50px; border: 5px solid blue;
+font-size: 16px; } /* 定位+z-index */ .ab { position: relative; width: 170px; height: 170px; box-sizing: border-box; margin: 0 auto; /* background-color: aqua; */ } .abs { position: absolute; top: 0; left: 0; width: 50px; height: 50px; border: 5px solid
+blue; line-height: 50px; text-align: center; cursor: pointer; color: green; background-color: #f0f0f0; } .abs:nth-child(2) { top: 0; left: 55px; } .abs:nth-child(3) { top: 0; left: 110px; } .abs:nth-child(4) { top: 55px; left: 0; } .abs:nth-child(5) {
+top: 55px; left: 55px; } .abs:nth-child(6) { top: 55px; left: 110px; } .abs:nth-child(7) { top: 110px; left: 0; } .abs:nth-child(8) { top: 110px; left: 55px; } .abs:nth-child(9) { top: 110px; left: 110px; } .abs:hover { z-index: 999; border-color: red;
+} /* 浮动+z-index */ .float { width: 170px; height: 170px; /* background-color: aqua; */ margin: 0 auto; overflow: hidden; } .float ul { width: 170px; height: 60px; position: relative; /* background-color: pink; */ /* border: 5px solid #000; */ } .float
+ul>li { float: left; width: 50px; height: 50px; border: 5px solid blue; position: relative; cursor: pointer; color: green; background-color: #f0f0f0; } .float ul li:hover { z-index: 999; border-color: red; } .float ul li:nth-child(2) { margin-left: -5px;
+} .float ul li:nth-child(3) { margin-left: -5px; } .float ul:nth-child(2) li { margin-top: -5px; } .float ul:nth-child(3) li { margin-top: -10px; } .float .fs { text-align: center; line-height: 50px; } /* css表格 */ .table { display: table; border-collapse:
+collapse; width: 170px; height: 170px; /* background-color: aqua; */ margin: 0 auto; } .table>div { display: table-row; } .table .cell { display: table-cell; width: 50px; height: 50px; border: 5px solid blue; position: relative; cursor: pointer; color:
+green; background-color: #f0f0f0; } .table .cell .box { position: absolute; top: -5px; left: -5px; width: 100%; height: 100%; border: 5px solid blue; text-align: center; line-height: 50px; } .table .cell .box:hover { border-color: red; z-index: 999; }
+</style>
+</head>
+
+<body>
+    <!-- block-margin九宫格 170*170-->
+    <!-- <div class="block-margin">
+        <div class="bm">1</div>
+        <div class="bm">2</div>
+        <div class="bm">3</div>
+        <div class="bm">4</div>
+        <div class="bm">5</div>
+        <div class="bm">6</div>
+        <div class="bm">7</div>
+        <div class="bm">8</div>
+        <div class="bm">9</div>
+    </div> -->
+
+    <!-- <div class="i-b">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+    </div> -->
+
+    <p>绝对定位+hover提升z-index</p>
+    <div class="ab">
+        <div class="abs">1</div>
+        <div class="abs">2</div>
+        <div class="abs">3</div>
+        <div class="abs">4</div>
+        <div class="abs">5</div>
+        <div class="abs">6</div>
+        <div class="abs">7</div>
+        <div class="abs">8</div>
+        <div class="abs">9</div>
+    </div>
+
+
+    <p>浮动+relative定位+hover提升z-index</p>
+    <div class="float">
+        <ul class="row1">
+            <li class="fs">1</li>
+            <li class="fs">2</li>
+            <li class="fs">3</li>
+        </ul>
+        <ul class="row2">
+            <li class="fs">4</li>
+            <li class="fs">5</li>
+            <li class="fs">6</li>
+        </ul>
+        <ul class="row3">
+            <li class="fs">7</li>
+            <li class="fs">8</li>
+            <li class="fs">9</li>
+        </ul>
+    </div>
+
+    <p>表格cell+套ab定位box+hover提升z-index</p>
+    <div class="table">
+        <div class="row1">
+            <div class="cell">
+                <div class="box">1</div>
+            </div>
+            <div class="cell">
+                <div class="box">2</div>
+            </div>
+            <div class="cell">
+                <div class="box">3</div>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="cell">
+                <div class="box">4</div>
+            </div>
+            <div class="cell">
+                <div class="box">5</div>
+            </div>
+            <div class="cell">
+                <div class="box">6</div>
+            </div>
+        </div>
+        <div class="row3">
+            <div class="cell">
+                <div class="box">7</div>
+            </div>
+            <div class="cell">
+                <div class="box">8</div>
+            </div>
+            <div class="cell">
+                <div class="box">9</div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .inline {
+            width: 170px;
+            height: 170px;
+            /* background-color: aqua; */
+            margin: 0 auto;
+            font: 0;
+            /* letter-spacing: 0; */
+            word-spacing: -5px;
+        }
+        
+        .inline>div .ibs {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            /* border: 5px solid #000; */
+            border-top: 5px solid blue;
+            border-left: 5px solid blue;
+            font-size: 16px;
+            line-height: 50px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
+        }
+        
+        .inline>div .ibs:nth-child(3) {
+            border-right: 5px solid blue;
+        }
+        
+        .inline>div:nth-child(3) .ibs {
+            border-bottom: 5px solid blue;
+        }
+        
+        .inline .ibs:hover {
+            border-color: red;
+        }
+        
+        .inline>div .ibs:hover::after {
+            content: '';
+            display: block;
+            position: absolute;
+            z-index: 999;
+            right: -5px;
+            top: -5px;
+            width: 5px;
+            height: 60px;
+            background-color: red;
+        }
+        
+        .inline>div .ibs:hover::before {
+            content: '';
+            display: block;
+            position: absolute;
+            z-index: 999;
+            left: -5px;
+            bottom: -5px;
+            width: 60px;
+            height: 5px;
+            background-color: red;
+        }
+    </style>
+
+    <p>inline-block+伪元素补右下边框z-index</p>
+    <div class="inline">
+        <div class="line1">
+            <div class="ibs">1</div>
+            <div class="ibs">2</div>
+            <div class="ibs">3</div>
+        </div>
+        <div class="line2">
+            <div class="ibs">4</div>
+            <div class="ibs">5</div>
+            <div class="ibs">6</div>
+        </div>
+        <div class="line3">
+            <div class="ibs">7</div>
+            <div class="ibs">8</div>
+            <div class="ibs">9</div>
+        </div>
+    </div>
+
+    <style>
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        
+        table td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
+        }
+        
+        table tr {
+            border: 5px solid blue;
+        }
+        
+        table td:hover {
+            border: 5px solid red;
+        }
+        
+        table col {
+            width: 50px;
+            border: 5px solid blue;
+        }
+    </style>
+    <p>表格边框优先级,hover时让无border的td显示border.red</p>
+    <table>
+        <colgroup>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <style>
+        .a {
+            width: 170px;
+            height: 170px;
+            background-color: blue;
+            margin: 0 auto;
+        }
+        
+        .c {
+            float: left;
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            margin-left: 5px;
+            margin-top: 5px;
+            line-height: 50px;
+            text-align: center;
+            /* box-sizing: border-box; */
+            cursor: pointer;
+            color: green;
+            background-color: #f0f0f0;
+        }
+        
+        .c:hover {
+            box-shadow: 0 0 0px 5px red;
+        }
+    </style>
+    <p>覆盖背景蓝色+浮动摆放+hover时boxshadow.red</p>
+    <div class="a">
+        <div class="c">1</div>
+        <div class="c">2</div>
+        <div class="c">3</div>
+        <div class="c">4</div>
+        <div class="c">5</div>
+        <div class="c">6</div>
+        <div class="c">7</div>
+        <div class="c">8</div>
+        <div class="c">9</div>
+    </div>
+
+    <style>
+        .bk {
+            width: 200px;
+            height: 100px;
+            font-size: 8px;
+            vertical-align: bottom;
+            background-color: green;
+            /* transition: font-size 3s steps(10), background-color 1s; */
+            transition: .5s;
+            /* line-height: 50px; */
+            position: relative;
+            margin: 50px auto;
+            border-bottom: 2px solid red;
+        }
+        
+        .bk::before {
+            position: absolute;
+            content: '订阅博客';
+            bottom: 0;
+            left: 0;
+            font-size: 8px;
+            transition: font-size 3s steps(10);
+        }
+        
+        .bk:hover {
+            background-color: skyblue;
+        }
+        
+        .bk:hover::before {
+            font-size: 48px;
+        }
+    </style>
+    <div class="bk">
+    </div>
+
+    <style>
+        .dybk {
+            display: table-cell;
+            height: 100px;
+            width: 200px;
+            transition: 1s;
+            vertical-align: bottom;
+        }
+    </style>
+    <div class="dybk">dybk</div>
+
+</body>
+
+</html>

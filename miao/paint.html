@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>画图</title>
+    <style>
+        canvas {
+            border: 2px solid #f0f;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="800" height="800"></canvas>
+</body>
+<script>
+    var canvas = document.querySelector('canvas')
+    canvas.style.imageRendering = 'pixelated' //放大时的插帧方式：不插帧，直接放大像素
+    var ctx = canvas.getContext('2d')
+
+    function dot(x, y, color = 'black') {
+        x = Math.round(x)
+        y = Math.round(y)
+        ctx.fillStyle = color
+        ctx.fillRect(x, y, 1, 1)
+    }
+    /**
+     * YOUR TASK
+        * 在 坐标 (42, 42) 画出一个点
+        * 画一条实线
+        * 画一条一个实点一个空点的虚线
+        * 画一条两个实点两个空点的虚线
+        * 画一条三个实点两个空点的虚线
+        * 画一条45度的斜线
+        * 画一条30度的斜线（与x轴或y轴的夹角呈30度）
+        * 画一条跨越画布左上角和右下角的对角线
+        * 画一个空心矩形
+        * 画一个实心矩形
+        * 画两个个空心的圆，居中：
+          * 一个半径为50像素
+          * 一个半径为200像素
+        * 画一个实心的圆，半径至少为100像素
+        * 画一个【大小合适】的sin(x)的图像
+
+        * 画出rgb色彩空间的某一面（尺寸要大于100x100）
+          如果做出上一题后，尝试将其每个点的坐标乘以一个矩阵（如(2,0,0,2)或(1,0.27得到新的位置，即绘制出被线性变幻后的色彩空间某一面
+          可以考虑如下几种矩阵：
+             2 0
+             0 2
+             ------
+             1  0.27
+             0  1
+             ------
+             0.5    0.87
+             -0.87  0.5
+
+     */
+</script>
+<script>
+    // 不可更改上面的代码
+    // 你的代码写在这里
+    // YOUR CODE GOES BELOW
+    // 可用函数：dot(x,y,color)，画布大小：800×800
+
+    // 在坐标（42，,42）画出一个黑点
+    dot(42, 42, 'black')
+
+    // 画一条实线 (20,100) (200,100) 红色
+    function fn1() {
+        let x1 = 20,
+            y1 = 100
+        let x2 = 200,
+            y2 = 100
+        for (let xi = x1; xi <= x2; xi++) {
+            dot(xi, y1, 'red')
+        }
+        return true
+    }
+    fn1()
+
+    // 画一条一个实点一个空点的虚线 (20,120) (200,120) 蓝色
+    function fn2() {
+        let x1 = 20,
+            y1 = 120
+        let x2 = 200,
+            y2 = 120
+        for (let xi = x1; xi <= x2; xi += 2) {
+            dot(xi, y1, 'blue')
+        }
+    }
+    fn2()
+
+    // 画一条两个实点两个空点的虚线 (20,140) (200,140) 紫罗兰色
+    function fn3() {
+        let x1 = 20,
+            y1 = 140
+        let x2 = 200,
+            y2 = 140
+        for (let xi = x1; xi <= x2; xi += 4) {
+            dot(xi, y1, 'violet')
+            dot(xi + 1, y1, 'violet')
+
+        }
+    }
+    fn3()
+
+    // 画一条三个实点两个空点的虚线 (20,160) (200,160) 亮珊瑚色
+    function fn4() {
+        let x1 = 20,
+            y1 = 160
+        let x2 = 200,
+            y2 = 160
+        let solidStep = 3
+        for (let xi = x1; xi <= x2; xi += 5) {
+            for (let j = xi; j < xi + solidStep; j++) {
+                dot(j, y1, 'lightcoral')
+            }
+        }
+    }
+    function fn4_2(){
+        for(let x= 20;x<=200;x++){
+            if(x%5<3){
+                dot(x,160,'lightcoral')
+            }
+        }
+    }
+    fn4()
+
+    // 画一条45deg的斜线
+    function oblique45(x1, y1, x2, y2, color) {
+        if (!(x2 === x1 && y2 === y1)) {
+
+            // 勾画水平与垂直的直线
+            if (x2 === x1 && y2 != y1) {
+                for (let i = Math.min(y2, y1); i <= Math.max(y2, y1); i++) {
+                    dot(x1, i)
+                }
+            } else if (y2 === y1 && x2 != x1) {
+                for (let i = Math.min(x2, x1); i <= Math.max(x2, x1); i++) {
+                    dot(i, y1)
+                }
+            } else {
+
+                // while控制勾画插值斜线   共(x2-x1+y2-y1)个点，(x1,y1)已画
+                let count = 1
+                let goRight = x2 - x1 > 0 ? true : false
+                let goBtm = y2 - y1 > 0 ? true : false
+                let goLeft = x2 - x1 < 0 ? true : false
+                let goTop = y2 - y1 < 0 ? true : false
+                let k = Math.abs(y2 - y1) / Math.abs(x2 - x1) //斜率
+                dot(x1, y1, color)
+                    // debugger
+                let xi = x1,
+                    yi = y1
+                while (count < Math.abs(x2 - x1) + Math.abs(y2 - y1)) {
+
+
+                    if (goRight && goBtm) {
+                        // 奇数向右，偶数向下
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, ++yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goBtm) {
+                        // 奇数向左，偶数向下
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, ++yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goRight && goTop) {
+                        // 奇数向右，偶数向上
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, --yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goTop) {
+                        // 奇数向左，偶数向上
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, --yi, color)
+                            count++
+                        }
+                    }
+
+                }
+            }
+        } else {
+            dot(x1, y1, color)
+        }
+    }
+    oblique45(20, 180, 140, 300, 'tan');
+
+    // 画一条30deg的斜线
+    function oblique30deg(x1, y1, color) {
+        let xi = x1,
+            yi = y1
+        while (xi <= 300 && yi <= 300) {
+            dot(xi, yi, color)
+            xi += Math.tan(Math.PI / 6)
+            yi += 1
+        }
+    }
+    oblique30deg(20, 180, 'lightgreen')
+
+
+    // 画一条跨越画布左上角和右下角的对角线 warning:此方法并不完善！
+    function solid(x1, y1, x2, y2, color) {
+        if (!(x2 === x1 && y2 === y1)) {
+
+            // 勾画水平与垂直的直线
+            if (x2 === x1 && y2 != y1) {
+                for (let i = Math.min(y2, y1); i <= Math.max(y2, y1); i++) {
+                    dot(x1, i)
+                }
+            } else if (y2 === y1 && x2 != x1) {
+                for (let i = Math.min(x2, x1); i <= Math.max(x2, x1); i++) {
+                    dot(i, y1)
+                }
+            } else {
+
+                // while控制勾画插值斜线   共(x2-x1+y2-y1)个点，(x1,y1)已画
+                let count = 1
+                let goRight = x2 - x1 > 0 ? true : false
+                let goBtm = y2 - y1 > 0 ? true : false
+                let goLeft = x2 - x1 < 0 ? true : false
+                let goTop = y2 - y1 < 0 ? true : false
+                let k = Math.abs(y2 - y1) / Math.abs(x2 - x1) //斜率
+                dot(x1, y1, color)
+                    // debugger
+                let xi = x1,
+                    yi = y1
+                while (count < Math.abs(x2 - x1) + Math.abs(y2 - y1)) {
+
+
+                    if (goRight && goBtm) {
+                        // 奇数向右，偶数向下
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, ++yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goBtm) {
+                        // 奇数向左，偶数向下
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, ++yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goRight && goTop) {
+                        // 奇数向右，偶数向上
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, --yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goTop) {
+                        // 奇数向左，偶数向上
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, --yi, color)
+                            count++
+                        }
+                    }
+
+                }
+            }
+        } else {
+            dot(x1, y1, color)
+        }
+    }
+    solid(0, 0, 800, 800, 'magenta');
+    solid(0, 800, 800, 0, 'magenta');
+
+    // 画一个空心矩形
+    function rect(x1, y1, x2, y2, color) {
+        for (let yi = y1; yi <= y2; yi++) {
+            if (yi == y1 || yi == y2) {
+                for (let xi = x1; xi <= x2; xi++) {
+                    dot(xi, yi, color)
+                }
+            } else {
+                dot(x1, yi, color)
+                dot(x2, yi, color)
+            }
+        }
+    }
+    rect(20, 200, 120, 300, 'skyblue')
+
+    // 画一个实心矩形
+    function fillRect(x1, y1, x2, y2, color) {
+        for (let yi = y1; yi <= y2; yi++) {
+            for (let xi = x1; xi <= x2; xi++) {
+                dot(xi, yi, color)
+            }
+        }
+    }
+    fillRect(20, 320, 120, 420, 'pink')
+
+    // 画俩空心圆 居中 半径为50px 和 200px
+    function circle(x, y, r, color) {
+        for (let yi = y - r; yi <= y + r; yi++) {
+            for (let xi = x - r; xi <= x + r; xi++) {
+                if (Math.round(Math.sqrt(Math.pow(y - yi, 2) + Math.pow(x - xi, 2))) == r) {
+                    dot(xi, yi, color)
+                }
+            }
+        }
+    }
+    circle(400, 400, 50, 'yellow')
+    circle(400, 400, 200, 'teal')
+
+
+    // 画一个实心圆 半径至少为100px
+    function fillCircle(x, y, r, color) {
+        for (let yi = y - r; yi <= y + r; yi++) {
+            for (let xi = x - r; xi <= x + r; xi++) {
+                if (Math.round(Math.sqrt(Math.pow(y - yi, 2) + Math.pow(x - xi, 2))) <= r) {
+                    dot(xi, yi, color)
+                }
+            }
+        }
+    }
+    fillCircle(120, 620, 120, 'brown')
+
+
+    // 画一个大小合适的sin(x)图像  (xOri,yOri)为该Asin(wx-phi)-b原点坐标，T为要画的周期数（1T=2π/w）
+    function drawSin(xOri, yOri, T, color, A = 1, w = 1, phi = 0, b = 0) {
+        // y∈[-A-b+yOri,A-b+yOri]  x∈[xOri+phi,xOri+phi+(2π/w)*T] 注意y轴向下，但sin(x)图像y轴向上
+
+        for (let yi = -A - b + yOri; yi <= A - b + yOri; yi++) {
+            for (let xi = xOri + phi; xi <= xOri + phi + Math.PI * 2 / w * T; xi++) {
+                if (Math.round(yi) == Math.round(A * Math.sin(w * xi - phi) - b + yOri)) {
+                    dot(xi, yi, color)
+                }
+            }
+        }
+    }
+    drawSin(600, 310, 10, 'tomato')
+    drawSin(120, 400, 10, 'black', 200, Math.PI / 400, -30, -150)
+
+
+    // 画出rgb色彩空间的某一面
+    function drawRgb_RG(x1, y1, x2, y2) {
+        let G = 0,
+            R = 0
+
+        for (let yi = y1; yi <= y2; yi++) {
+            for (let xi = x1; xi <= x2; xi++) {
+                G = 255 * (xi - x1) / (x2 - x1)
+                R = 255 * (yi - y1) / (y2 - y1)
+                dot(xi, yi, 'rgb(' + R + ',' + G + ',0)')
+            }
+        }
+    }
+    drawRgb_RG(50, 50, 200, 200)
+
+    // rgb色彩空间矩阵1 [2,0,0,2] 坐标放大二倍
+    function drawRgb_RG_matrix1(x1, y1, x2, y2) {
+        let new_x1 = 2 * x1
+        let new_y1 = 2 * y1
+        let new_x2 = 2 * x2
+        let new_y2 = 2 * y2
+        drawRgb_RG(new_x1, new_y1, new_x2, new_y2)
+    }
+    drawRgb_RG_matrix1(50, 50, 200, 200)
+
+    // rgb色彩空间矩阵1 [1,0,0.27,1] 
+    function drawRgb_RG_matrix2(x1, y1, x2, y2) {
+        let new_x1 = x1
+        let new_y1 = 0.27 * x1 + y1
+        let new_x2 = x2
+        let new_y2 = 0.27 * x2 + y2
+        drawRgb_RG(new_x1, new_y1, new_x2, new_y2)
+    }
+    drawRgb_RG_matrix2(50, 50, 200, 200)
+
+    // rgb色彩空间矩阵1 [.5,-.87,0.87,.5] 
+    function drawRgb_RG_matrix3(x1, y1, x2, y2) {
+        let new_x1 = x1 * 0.5 - 0.87 * y1
+        let new_y1 = 0.87 * x1 + 0.5 * y1
+        let new_x2 = x2 * 0.5 - 0.87 * y2
+        let new_y2 = 0.87 * x2 + 0.5 * y2
+        drawRgb_RG(new_x1, new_y1, new_x2, new_y2)
+    }
+    drawRgb_RG_matrix3(0, 0, 100, 100)
+
+    
+
+    // -----------------绘图方法-----------------//
+
+
+    // 画出一条实线  Error：此方法只能画abs(k)==1的斜线，插值方法非法
+    function solid(x1, y1, x2, y2, color) {
+        if (!(x2 === x1 && y2 === y1)) {
+
+            // 勾画水平与垂直的直线
+            if (x2 === x1 && y2 != y1) {
+                for (let i = Math.min(y2, y1); i <= Math.max(y2, y1); i++) {
+                    dot(x1, i)
+                }
+            } else if (y2 === y1 && x2 != x1) {
+                for (let i = Math.min(x2, x1); i <= Math.max(x2, x1); i++) {
+                    dot(i, y1)
+                }
+            } else {
+
+                // while控制勾画插值斜线   共(x2-x1+y2-y1)个点，(x1,y1)已画
+                let count = 1
+                let goRight = x2 - x1 > 0 ? true : false
+                let goBtm = y2 - y1 > 0 ? true : false
+                let goLeft = x2 - x1 < 0 ? true : false
+                let goTop = y2 - y1 < 0 ? true : false
+                let k = Math.abs(y2 - y1) / Math.abs(x2 - x1) //斜率
+                dot(x1, y1, color)
+                    // debugger
+                let xi = x1,
+                    yi = y1
+                while (count < Math.abs(x2 - x1) + Math.abs(y2 - y1)) {
+
+
+                    if (goRight && goBtm) {
+                        // 奇数向右，偶数向下
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, ++yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goBtm) {
+                        // 奇数向左，偶数向下
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, ++yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goRight && goTop) {
+                        // 奇数向右，偶数向上
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, --yi, color)
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goTop) {
+                        // 奇数向左，偶数向上
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, color)
+                            count++
+                        } else {
+                            dot(xi, --yi, color)
+                            count++
+                        }
+                    }
+
+                }
+            }
+        } else {
+            dot(x1, y1, color)
+        }
+    }
+    // solid(50, 100, 300, 420, 'red');
+
+    // 画出一条一个实点一个空点的虚线  Error：此方法只能画abs(k)==1的斜线，插值方法非法
+    function dotted(x1, y1, x2, y2, color) {
+        if (!(x2 === x1 && y2 === y1)) {
+            // 勾画水平垂直直线
+            if (x1 === x2 && y1 != y2) {
+                for (let i = Math.min(y1, y2); i <= Math.max(y1, y2); i += 2) {
+                    dot(x1, i, color)
+                }
+            } else if (y1 === y2 && x1 != x2) {
+                for (let i = Math.min(x1, x2); i <= Math.max(x1, x2); i += 2) {
+                    dot(i, y1, color)
+                }
+            } else {
+                // 斜线 插值
+                // while控制勾画插值斜线   共(x2-x1+y2-y1)个点，(x1,y1)已画
+                let count = 1
+                let goRight = x2 - x1 > 0 ? true : false
+                let goBtm = y2 - y1 > 0 ? true : false
+                let goLeft = x2 - x1 < 0 ? true : false
+                let goTop = y2 - y1 < 0 ? true : false
+                dot(x1, y1, color)
+                    // debugger
+                let xi = x1,
+                    yi = y1
+                while (count < Math.abs(x2 - x1) + Math.abs(y2 - y1)) {
+
+                    if (goRight && goBtm) {
+                        // 奇数向右，偶数向下
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, ++yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+
+                    }
+
+                    if (goLeft && goBtm) {
+                        // 奇数向左，偶数向下
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, ++yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+                    }
+
+                    if (goRight && goTop) {
+                        // 奇数向右，偶数向上
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, --yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goTop) {
+                        // 奇数向左，偶数向上
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, --yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+                    }
+                }
+
+
+            }
+        } else {
+            // 画个点
+            dot(x1, y1, color)
+        }
+    }
+    // dotted(50, 50, 200, 200, 'blue');
+
+    // 画出一条两个实点两个空点的虚线  Error：此方法只能画abs(k)==1的斜线，插值方法非法
+    function dashed(x1, y1, x2, y2, color) {
+        if (!(x2 === x1 && y2 === y1)) {
+            // 勾画水平垂直直线
+            if (x1 === x2 && y1 != y2) {
+                for (let i = Math.min(y1, y2); i <= Math.max(y1, y2); i += 4) {
+                    dot(x1, i, color)
+                    dot(x1, i + 1, color)
+                }
+            } else if (y1 === y2 && x1 != x2) {
+                for (let i = Math.min(x1, x2); i <= Math.max(x1, x2); i += 4) {
+                    dot(i, y1, color)
+                    dot(i + 1, y1, color)
+                }
+            } else {
+                // 斜线 插值
+                // while控制勾画插值斜线   共(x2-x1+y2-y1)个点，(x1,y1)已画
+                let count = 1
+                let goRight = x2 - x1 > 0 ? true : false
+                let goBtm = y2 - y1 > 0 ? true : false
+                let goLeft = x2 - x1 < 0 ? true : false
+                let goTop = y2 - y1 < 0 ? true : false
+                dot(x1, y1, color)
+                    // debugger
+                let xi = x1,
+                    yi = y1
+                while (count < Math.abs(x2 - x1) + Math.abs(y2 - y1)) {
+
+                    if (goRight && goBtm) {
+                        // 奇数向右，偶数向下
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, ++yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+
+                    }
+
+                    if (goLeft && goBtm) {
+                        // 奇数向左，偶数向下
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, ++yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+                    }
+
+                    if (goRight && goTop) {
+                        // 奇数向右，偶数向上
+                        if (count & 1 === 1) {
+                            dot(++xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, --yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+                    }
+
+                    if (goLeft && goTop) {
+                        // 奇数向左，偶数向上
+                        if (count & 1 === 1) {
+                            dot(--xi, yi, 'white')
+                            count++
+                        } else {
+                            dot(xi, --yi, 'white')
+                            if (count % 4 === 0) {
+                                dot(xi, yi, color)
+                            }
+                            count++
+                        }
+                    }
+                }
+
+
+            }
+        } else {
+            // 画个点
+            dot(x1, y1, color)
+        }
+    }
+    // dashed(50, 50, 300, 50, 'violet');
+
+    // 画一条线  Error：未知
+    function drawLine(x1, y1, x2, y2, color) {
+        if (x1 == x2) {
+            for (let yi = Math.min(y1, y2); yi <= Math.max(y1, y2); yi++) {
+                dot(x1, yi, color)
+            }
+        } else if (y1 == y2) {
+            for (let xi = Math.min(x1, x2); xi <= Math.max(x1, x2); xi++) {
+                dot(xi, y1, color)
+            }
+        } else {
+            // debugger
+            dot(x1, y1, color)
+            dot(x2, y2, color)
+            for (let yi = y1; yi <= y2; yi++) {
+                for (let xi = x1; xi <= x2; xi++) {
+                    if (Math.floor(yi - y1 / xi - x1) == Math.round(y2 - y1 / x2 - x1) || Math.ceil(yi - y1 / xi - x1) == Math.round(y2 - y1 / x2 - x1)) {
+                        dot(xi, yi, color)
+                    }
+                }
+            }
+        }
+
+    }
+    // drawLine(250, 150, 600, 500, 'tan')
+
+
+    // ----------------------------------------------//
+</script>
+
+</html>

@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 2000px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        .clock {
+            width: 500px;
+            height: 500px;
+            /* border: 1px solid tomato; */
+            margin: 50px auto;
+            margin-bottom: 100px;
+        }
+        
+        .plate {
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            font-size: 40px;
+            position: relative;
+        }
+        /* 数字样式 */
+        
+        .ruling {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .ruling>li {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        .time-1 {
+            transform: rotate(30deg) translateY(-220px) rotate(-30deg);
+        }
+        
+        .time-2 {
+            transform: rotate(60deg) translateY(-220px) rotate(-60deg);
+        }
+        
+        .time-3 {
+            transform: translateX(220px);
+        }
+        
+        .time-4 {
+            transform: rotate(120deg) translateY(-220px) rotate(-120deg);
+        }
+        
+        .time-5 {
+            transform: rotate(150deg) translateY(-220px) rotate(-150deg);
+        }
+        
+        .time-6 {
+            transform: translateY(220px);
+        }
+        
+        .time-7 {
+            transform: rotate(30deg) translateY(220px) rotate(-30deg);
+        }
+        
+        .time-8 {
+            transform: rotate(60deg) translateY(220px) rotate(-60deg);
+        }
+        
+        .time-9 {
+            transform: translateX(-220px);
+        }
+        
+        .time-10 {
+            transform: rotate(-60deg) translateY(-220px) rotate(60deg);
+        }
+        
+        .time-11 {
+            transform: rotate(-30deg) translateY(-220px) rotate(30deg);
+        }
+        
+        .time-12 {
+            transform: translateY(-220px);
+        }
+        /* 刻度 */
+        
+        .mark {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 50px;
+            height: 500px;
+            transform: rotate(6deg);
+        }
+        
+        .mark::before {
+            display: block;
+            margin: auto;
+            content: '';
+            width: 1px;
+            height: 4px;
+            background: linear-gradient(to top, rgba(0, 0, 0, .2), rgba(0, 0, 0, .4), rgba(0, 0, 0, .1));
+            border-bottom-left-radius: 100%;
+            border-bottom-right-radius: 100%;
+        }
+        
+        .marked::before {
+            width: 2px;
+            height: 7px;
+        }
+        /* 中心轮区 */
+        
+        .center {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(124, 85, 85, 0.4), rgba(240, 240, 240, .8));
+            z-index: -1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+        }
+        /* 外层控制旋转，里层控制回震 */
+        
+        @keyframes oneturn {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes shake {
+            0% {
+                transform: rotate(0deg);
+            }
+            5% {
+                transform: rotate(2deg);
+            }
+            10% {
+                transform: rotate(0deg);
+            }
+            15% {
+                transform: rotate(-1deg);
+            }
+            20% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+        
+        .h,
+        .m,
+        .s {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 2;
+        }
+        
+        .h-clock {
+            position: absolute;
+            top: -80px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 10px;
+            height: 80px;
+            background: linear-gradient(to top, transparent, #333);
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+        }
+        
+        .m-clock {
+            position: absolute;
+            top: -105px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 6px;
+            height: 170px;
+            background: linear-gradient(to top, transparent, #333);
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+        }
+        
+        .s-clock {
+            position: absolute;
+            top: -175px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 3px;
+            height: 250px;
+            background: linear-gradient(to top, transparent, rgb(235, 15, 15));
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+            transform-origin: 50% 210px;
+            animation: shake 1s ease-out infinite;
+        }
+        
+        .s {
+            animation: oneturn 60s steps(60, end) infinite backwards;
+        }
+        
+        .m {
+            animation: oneturn 3600s linear infinite backwards;
+        }
+        
+        .h {
+            animation: oneturn 43200s linear infinite backwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="plate">
+            <ul class="ruling">
+                <li class="time-1">1</li>
+                <li class="time-2">2</li>
+                <li class="time-3">3</li>
+                <li class="time-4">4</li>
+                <li class="time-5">5</li>
+                <li class="time-6">6</li>
+                <li class="time-7">7</li>
+                <li class="time-8">8</li>
+                <li class="time-9">9</li>
+                <li class="time-10">10</li>
+                <li class="time-11">11</li>
+                <li class="time-12">12</li>
+            </ul>
+            <div class="h">
+                <div class="h-clock"></div>
+            </div>
+            <div class="m">
+                <div class="m-clock"></div>
+            </div>
+            <div class="s">
+                <div class="s-clock"></div>
+            </div>
+            <div class="center"></div>
+            <!-- 刻度 -->
+            <div class="mark">
+                <div class="mark">
+                    <div class="mark">
+                        <div class="mark">
+                            <div class="mark  marked">
+                                <div class="mark">
+                                    <div class="mark">
+                                        <div class="mark">
+                                            <div class="mark">
+                                                <div class="mark marked">
+                                                    <div class="mark">
+                                                        <div class="mark">
+                                                            <div class="mark">
+                                                                <div class="mark">
+                                                                    <div class="mark marked">
+                                                                        <div class="mark">
+                                                                            <div class="mark">
+                                                                                <div class="mark">
+                                                                                    <div class="mark">
+                                                                                        <div class="mark marked">
+                                                                                            <div class="mark">
+                                                                                                <div class="mark">
+                                                                                                    <div class="mark">
+                                                                                                        <div class="mark">
+                                                                                                            <div class="mark marked">
+                                                                                                                <div class="mark">
+                                                                                                                    <div class="mark">
+                                                                                                                        <div class="mark">
+                                                                                                                            <div class="mark">
+                                                                                                                                <div class="mark marked">
+                                                                                                                                    <div class="mark">
+                                                                                                                                        <div class="mark">
+                                                                                                                                            <div class="mark">
+                                                                                                                                                <div class="mark">
+                                                                                                                                                    <div class="mark marked">
+                                                                                                                                                        <div class="mark">
+                                                                                                                                                            <div class="mark">
+                                                                                                                                                                <div class="mark">
+                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                        <div class="mark marked">
+                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                            <div class="mark  marked">
+                                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                                                <div class="mark marked">
+                                                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                                                                    <div class="mark marked">
+                                                                                                                                                                                                                                        <div class="mark">
+                                                                                                                                                                                                                                            <div class="mark">
+                                                                                                                                                                                                                                                <div class="mark">
+                                                                                                                                                                                                                                                    <div class="mark">
+                                                                                                                                                                                                                                                        <div class="mark  marked"></div>
+                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <style>
+        i {
+            font-style: normal;
+        }
+        
+        .box {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+            border-width: 20px;
+            border-style: solid;
+            border-image-source: url(../images/yosora1.jpg);
+            border-image-slice: 20 15 20 15;
+            border-image-width: 20px;
+            border-image-repeat: round;
+            position: relative;
+            text-align: center;
+            padding-top: 5px;
+            background: url(../images/yosora1.jpg) no-repeat;
+            background-origin: border-box;
+            -webkit-background-clip: text;
+            transform-style: preserve-3d;
+        }
+        
+        .cube {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            transform-style: preserve-3d;
+            animation: rotate1 8s linear infinite;
+        }
+        
+        .box>.cube>div {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            box-sizing: border-box;
+            border: 1px solid chocolate;
+            backface-visibility: hidden;
+            line-height: 300px;
+            text-align: center;
+            transition: 5s;
+        }
+        
+        .box>.nowMark {
+            width: max-content;
+            height: max-content;
+            font-size: 30px;
+            font-weight: bold;
+            color: transparent;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            color: #000;
+        }
+        
+        .nowMark i {
+            transition: 1s calc(var(--i)*.15s);
+        }
+        
+        .box:hover .nowMark>i {
+            color: rgb(240, 240, 240);
+            text-shadow: 3px 3px 2px rgba(0, 0, 0, .2);
+        }
+        /* 立方体区域 */
+        
+        .front {
+            transform: translateZ(150px);
+            background-color: aqua;
+        }
+        
+        .behind {
+            transform: translateZ(-150px) rotateY(180deg);
+            background-color: violet;
+        }
+        
+        .top {
+            transform: translateY(-150px) rotateX(90deg);
+            background-color: lime;
+        }
+        
+        .bottom {
+            transform: translateY(150px) rotateX(-90deg);
+            background-color: skyblue;
+        }
+        
+        .left {
+            transform: translateX(-150px) rotateY(-90deg);
+            background-color: olive;
+        }
+        
+        .right {
+            transform: translateX(150px) rotateY(90deg);
+            background-color: grey;
+        }
+        
+        @keyframes rotate1 {
+            0% {
+                transform: rotate3d(1, 1, 1, 0deg);
+            }
+            50% {
+                transform: rotate3d(.3, .6, .9, 180deg);
+            }
+            75% {
+                transform: rotate3d(.6, .9, .3, 450deg);
+            }
+            100% {
+                transform: rotate3d(-1, -1, -1, 720deg);
+            }
+        }
+        
+        .labelbox>label {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* filter: brightness(300%); */
+            filter: contrast(90%) hue-rotate(45deg);
+            background-image: conic-gradient(rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255));
+            /* background-color: #fff; */
+            position: absolute;
+            top: -80px;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        .labelbox>label:nth-child(1) {
+            left: 0;
+        }
+        
+        .labelbox>label:nth-child(2) {
+            left: 80px;
+        }
+        
+        .labelbox>label:nth-child(3) {
+            left: 160px;
+        }
+        
+        .labelbox>label:nth-child(4) {
+            left: 240px;
+        }
+        
+        input:nth-of-type(1):checked~.cube {
+            animation-play-state: paused;
+        }
+        
+        input:nth-of-type(2):checked~.cube {
+            animation-play-state: running;
+        }
+        
+        input:nth-of-type(3):checked~.cube {
+            animation-play-state: running;
+        }
+        
+        input:nth-of-type(3):checked~.cube>div {
+            transition: 5s;
+            box-shadow: 0 0 100px 100px rgba(0, 0, 0, .9);
+        }
+        
+        input:nth-of-type(4):checked~.cube>div {
+            background-color: rgba(0, 0, 0, .2);
+        }
+        /* 时间 */
+        
+        .time {
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 250px;
+            height: 80px;
+            background-image: linear-gradient(to bottom, lightcoral, rgb(247, 171, 30));
+            box-shadow: 0 -5px 10px lightcoral, 0 5px 10px rgb(247, 171, 30);
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        
+        .time>span {
+            font-size: 40px;
+            font-weight: 700;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            /* background-color: #000; */
+            /* background-image: linear-gradient(to bottom, lightcoral, rgb(247, 171, 30)); */
+            text-align: center;
+            line-height: 50px;
+            color: #fff;
+        }
+        
+        .time>span::after {
+            content: '00';
+        }
+        
+        .time>span:nth-child(3)::after {
+            animation: seconds 60s linear infinite reverse;
+        }
+        
+        .time>span:nth-child(2)::after {
+            animation: seconds 3600s linear infinite reverse;
+        }
+        
+        .time>span:nth-child(1)::after {
+            animation: hours 86400s linear infinite;
+        }
+        
+        @keyframes hours {
+            0% {
+                content: '00';
+            }
+            4.17% {
+                content: '01';
+            }
+            8.34% {
+                content: '02';
+            }
+            12.51% {
+                content: '03';
+            }
+            16.68% {
+                content: '04';
+            }
+            20.85% {
+                content: '05';
+            }
+            25.02% {
+                content: '06';
+            }
+            29.19% {
+                content: '07';
+            }
+            33.36% {
+                content: '08';
+            }
+            37.53% {
+                content: '09';
+            }
+            41.7% {
+                content: '10';
+            }
+            45.87% {
+                content: '11';
+            }
+            50.04% {
+                content: '12';
+            }
+            54.21% {
+                content: '13';
+            }
+            58.38% {
+                content: '14';
+            }
+            62.55% {
+                content: '15';
+            }
+            66.72% {
+                content: '16';
+            }
+            70.89% {
+                content: '17';
+            }
+            75.06% {
+                content: '18';
+            }
+            79.23% {
+                content: '19';
+            }
+            83.4% {
+                content: '20';
+            }
+            87.57% {
+                content: '21';
+            }
+            91.74% {
+                content: '22';
+            }
+            95.91% {
+                content: '23';
+            }
+            100% {
+                content: '00';
+            }
+        }
+        
+        @keyframes seconds {
+            0% {
+                content: '00';
+            }
+            1.67% {
+                content: '59';
+            }
+            3.34% {
+                content: '58';
+            }
+            5.01% {
+                content: '57';
+            }
+            6.68% {
+                content: '56';
+            }
+            8.35% {
+                content: '55';
+            }
+            10.02% {
+                content: '54';
+            }
+            11.69% {
+                content: '53';
+            }
+            13.36% {
+                content: '52';
+            }
+            15.03% {
+                content: '51';
+            }
+            16.7% {
+                content: '50';
+            }
+            18.37% {
+                content: '49';
+            }
+            20.04% {
+                content: '48';
+            }
+            21.71% {
+                content: '47';
+            }
+            23.38% {
+                content: '46';
+            }
+            25.05% {
+                content: '45';
+            }
+            26.72% {
+                content: '44';
+            }
+            28.39% {
+                content: '43';
+            }
+            30.06% {
+                content: '42';
+            }
+            31.73% {
+                content: '41';
+            }
+            33.4% {
+                content: '40';
+            }
+            35.07% {
+                content: '39';
+            }
+            36.74% {
+                content: '38';
+            }
+            38.41% {
+                content: '37';
+            }
+            40.08% {
+                content: '36';
+            }
+            41.75% {
+                content: '35';
+            }
+            43.42% {
+                content: '34';
+            }
+            45.09% {
+                content: '33';
+            }
+            46.76% {
+                content: '32';
+            }
+            48.43% {
+                content: '31';
+            }
+            50.1% {
+                content: '30';
+            }
+            51.77% {
+                content: '29';
+            }
+            53.44% {
+                content: '28';
+            }
+            55.11% {
+                content: '27';
+            }
+            56.78% {
+                content: '26';
+            }
+            58.45% {
+                content: '25';
+            }
+            60.12% {
+                content: '24';
+            }
+            61.79% {
+                content: '23';
+            }
+            63.46% {
+                content: '22';
+            }
+            65.13% {
+                content: '21';
+            }
+            66.8% {
+                content: '20';
+            }
+            68.47% {
+                content: '19';
+            }
+            70.14% {
+                content: '18';
+            }
+            71.81% {
+                content: '17';
+            }
+            73.48% {
+                content: '16';
+            }
+            75.15% {
+                content: '15';
+            }
+            76.82% {
+                content: '14';
+            }
+            78.49% {
+                content: '13';
+            }
+            80.16% {
+                content: '12';
+            }
+            81.83% {
+                content: '11';
+            }
+            83.5% {
+                content: '10';
+            }
+            85.17% {
+                content: '09';
+            }
+            86.84% {
+                content: '08';
+            }
+            88.51% {
+                content: '07';
+            }
+            90.18% {
+                content: '06';
+            }
+            91.85% {
+                content: '05';
+            }
+            93.52% {
+                content: '04';
+            }
+            95.19% {
+                content: '03';
+            }
+            96.86% {
+                content: '02';
+            }
+            98.53% {
+                content: '01';
+            }
+            100% {
+                content: '00';
+            }
+        }
+    </style>
+
+
+    <div class="box">
+        <span class="nowMark"> <i style="--i:1">-现-</i><i style="--i:2">-在-</i><i style="--i:3">-时-</i><i style="--i:4">-间-</i></span>
+        <input type="radio" name="cube-ctl" id="ctl-1" checked>
+        <input type="radio" name="cube-ctl" id="ctl-2">
+        <input type="radio" name="cube-ctl" id="ctl-3">
+        <input type="radio" name="cube-ctl" id="ctl-4">
+
+        <div class="labelbox">
+            <label for="ctl-1">stop</label>
+            <label for="ctl-2">rotate</label>
+            <label for="ctl-3">shadow</label>
+            <label for="ctl-4">time</label>
+        </div>
+        <div class="cube">
+            <div class="front">front</div>
+            <div class="behind">behind</div>
+            <div class="top">top</div>
+            <div class="bottom">bottom</div>
+            <div class="left">left</div>
+            <div class="right">right</div>
+        </div>
+        <div class="light"></div>
+        <div class="time">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</body>
+
+</html>

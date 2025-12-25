@@ -1,0 +1,2346 @@
+<script id="ch0103/01">
+    var a = +prompt('输入整数A')
+    var b = +prompt('输入整数B')
+    console.log(a + b);
+</script>
+<script id="ch0103/02">
+    var a = +prompt('输入整数A')
+    var b = +prompt('输入整数B')
+    var c = +prompt('输入整数C')
+    console.log((a + b) * c);
+</script>
+<script id="ch0103/03">
+    var a = +prompt('输入整数A，A应大于-10,000')
+    var a1 = a > -10000 ? a : -9999
+    var b = +prompt('输入整数B')
+    var c = +prompt('输入整数C，C应小于10,000且不等于0')
+    var c1 = c < 10000 ? c : 9999
+    var d = Math.floor((a1 + b) / c1)
+    console.log(d);
+</script>
+<script id="ch0103/04">
+    var a = +prompt('输入被除数A')
+    var b = +prompt('输入除数B')
+    var c = (a - (a % b)) / b
+    var d = a % b
+    console.log(c);
+    console.log(d);
+</script>
+<script id="ch0103/05">
+    var a = +prompt('输入分子A')
+    var b = +prompt('输入分母B')
+    var c = Number(a / b).toFixed(9)
+    console.log(c);
+</script>
+<script id="ch0103/06">
+    var a = +prompt('输入确诊数A')
+    var b = +prompt('输入死亡数B')
+    var c = Number(b / a * 100).toFixed(3)
+    console.log(c + '%');
+</script>
+<script id="ch0103/07">
+    // f(x) = ax3 + bx2 + cx + d
+    var x = +prompt('输入x')
+    var a = +prompt('输入a')
+    var b = +prompt('输入b')
+    var c = +prompt('输入c')
+    var d = +prompt('输入d')
+
+    var e = Number(a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d).toFixed(7)
+    console.log(e);
+</script>
+<script id="ch0103/08">
+    var f = +prompt('输入华氏摄氏度')
+    var ff = f > -459.67 ? f : -459.67
+    var c = 5 * (ff - 32) / 9
+    console.log(c.toFixed(5));
+</script>
+<script id="ch0103/09">
+    var r = +prompt('请输入圆的半径r')
+    var r1 = r > 0 ? r : 0
+    var r2 = r1 < 10000 ? r1 : 10000
+    var d = (2 * r2).toFixed(4)
+    var l = (2 * 3.14159 * r2).toFixed(4)
+    var s = (3.14159 * r2 * r2).toFixed(4)
+    console.log(d);
+    console.log(l);
+    console.log(s);
+</script>
+<script id="ch0103/10">
+    var r1 = +prompt('请输入r1的阻值')
+    var r2 = +prompt('请输入r2的阻值')
+    var r = (1 / (1 / r1 + 1 / r2)).toFixed(2)
+    console.log(r);
+</script>
+<script id="ch0103/11">
+    var a = +prompt('请输入被除数a')
+    var b = +prompt('请输入除数b')
+    var c = (a % b).toFixed(4)
+    console.log(c);
+</script>
+<script id="ch0103/12">
+    var r = +prompt('请输入球的半径r')
+    var V = (4 / 3 * 3.14 * Math.pow(r, 3)).toFixed(2)
+    console.log(V);
+</script>
+<script id="ch0103/13">
+    var a = +prompt('请输入一个三位数')
+    var unit = a % 10
+    var decade = (a - a % 10) % 100 / 10
+    var hundred = (a - a % 100) / 100
+        // var b = unit*100+decade*10+hundred
+    console.log(`${unit}${decade}${hundred}`);
+</script>
+<script id="ch0103/14">
+    var h = +prompt('请输入小圆桶深度h')
+    var r = +prompt('请输入小圆桶底面半径r')
+    var count = Math.ceil(20 * 1000 / (Math.pow(r, 2) * Math.PI * h))
+    console.log(count);
+</script>
+<script id="ch0103/15">
+    var n = +prompt('请输入箱子里的苹果数')
+    var x = +prompt('请输入虫子吃完1个苹果的时间x小时')
+    var y = +prompt('请输入等待时间y')
+    var count = n - Math.ceil(y / x) > 0 ? n - Math.ceil(y / x) : 0
+    console.log(count);
+</script>
+<script id="ch0103/16">
+    var x1 = +prompt('请输入A点的x坐标')
+    var y1 = +prompt('请输入A点的y坐标')
+    var x2 = +prompt('请输入B点的x坐标')
+    var y2 = +prompt('请输入B点的y坐标')
+    var length = Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2)).toFixed(3)
+    console.log(length);
+</script>
+<script id="ch0103/17">
+    var x1 = +prompt('请输入A点的x坐标')
+    var y1 = +prompt('请输入A点的y坐标')
+    var x2 = +prompt('请输入B点的x坐标')
+    var y2 = +prompt('请输入B点的y坐标')
+    var x3 = +prompt('请输入C点的x坐标')
+    var y3 = +prompt('请输入C点的y坐标')
+    var a = Math.sqrt(Math.pow(y3 - y2, 2) + Math.pow(x3 - x2, 2))
+    var b = Math.sqrt(Math.pow(y3 - y1, 2) + Math.pow(x3 - x1, 2))
+    var c = Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2))
+    var p = (a + b + c) / 2
+    var S = Math.sqrt(p * (p - a) * (p - b) * (p - c)).toFixed(2)
+    console.log(S);
+</script>
+<script id="ch0103/18">
+    var a1 = +prompt('请输入整数a1，并注意a1>=-100')
+    var a2 = +prompt('请输入整数a2，并注意a2<=100')
+    var n = +prompt('请输入n，并注意0<n<=1000')
+    var d = a2 - a1
+    var an = a1 + (n - 1) * d
+        // var Sn = n / 2 * (a1 + an)
+    console.log(an);
+</script>
+<script id="ch0103/19">
+    var a = +prompt('请输入A的值，注意A>=1')
+    var a1 = a >= 1 ? a : 1
+    var b = +prompt('请输入B的值，注意B<=50000')
+    var b1 = b <= 50000 ? b : 50000
+    console.log(a1 * b1);
+</script>
+<script id="ch0103/20">
+    var n = +prompt('请输入整数n，并注意0<=n<31')
+    var n1 = n >= 0 ? n : 0
+    var n2 = n1 < 31 ? n1 : 30
+    console.log(Math.pow(2, n));
+</script>
+
+
+
+<script id="ch0104/01">
+    var N = +prompt('请输入整数N')
+    if (N > 0) {
+        console.log('positive');
+    } else if (N === 0) {
+        console.log('zero');
+    } else {
+        console.log('negative');
+    }
+</script>
+
+<script id="ch0104/02">
+    var flo = +prompt('请输入一个浮点数，其绝对值不超过10000')
+    if (flo >= 0) {
+        console.log(flo);
+    } else {
+        console.log(-flo);
+    }
+</script>
+<script id="ch0104/03">
+    var num = +prompt('请输入一个正整数以判断奇偶')
+    if (num & 1 === 1) {
+        console.log('odd');
+    } else {
+        console.log('even');
+    }
+</script>
+<script id="ch0104/04">
+    var charCode = prompt('请输入任意一个字符').charCodeAt(0)
+    if (charCode & 1 === 1) {
+        console.log('YES');
+    } else {
+        console.log('NO');
+    }
+</script>
+<script id="ch0104/05">
+    var x = +prompt('请输入整数x')
+    var y = +prompt('请输入整数y')
+    if (x > y) {
+        console.log('>');
+    } else if (x === y) {
+        console.log('=');
+    } else {
+        console.log('<');
+    }
+</script>
+<script id="ch0104/06">
+    var num = +prompt('请输入待测验正整数')
+    if (num >= 10 && num < 100) {
+        console.log(1);
+    } else {
+        console.log(0);
+    }
+</script>
+<script id="ch0104/07">
+    var lucky = +prompt('请输入幸运瓶盖数量')
+    var encourage = +prompt('请输入鼓励瓶盖数量')
+    if (lucky >= 10 || encourage >= 20) {
+        console.log(1);
+    } else {
+        console.log(0);
+    }
+</script>
+<script id="ch0104/08">
+    var n = +prompt('请输入一个整数')
+    if (n % 3 === 0 && n % 5 === 0) {
+        console.log('YES');
+    } else {
+        console.log('NO');
+    }
+</script>
+<script id="ch0104/09">
+    // 错误示范
+    // var num = +prompt('请输入一个整数')
+    // if (num % 3 === 0 && num % 5 === 0 && num % 7 === 0) {
+    //     console.log(3, 5, 7);
+    // } else if (num % 3 === 0 && num % 5 === 0 && num % 7 !== 0) {
+    //     console.log(3, 5);
+    // } else if (num % 3 === 0 && num % 5 !== 0 && num % 7 === 0) {
+    //     console.log(3, 7);
+    // } else if (num % 3 !== 0 && num % 5 === 0 && num % 7 === 0) {
+    //     console.log(5, 7);
+    // } else if (num % 3 !== 0 && num % 5 !== 0 && num % 7 !== 0) {
+    //     console.log('n');
+    // } else {
+    //     if (num % 3 === 0) {
+    //         console.log(3);
+    //     } else if (num % 5 === 0) {
+    //         console.log(5);
+    //     } else {
+    //         console.log(7);
+    //     }
+    // }
+    // 正确示范
+    var num = +prompt('请输入一个整数')
+    if (num % 3 !== 0 && num % 5 !== 0 && num % 7 !== 0) {
+        console.log('n');
+    } else {
+        if (num % 3 === 0) {
+            console.log(3);
+        }
+        if (num % 5 === 0) {
+            console.log(5);
+        }
+        if (num % 7 === 0) {
+            console.log(7);
+        }
+    }
+</script>
+<script id="ch0104/10">
+    // 恰好仅一门课不及格
+    var chinese = +prompt('请输入语文成绩')
+    var math = +prompt('请输入数学成绩')
+    if (chinese < 60 && math >= 60 || chinese >= 60 && math < 60) {
+        console.log(1);
+    } else {
+        console.log(0);
+    }
+</script>
+<script id="ch0104/11">
+    var date = +prompt('请输入贝贝邀请晶晶看展览的日期')
+    switch (date) {
+        case 2:
+            console.log('YES');
+            break;
+        case 4:
+            console.log('YES');
+            break
+        case 6:
+            console.log('YES');
+            break
+        default:
+            console.log('NO');
+    }
+</script>
+<script id="ch0104/12">
+    var length = +prompt('请输入该次办事要走的路程')
+        // 骑车 3m/s  步行 1.2m/s
+    var bike = ((length / 3) + 27 + 23)
+    var walk = (length / 1.2)
+    if (bike < walk) {
+        console.log('Bike');
+    } else if (bike == walk) {
+        console.log('All');
+    } else {
+        console.log('Walk');
+    }
+</script>
+<script id="ch0104/13">
+    //分段函数
+    var x = +prompt('请输入x的值，并使x∈[0,20)')
+
+    if (x >= 0 && x < 5) {
+        console.log((-x + 2.5).toFixed(3));
+    } else if (x >= 5 && x < 10) {
+        console.log((2 - 1.5 * (x - 3) * (x - 3)).toFixed(3));
+    } else if (x >= 10 && x < 20) {
+        console.log((x / 2 - 1.5).toFixed(3));
+    } else {
+        console.log('输入的数值非法！');
+    }
+</script>
+<script id="ch0104/14">
+    var weight = +prompt('请输入邮件物重')
+    var isUrgent = prompt('是否选择加急？\n是请输入:y\t否请输入:n') === 'y' ? true : false
+    var cost = 0
+    if (weight > 0) {
+        if (weight <= 1000) {
+            cost = 8
+        } else {
+            cost = 8 + Math.ceil((weight - 1000) / 500) * 4
+        }
+        if (isUrgent) {
+            cost += 5
+        }
+        console.log(cost);
+    } else {
+        console.log('请输入正确的邮件物重');
+    }
+</script>
+
+<script id="ch0104/15">
+    var num1 = +prompt('请输入第一个数')
+    var num2 = +prompt('请输入第二个数')
+    var num3 = +prompt('请输入第三个数')
+        // console.log(Math.max(num1, num2, num3));
+    if (num1 >= num2 && num1 >= num3) {
+        console.log(num1);
+    } else if (num2 >= num1 && num2 >= num3) {
+        console.log(num2);
+    } else {
+        console.log(num3);
+    }
+</script>
+<script id="ch0104/16">
+    var a = +prompt('请输入第一条边')
+    var b = +prompt('请输入第二条边')
+    var c = +prompt('请输入第三条边')
+    if (a + b > c && a + c > b && b + c > a) {
+        console.log('yes');
+    } else {
+        console.log('no');
+    }
+</script>
+<script id="ch0104/17">
+    var year = +prompt('请输入查询年份')
+    if (year % 400 === 0 || year % 4 === 0 && year % 100 !== 0) {
+        console.log('Y');
+    } else {
+        console.log('N');
+    }
+</script>
+<script id="ch0104/18">
+    var x = +prompt('查询点的x坐标')
+    var y = +prompt('查询点的y坐标')
+    if (x >= -1 && x <= 1 && y >= -1 && y <= 1) {
+        console.log('yes');
+    } else {
+        console.log('no');
+    }
+</script>
+<script id="ch0104/19">
+    var num1 = +prompt('请输入第一个数')
+    var num2 = +prompt('请输入第二个数')
+    var oprator = prompt('请输入运算符\n可选项：+ - * /')
+    switch (oprator) {
+        case '+':
+            console.log(num1 + num2);
+            break;
+        case '-':
+            console.log(num1 - num2);
+            break;
+        case '*':
+            console.log(num1 * num2);
+            break;
+        case '/':
+            if (num2 !== 0) {
+                console.log(num1 / num2);
+            } else {
+                console.log('Divided by zero!');
+            }
+            break;
+        default:
+            console.log('Invalid operator!');
+    }
+</script>
+<script id="ch0104/20">
+    var a = +prompt('请输入系数a')
+    var b = +prompt('请输入系数b')
+    var c = +prompt('请输入系数c')
+    var delta = b * b - 4 * a * c
+    var x1 = -b + Math.sqrt(delta) / 2 * a
+    var x2 = -b - Math.sqrt(delta) / 2 * a
+    if (delta == 0) {
+        console.log('x1=x2=' + x1.toFixed(5));
+    } else if (delta > 0) {
+        x1 > x2 ? console.log('x1=' + x1.toFixed(5) + ';x2' + x2.toFixed(5) + ';') : console.log('x1=' + x2.toFixed(5) + ';x2' + x1.toFixed(5) + ';')
+    } else {
+        a > 0 ? console.log('x1=' + (-b / (2 * a)).toFixed(5) + '+' + (Math.sqrt(-delta) / (2 * a)).toFixed(5) + 'i;x2=' + (-b / (2 * a)).toFixed(5) + '-' + (Math.sqrt(-delta) / (2 * a)).toFixed(5) + 'i') : console.log('x1=' + (-b / (2 * a)).toFixed(5) + '-' + (Math.sqrt(-delta) / (2 * a)).toFixed(5) + 'i;x2=' + (-b / (2 * a)).toFixed(5) + '+' + (Math.sqrt(-delta) / (2 * a)).toFixed(5) + 'i');
+    }
+</script>
+<script id="ch0104/21">
+    var n = +prompt('一箱共有多少个苹果?')
+    var x = +prompt('虫子多久能吃掉一个苹果?')
+    var y = +prompt('等待时间?')
+    console.log(n - Math.ceil(y / x));
+</script>
+<script id="ch0105/01">
+    var n = +prompt('请输入学生总数，n应满足1<=n<=100')
+
+    function avgAge(n) {
+        var arr = []
+        if (n >= 1 && n <= 100) {
+            let count = 0;
+            while (count < n) {
+                arr[count] = +prompt('请输入第' + (count + 1) + '个学生的年龄，年龄x应满足15<=x<=25')
+                if (arr[count] >= 15 && arr[count] <= 25) {
+                    count++
+                } else {
+                    console.log('学生年龄非法，请重新输入该学生年龄');
+                    continue
+                }
+            }
+        } else {
+            console.log('学生总数非法');
+        }
+        var sum = 0
+        for (let i = 0; i < n; i++) {
+            sum += arr[i]
+        }
+        return (sum / n).toFixed(2)
+    }
+    console.log(avgAge(n));
+</script>
+<script id="ch0105/02">
+    function wage() {
+        var arr = []
+        let month = 0
+        while (month < 12) {
+            arr[month] = +prompt('请输入第' + (month + 1) + '月的薪水')
+            if (arr[month] <= 1000000 && arr[month] > 0) {
+                month++
+            } else {
+                console.log('该月薪资非法，请重新输入' + (month + 1) + '月薪资')
+                continue
+            }
+        }
+        let sum = 0
+        for (let i = 0; i < 12; i++) {
+            sum += arr[i]
+        }
+        return '$' + (sum / 12).toFixed(2)
+    }
+    console.log(wage());
+</script>
+<script id="ch0105/03">
+    // 样本均值
+    function sampleAvg(n) {
+        let arr = []
+        let count = 0,
+            sum = 0
+        if (n < 100 && n >= 0) {
+            while (count < n) {
+                arr[count] = +prompt('共' + n + '个样本，请输入第' + (count + 1) + '个样本。')
+                if (Math.abs(arr[count]) < 1000) {
+                    count++
+                } else {
+                    console.log('第' + (count + 1) + '个样本非法，请重新输入')
+                    continue
+                }
+            }
+            for (let i = 0; i < n; i++) {
+                sum += arr[i]
+            }
+            return (sum / n).toFixed(4)
+        } else {
+            return '样本容量非法，请重新执行本页面'
+        }
+
+    }
+    var n = +prompt('请输入样本容量')
+    console.log(sampleAvg(n));
+</script>
+
+<script id="ch0105/04">
+    function fn1() {
+        let n = +prompt('请输入整数个数n，注意应符合条件1 <= n <= 10000')
+        if (n >= 1 && n <= 10000) {
+            let arr = []
+            let count = 0,
+                sum = 0
+            while (count < n) {
+                arr[count] = +prompt('共' + n + '个整数，请输入第' + (count + 1) + '个整数\n应注意条件-10000<=x<=10000')
+                if (Math.abs(arr[count]) <= 10000) {
+                    count++
+                } else {
+                    console.log('本次输入的整数范围非法')
+                    continue
+                }
+            }
+            for (let i = 0; i < n; i++) {
+                sum += arr[i]
+            }
+            return sum.toFixed(0) + ' ' + (sum / n).toFixed(5)
+        } else {
+            return '整数个数非法，请重新执行本页面'
+        }
+
+    }
+    console.log(fn1());
+</script>
+
+
+<script id="ch0105/05">
+    function fn1() {
+        let n = +prompt('请输入考试人数')
+        if (n >= 1 && n < 100) {
+            let arr = [],
+                count = 0,
+                maxIndex = 0
+            while (count < n) {
+                arr[count] = +prompt('共' + n + '个学生，请输入第' + (count + 1) + '个学生的成绩；\n注意成绩应符合0<=x<=100,且x为整数')
+                if (arr[count] >= 0 && arr[count] <= 100) {
+
+                    count++
+                } else {
+                    console.log('输入的成绩非法，请重新输入第' + (count + 1) + '个学生的成绩');
+                }
+            }
+            for (let i = 0; i < n; i++) {
+                maxIndex = arr[i] > arr[maxIndex] ? i : maxIndex
+            }
+            return arr[maxIndex]
+        } else {
+            return '输入的考试人数非法，请重新执行本页面'
+        }
+    }
+    console.log(fn1());
+</script>
+<script id="ch0105/06">
+    function fn1() {
+        let n = +prompt('请输入序列长度，并注意长度n满足1 <= n <= 1000')
+        if (n >= 1 && n <= 1000) {
+            let count = 0,
+                max = 0,
+                min = 0,
+                num
+            while (count < n) {
+                num = +prompt('请输入第' + (count + 1) + '个序列值', 0)
+                if (num < 1000 && num >= 0) {
+                    max = num > max ? num : max
+                    min = num < min ? num : min
+                    count++
+                } else {
+                    console.log('本次输入的值（第' + (count + 1) + '次）非法，请重新输入');
+                    continue
+                }
+            }
+            return max - min
+        } else {
+            return '序列长度非法，请重新执行本页面'
+        }
+    }
+    console.log(fn1());
+</script>
+<script id="ch0105/07">
+    function fn1() {
+        let n = +prompt('请输入A国参与决赛项目的天数，注意该天数n满足1<=n<=17')
+        if (n >= 1 && n <= 17) {
+            let gold = 0,
+                goldsum = 0,
+                silver = 0,
+                silversum = 0,
+                bronze = 0,
+                bronzesum = 0
+
+            let count = 0
+            while (count < n) {
+                gold = +prompt('请输入第' + (count + 1) + '天获得的金牌数量', 0)
+                silver = +prompt('请输入第' + (count + 1) + '天获得的银牌数量', 0)
+                bronze = +prompt('请输入第' + (count + 1) + '天获得的铜牌数量', 0)
+                if (gold >= 0 && silver >= 0 && bronze >= 0) {
+                    goldsum += gold
+                    silversum += silver
+                    bronzesum += bronze
+                    count++
+                } else {
+                    console.log('奖牌数量非法，请重新输入第' + (count + 1) + '天的奖牌数量');
+                    continue
+                }
+            }
+            return goldsum + ' ' + silversum + ' ' + bronzesum + ' ' + (goldsum + silversum + bronzesum)
+        } else {
+            return '项目天数非法，请重新执行本页面'
+        }
+    }
+    console.log(fn1());
+</script>
+<script id="ch0105/08">
+    // 多边形内角和，边数满足>=3，输入角度满足0<x<180
+    function fn1() {
+        let n = +prompt('请输入多边形边数n，请注意n应满足n>=3')
+        if (n >= 3) {
+            let arr = []
+            let count = 0
+            let angle = 0,
+                sum = 0
+            while (count < n - 1) {
+                let angle = +prompt('请输入第' + (count + 1) + '个角的角度，注意角度x应满足0<x<180')
+                if (angle > 0 && angle < 180) {
+                    sum += angle
+                    count++
+                } else {
+                    console.log('第' + (count + 1) + '个角输入的角度值非法，请重新输入');
+                    continue
+                }
+            }
+            return (n - 2) * 180 - sum
+        } else {
+            return '输入的多边形边数n非法，请刷新页面重试'
+        }
+    }
+    console.log(fn1());
+</script>
+<script id="ch0105/09">
+    // 计算非负整数 m 到 n（包括m 和 n ）之间的所有奇数的和，其中，m 不大于 n，且n 不大于300。例如 m=3, n=12, 其和则为：3+5+7+9+11=35。
+
+    function fn1() {
+        let m = +prompt('请输入非负整数m的值', 0)
+        let n = +prompt('请输入非负整数n的值', 0)
+
+        if (m >= 0 && n >= 0 && n <= 300 && m <= n) {
+            if (m & 1 === 0) {
+                m++
+            }
+            if (n & 1 === 0) {
+                n--
+            }
+            let num = m,
+                sum = 0
+            while (num <= n) {
+                sum += num
+                num += 2
+            }
+            return sum
+        } else {
+            return '输入的m和n的值非法，请刷新页面重试'
+        }
+    }
+    console.log(fn1());
+</script>
+<script id="ch0105/10">
+    function fn1() {
+        let m = +prompt('请输入正整数m，并注意m的范围为0 < m < n < 1000')
+        let n = +prompt('请输入正整数n，并注意n的范围为0 < m < n < 1000')
+        let sum = 0
+        if (m < n && m > 0 && n < 1000) {
+            for (let i = m; i <= n; i++) {
+                sum += i % 17 === 0 ? i : 0
+            }
+            return sum
+        } else {
+            return '输入的m和n的值非法，请刷新页面重试'
+        }
+    }
+    console.log(fn1());
+</script>
+<script id="ch0105/11">
+    function fn1() {
+        let k = +prompt('请输入k个正整数，其中k满足1<k<100')
+        if (k > 1 && k < 100) {
+            // 每个数符合[1,10]
+            let count = 0,
+                arr = [],
+                one = 0,
+                five = 0,
+                ten = 0
+            while (count < k) {
+                arr[count] = +prompt('请输入第' + (count + 1) + '个数，该数应满足[1,10]')
+                if (arr[count] >= 1 && arr[count] <= 10) {
+                    switch (arr[count]) {
+                        case 1:
+                            one++
+                            break
+                        case 5:
+                            five++
+                            break
+                        case 10:
+                            ten++
+                            break
+                    }
+                    count++
+                } else {
+                    console.log('第' + (count + 1) + '次输入的数非法，请重新输入该数')
+                    continue
+                }
+            }
+            console.log(one);
+            console.log(five);
+            console.log(ten);
+            return true
+        } else {
+            console.log('输入的k非法，请刷新页面重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/12">
+    function fn1() {
+        let N = +prompt('请输入整数序列长度N，N应满足N<=100', 0)
+        let m = +prompt('请输入要查询个数的指定整数', 0)
+
+        if (N <= 100) {
+            let num = 0,
+
+                numCount = 0
+            for (let i = 0; i < N; i++) {
+                num = +prompt('请输入第' + (i + 1) + '个整数')
+                if (m === num) {
+                    numCount++
+                }
+            }
+            console.log(numCount);
+            return true
+        } else {
+            console.log('输入的序列长度N非法，请重新执行本页面');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/13">
+    function fn1() {
+        let a = +prompt('请输入底数a，并注意-10000000<=a<=10000000', 0)
+        let n = +prompt('请输入正整数n，作为a的指数；并注意1<=n<=10000')
+        let num = 1
+        if (a >= -10000000 && a <= 10000000 && n >= 1 && n <= 10000) {
+            for (let i = 1; i <= n; i++) {
+                num *= a
+            }
+            console.log(num);
+            return true
+        } else {
+            console.log('输入的a和n不合法，请刷新页面重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/14">
+    function fn1() {
+        let x = +prompt('请输入现有人口（亿）', 0)
+        let n = parseInt(+prompt('请输入增长时间n', 0))
+        let num = x
+        if (x >= 1 && x <= 100 && n >= 1 && n <= 100) {
+            for (let i = 1; i <= n; i++) {
+                num *= 1.001
+            }
+            console.log(num.toFixed(4));
+            return true
+        } else {
+            console.log('输入的人口x和年数n不合法，请刷新页面重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/15">
+    function fn1() {
+        let R = +prompt('请输入复合年利率R，注意R是[0,20]的整数', 0)
+        let M = +prompt('请输入现有资产M，注意M是[100,1000000]的整数', 100)
+        let Y = +prompt('请输入投资年限Y，并注意Y是[0,400]的整数', 0)
+        let money = M
+        if (R >= 0 && R <= 200 && M >= 100 && M <= 1000000 && Y >= 0 && Y <= 400) {
+            for (let i = 0; i < Y; i++) {
+                money *= (1 + R / 100)
+            }
+            console.log(Math.floor(money));
+            return true
+        } else {
+            console.log('输入的R M Y不合法，请刷新页面重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/16">
+    function fn1() {
+        let N = +prompt('请输入程序员不吃不喝不交税的年薪N（万），注意N取值[10,50]')
+        let K = +prompt('请输入房价每年增长百分比K，注意K取值[1,20]')
+            // 这里设定一开始的手中资金是N万
+        let money = N
+        let price = 200
+        let year = 1
+        if (N >= 10 && N <= 50 && K >= 1 && K <= 20) {
+            while (money < price) {
+                year++
+                price *= (1 + K / 100)
+                money = N * year
+            }
+            if (year <= 20) {
+                console.log(year);
+            } else {
+                console.log('Impossible');
+            }
+            return true
+        } else {
+            console.log('输入的年薪N或房价增比K不合法，请刷新页面重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/17">
+    // 递归
+    // function fabonacci(k) {
+    //     if (k >= 1) {
+    //         if (k === 1 || k === 2) {
+    //             return 1
+    //         }
+    //         return fabonacci(k - 1) + fabonacci(k - 2)
+    //     }else{
+    //         return false
+    //     }
+    // }
+    // let k = +prompt('请输入正整数k以求得斐波那契数列的第k项',1)
+    // console.log(fabonacci(k));
+    // 循环
+    function fabonacci2() {
+        let k = +prompt('请输入正整数k以求得斐波那契数列的第k项', 1)
+            // let arr = []
+        if (k < 1) {
+            console.log('输入的值非法，请刷新页面重试');
+            return false
+        } else {
+
+            if (k == 1 || k == 2) {
+                console.log(1);
+                return true
+            } else {
+                let prev = 1,
+                    cur = 2,
+                    temp = 0
+                for (let i = 4; i <= k; i++) {
+                    temp = cur
+                    cur = temp + prev
+                    prev = temp
+                }
+                console.log(cur);
+                return true
+            }
+        }
+    }
+    fabonacci2()
+</script>
+<script id="ch0105/18">
+    function fn1() {
+        let n = +prompt('请输入本轮测试次数n，n应满足(1,20]')
+        if (n > 1 && n <= 20) {
+            let yAll = +prompt('请输入鸡尾酒疗法的总样本数yAll,并注意yAll应满足[1,10000]')
+            let yYes = +prompt('请输入鸡尾酒疗法的有效病例数,并注意yYes应满足[1,' + yAll + ']')
+            if (yYes >= 1 && yYes <= yAll && yAll <= 10000) {
+                let y = yYes / yAll * 100
+                let count = 1
+                while (count <= n - 1) {
+                    let xAll = +prompt('请输入第' + count + '种新疗法的总样本数xAll,并注意xAll应满足[1,10000]')
+                    let xYes = +prompt('请输入第' + count + '种新疗法的有效病例数xYes,并注意xYes应满足[1,' + xAll + ']')
+                    let x = xYes / xAll * 100
+                    if (xAll >= 1 && xAll <= 10000 && xYes >= 1 && xYes <= xAll) {
+                        if (x - y > 5) {
+                            console.log('better');
+                        } else if (y - x > 5) {
+                            console.log('worse');
+                        } else {
+                            console.log('same');
+                        }
+                        count++
+                    } else {
+                        alert('第' + count + '种新疗法的样本数量有误，请重新填写');
+                        continue
+                    }
+
+
+                }
+                return true
+            } else {
+                alert('输入的鸡尾酒疗法样本数量有误，请刷新重试');
+                return false
+            }
+        } else {
+            console.log('测试次数输入错误，请刷新重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/19">
+    function fn1() {
+        let n = +prompt('请输入待营救的屋顶数量n，应注意n满足n属于N*')
+        if (n > 0) {
+            let v = 50
+            let count = 1
+            let t = 0
+            while (count <= n) {
+                let x = +prompt('请输入第' + count + '个待营救屋顶的x坐标')
+                let y = +prompt('请输入第' + count + '个待营救屋顶的y坐标')
+                let people = +prompt('请输入第' + count + '个屋顶的待营救人员数量')
+                let d = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+                if (people > 0) {
+                    t += (2 * d) / v + people * 1.5
+                    count++
+                } else {
+                    alert('输入的第' + count + '个屋顶的待营救人员数量非法，请重新输入本屋顶坐标与人员')
+                    continue
+                }
+            }
+            console.log(Math.ceil(t));
+            return true
+        } else {
+            alert('待营救的屋顶数量n非法，请刷新页面重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/20">
+    function fn1() {
+        let h = +prompt('请输入球的初始高度h，注意h>0', 0)
+        let sum = 0
+
+        if (h > 0) {
+            for (let i = 1; i <= 10; i++) {
+                sum += 3 / 2 * h
+                h = 1 / 2 * h
+            }
+            sum -= h
+            console.log(sum.toFixed(4));
+            console.log(h.toFixed(7));
+            return true
+        } else {
+            alert('输入的球的高度非法，请刷新本页面重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/21">
+    function fn1() {
+        let N = +prompt('请输入一个正整数N，注意N应满足[1,2000000]')
+        if (N > 1 && N <= 2000000) {
+
+            while (N > 1) {
+                if (N & 1 === 1) {
+                    console.log(N + '*3+1=' + (N * 3 + 1));
+                    N = N * 3 + 1
+                } else {
+                    console.log(N + '/2=' + N / 2);
+                    N = N / 2
+                }
+            }
+            console.log('End');
+            return true
+        } else if (N === 1) {
+            console.log('End');
+            return true
+        } else {
+            alert('输入的正整数N非法，请刷新页面重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/22">
+    function fn1() {
+        let month = 1,
+            remnant = 0,
+            saving = 0,
+            flag = true
+        while (month <= 12) {
+            let budget = +prompt('请输入第' + month + '个月的预算')
+            if (budget >= 0) {
+                if (budget > remnant + 300) {
+                    console.log(-month);
+                    flag = false
+                    break
+                } else {
+                    saving += remnant + 300 - budget - (remnant + 300 - budget) % 100
+                    remnant = (remnant + 300 - budget) % 100
+                }
+                month++
+            } else {
+                alert('第' + month + '月的预算输入非法，请重新输入')
+                continue
+            }
+        }
+        if (flag) {
+            console.log(remnant + saving * 1.2);
+        }
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/23">
+    function fn1() {
+        let m = +prompt('请输入当日的药品总量m，并注意m是m>0')
+        if (m > 0) {
+            let n = +prompt('请输入当日取药总人数n，并注意n满足(0,100]')
+            if (n > 0 && n <= 100) {
+                let count = 1,
+                    remnant = m,
+                    lose = 0
+
+                while (count <= n) {
+                    let hope = +prompt('请输入第' + count + '号病人需要的药品数量，并注意药品数量hope应满足hope>=0')
+                    if (hope >= 0) {
+                        if (hope > remnant) {
+                            lose++
+                        } else {
+                            remnant -= hope
+                        }
+                        count++
+                    } else {
+                        alert(count + '号病人当日取的药品数量非法，请重新输入')
+                    }
+                }
+
+                console.log(lose);
+                return true
+
+            } else {
+                alert('当日取消总人数n非法，请刷新页面重试')
+                return false
+            }
+        } else {
+            alert('当日药品总量非法，请刷新重新执行')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/24">
+    function fn1() {
+        let n = +prompt('请输入血压检测次数n，注意n满足[1,100)')
+        if (n >= 1 && n < 100) {
+            let hours = 0,
+                maxHours = 0,
+                flag = false //flag控制是否触发了某小时血压不正常的条件
+            for (let i = 1; i <= n; i++) {
+                let shrink = +prompt('请输入第' + i + '个小时的收缩压')
+                let relax = +prompt('请输入第' + i + '个小时的舒张压')
+                if (shrink >= 90 && shrink <= 140 && relax >= 60 && relax <= 90) {
+                    hours++
+                } else {
+                    flag = true
+
+                    maxHours = hours > maxHours ? hours : maxHours
+                    hours = 0
+                }
+            }
+            if (flag) {
+                maxHours = hours > maxHours ? hours : maxHours
+                console.log(maxHours);
+            } else {
+                console.log(hours);
+            }
+            return true
+        } else {
+            alert('血压检测次数n非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/25">
+    function fn1() {
+        for (let i = 0; i < 3000; i++) {
+
+            let x7 = i.toString(7)
+            let x9 = i.toString(9)
+
+            x7 = +x7
+            x9 = +x9
+            if (x9 === x7 % 10 * 100 + (x7 - x7 % 10) % 100 + Math.floor(x7 / 100)) {
+                console.log(i);
+                console.log(x7);
+                console.log(x9);
+
+            }
+        }
+
+    }
+    // fn1()
+    let x = prompt()
+    console.log('（不提供）');
+</script>
+<script id="ch0105/26">
+    function fn1() {
+        let n = +prompt('请输入本次输入四位数的个数')
+        let count = 0,
+            num = 0
+        if (n < 0) {
+            alert('输入的个数不合法，请刷新重试');
+            return false
+        }
+        while (count < n) {
+            let four = prompt('请输入第' + (count + 1) + '个四位数')
+            if (four.length === 4) {
+                four = +four
+                if (four > 999) {
+                    four = four.toString()
+                    let thousand = +four.charAt(0)
+                    let hundred = +four.charAt(1)
+                    let decade = +four.charAt(2)
+                    let unit = +four.charAt(3)
+                    if (unit - thousand - hundred - decade > 0) {
+                        num++
+                    }
+                    count++
+                } else {
+                    alert('本次键入的四位数不合理，请重新键入第' + (count + 1) + '个四位数');
+                    continue
+                }
+            } else {
+                alert('键入长度非法，请重新输入第' + (count + 1) + '个四位数');
+                continue
+            }
+        }
+        console.log(num);
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/27">
+    function fn1() {
+        let k = +prompt('请输入一个整数K')
+        if (k >= 1 && k <= 15) {
+            let Sn = 0,
+                n = 0
+            do {
+                n++
+                Sn += 1 / n
+            } while (Sn <= k)
+            console.log(n);
+            return true
+        } else {
+            alert('k的键入非法，请刷洗重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/28">
+    function fn1() {
+        let k = prompt('请输入一个整数k')
+        if (+k <= 100000000 && +k >= 1) {
+            for (let i = k.length - 1; i >= 0; i--) {
+                console.log(k.charAt(i));
+            }
+            return true
+        } else {
+            alert('输入的k非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/29">
+    function fn1() {
+        // 如果使用纯数字解决反转问题，可以只处理正值的情况并把符号位存在一个变量中。处理正值时就只需要将余数拼接时新数乘10加起来即可
+        let oldNum = prompt('请输入一个整数N')
+        if (+oldNum >= -1000000000 && +oldNum <= 1000000000) {
+            let newNum = ''
+            if (+oldNum >= 0) {
+                for (let i = 0; i < oldNum.length; i++) {
+                    newNum += oldNum.charAt(oldNum.length - i - 1)
+                }
+                newNum = +newNum
+                console.log(newNum);
+            } else {
+                newNum = '-'
+                for (let i = 1; i < oldNum.length; i++) {
+                    newNum += oldNum.charAt(oldNum.length - i)
+                }
+                newNum = +newNum
+                console.log(newNum);
+            }
+            return true
+        } else {
+            alert('输入的N非法，请重新输入')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/30">
+    function fn1() {
+        let m = +prompt('请输入一个正整数m，注意m是1<m<100000')
+        let k = +prompt('请输入k，k是1<k<5')
+        if (m > 1 && m < 100000 && k > 1 && k < 5) {
+            if (m % 19 === 0) {
+                let count = 0
+                m = m.toString()
+                for (let i = 0; i < m.length; i++) {
+                    if (+m.charAt(i) === 3) {
+                        count++
+                    }
+                }
+                if (count === k) {
+                    console.log('YES');
+                }
+            } else {
+                console.log('NO');
+            }
+            return true
+        } else {
+            alert('输入的m或k非法，请重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/31">
+    function fn1() {
+        let N = +prompt('请输入灯的数量，1<=N<=5000')
+        let M = +prompt('请输入人的数量，1<=M<=' + N)
+        let light = []
+            //1表示on，0表示off
+        for (let i = 0; i < N; i++) {
+            light[i] = 1
+        }
+        for (let i = 1; i <= M; i++) {
+            if (i === 1) {
+                for (let j = 0; j < light.length; j++) {
+                    light[j] = 0
+                }
+            } else {
+                for (let j = 0; j < light.length; j++) {
+                    if ((j + 1) % i === 0) {
+                        light[j] = light[j] === 1 ? 0 : 1
+                    }
+                }
+            }
+        }
+        // 此时第M个人已经操作完了
+        let result = []
+        for (let i = 0; i < light.length; i++) {
+            if (light[i] === 0) {
+                result.push(i + 1)
+            }
+        }
+        console.log(result.toString());
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/32">
+    function fn1() {
+        let n = +prompt('请输入前几项和，n是[1,30]')
+        let q = [2]
+        let p = [1]
+        let s = [2]
+        let sum = 0
+        for (let i = 1; i < n; i++) {
+            q[i] = q[i - 1] + p[i - 1]
+            p[i] = q[i - 1]
+            s[i] = q[i] / p[i]
+        }
+        for (let i = 0; i < s.length; i++) {
+            sum += s[i]
+        }
+        console.log(sum.toFixed(4));
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/33">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，1<=n<=1000')
+        let sum = 0
+        if (n >= 1 && n <= 1000) {
+            for (let i = 1; i <= n; i++) {
+                sum += Math.pow(-1, i - 1) * (1 / i)
+            }
+            console.log(sum.toFixed(4));
+            return true
+        } else {
+            alert('n输入的值非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/34">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，1<n<12')
+        let sum = 0,
+            factorial = 1
+        if (n > 1 && n < 12) {
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= i; j++) {
+                    factorial *= j
+                }
+                sum += factorial
+                factorial = 1
+            }
+            console.log(sum);
+            return true
+        } else {
+            alert('输入的n非法，请刷新重试')
+            return fasle
+        }
+    }
+    fn1()
+
+    function fn2() {
+        let n = +prompt('请输入一个正整数n，1<n<12')
+        let sum = 0,
+            factorial = 1
+        for (let i = 1; i <= n; i++) {
+            factorial *= i
+            sum += factorial
+        }
+        console.log(sum);
+    }
+</script>
+<script id="ch0105/35">
+    function fn1() {
+        let n = +prompt('请输入整数n，2<=n<=15')
+        let single = 1
+        let factorial = 1
+        let e = 0
+        if (n >= 2 && n <= 15) {
+            for (let i = 0; i <= n; i++) {
+                if (i == 0) {
+                    single = 1
+                } else {
+                    for (let j = 1; j <= i; j++) {
+                        factorial *= j
+                        single = 1 / factorial
+                    }
+                }
+                e += single
+                factorial = 1
+            }
+            console.log(e.toFixed(10));
+            return true
+        } else {
+            console.log('n的键入非法，请刷新重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/36">
+    function fn1() {
+        let x = +prompt('请输入底数x')
+        let n = +prompt('请输入正整数n作指数，1<=n<=1000000')
+        let sum = 0,
+            single = 1
+
+        if (n >= 1 && n <= 1000000) {
+            for (let i = 0; i <= n; i++) {
+
+                single = Math.pow(x, i)
+                sum += single
+            }
+            console.log(sum.toFixed(2));
+            return true
+        } else {
+            alert('n的取值非法，请刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/37">
+    function fn1() {
+        let tmax = +prompt('请输入最大体力值M')
+        let t = 0
+        let force = +prompt('请输入当前战斗力N')
+        let power = +prompt('请输入当前拥有的能量元素x')
+        let day = tmax //最大体力值供应战斗期的天数
+            // let remnant = 0 //当期经验值
+
+        while (power >= 0) {
+            if (t == tmax) {
+                //开始战斗期
+                force += Math.floor(t / force)
+                t = 0 //体力值归零
+            } else {
+                //能量元素补充体力值 1点元素能量补充force点体力
+                power -= Math.ceil(tmax / force)
+                t = tmax
+            }
+        }
+        console.log(force);
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/38">
+    function fn1() {
+
+        let N = +prompt('请输入测试次数')
+
+        let count = 1
+        while (count <= N) {
+            let n = +prompt('请输入f(x)的最高次幂')
+
+
+            let arr = []
+            for (let i = 0; i <= n; i++) {
+                // f(x) = C0 + C1x + C2 x^2 +...+Ci x^i
+                let C = +prompt('请输入f(x)第' + (i + 1) + '项的系数C' + (n - i) + '  0<=C' + (n - i) + '<=1000')
+                arr.push(C)
+                    // arr [Ci,Ci-1,...,C2,C1,C0] √
+                    // arr [C0,C1,C2,...,Ci-1,Ci]
+            }
+            if (n <= 1) {
+                console.log(0);
+            } else {
+                for (let i = 0; i < arr.length - 1; i++) {
+
+                    console.log(arr[i] * (n - i));
+
+                }
+            }
+            count++
+        }
+
+
+        return true
+    }
+    fn1()
+</script>
+<script id="ch0105/39">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，n<100')
+        if (n >= 1 && n < 100) {
+            let sum = 0,
+                isSeven = false
+            for (let i = 1; i <= n; i++) {
+                // 判断i是否为与7相关数
+                let test = i.toString()
+                for (let j = 0; j < test.length; j++) {
+                    if (Number(test) % 7 == 0 || test.charAt(j) == 7) {
+                        isSeven = true
+                        break
+                    }
+                }
+                if (!isSeven) {
+                    sum += Math.pow(Number(test), 2)
+                }
+                isSeven = false
+            }
+            console.log(sum);
+            return true
+
+
+        } else {
+            alert('输入的n非法，刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/40">
+    function fn1() {
+        let n = +prompt('请输入一个正整数n，n是[1,10000]')
+        if (n >= 1 && n <= 10000) {
+            let count = 0
+            for (let i = 1; i <= n; i++) {
+                let test = i.toString()
+                for (let j = 0; j < test.length; j++) {
+                    if (test.charAt(j) == '1') {
+                        count++
+                    }
+                }
+            }
+            console.log(count);
+            return true
+
+        } else {
+            console.log('n取值非法');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/41">
+    function fn1() {
+        let L = +prompt('请输入整数L,L<=R')
+        let R = +prompt('请输入整数R,R>=L')
+        if (L <= R) {
+            let count = 0
+            for (let i = L; i <= R; i++) {
+                let test = i.toString()
+                for (let j = 0; j <= test.length; j++) {
+                    if (test.charAt(j) == '2') {
+                        count++
+                    }
+                }
+            }
+            console.log(count);
+            return true
+        } else {
+            alert('输入的L或R非法，刷新重试');
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/42">
+    function fn1() {
+        let h = +prompt('请输入矩形的高h，3<=h<=10')
+        let w = +prompt('请输入矩形的宽，5<=w<=10')
+        let signal = prompt('请输入画图符号')
+        let isEmpty = (+prompt('请输入是否实心，1代表实心，0代表空心', 0)) === 0 ? true : false
+        for (let i = 1; i <= h; i++) {
+            let rowChar = ''
+            for (let j = 1; j <= w; j++) {
+                if (i == 1 || i == h) {
+                    rowChar += signal
+                } else {
+                    if (!isEmpty) {
+                        rowChar += signal
+                    } else {
+                        if (j == 1 || j == w) {
+                            rowChar += signal
+                        } else {
+                            rowChar += ' '
+                        }
+                    }
+                }
+            }
+            console.log(rowChar + '\n');
+        }
+        return true
+    }
+    // fn1()
+    function fn2() {
+        let h = +prompt('请输入矩形的高h，3<=h<=10')
+        let w = +prompt('请输入矩形的宽，5<=w<=10')
+        let signal = prompt('请输入画图符号')
+        let fill = (+prompt('请输入是否实心，1代表实心，0代表空心', 0)) === 0 ? true : false
+        let char = ''
+        for (let y = 1; y <= h; y++) {
+            for (let x = 1; x <= w; x++) {
+                if (fill) {
+                    char += signal
+                } else {
+                    if (x === 1 || x === w || y === 1 || y === h) {
+                        char += signal
+                    } else {
+                        char += ' '
+                    }
+                }
+            }
+            char += '\n'
+        }
+        console.log(char);
+    }
+</script>
+<script id="ch0105/43">
+    // 如果num是素数，那么能被num整除的就只有1和num两个因子
+    function isPrime(num) {
+        let count = 0 //记录能被num整除的因子数
+        let len = Math.sqrt(num)
+        for (let i = 2; i <= len; i++) {
+            if (num % i === 0) {
+                count++
+            }
+        }
+        if (count === 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function fn1() {
+        // n [6,1000]
+        let n = +prompt('请输入一个正整数n，n满足是两个不同质数的乘积')
+        if (n >= 6) {
+            let arr = [],
+                maxIndex = 0
+                // 质数范围是[2,n^1/2],把能够被n整除的数的前半部分push到arr中（除了1和n）
+            for (let i = 2; i < Math.sqrt(n); i++) {
+                if (n % i === 0) {
+                    arr.push(i)
+                }
+            }
+            // arr中存储了一半能被n整除的小的数，遍历arr以寻找一个最大的质数
+            for (let j = 0; j < arr.length; j++) {
+                if (isPrime(arr[j]) && isPrime(n / arr[j])) {
+                    maxIndex = n / arr[j] > n / arr[maxIndex] ? j : maxIndex
+                }
+            }
+            console.log(n / arr[maxIndex]);
+            return true
+
+        } else {
+            alert('输入的n非法，刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/44">
+    // 如果num是素数，那么能被num整除的就只有1和num两个因子
+    function isPrime(num) {
+        let count = 0 //记录能被num整除的因子数
+        for (let i = 1; i <= num; i++) {
+            if (num % i === 0) {
+                count++
+            }
+        }
+        if (count === 2) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function fn1() {
+        let n = +prompt('请输入一个正整数n')
+        if (n >= 1 && n <= 10000) {
+            // num 表示素数，count表示第几个，prime表示素数
+            let num = 1,
+                count = 0,
+                prime = 0
+            while (count < n) {
+                // 
+                while (num) {
+                    num++
+                    if (isPrime(num)) {
+                        break
+                    }
+                }
+
+                count++
+            }
+            console.log(num);
+            return true
+        } else {
+            alert('n非法，刷新重试')
+            return false
+        }
+    }
+    fn1()
+</script>
+<script id="ch0105/45">
+    function fn2() {
+        let remnant = +prompt('请输入给定的总天数n') //给定总天数，剩余总天数
+        let sum = 0 //goldSum
+        if (remnant < 1) {
+            alert('总天数n非法,请刷新重试')
+            return false
+        } else {
+            // 整个循环在剩余天数不足时结束
+            // while(remnant>0){
+            // 每经历一个周期T，T.length++
+            for (let T = 1;; T++) {
+                // 剩余天数支持发满一个周期，在该周期内每天收T个金币
+                if (remnant >= T) {
+                    for (let i = 1; i <= T; i++) {
+                        sum += T
+                    }
+                    remnant -= T
+                } else {
+                    // 剩余天数不支持发满一个周期，在该周期内的剩余天数时长里，每天收T个金币
+                    for (let i = 1; i <= remnant; i++) {
+                        sum += T
+                    }
+                    remnant = 0
+                }
+                // }
+                if (remnant == 0) {
+                    break
+                }
+
+            }
+            console.log(sum);
+            return true
+        }
+    }
+    fn2()
+</script>
+
+
+
+<!-- ############################################################################################# -->
+
+<script id="narcissistic">
+    function narcissistic(k) {
+        let arr = []
+        let origin = k,
+            sum = 0
+        while (k) {
+            arr.unshift(k % 10)
+            k = (k - k % 10) / 10
+
+        }
+        let len = arr.length
+        for (let i = 0; i < len; i++) {
+            sum += Math.pow(arr[i], len)
+        }
+        if (sum === origin) {
+            return true
+        }
+        return false
+    }
+    let k = +prompt('请输入一个数测试是否是水仙花数')
+    console.log(narcissistic(k));
+</script>
+
+<script id="narcissistics">
+    //测试一个数是否为水仙花数
+    function narcissistic(k) {
+        let power = k.toString().length
+        let sum = 0,
+            origin = k
+        while (k) {
+            let digit = k % 10
+            sum += Math.pow(digit, power)
+            k = (k - k % 10) / 10
+        }
+        if (sum === origin) {
+            return true
+        }
+        return false
+    }
+    // 输出n以内的水仙花数
+    function narcissistics(n) {
+        let count = 0
+        for (let i = 100; i <= n; i++) {
+            if (narcissistic(i)) {
+                console.log(i);
+            }
+        }
+        return true
+    }
+    let range = +prompt('请输入范围n')
+    narcissistics(range)
+</script>
+<script id="palindrom">
+    // 判断一个数是否为回文数字
+    function palindrom(k) {
+        let left = 0
+        let right = k.toString().length - 1
+        k = k.toString()
+        while (left <= right) {
+            if (k.charAt(left) !== k.charAt(right)) {
+                return false
+            }
+            left++
+            right--
+        }
+        return true
+    }
+    let n = +prompt('请输入一个数字验证是否为回文数字')
+    console.log(palindrom(n));
+
+    // 用数字翻转后是否仍是原数字判断是否为回文数
+    function isPalindrom(k) {
+        let reverse = 0,
+            initial = k
+        while (k) {
+            let digit = k % 10
+            reverse = reverse * 10 + digit
+            k = (k - k % 10) / 10
+        }
+        return reverse === initial
+    }
+</script>
+<script id="complete-number">
+    // 判断一个数是否是完全数
+    function complete_number(k) {
+        let sum = 0
+        for (let i = 1; i < k; i++) {
+            if (k % i === 0) {
+                sum += i
+            }
+        }
+        if (sum === k) {
+            return true
+        }
+        return false
+    }
+    let n = +prompt('请输入一个数以测试是否是完全数')
+    console.log(complete_number(n));
+</script>
+<script id="complete-numbers">
+    // 输出1000以内的完全数  6 28 496 8128..
+    function complete_number(k) {
+        let sum = 1,
+            len = Math.sqrt(k)
+        for (let i = 2; i <= len; i++) {
+            if (k % i === 0) {
+                let cp = k / i
+                if (i === cp) {
+                    sum += i
+                } else {
+                    sum += i + cp
+                }
+            }
+        }
+        if (sum === k) {
+            return true
+        }
+        return false
+    }
+
+    function complete_numbers(n) {
+        for (let i = 1; i <= n; i++) {
+            if (complete_number(i)) {
+                console.log(i);
+            }
+        }
+        return true
+    }
+    let n = +prompt('请输入范围')
+    complete_numbers(n)
+</script>
+<script id="prime">
+    // 判断一个数是否是素数
+    function isPrime(k) {
+        let len = Math.sqrt(k)
+        for (let i = 2; i <= len; i++) {
+            if (k % i === 0) {
+                return false
+            }
+        }
+        return true
+    }
+    let k = +prompt('请输入一个数测试是否为素数')
+    console.log(isPrime(k));
+</script>
+<script id="primes">
+    // 输出1000以内的素数
+    function isPrime(k) {
+        let len = Math.sqrt(k)
+        for (let i = 2; i <= len; i++) {
+            if (k % i === 0) {
+                return false
+            }
+        }
+        return true
+    }
+
+    function primes(n) {
+        for (let i = 1; i <= n; i++) {
+            if (isPrime(i)) {
+                console.log(i);
+            }
+        }
+        return true
+    }
+    // let n = +prompt('请输入一个范围n')
+    primes(1000)
+</script>
+<script id="lcf&lcm">
+    // lcf最大公约数 lcm最小公倍数
+    function lcf_lcm(k1, k2) {
+        let lcf = 0,
+            lcm = Math.max(k1, k2)
+        for (let i = k1; i > 0; i--) {
+            if (k1 % i === 0 && k2 % i === 0) {
+                lcf = i
+                break
+            }
+        }
+        while (lcm) {
+            if (lcm % k1 === 0 && lcm % k2 === 0) {
+                break
+            }
+            lcm++
+        }
+        console.log(lcf);
+        console.log(lcm);
+        return lcf + ' ' + lcm
+    }
+    // lcf_lcm(18, 24)
+
+    // 辗转相除法计算lcm_lcf  Euclidean Algorithm 
+    function gcd(k1, k2) {
+        let a = Math.max(k1, k2)
+        let b = Math.min(k1, k2)
+        let initialK1 = a
+        let initialK2 = b
+        let remnant = a % b
+        while (remnant) {
+            a = b
+            b = remnant
+            remnant = a % b
+        }
+        // 此时k2就是最大公约数 lcf
+        console.log(b);
+        // k1 *k2 = lcf * lcm， lcm=k1*k2/lcf. 两数之积 = 最大公约数 * 最小公倍数
+        console.log(initialK1 * initialK2 / b);
+    }
+    let k1 = +prompt('请输入一个数k1')
+    let k2 = +prompt('请输入一个数k2')
+    gcd(k1, k2)
+</script>
+<script id="sqrt_bisection_fault">
+    function sqrt(k) {
+        // 小数点后count位
+        let count = 16
+            // k>1时
+        if (k >= 1) {
+            // 根据 sqrt(x)和x/2可知，x=4时是两函数交点，为减少运行时间选择增大空间复杂度
+            if (k <= 4) {
+                for (let i = 1; i < k; i++) {
+                    if (i ** 2 === k) {
+                        return i
+                    } else if (i ** 2 < k && (i + 1) ** 2 > k) {
+                        let float = 1 / 2
+                        while (count) {
+                            if ((Math.floor(i) + float) ** 2 == k) {
+                                return Math.floor(i) + float
+                            } else if ((Math.floor(i) + float) ** 2 > k) {
+                                float /= 2
+                                count--
+                            } else {
+                                float += float / 2
+                                count--
+                            }
+                        }
+                        return i + float
+                    }
+                }
+            } else if (k > 4) {
+                let len = k / 2
+                    // 同上代码再来一次
+                for (let i = 1; i < len; i++) {
+                    if (i ** 2 === k) {
+                        return i
+                    } else if (i ** 2 < k && (i + 1) ** 2 > k) {
+                        let float = 1 / 2
+                        while (count) {
+                            if ((Math.floor(i) + float) ** 2 == k) {
+                                return Math.floor(i) + float
+                            } else if ((Math.floor(i) + float) ** 2 > k) {
+                                float /= 2
+                                count--
+                            } else {
+                                float += float / 2
+                                count--
+                            }
+                        }
+                        return i + float
+                    }
+                }
+            }
+        } else {
+            // 0<k<1时
+            let float = 1 / 2
+            while (count) {
+                if (float ** 2 === k) {
+                    return float
+                } else if (float ** 2 < k) {
+                    float += float / 2
+                    count--
+                } else {
+                    float /= 2
+                    count--
+                }
+            }
+            return float
+        }
+
+
+    }
+    let k = +prompt('请输入一个数，以求出其平方根')
+    console.log(sqrt(k));
+</script>
+
+<script id="sqrt">
+    // 使用二分法进行整除。问题：当输入进去的x非常大，浮点数的53位用来表示大多数的整数部分时，在进行二分法后，小数部分永远也达不到while的界限
+    function sqrt(x) {
+        let low = 0,
+            high = x
+            // 停止条件是范围被缩小dao到非常小的值
+        while (high - low < 0.00000000001) {
+            let mid = (low + high) / 2
+            if (mid ** 2 > x) {
+                high = mid
+            } else {
+                low = mid
+            }
+        }
+        // 可以返回计算出来的根号值，也可以返回二分后精确范围很窄后，这次的二分结果
+        return (high + low) / 2
+    }
+    console.log(sqrt(2));
+
+    // 使用牛顿法，减少了循环次数，用很少的循环就能找到很逼近根号n的值。
+    // 牛顿法就是想象成一个 f(x)=x^2-n 的函数，去找y=0时的x0的值。
+    function sqrt_niudunfa(n) {
+        let x = n //这里可以随意指定一个初始值
+
+        while (Math.abs(x * x - n) > 0.00000001) {
+            x = x / 2 + n / (2 * x)
+        }
+        return x
+    }
+</script>
+
+
+<script id="weekday_wrong">
+    function weekday(year, month) {
+        let nowYear = 2021
+        let nowMonth = 6
+        let thisWeek = 2
+        let diffDay = 0
+
+        // 先考虑不同年的不同月份
+        if (year !== nowYear) {
+            for (let i = Math.min(year, nowYear); i < Math.max(nowYear, year); i++) {
+                if (isLeapYear(i)) {
+                    diffDay += 366
+                } else {
+                    diffDay += 365
+                }
+            }
+            if (year < nowYear) {
+                // 在本年之前
+                diffDay = diffDay + diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, year)
+                return (diffDay % 7 - thisWeek + 7) % 7
+            } else {
+                // 在本年之后
+                diffDay = diffDay + diffMonth(month - 1, year) - diffMonth(nowMonth - 1, nowYear)
+                return (diffDay % 7 + thisWeek) % 7
+            }
+        } else {
+            // 同年不同月
+            diffDay = Math.abs(diffMonth(nowMonth - 1, nowYear) - diffMonth(month - 1, nowYear))
+            if (month <= nowMonth) {
+                return (diffDay % 7 - thisWeek + 7) % 7
+            } else {
+                return (diffDay % 7 + thisWeek) % 7
+            }
+        }
+        // 得到天数差异
+
+    }
+    // 辅助函数输出到几月的共天数
+    function diffMonth(reqMon, year) {
+        let diffDay = 0
+        switch (reqMon) {
+            case 0:
+                diffDay = 0
+                break
+            case 1:
+                diffDay = 31
+                break
+            case 2:
+                diffDay = isLeapYear(year) ? 60 : 59
+                break
+            case 3:
+                diffDay = isLeapYear(year) ? 91 : 90
+                break
+            case 4:
+                diffDay = isLeapYear(year) ? 121 : 120
+                break
+            case 5:
+                diffDay = isLeapYear(year) ? 152 : 151
+                break
+            case 6:
+                diffDay = isLeapYear(year) ? 182 : 181
+                break
+            case 7:
+                diffDay = isLeapYear(year) ? 213 : 212
+                break
+            case 8:
+                diffDay = isLeapYear(year) ? 244 : 243
+                break
+            case 9:
+                diffDay = isLeapYear(year) ? 274 : 273
+                break
+            case 10:
+                diffDay = isLeapYear(year) ? 304 : 303
+                break
+            case 11:
+                diffDay = isLeapYear(year) ? 335 : 334
+                break
+        }
+        return diffDay
+    }
+    // 辅助函数是否闰年，影响二月天数
+    function isLeapYear(year) {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+            return true
+        }
+        return false
+    }
+    let y = +prompt('请输入年份')
+    let m = +prompt('请输入月份')
+    console.log(weekday(y, m));
+</script>
+
+<script id="weekday">
+    function weekday(year, month) {
+        let sumDay = 0
+        for (let i = 1; i < year; i++) {
+            if (isLeapYear(i)) {
+                sumDay += 366
+            } else {
+                sumDay += 365
+            }
+        }
+        sumDay += diffMonth(month - 1, year)
+        return (sumDay % 7 + 1) % 7
+    }
+
+    // 辅助函数输出到几月的共天数
+    function diffMonth(reqMon, year) {
+        let diffDay = 0
+        switch (reqMon) {
+            case 0:
+                diffDay = 0
+                break
+            case 1:
+                diffDay = 31
+                break
+            case 2:
+                diffDay = isLeapYear(year) ? 60 : 59
+                break
+            case 3:
+                diffDay = isLeapYear(year) ? 91 : 90
+                break
+            case 4:
+                diffDay = isLeapYear(year) ? 121 : 120
+                break
+            case 5:
+                diffDay = isLeapYear(year) ? 152 : 151
+                break
+            case 6:
+                diffDay = isLeapYear(year) ? 182 : 181
+                break
+            case 7:
+                diffDay = isLeapYear(year) ? 213 : 212
+                break
+            case 8:
+                diffDay = isLeapYear(year) ? 244 : 243
+                break
+            case 9:
+                diffDay = isLeapYear(year) ? 274 : 273
+                break
+            case 10:
+                diffDay = isLeapYear(year) ? 304 : 303
+                break
+            case 11:
+                diffDay = isLeapYear(year) ? 335 : 334
+                break
+        }
+        return diffDay
+    }
+    // 辅助函数是否闰年，影响二月天数
+    function isLeapYear(year) {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+            return true
+        }
+        return false
+    }
+
+    let y = +prompt('请输入年份')
+    let m = +prompt('请输入月份')
+    console.log(weekday(y, m));
+</script>
+
+<!-- ############################################################################################# -->
+
+<!-- 1.6 一维数组 共15题 -->
+<script id="ch0106/01">
+    function fn1() {
+        let N = +prompt('请输入整数序列的长度 N<=100')
+        let arr = [],
+            count = 0
+        for (let i = 1; i <= N; i++) {
+            let digit = +prompt('请输入第' + i + '个整数')
+            arr.push(digit)
+        }
+        let m = +prompt('请输入指定的整数 m')
+
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] === m) {
+                count++
+            }
+        }
+        console.log(count);
+        return true
+    }
+    fn1()
+</script>
+
+<script id="ch0106/02">
+    function fn1() {
+        let lingo = [],
+            count = 0
+        for (let i = 1; i <= 10; i++) {
+            lingo[i] = +prompt('请输入第' + i + '个苹果的高度，单位cm')
+        }
+        let height = +prompt('请输入陶陶的身高 cm')
+        for (let i = 0; i < lingo.length; i++) {
+            if (height + 30 >= lingo[i]) {
+                count++
+            }
+        }
+        return count
+    }
+    console.log(fn1());
+</script>
+<script id="ch0106/03">
+    function Book(name, price) {
+        this.name = name
+        this.price = price
+    }
+
+    function fn1() {
+        let arr = [],
+            sum = 0
+        arr.push(new Book('计算概论', 28.9))
+        arr.push(new Book('数据结构与算法', 32.7))
+        arr.push(new Book('数字逻辑', 45.6))
+        arr.push(new Book('C++程序设计教程', 78))
+        arr.push(new Book('人工智能', 35))
+        arr.push(new Book('计算机体系结构', 86.2))
+        arr.push(new Book('编译原理', 27.8))
+        arr.push(new Book('操作系统', 43))
+        arr.push(new Book('计算机网络', 56))
+        arr.push(new Book('JAVA程序设计', 65))
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i].price * (+prompt('请输入' + arr[i].name + '购买的本数'))
+        }
+        return sum.toFixed(1)
+    }
+    console.log(fn1());
+</script>
+<script id="ch0106/04">
+    function fn1() {
+        let n = +prompt('请输入数组中元素个数')
+        let arr = []
+        for (let i = 0; i < n; i++) {
+            arr.unshift(+prompt('请输入数组第' + (i + 1) + '项的值'))
+        }
+        return arr.join(' ')
+    }
+    console.log(fn1());
+</script>
+<script id="ch0106/05">
+    function fn1() {
+        let n = +prompt('请输入患病人数总数目')
+        let arr = Array(4).fill(0)
+            //  0-18 19-35 36-60 61~
+        for (let i = 1; i <= n; i++) {
+            let patient = +prompt('请输入病人的年龄')
+            if (patient <= 18) {
+                arr[0] += 1
+            } else if (patient <= 35) {
+                arr[1] += 1
+            } else if (patient <= 60) {
+                arr[2] += 1
+            } else {
+                arr[3] += 1
+            }
+        }
+        for (let i = 0; i < arr.length; i++) {
+            console.log((arr[i] / n * 100).toFixed(2) + '%');
+        }
+        return true
+    }
+    fn1()
+</script>
+
+<script id="ch0106/06">
+    function fn1() {
+        let L = +prompt('请输入马路长度') + 1
+        let M = +prompt('请输入区域数目')
+        let arr = Array(L).fill(1)
+        for (let i = 1; i <= M; i++) {
+            let start = +prompt('请输入第' + i + '个区域的起始端点')
+            let end = +prompt('请输入第' + i + '个区域的结束端点')
+            arr.fill(0, start, end + 1)
+        }
+        return arr.reduce((prev, cur) => prev + cur)
+    }
+    console.log(fn1());
+</script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>
+<script id="ch0106/01"></script>

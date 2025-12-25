@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function deepEqual(obj1, obj2) {
+            if (typeof obj1 === typeof obj2) {
+
+                for (let k in obj1) {
+                    //判断k是一个对象还是null还是普通的值
+                    if (obj1[k] === null && obj2[k] === null) {
+                        return true
+                    } else if (typeof obj1[k] === 'object' && typeof obj2[k] === 'object') {
+                        //k是对象，遍历这个对象比较值是不是相同
+                        for (let k2 in obj1[k]) {
+                            if (!(k2 in obj2[k] && obj1[k][k2] === obj2[k][k2])) {
+                                return false
+                            }
+                        }
+
+                    } else if (!(k in obj2 && obj2[k] === obj1[k])) {
+                        return false
+                    }
+                }
+
+                return true
+
+            }
+            return false
+        }
+        let obj = {
+            here: {
+                is: 'an'
+            },
+            object: 2
+        }
+        console.log(deepEqual(obj, obj));
+        console.log(deepEqual(obj, {
+            here: 1,
+            object: 2
+        }));
+
+        console.log(deepEqual(obj, {
+            here: {
+                is: 'an'
+            },
+            object: 2
+        }));
+
+        console.log(typeof obj); //object
+
+
+
+
+        //高频面试
+        function isEqual(a, b) {
+            //如果两个相同，直接返回真
+            if (a === b) {
+                return true
+            }
+
+            var typea = typeof a
+            var typeb = typeof b
+            if (typea !== typeb) { //类型不同 
+                return false
+            } else {
+                //如果类型相同
+                if (typea === 'object') {
+                    //如果一个是数组，一个是对象
+                    if ((Array.isArray(a) && !Array.isArray(b)) || (!Array.isArray(a) && Array.isArray(b))) {
+                        //这个条件也可以写成 Array.isArray(a)+Array.isArray(b)==1。如果都是对象，值为0；都是数组，值为2；一个对象一个数组，值为1
+                        return false
+                    }
+                    //如果都是数组
+                    if (Array.isArray(a)) {
+                        if (a.length !== b.length) {
+                            return false
+                        }
+                    } else {
+                        //如果都是对象
+                        var keysa = Object.keys(a)
+                        var keysb = Object.keys(b)
+                        if (keysa.length !== keysb.length) { //属性集合长度不同
+                            return false
+                        }
+                    }
+
+                    //长度相同，a对象里的属性在b里应该都存在，然后遍历单项对象里的值进行深度比较
+                    for (let k in a) {
+                        if (!(k in b)) {
+                            return false
+                        }
+                        if (!isEqual(a[k], b[k])) {
+                            return false
+                        }
+                    }
+                    return true
+                } else {
+                    //类型相同但不是对象
+                    return a == b
+                }
+            }
+        }
+
+
+        //同Object.keys(obj) 返回对象名组成的数组
+        function keys(obj) {
+            let res = []
+            for (let k in obj) {
+                res.push(k)
+            }
+            return res
+        }
+
+
+
+        //谢然版本
+        function isEqual(a, b) {
+            if (a === b) {
+                return true
+            }
+            var typea = typeof a
+            var typeb = typeof b
+            if (typea !== typeb) { // 类型不同
+                return false
+            } else { // 类型相同
+                if (typea == 'object') {
+
+                    // 一个是数组一个是对象
+                    if ((Array.isArray(a) && !Array.isArray(a)) || (Array.isArray(b) && !Array.isArray(b))) {
+                        return false
+                    }
+
+                    // 往后即同为数组或同为对象
+
+                    // 同为数组，只判断长度
+                    if (Array.isArray(a)) {
+                        if (a.length !== b.length) {
+                            return false
+                        }
+                    } else { // 同为数组，只属性的数量及内容
+                        var keysa = Object.keys(a)
+                        var keysb = Object.keys(b)
+                        if (keysa.length !== keysb.length) { // 属性集合长度不同
+                            return false
+                        }
+                        // 如果长度相同，判断属性集合的内容相同
+                        // keysa.sort()
+                        // keysb.sort()
+                        // for (var index in keysa) {
+                        //   if (keysa[index] !== keysb[index]) { // 属性名集合名字不同
+                        //     return false
+                        //   }
+                        // }
+                    }
+                    for (var key in a) {
+                        if (!(key in b)) {
+                            return false
+                        }
+                        if (!isEqual(a[key], b[key])) {
+                            return false
+                        }
+                    }
+                    return true
+                } else {
+                    return a === b
+                }
+            }
+        }
+
+
+        //深层冻结一个对象
+        var constantize = function(obj) {
+            Object.freeze(obj)
+            Object.keys(obj).forEach((cur, index) => {
+                if (typeof obj[cur] === 'object') {
+                    constantize(obj[cur])
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

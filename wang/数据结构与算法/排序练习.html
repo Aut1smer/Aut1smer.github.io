@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序</title>
+</head>
+
+<body>
+    <script>
+        function swap(ary, i, j) {
+            let t = ary[i]
+            ary[i] = ary[j]
+            ary[j] = t
+            return ary
+        }
+
+        function bubbleSort(ary) {
+            if (!ary || ary.length < 2) {
+                return ary
+            }
+
+            let len = ary.length
+
+            for (let i = 0; i < len - 1; i++) {
+                let swaped = false
+                for (let j = 0; j < len - 1 - i; j++) {
+                    if (ary[j] > ary[j + 1]) {
+                        swaped = true
+                        swap(ary, j, j + 1)
+                    }
+                }
+                if (!swaped) {
+                    break
+                }
+            }
+            return ary
+        }
+
+        // console.log(bubbleSort(Array(100).fill(0).map(cur => cur = Math.random() * 100 | 0)))
+
+
+        function selectSort(ary) {
+            if (!ary || ary.length < 2) {
+                return ary
+            }
+            let len = ary.length
+            for (let i = 0; i < len; i++) {
+                let minIdx = i
+                for (let j = i + 1; j < len; j++) {
+                    minIdx = ary[j] < ary[minIdx] ? j : minIdx
+                }
+                swap(ary, minIdx, i)
+            }
+            return ary
+        }
+
+        // console.log(selectSort(Array(100).fill(0).map(item => Math.floor(Math.random() * 100))));
+
+
+        function insertSort(ary) {
+            if (!ary || ary.length < 2) {
+                return ary
+            }
+            let len = ary.length
+            for (let i = 1; i < len; i++) {
+                let temp = ary[i]
+                for (var j = i - 1; j >= 0; j--) {
+                    if (ary[j] > temp) {
+                        ary[j + 1] = ary[j]
+                    } else {
+                        break
+                    }
+                }
+                ary[j + 1] = temp
+            }
+            return ary
+        }
+
+        // console.log(insertSort(Array(100).fill(0).map(item => Math.floor(Math.random() * 100))))
+
+        function insertSort(ary) {
+            if (!ary || ary.length < 2) {
+                return ary
+            }
+            let len = ary.length
+            for (let i = 1; i < len; i++) {
+                let temp = ary[i]
+                let begin = 0,
+                    end = i
+                while (begin < end) {
+                    let mid = (begin + end) >> 1
+                    if (ary[mid] > temp) {
+                        end = mid
+                    } else {
+                        begin = mid + 1
+                    }
+                }
+                for (let j = i; j > begin; j--) {
+                    ary[j] = ary[j - 1]
+                }
+                ary[begin] = temp
+            }
+            return ary
+        }
+
+        // console.log(insertSort(Array(100).fill(0).map(item => Math.floor(Math.random() * 100))));
+
+
+        function mergeSort(ary, begin = 0, end = ary.length) {
+            if (end - begin < 2) {
+                return ary
+            }
+            let mid = (begin + end) >> 1
+            mergeSort(ary, begin, mid)
+            mergeSort(ary, mid, end)
+
+            let leftAry = ary.slice(begin, mid)
+            let li = 0,
+                le = mid - begin;
+            let ri = mid,
+                re = end
+            let ai = begin
+            while (li < le) {
+                if (ary[ri] < leftAry[li] && ri < re) {
+                    ary[ai++] = ary[ri++]
+                } else {
+                    ary[ai++] = leftAry[li++]
+                }
+            }
+            return ary
+        }
+
+        // console.log(mergeSort(Array(100).fill(0).map(item => Math.floor(Math.random() * 100))))
+
+
+        function quickSort(ary, begin = 0, end = ary.length - 1) {
+            if (begin >= end) {
+                return ary.slice()
+            }
+
+            let pivotIdx = begin + Math.floor(Math.random() * (end - begin + 1))
+            let pivot = ary[pivotIdx]
+
+            swap(ary, pivotIdx, end)
+
+            let ai = begin
+            for (let i = begin; i < end; i++) {
+                if (ary[i] < pivot) {
+                    swap(ary, i, ai++)
+                }
+            }
+            swap(ary, ai, end)
+
+            quickSort(ary, begin, ai - 1)
+            quickSort(ary, ai + 1, end)
+            return ary
+        }
+
+        console.log(quickSort(Array(100).fill(0).map(item => Math.floor(Math.random() * 100))))
+    </script>
+</body>
+
+</html>

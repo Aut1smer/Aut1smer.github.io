@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>old-layout-flex</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        html {
+            height: 100%;
+        }
+        
+        body {
+            margin: 0;
+            /* width: 100vw; */
+            height: 100%;
+            display: flex;
+            flex-flow: column wrap;
+            /* align-content: stretch; */
+        }
+        
+        div {
+            box-sizing: border-box;
+            width: 200px;
+            height: 100%;
+        }
+        
+        .top {
+            width: calc(100% - 600px);
+            height: 100px;
+            background-color: red;
+            min-width: 200px;
+        }
+        
+        .content {
+            width: calc(100% - 600px);
+            flex: 1;
+            background-color: lightgreen;
+            min-width: 200px;
+            overflow: auto;
+        }
+        
+        .left {
+            background-color: aqua;
+        }
+        
+        .right-2 {
+            background-color: violet;
+        }
+        
+        .right-1 {
+            background-color: #FF6347;
+        }
+        
+        .content::-webkit-scrollbar {
+            width: 10px;
+            background-image: linear-gradient(to right, lightgreen, violet);
+        }
+        
+        .content::-webkit-scrollbar-button {
+            display: block;
+            height: 0;
+            background-color: transparent;
+        }
+        
+        .content::-webkit-scrollbar-thumb {
+            background-color: rgb(238, 178, 13);
+            border-radius: 5px;
+            border: 1px solid #a5a5a5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left"></div>
+    <div class="top"></div>
+    <div class="content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo totam quod nihil, necessitatibus repudiandae dolores et cum, nemo iure architecto esse qui, labore praesentium dignissimos odit. Ad accusantium molestias, totam quos blanditiis facere
+        id eligendi minus sed quod alias corporis, nemo provident sit neque soluta praesentium animi aspernatur voluptate corrupti illum. Exercitationem tempore error quam facere fuga provident nisi explicabo, blanditiis alias libero consequatur repellendus
+        eveniet perferendis earum quas omnis hic? Sunt voluptas placeat iure, a numquam debitis, minima nihil, nesciunt amet temporibus deserunt accusamus reprehenderit nostrum laborum delectus! Facere tempora est asperiores harum assumenda illo delectus
+        nemo labore optio!
+    </div>
+    <div class="right-2"></div>
+    <div class="right-1"></div>
+</body>
+
+</html>

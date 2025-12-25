@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QQ-mail-float</title>
+    <link rel="shortcut icon" href="oogi2.ico" type="image/x-icon">
+    <style>
+        body,
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        header {
+            height: 70px;
+            background-color: pink;
+            padding: 10px;
+            overflow: auto;
+        }
+        
+        header::-webkit-scrollbar {
+            width: 10px;
+            background-color: linear-gradient(to left, rgb(245, 182, 11), rgb(17, 245, 214));
+            box-shadow: 0 0 1px rgb(0 0 0 /15%) inset, 0 1px 0 0 #fff;
+            background-color: #e4d8d8;
+        }
+        
+        header::-webkit-scrollbar-thumb {
+            /* 滑块 */
+            overflow: visible;
+            border: 1px solid #a6a6a6;
+            background-color: rgb(240, 112, 165);
+            border-radius: 4px;
+        }
+        
+        header::-webkit-scrollbar-button {
+            /* 上下小按钮 */
+            display: block;
+            height: 0;
+            background-color: transparent;
+            /* background-color: linear-gradient(to left, rgb(245, 182, 11), rgb(17, 245, 214)); */
+        }
+        
+        aside {
+            float: left;
+            width: 180px;
+            height: calc(100vh - 70px);
+            min-width: 80px;
+            background-color: aqua;
+            overflow: auto;
+        }
+        
+        aside::-webkit-scrollbar {
+            width: 10px;
+            background-color: linear-gradient(to left, rgb(245, 182, 11), rgb(17, 245, 214));
+            box-shadow: 0 0 1px rgb(0 0 0 /15%) inset, 0 1px 0 0 #fff;
+            background-color: #e4d8d8;
+        }
+        
+        aside::-webkit-scrollbar-thumb {
+            /* 滑块 */
+            overflow: visible;
+            border: 1px solid #a6a6a6;
+            background-color: rgb(65, 121, 226);
+            border-radius: 4px;
+        }
+        
+        aside::-webkit-scrollbar-button {
+            /* 上下小按钮 */
+            display: block;
+            height: 0;
+            background-color: transparent;
+            /* background-color: linear-gradient(to left, rgb(245, 182, 11), rgb(17, 245, 214)); */
+        }
+        
+        section {
+            /* 这里section可以设置为行内块元素，也可以设置成bfc环绕浮动元素 */
+            display: flow-root;
+            min-width: 200px;
+            height: calc(100vh - 70px);
+            background-color: violet;
+            overflow: auto;
+        }
+        
+        section::-webkit-scrollbar {
+            width: 10px;
+            background-color: #e4d8d8;
+        }
+        
+        section::-webkit-scrollbar-thumb {
+            /* overflow: visible; */
+            border: 1px solid #a6a6a6;
+            border-radius: 4px;
+            background-color: rgb(24, 230, 212);
+        }
+    </style>
+</head>
+
+<body>
+    <header>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed earum sit mollitia repudiandae nihil et pariatur, nisi nesciunt alias aliquid nam assumenda? Inventore distinctio eaque animi autem cumque, quia quo.</header>
+    <aside>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo suscipit mollitia maiores tenetur fugiat. Distinctio aliquid, facere deleniti, quaerat facilis, consequatur consequuntur nulla eos cumque laudantium nisi rerum accusamus unde.</aside>
+    <section>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur quod repellat commodi officia qui a architecto, eveniet fugiat. Consequatur est esse assumenda, dolores reiciendis alias nesciunt eum. Quod, earum explicabo? Lorem, ipsum dolor sit amet
+        consectetur adipisicing elit. Beatae cum reiciendis nemo nihil odit amet iusto, repellat voluptatem mollitia ut. Vel tempora cumque quae reiciendis laboriosam? Qui omnis necessitatibus libero explicabo numquam culpa id quo fuga, accusantium aliquam
+        neque perspiciatis quia ratione incidunt fugit! Hic corporis molestiae quisquam cupiditate, ab illum mollitia ducimus deserunt vitae similique fugit. Reiciendis quae sapiente optio non, ut minima suscipit quibusdam voluptates cupiditate obcaecati
+        ex unde, minus et facere. Explicabo officia autem itaque quisquam, ducimus inventore rem numquam vel quo, minima voluptate. Eos, quas numquam. Illum in nulla quidem, animi placeat impedit tempora perferendis veritatis.
+    </section>
+
+</body>
+
+</html>
